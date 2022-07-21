@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import Image from 'next/image'
+import Script from 'next/script'
 import styles from '../styles/Home.module.css'
 
 export default function Home() {
@@ -20,6 +21,8 @@ export default function Home() {
           Launching Soon....
         </p>
       </main>
+
+      <Script strategy="lazyOnload" src="https://embed.tawk.to/62d9bd8637898912e95f0279/1g8h8om0s" />
     </div >
   )
 }
