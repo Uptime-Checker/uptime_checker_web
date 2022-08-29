@@ -1,5 +1,5 @@
 import { signInWithPopup, GoogleAuthProvider, getIdToken } from "firebase/auth";
-import { auth } from "/lib/firebase/firebaseConfig";
+import { auth } from "/lib/firebase";
 const provider = new GoogleAuthProvider();
 
 export default function Auth() {
@@ -11,7 +11,8 @@ export default function Auth() {
         getIdToken(user).then((token) => {
           console.log(token);
         });
-      }).catch((error) => {
+      })
+      .catch((error) => {
         // Handle Errors here.
         const errorCode = error.code;
         const errorMessage = error.message;
@@ -25,9 +26,7 @@ export default function Auth() {
 
   return (
     <div className="auth_container">
-      <button onClick={handleClick}>
-        Login With Google
-      </button>
+      <button onClick={handleClick}>Login With Google</button>
     </div>
-  )
+  );
 }
