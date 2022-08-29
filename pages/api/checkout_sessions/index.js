@@ -1,5 +1,5 @@
 import Stripe from 'stripe';
-import { CURRENCY, MIN_AMOUNT, MAX_AMOUNT } from '../../../constants/payment';
+import { MIN_AMOUNT, MAX_AMOUNT } from '../../../constants/payment';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: '2020-08-27',
