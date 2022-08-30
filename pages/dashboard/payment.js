@@ -1,4 +1,4 @@
-import getStripe from '../../lib/stripe';
+import { basicClient } from '../../lib/axios';
 
 export default function Payment(products) {
   async function handleClick(e) {
@@ -14,8 +14,8 @@ export default function Payment(products) {
 }
 
 export async function getServerSideProps() {
-  const res = await fetch('http://localhost:3000/api/checkout_sessions/products');
-  const products = await res.json();
+  const res = await basicClient.get(`/external_products`);
+  const products = res.data.data;
 
   return {
     props: {
