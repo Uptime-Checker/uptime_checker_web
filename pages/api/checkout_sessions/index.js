@@ -1,5 +1,4 @@
 import Stripe from 'stripe';
-import { MIN_AMOUNT, MAX_AMOUNT } from '../../../constants/payment';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: '2020-08-27',
@@ -7,12 +6,8 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
-    const amount = req.body.priceId;
+    const priceId = req.body.priceId;
     try {
-      // Validate the amount that was passed from the client.
-      if (!(amount >= MIN_AMOUNT && amount <= MAX_AMOUNT)) {
-        throw new Error('Invalid amount.');
-      }
       // Create Checkout Sessions from body params.
       const params = {
         mode: 'subscription',

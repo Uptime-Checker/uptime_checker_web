@@ -1,6 +1,6 @@
 import axios from 'axios';
 import getStripe from '../../lib/stripe';
-import { basicClient } from '../../lib/axios';
+import { elixirClient } from '../../lib/axios';
 
 export default function Payment({ products }) {
   async function handleClick(e) {
@@ -21,7 +21,7 @@ export default function Payment({ products }) {
       // Make the id field from the Checkout Session creation API response
       // available to this file, so you can provide it as parameter here
       // instead of the {{CHECKOUT_SESSION_ID}} placeholder.
-      sessionId: response.id,
+      sessionId: response.data.id,
     });
     // If `redirectToCheckout` fails due to a browser or network
     // error, display the localized error message to your customer
@@ -37,7 +37,7 @@ export default function Payment({ products }) {
 }
 
 export async function getServerSideProps() {
-  const res = await basicClient.get(`/external_products`);
+  const res = await elixirClient.get(`/external_products`);
   const products = res.data.data;
 
   return {
