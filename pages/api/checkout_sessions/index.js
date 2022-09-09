@@ -1,7 +1,8 @@
 import Stripe from 'stripe';
+import { STRIPE_API_VERSION } from '/lib/constants';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: '2020-08-27',
+  apiVersion: STRIPE_API_VERSION,
 });
 
 export default async function handler(req, res) {
@@ -10,6 +11,7 @@ export default async function handler(req, res) {
     try {
       // Create Checkout Sessions from body params.
       const params = {
+        customer: 'cus_MOt0FKmvRjJx1P',
         mode: 'subscription',
         line_items: [
           {
@@ -17,8 +19,8 @@ export default async function handler(req, res) {
             quantity: 1,
           },
         ],
-        success_url: `${req.headers.origin}/payment/result?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `${req.headers.origin}/payment/cancelled?session_id={CHECKOUT_SESSION_ID}`,
+        success_url: `${req.headers.origin}/dashboard/payment/result?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${req.headers.origin}/dashboard/payment/canceled?session_id={CHECKOUT_SESSION_ID}`,
       };
       const checkoutSession = await stripe.checkout.sessions.create(params);
 

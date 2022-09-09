@@ -1,8 +1,8 @@
 import axios from 'axios';
-import getStripe from '../../lib/stripe';
-import { elixirClient } from '../../lib/axios';
+import getStripe from '../../../lib/stripe';
+import { elixirClient } from '../../../lib/axios';
 
-export default function Payment({ products }) {
+export default function Subscription({ products }) {
   async function handleClick(e) {
     e.preventDefault();
 
