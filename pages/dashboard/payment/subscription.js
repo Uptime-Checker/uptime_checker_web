@@ -7,7 +7,7 @@ export default function Subscription({ products }) {
     e.preventDefault();
 
     const response = await axios.post('/api/checkout_sessions', {
-      priceId: products[0].prices[0].id,
+      priceId: products[1].prices[0].id,
     });
 
     if (response.statusCode === 500) {

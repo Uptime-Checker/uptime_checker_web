@@ -11,9 +11,14 @@ export default async function handler(req, res) {
     try {
       // Create Checkout Sessions from body params.
       const params = {
-        customer: 'cus_MRDvgTwgO0SIZ4',
-        payment_method_types: ['card'],
-        mode: 'setup',
+        customer: 'cus_MRHkuCXBxTdMby',
+        mode: 'subscription',
+        line_items: [
+          {
+            price: priceId,
+            quantity: 1,
+          },
+        ],
         success_url: `${req.headers.origin}/dashboard/payment/result?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${req.headers.origin}/dashboard/payment/canceled?session_id={CHECKOUT_SESSION_ID}`,
       };
