@@ -1,16 +1,18 @@
-import Stripe from 'stripe';
-import { STRIPE_API_VERSION } from '/lib/constants';
+import { NextApiRequest, NextApiResponse } from 'next';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+import Stripe from 'stripe';
+import { STRIPE_API_VERSION } from '../../../lib/constants';
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: STRIPE_API_VERSION,
 });
 
-export default async function handler(req, res) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
     const priceId = req.body.priceId;
     try {
       // Create Checkout Sessions from body params.
-      const params = {
+      const params: Stripe.Checkout.SessionCreateParams = {
         customer: 'cus_MRHkuCXBxTdMby',
         mode: 'subscription',
         line_items: [
@@ -26,11 +28,12 @@ export default async function handler(req, res) {
 
       res.status(200).json(checkoutSession);
     } catch (err) {
-      res.status(500).json({ statusCode: 500, message: err.message });
+      const errorMessage = err instanceof Error ? err.message : 'Internal server error';
+      res.status(500).json({ statusCode: 500, message: errorMessage });
     }
   } else if (req.method === 'GET') {
     const { sessionId } = req.query;
-    const session = await stripe.checkout.sessions.retrieve(sessionId);
+    const session = await stripe.checkout.sessions.retrieve(String(sessionId));
     res.send(session);
   } else {
     res.status(405).end('Method Not Allowed');
