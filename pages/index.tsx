@@ -13,8 +13,7 @@ const Home: NextPage = () => {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>Welcome to Uptime Checker!</h1>
-
+        <h1 className="text-6xl font-bold">Welcome to Uptime Checker!</h1>
         <p className={styles.description}>Launching Soon....</p>
       </main>
 
