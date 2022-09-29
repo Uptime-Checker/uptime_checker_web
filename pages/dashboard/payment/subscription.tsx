@@ -1,9 +1,9 @@
-import { MouseEvent } from 'react';
 import axios, { AxiosError } from 'axios';
-import getStripe from 'lib/stripe';
 import { elixirClient } from 'lib/axios';
-import { ProductResponse, Product } from 'models/product';
+import getStripe from 'lib/stripe';
+import { Product, ProductResponse } from 'models/product';
 import { GetServerSideProps } from 'next';
+import { MouseEvent } from 'react';
 
 interface SubscriptionProps {
   products: [Product];

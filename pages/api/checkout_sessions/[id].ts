@@ -1,6 +1,6 @@
-import Stripe from 'stripe';
-import { NextApiRequest, NextApiResponse } from 'next';
 import { STRIPE_API_VERSION } from 'lib/constants';
+import { NextApiRequest, NextApiResponse } from 'next';
+import Stripe from 'stripe';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: STRIPE_API_VERSION,

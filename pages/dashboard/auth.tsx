@@ -1,7 +1,8 @@
-import { MouseEvent } from 'react';
-import { signInWithPopup, GoogleAuthProvider, getIdToken } from 'firebase/auth';
-import { auth } from 'lib/firebase';
 import { FirebaseError } from '@firebase/util';
+import { getIdToken, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { auth } from 'lib/firebase';
+import { MouseEvent } from 'react';
+
 const provider = new GoogleAuthProvider();
 
 export default function Auth() {
