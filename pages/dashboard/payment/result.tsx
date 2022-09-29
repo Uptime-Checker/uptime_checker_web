@@ -1,7 +1,7 @@
 import useSWR from 'swr';
 import { useRouter } from 'next/router';
 
-const fetcher = (url) => fetch(url).then((res) => res.json());
+const fetcher = (url: URL) => fetch(url).then((res) => res.json());
 
 export default function Result() {
   const router = useRouter();
