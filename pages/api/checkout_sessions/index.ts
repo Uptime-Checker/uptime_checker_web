@@ -1,13 +1,14 @@
 import { STRIPE_API_VERSION } from 'lib/constants';
 import { NextApiRequest, NextApiResponse } from 'next';
 import Stripe from 'stripe';
+import { HTTPMethod } from 'models/monitor';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: STRIPE_API_VERSION,
 });
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method === 'POST') {
+  if (req.method === HTTPMethod.POST) {
     const priceId = req.body.priceId;
     try {
       // Create Checkout Sessions from body params.
