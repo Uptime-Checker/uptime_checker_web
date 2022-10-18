@@ -16,8 +16,6 @@ const Home: NextPage = () => {
         <h1 className="text-6xl font-bold">Welcome to Uptime Checker!</h1>
         <p className={styles.description}>Launching Soon....</p>
       </main>
-
-      <Script strategy="lazyOnload" src="https://embed.tawk.to/62d9bd8637898912e95f0279/1g8h8om0s" />
     </div>
   );
 };
