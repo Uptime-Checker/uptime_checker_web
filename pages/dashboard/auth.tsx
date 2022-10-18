@@ -29,7 +29,7 @@ export default function Auth() {
   };
 
   return (
-    <div className="auth_container">
+    <div className="container">
       <button onClick={handleClick}>Login With Google</button>
     </div>
   );
