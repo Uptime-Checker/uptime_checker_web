@@ -31,7 +31,7 @@ export default function Auth() {
   return (
     <div className="bg-gray-50">
       {/* <button onClick={handleClick}>Login With Google</button> */}
-      <div className="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8">
+      <div className="flex flex-col justify-center py-12 sm:px-6 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <img
             className="mx-auto h-12 w-auto"
