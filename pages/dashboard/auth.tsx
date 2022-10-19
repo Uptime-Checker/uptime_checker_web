@@ -29,8 +29,7 @@ export default function Auth() {
   };
 
   return (
-    <div className="bg-gray-50">
-      {/* <button onClick={handleClick}>Login With Google</button> */}
+    <div className="min-h-screen bg-gray-50">
       <div className="flex flex-col justify-center py-12 sm:px-6 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <img
@@ -67,42 +66,6 @@ export default function Auth() {
               </div>
 
               <div>
-                <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                  Password
-                </label>
-                <div className="mt-1">
-                  <input
-                    id="password"
-                    name="password"
-                    type="password"
-                    autoComplete="current-password"
-                    required
-                    className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                  />
-                </div>
-              </div>
-
-              <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <input
-                    id="remember-me"
-                    name="remember-me"
-                    type="checkbox"
-                    className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                  />
-                  <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
-                    Remember me
-                  </label>
-                </div>
-
-                <div className="text-sm">
-                  <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
-                    Forgot your password?
-                  </a>
-                </div>
-              </div>
-
-              <div>
                 <button
                   type="submit"
                   className="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
@@ -122,49 +85,33 @@ export default function Auth() {
                 </div>
               </div>
 
-              <div className="mt-6 grid grid-cols-3 gap-3">
+              <div className="mt-6">
                 <div>
-                  <a
-                    href="#"
-                    className="inline-flex w-full justify-center rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-500 shadow-sm hover:bg-gray-50"
+                  <button
+                    type="button"
+                    className="flex w-full items-center justify-center rounded-md border border-indigo-600 bg-white py-2 px-4 font-medium text-indigo-600 shadow-sm hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    onClick={handleClick}
                   >
-                    <span className="sr-only">Sign in with Facebook</span>
-                    <svg className="h-5 w-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="mr-3 h-6 w-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                       <path
-                        fillRule="evenodd"
-                        d="M20 10c0-5.523-4.477-10-10-10S0 4.477 0 10c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V10h2.54V7.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V10h2.773l-.443 2.89h-2.33v6.988C16.343 19.128 20 14.991 20 10z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  </a>
-                </div>
-
-                <div>
-                  <a
-                    href="#"
-                    className="inline-flex w-full justify-center rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-500 shadow-sm hover:bg-gray-50"
-                  >
-                    <span className="sr-only">Sign in with Twitter</span>
-                    <svg className="h-5 w-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M6.29 18.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0020 3.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.073 4.073 0 01.8 7.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 010 16.407a11.616 11.616 0 006.29 1.84" />
-                    </svg>
-                  </a>
-                </div>
-
-                <div>
-                  <a
-                    href="#"
-                    className="inline-flex w-full justify-center rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-500 shadow-sm hover:bg-gray-50"
-                  >
-                    <span className="sr-only">Sign in with GitHub</span>
-                    <svg className="h-5 w-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+                        d="M5.31890625,14.5035 L4.4835,17.6221875 L1.43010937,17.6867812 C0.51759375,15.9942656 0,14.0578125 0,12 C0,10.0101094 0.4839375,8.13360938 1.34175,6.4813125 L1.34240625,6.4813125 L4.06078125,6.9796875 L5.25159375,9.68175 C5.00235937,10.4083594 4.86651562,11.1883594 4.86651562,12 C4.86660937,12.880875 5.02617187,13.7248594 5.31890625,14.5035 Z"
+                        fill="#FBBB00"
+                      ></path>
                       <path
-                        fillRule="evenodd"
-                        d="M10 0C4.477 0 0 4.484 0 10.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0110 4.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.203 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.942.359.31.678.921.678 1.856 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0020 10.017C20 4.484 15.522 0 10 0z"
-                        clipRule="evenodd"
-                      />
+                        d="M23.7903281,9.75825 C23.9281406,10.4841563 24,11.2338281 24,12 C24,12.859125 23.9096719,13.6971563 23.7375937,14.5055156 C23.1534375,17.2562813 21.6270469,19.65825 19.5125625,21.3580313 L19.5119062,21.357375 L16.0879687,21.1826719 L15.603375,18.1575938 C17.0064375,17.33475 18.1029375,16.0470469 18.6805312,14.5055156 L12.2638125,14.5055156 L12.2638125,9.75825 L18.7741406,9.75825 L23.7903281,9.75825 L23.7903281,9.75825 Z"
+                        fill="#518EF8"
+                      ></path>
+                      <path
+                        d="M19.5118594,21.357375 L19.5125156,21.3580313 C17.4560625,23.0109844 14.8437188,24 12,24 C7.43010937,24 3.4569375,21.4457344 1.43010937,17.6868281 L5.31890625,14.5035469 C6.33229687,17.2081406 8.9413125,19.1334375 12,19.1334375 C13.3147031,19.1334375 14.5463906,18.7780313 15.6032812,18.1575938 L19.5118594,21.357375 Z"
+                        fill="#28B446"
+                      ></path>
+                      <path
+                        d="M19.6595625,2.762625 L15.7720781,5.94525 C14.67825,5.26153125 13.38525,4.8665625 12,4.8665625 C8.87207812,4.8665625 6.21426562,6.88017188 5.25164062,9.68175 L1.34240625,6.4813125 L1.34175,6.4813125 C3.33890625,2.63076562 7.3621875,0 12,0 C14.9116406,0 17.5813125,1.03715625 19.6595625,2.762625 Z"
+                        fill="#F14336"
+                      ></path>
                     </svg>
-                  </a>
+                    Continue with Google
+                  </button>
                 </div>
               </div>
             </div>
