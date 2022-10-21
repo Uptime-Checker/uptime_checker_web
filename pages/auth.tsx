@@ -2,12 +2,15 @@ import { FirebaseError } from '@firebase/util';
 import LogoWithoutText from 'components/logo/logo-without-text';
 import { getIdToken, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { auth } from 'lib/firebase';
-import { MouseEvent } from 'react';
+import { FormEvent, MouseEvent, useState } from 'react';
+import { randomString } from 'utils/misc';
 
 const provider = new GoogleAuthProvider();
 
 export default function Auth() {
-  const handleClick = async (event: MouseEvent<HTMLButtonElement>) => {
+  const [loading, setLoading] = useState(false);
+
+  const handleGoogleClick = async (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
     try {
@@ -29,6 +32,15 @@ export default function Auth() {
     }
   };
 
+  const handleEmailSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const emailRef = event.currentTarget.elements[0] as HTMLInputElement;
+
+    setLoading(true);
+    const code = randomString(10);
+    console.log(code);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="flex flex-col justify-center py-12 sm:px-6 lg:px-8">
@@ -45,7 +57,7 @@ export default function Auth() {
 
         <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
           <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-            <form className="space-y-6" action="#" method="POST">
+            <form className="space-y-6" onSubmit={handleEmailSubmit}>
               <div>
                 <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                   Email address
@@ -87,7 +99,7 @@ export default function Auth() {
                   <button
                     type="button"
                     className="flex w-full items-center justify-center rounded-md border border-indigo-600 bg-white py-2 px-4 font-medium text-indigo-600 shadow-sm hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                    onClick={handleClick}
+                    onClick={handleGoogleClick}
                   >
                     <svg className="mr-3 h-6 w-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                       <path
