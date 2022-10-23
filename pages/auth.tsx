@@ -1,9 +1,11 @@
 import { FirebaseError } from '@firebase/util';
+import { AxiosError } from 'axios';
 import LogoWithoutText from 'components/logo/logo-without-text';
 import { getIdToken, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { elixirClient } from 'lib/axios';
 import { auth } from 'lib/firebase';
+import { GuestUserResponse } from 'models/user';
 import { FormEvent, MouseEvent, useState } from 'react';
-import { randomString } from 'utils/misc';
 
 const provider = new GoogleAuthProvider();
 
@@ -37,8 +39,16 @@ export default function Auth() {
     const emailRef = event.currentTarget.elements[0] as HTMLInputElement;
 
     setLoading(true);
-    const code = randomString(10);
-    console.log(code);
+
+    try {
+      const { data, status } = await elixirClient.post<GuestUserResponse>('/guest_user', {
+        email: emailRef.value,
+      });
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        console.error(error.response?.data);
+      }
+    }
   };
 
   return (
