@@ -72,3 +72,5 @@ const SimpleAlert = ({ on, success }: Props) => {
     </>
   );
 };
+
+export default SimpleAlert;

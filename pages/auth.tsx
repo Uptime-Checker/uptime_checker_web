@@ -1,5 +1,6 @@
 import { FirebaseError } from '@firebase/util';
 import { AxiosError } from 'axios';
+import SimpleAlert from 'components/alert/simple';
 import LogoWithoutText from 'components/logo/logo-without-text';
 import { getIdToken, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { elixirClient } from 'lib/axios';
@@ -53,6 +54,7 @@ export default function Auth() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <SimpleAlert on={true} success={true} />
       <div className="flex flex-col justify-center py-12 sm:px-6 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <LogoWithoutText className="mx-auto h-12 w-auto" />
