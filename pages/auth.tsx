@@ -13,6 +13,7 @@ const provider = new GoogleAuthProvider();
 
 export default function Auth() {
   const [loading, setLoading] = useState(false);
+  const [alertState, setAlertState] = useState({ on: false, success: true });
 
   const handleGoogleClick = async (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -38,6 +39,7 @@ export default function Auth() {
 
   const handleEmailSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setAlertState({ on: true, success: false });
     const emailRef = event.currentTarget.elements[0] as HTMLInputElement;
 
     setLoading(true);
@@ -47,6 +49,7 @@ export default function Auth() {
         email: emailRef.value,
       });
     } catch (error) {
+      setAlertState({ on: true, success: false });
       if (error instanceof AxiosError) {
         console.error(error.response?.data);
       }
@@ -55,7 +58,7 @@ export default function Auth() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <SimpleAlert on={true} success={true} />
+      <SimpleAlert on={alertState.on} success={alertState.success} />
       <div className="flex flex-col justify-center py-12 sm:px-6 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <LogoWithoutText className="mx-auto h-12 w-auto" />
