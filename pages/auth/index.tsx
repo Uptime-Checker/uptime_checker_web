@@ -43,7 +43,6 @@ export default function Auth() {
 
   const handleEmailSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    throw new Error('Sentry Frontend Error');
     const emailRef = event.currentTarget.elements[0] as HTMLInputElement;
 
     closeAlert();
