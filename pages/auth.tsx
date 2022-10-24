@@ -1,19 +1,22 @@
 import { FirebaseError } from '@firebase/util';
 import { AxiosError } from 'axios';
 import SimpleAlert from 'components/alert/simple';
+import Google from 'components/icon/google';
 import LogoWithoutText from 'components/logo/logo-without-text';
+import { AUTH_FAIL_COULD_NOT_SEND_MAGIC_LINK } from 'constants/ui-text';
 import { getIdToken, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { elixirClient } from 'lib/axios';
 import { auth } from 'lib/firebase';
 import { GuestUserResponse } from 'models/user';
 import { FormEvent, MouseEvent, useState } from 'react';
-import Google from '../components/icon/google';
+import { ElixirError } from 'types/error';
+import { toUpper } from 'utils/misc';
 
 const provider = new GoogleAuthProvider();
 
 export default function Auth() {
   const [loading, setLoading] = useState(false);
-  const [alertState, setAlertState] = useState({ on: false, success: true });
+  const [alertState, setAlertState] = useState({ on: false, success: true, title: '', detail: '' });
 
   const handleGoogleClick = async (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -39,7 +42,6 @@ export default function Auth() {
 
   const handleEmailSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setAlertState({ on: true, success: false });
     const emailRef = event.currentTarget.elements[0] as HTMLInputElement;
 
     setLoading(true);
@@ -49,16 +51,28 @@ export default function Auth() {
         email: emailRef.value,
       });
     } catch (error) {
-      setAlertState({ on: true, success: false });
       if (error instanceof AxiosError) {
-        console.error(error.response?.data);
+        const elixirError = error.response?.data as ElixirError;
+        setAlertState({
+          on: true,
+          success: false,
+          title: AUTH_FAIL_COULD_NOT_SEND_MAGIC_LINK,
+          detail: toUpper(elixirError.message),
+        });
       }
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <SimpleAlert on={alertState.on} success={alertState.success} />
+      <SimpleAlert
+        on={alertState.on}
+        success={alertState.success}
+        title={alertState.title}
+        detail={alertState.detail}
+      />
       <div className="flex flex-col justify-center py-12 sm:px-6 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <LogoWithoutText className="mx-auto h-12 w-auto" />
