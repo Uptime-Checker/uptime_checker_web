@@ -9,7 +9,7 @@ export default function EmailSent() {
         </div>
         <div className="mt-8 mb-8 sm:mx-auto sm:w-full sm:max-w-md">
           <div className="flex flex-col items-center bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-            <EmailSentIcon className="w-40" />
+            <EmailSentIcon className="h-32" />
             <div className="mt-8 space-y-6">
               <div className="text-center">
                 <p>
