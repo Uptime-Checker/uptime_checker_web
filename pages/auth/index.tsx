@@ -1,4 +1,5 @@
 import { FirebaseError } from '@firebase/util';
+import * as Sentry from '@sentry/nextjs';
 import { AxiosError } from 'axios';
 import SimpleAlert from 'components/alert/simple';
 import GoogleIcon from 'components/icon/google';
@@ -49,7 +50,7 @@ export default function Auth() {
     setLoading(true);
 
     try {
-      const { data, status } = await elixirClient.post<GuestUserResponse>('/guest_user', {
+      const { data } = await elixirClient.post<GuestUserResponse>('/guest_user', {
         email: emailRef.value,
       });
 
@@ -59,15 +60,7 @@ export default function Auth() {
           handleCodeInApp: true,
         });
       } catch (error) {
-        console.error(error);
-        // Handle Errors here.
-        if (error instanceof FirebaseError) {
-          const e = error as FirebaseError;
-          const errorCode = e.code;
-          const errorMessage = e.message;
-          // The email of the user's account used.
-          const email = e.customData!.email;
-        }
+        Sentry.captureException(error);
       }
     } catch (error) {
       if (error instanceof AxiosError) {
