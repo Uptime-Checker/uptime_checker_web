@@ -63,15 +63,16 @@ export default function Auth() {
         console.error(error);
         // Handle Errors here.
         if (error instanceof FirebaseError) {
-          const errorCode = error.code;
-          const errorMessage = error.message;
+          const e = error as FirebaseError;
+          const errorCode = e.code;
+          const errorMessage = e.message;
           // The email of the user's account used.
-          const email = error.customData!.email;
+          const email = e.customData!.email;
         }
       }
     } catch (error) {
       if (error instanceof AxiosError) {
-        const elixirError = error.response?.data as ElixirError;
+        const elixirError = (error as AxiosError).response?.data as ElixirError;
         setAlertState({
           on: true,
           success: false,

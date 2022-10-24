@@ -1,6 +1,7 @@
 import { ChevronRightIcon } from '@heroicons/react/20/solid';
 import { Bars4Icon, BookmarkSquareIcon, BookOpenIcon, RssIcon } from '@heroicons/react/24/outline';
 import LogoWithoutText from 'components/logo/logo-without-text';
+import Link from 'next/link';
 
 type Props = {
   className: string;
@@ -119,10 +120,9 @@ export default function Example() {
               ))}
             </ul>
             <div className="mt-8">
-              <a href="/" className="text-base font-medium text-indigo-600 hover:text-indigo-500">
-                Or go back home
-                <span aria-hidden="true"> &rarr;</span>
-              </a>
+              <Link href="/">
+                <a className="text-base font-medium text-indigo-600 hover:text-indigo-500">Or go back home &rarr;</a>
+              </Link>
             </div>
           </div>
         </div>
