@@ -8,8 +8,10 @@ import { AUTH_FAIL_COULD_NOT_SEND_MAGIC_LINK } from 'constants/ui-text';
 import { getIdToken, GoogleAuthProvider, sendSignInLinkToEmail, signInWithPopup } from 'firebase/auth';
 import produce from 'immer';
 import { elixirClient } from 'lib/axios';
+import { CacheKey, cacheUtil } from 'lib/cache';
 import { auth } from 'lib/firebase';
 import { GuestUserResponse } from 'models/user';
+import { useRouter } from 'next/router';
 import { FormEvent, MouseEvent, useState } from 'react';
 import { ElixirError } from 'types/error';
 import { toUpper } from 'utils/misc';
@@ -17,6 +19,7 @@ import { toUpper } from 'utils/misc';
 const provider = new GoogleAuthProvider();
 
 export default function Auth() {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [alertState, setAlertState] = useState({ on: false, success: true, title: '', detail: '' });
 
@@ -59,6 +62,8 @@ export default function Auth() {
           url: `${window.location.origin}/auth/email-result?code=${data.data.code!}`,
           handleCodeInApp: true,
         });
+        cacheUtil.set(CacheKey.Email, emailRef.value);
+        await router.push('/auth/email-sent');
       } catch (error) {
         Sentry.captureException(error);
       }

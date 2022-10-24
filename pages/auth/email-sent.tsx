@@ -1,6 +1,15 @@
 import EmailSentIcon from 'components/icon/email-sent';
+import { CacheKey, cacheUtil } from '../../lib/cache';
+import { useEffect, useState } from 'react';
 
 export default function EmailSent() {
+  const [email, setEmail] = useState('');
+
+  useEffect(() => {
+    const email = cacheUtil.get(CacheKey.Email);
+    setEmail(email as string);
+  }, []);
+
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="flex flex-col justify-center py-12 sm:px-6 lg:px-8">
@@ -13,7 +22,7 @@ export default function EmailSent() {
             <div className="mt-8 space-y-6">
               <div className="text-center">
                 <p>
-                  We have sent your magic link to <b>mr.k779@outlook.com</b>.
+                  We have sent your magic link to <b>{email}</b>.
                 </p>
                 <p className="mt-2">Click on the link in your email to get started.</p>
                 <p className="mt-2">You can close this tab.</p>
