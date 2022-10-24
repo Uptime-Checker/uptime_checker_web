@@ -5,13 +5,13 @@ import Google from 'components/icon/google';
 import LogoWithoutText from 'components/logo/logo-without-text';
 import { AUTH_FAIL_COULD_NOT_SEND_MAGIC_LINK } from 'constants/ui-text';
 import { getIdToken, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import produce from 'immer';
 import { elixirClient } from 'lib/axios';
 import { auth } from 'lib/firebase';
 import { GuestUserResponse } from 'models/user';
 import { FormEvent, MouseEvent, useState } from 'react';
 import { ElixirError } from 'types/error';
 import { toUpper } from 'utils/misc';
-import produce from 'immer';
 
 const provider = new GoogleAuthProvider();
 
