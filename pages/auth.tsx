@@ -11,6 +11,7 @@ import { GuestUserResponse } from 'models/user';
 import { FormEvent, MouseEvent, useState } from 'react';
 import { ElixirError } from 'types/error';
 import { toUpper } from 'utils/misc';
+import produce from 'immer';
 
 const provider = new GoogleAuthProvider();
 
@@ -65,6 +66,14 @@ export default function Auth() {
     }
   };
 
+  const onAlertClose = () => {
+    setAlertState(
+      produce((draft) => {
+        draft.on = false;
+      })
+    );
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <SimpleAlert
@@ -72,6 +81,7 @@ export default function Auth() {
         success={alertState.success}
         title={alertState.title}
         detail={alertState.detail}
+        onClose={onAlertClose}
       />
       <div className="flex flex-col justify-center py-12 sm:px-6 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">

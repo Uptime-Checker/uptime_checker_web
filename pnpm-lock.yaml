@@ -14,6 +14,7 @@ specifiers:
   eslint: 8.20.0
   eslint-config-next: 12.2.2
   firebase: ^9.9.3
+  immer: ^9.0.16
   next: ^12.3.1
   postcss: ^8.4.16
   prettier: 2.7.1
@@ -32,6 +33,7 @@ dependencies:
   '@stripe/stripe-js': 1.36.0
   axios: 0.27.2
   firebase: 9.9.4
+  immer: 9.0.16
   next: 12.3.1_biqbaboplfbrettd7655fr4n2y
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
@@ -2182,6 +2184,10 @@ packages:
 
   /immediate/3.0.6:
     resolution: {integrity: sha512-XXOFtyqDjNDAQxVfYxuF7g9Il/IbWmmlQg2MYKOH8ExIT1qg6xc4zyS3HaEEATgs1btfzxq15ciUiY7gjSXRGQ==}
+    dev: false
+
+  /immer/9.0.16:
+    resolution: {integrity: sha512-qenGE7CstVm1NrHQbMh8YaSzTZTFNP3zPqr3YU0S0UY441j4bJTg4A2Hh5KAhwgaiU6ZZ1Ar6y/2f4TblnMReQ==}
     dev: false
 
   /import-fresh/3.3.0:
