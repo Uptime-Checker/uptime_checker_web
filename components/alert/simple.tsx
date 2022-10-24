@@ -1,11 +1,13 @@
 import { Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/20/solid';
 import { CheckCircleIcon, ExclamationCircleIcon } from '@heroicons/react/24/outline';
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 
 type Props = {
   on: boolean;
   success: boolean;
+  title: string;
+  detail: string;
 };
 
 type IconProps = {
@@ -19,8 +21,12 @@ function Icon({ success }: IconProps): JSX.Element {
   return <ExclamationCircleIcon className="h-6 w-6 text-red-400" aria-hidden="true" />;
 }
 
-const SimpleAlert = ({ on, success }: Props) => {
+const SimpleAlert = ({ on, success, title, detail }: Props) => {
   const [show, setShow] = useState(on);
+
+  useEffect(() => {
+    setShow(on);
+  }, [on]);
 
   return (
     <>
@@ -30,7 +36,6 @@ const SimpleAlert = ({ on, success }: Props) => {
         className="pointer-events-none fixed inset-0 flex items-end px-4 py-6 sm:items-start sm:p-6"
       >
         <div className="flex w-full flex-col items-center space-y-4 sm:items-end">
-          {/* Notification panel, dynamically insert this into the live region when it needs to be displayed */}
           <Transition
             show={show}
             as={Fragment}
@@ -48,8 +53,8 @@ const SimpleAlert = ({ on, success }: Props) => {
                     <Icon success={success} />
                   </div>
                   <div className="ml-3 w-0 flex-1 pt-0.5">
-                    <p className="text-sm font-medium text-gray-900">Successfully saved!</p>
-                    <p className="mt-1 text-sm text-gray-500">Anyone with a link can now view this file.</p>
+                    <p className="text-sm font-medium text-gray-900">{title}</p>
+                    <p className="mt-1 text-sm text-gray-500">{detail}</p>
                   </div>
                   <div className="ml-4 flex flex-shrink-0">
                     <button
