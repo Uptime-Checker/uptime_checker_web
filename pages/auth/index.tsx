@@ -55,7 +55,7 @@ export default function Auth() {
 
       try {
         await sendSignInLinkToEmail(auth, emailRef.value, {
-          url: `${window.location.origin}/auth/result`,
+          url: `${window.location.origin}/auth/result?code=${data.data.code!}`,
           handleCodeInApp: true,
         });
       } catch (error) {
