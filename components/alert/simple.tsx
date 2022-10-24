@@ -1,13 +1,14 @@
 import { Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/20/solid';
 import { CheckCircleIcon, ExclamationCircleIcon } from '@heroicons/react/24/outline';
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment } from 'react';
 
 type Props = {
   on: boolean;
   success: boolean;
   title: string;
   detail: string;
+  onClose: () => void;
 };
 
 type IconProps = {
@@ -21,13 +22,7 @@ function Icon({ success }: IconProps): JSX.Element {
   return <ExclamationCircleIcon className="h-6 w-6 text-red-400" aria-hidden="true" />;
 }
 
-const SimpleAlert = ({ on, success, title, detail }: Props) => {
-  const [show, setShow] = useState(on);
-
-  useEffect(() => {
-    setShow(on);
-  }, [on]);
-
+const SimpleAlert = ({ on, success, title, detail, onClose }: Props) => {
   return (
     <>
       {/* Global notification live region, render this permanently at the end of the document */}
@@ -37,7 +32,7 @@ const SimpleAlert = ({ on, success, title, detail }: Props) => {
       >
         <div className="flex w-full flex-col items-center space-y-4 sm:items-end">
           <Transition
-            show={show}
+            show={on}
             as={Fragment}
             enter="transform ease-out duration-300 transition"
             enterFrom="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
@@ -60,9 +55,7 @@ const SimpleAlert = ({ on, success, title, detail }: Props) => {
                     <button
                       type="button"
                       className="inline-flex rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                      onClick={() => {
-                        setShow(false);
-                      }}
+                      onClick={onClose}
                     >
                       <span className="sr-only">Close</span>
                       <XMarkIcon className="h-5 w-5" aria-hidden="true" />
