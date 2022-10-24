@@ -1,7 +1,7 @@
 import { FirebaseError } from '@firebase/util';
 import { AxiosError } from 'axios';
 import SimpleAlert from 'components/alert/simple';
-import Google from 'components/icon/google';
+import GoogleIcon from 'components/icon/google';
 import LogoWithoutText from 'components/logo/logo-without-text';
 import { AUTH_FAIL_COULD_NOT_SEND_MAGIC_LINK } from 'constants/ui-text';
 import { getIdToken, GoogleAuthProvider, sendSignInLinkToEmail, signInWithPopup } from 'firebase/auth';
@@ -94,7 +94,7 @@ export default function Auth() {
   };
 
   return (
-    <div className="bg-gray-50">
+    <div className="min-h-screen bg-gray-50">
       <SimpleAlert
         on={alertState.on}
         success={alertState.success}
@@ -161,7 +161,7 @@ export default function Auth() {
                     className="flex w-full items-center justify-center rounded-md border border-indigo-600 bg-white py-2 px-4 font-medium text-indigo-600 shadow-sm hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                     onClick={handleGoogleClick}
                   >
-                    <Google />
+                    <GoogleIcon />
                     Continue with Google
                   </button>
                 </div>
