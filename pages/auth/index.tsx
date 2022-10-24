@@ -4,7 +4,7 @@ import SimpleAlert from 'components/alert/simple';
 import Google from 'components/icon/google';
 import LogoWithoutText from 'components/logo/logo-without-text';
 import { AUTH_FAIL_COULD_NOT_SEND_MAGIC_LINK } from 'constants/ui-text';
-import { getIdToken, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { getIdToken, GoogleAuthProvider, sendSignInLinkToEmail, signInWithPopup } from 'firebase/auth';
 import produce from 'immer';
 import { elixirClient } from 'lib/axios';
 import { auth } from 'lib/firebase';
@@ -45,12 +45,29 @@ export default function Auth() {
     event.preventDefault();
     const emailRef = event.currentTarget.elements[0] as HTMLInputElement;
 
+    closeAlert();
     setLoading(true);
 
     try {
       const { data, status } = await elixirClient.post<GuestUserResponse>('/guest_user', {
         email: emailRef.value,
       });
+
+      try {
+        await sendSignInLinkToEmail(auth, emailRef.value, {
+          url: `${window.location.origin}/auth/result`,
+          handleCodeInApp: true,
+        });
+      } catch (error) {
+        console.error(error);
+        // Handle Errors here.
+        if (error instanceof FirebaseError) {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          // The email of the user's account used.
+          const email = error.customData!.email;
+        }
+      }
     } catch (error) {
       if (error instanceof AxiosError) {
         const elixirError = error.response?.data as ElixirError;
@@ -66,7 +83,9 @@ export default function Auth() {
     }
   };
 
-  const onAlertClose = () => {
+  const onAlertClose = () => closeAlert();
+
+  const closeAlert = () => {
     setAlertState(
       produce((draft) => {
         draft.on = false;
