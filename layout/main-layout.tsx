@@ -5,5 +5,5 @@ type Props = {
 };
 
 export default function MainLayout({ children }: Props) {
-  return <>{children}</>;
+  return <div className="min-h-screen">{children}</div>;
 }

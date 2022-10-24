@@ -55,7 +55,7 @@ export default function Auth() {
 
       try {
         await sendSignInLinkToEmail(auth, emailRef.value, {
-          url: `${window.location.origin}/auth/result?code=${data.data.code!}`,
+          url: `${window.location.origin}/auth/email-result?code=${data.data.code!}`,
           handleCodeInApp: true,
         });
       } catch (error) {
@@ -94,7 +94,7 @@ export default function Auth() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="bg-gray-50">
       <SimpleAlert
         on={alertState.on}
         success={alertState.success}
