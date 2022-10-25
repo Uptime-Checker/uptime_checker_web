@@ -120,8 +120,8 @@ export default function Example() {
               ))}
             </ul>
             <div className="mt-8">
-              <Link href="/">
-                <a className="text-base font-medium text-indigo-600 hover:text-indigo-500">Or go back home &rarr;</a>
+              <Link className="text-base font-medium text-indigo-600 hover:text-indigo-500" href="/">
+                Or go back home &rarr;
               </Link>
             </div>
           </div>
