@@ -3,6 +3,7 @@ import * as Sentry from '@sentry/nextjs';
 import { AxiosError } from 'axios';
 import SimpleAlert from 'components/alert/simple';
 import GoogleIcon from 'components/icon/google';
+import LoadingIcon from 'components/icon/loading';
 import LogoWithoutText from 'components/logo/logo-without-text';
 import { AUTH_FAIL_COULD_NOT_SEND_MAGIC_LINK } from 'constants/ui-text';
 import { getIdToken, GoogleAuthProvider, sendSignInLinkToEmail, signInWithPopup } from 'firebase/auth';
@@ -25,6 +26,7 @@ export default function Auth() {
 
   const handleGoogleClick = async (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
+    setLoading(true);
 
     try {
       let result = await signInWithPopup(auth, provider);
@@ -42,6 +44,8 @@ export default function Auth() {
         // The AuthCredential type that was used.
         const credential = GoogleAuthProvider.credentialFromError(error);
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -66,6 +70,8 @@ export default function Auth() {
         await router.push('/auth/email-sent');
       } catch (error) {
         Sentry.captureException(error);
+      } finally {
+        setLoading(false);
       }
     } catch (error) {
       if (error instanceof AxiosError) {
@@ -136,9 +142,13 @@ export default function Auth() {
               <div>
                 <button
                   type="submit"
-                  className="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                  className="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4
+                    text-sm font-medium text-white shadow-sm hover:bg-indigo-700
+                    focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                  disabled={loading}
                 >
-                  Sign in
+                  {loading ? <LoadingIcon className="-ml-1 mr-3 h-5 w-5 animate-spin text-white" /> : null}
+                  {loading ? 'Sending Link' : 'Sign in'}
                 </button>
               </div>
             </form>
@@ -159,6 +169,7 @@ export default function Auth() {
                     type="button"
                     className="flex w-full items-center justify-center rounded-md border border-indigo-600 bg-white py-2 px-4 font-medium text-indigo-600 shadow-sm hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                     onClick={handleGoogleClick}
+                    disabled={loading}
                   >
                     <GoogleIcon />
                     Continue with Google
