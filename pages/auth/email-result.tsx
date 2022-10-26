@@ -17,7 +17,7 @@ export default function EmailResult() {
             <div className="mt-8 space-y-6">
               <div className="text-center">
                 <p>{email === '' ? 'Checking your email' : `Confirming your email ${email}`}</p>
-                <LoadingBubbleIcon />
+                <LoadingBubbleIcon className="mt-4" />
               </div>
             </div>
           </div>

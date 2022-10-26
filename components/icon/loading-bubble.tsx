@@ -4,8 +4,8 @@ type Props = {
 
 const LoadingBubbleIcon = ({ className }: Props) => {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" className={className}>
-      <circle transform="translate(8 0)" cx="0" cy="16" r="0">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 24" className={className}>
+      <circle transform="translate(8 0)" cx="0" cy="12" r="0">
         <animate
           attributeName="r"
           values="0; 4; 0; 0"
@@ -17,7 +17,7 @@ const LoadingBubbleIcon = ({ className }: Props) => {
           calcMode="spline"
         />
       </circle>
-      <circle transform="translate(16 0)" cx="0" cy="16" r="0">
+      <circle transform="translate(16 0)" cx="0" cy="12" r="0">
         <animate
           attributeName="r"
           values="0; 4; 0; 0"
@@ -29,7 +29,7 @@ const LoadingBubbleIcon = ({ className }: Props) => {
           calcMode="spline"
         />
       </circle>
-      <circle transform="translate(24 0)" cx="0" cy="16" r="0">
+      <circle transform="translate(24 0)" cx="0" cy="12" r="0">
         <animate
           attributeName="r"
           values="0; 4; 0; 0"
