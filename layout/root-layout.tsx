@@ -4,6 +4,6 @@ type Props = {
   children: ReactNode;
 };
 
-export default function MainLayout({ children }: Props) {
+export default function RootLayout({ children }: Props) {
   return <>{children}</>;
 }
