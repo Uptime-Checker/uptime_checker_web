@@ -1,5 +1,8 @@
+import * as Sentry from '@sentry/nextjs';
 import LoadingBubbleIcon from 'components/icon/loading-bubble';
 import TwoFactorAuthIcon from 'components/icon/two-factor-auth';
+import { isSignInWithEmailLink, signInWithEmailLink } from 'firebase/auth';
+import { auth } from 'lib/firebase';
 import { useEffect, useState } from 'react';
 
 export default function EmailResult() {
@@ -17,6 +20,18 @@ export default function EmailResult() {
     const email = urlParams.get('email')!;
     const code = urlParams.get('code')!;
     setEmail(email);
+
+    if (isSignInWithEmailLink(auth, window.location.href)) {
+      signInWithEmailLink(auth, email, window.location.href)
+        .then((result) => {
+          console.log(result.user);
+        })
+        .catch((err) => {
+          Sentry.captureException(err);
+          activateError();
+          console.error(err);
+        });
+    }
   }, []);
 
   const activateError = () => {
