@@ -63,7 +63,7 @@ export default function Auth() {
 
       try {
         await sendSignInLinkToEmail(auth, emailRef.value, {
-          url: `${window.location.origin}/auth/email-result?code=${data.data.code!}`,
+          url: `${window.location.origin}/auth/email-result?code=${data.data.code!}&email=${emailRef.value}`,
           handleCodeInApp: true,
         });
         cacheUtil.set(CacheKey.Email, emailRef.value);
