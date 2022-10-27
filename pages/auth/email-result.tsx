@@ -2,7 +2,10 @@ import * as Sentry from '@sentry/nextjs';
 import LoadingBubbleIcon from 'components/icon/loading-bubble';
 import TwoFactorAuthIcon from 'components/icon/two-factor-auth';
 import { isSignInWithEmailLink, signInWithEmailLink } from 'firebase/auth';
+import { elixirClient } from 'lib/axios';
+import { CacheKey, cacheUtil } from 'lib/cache';
 import { auth } from 'lib/firebase';
+import { AuthProvider, LoginResponse } from 'models/user';
 import { useEffect, useState } from 'react';
 
 export default function EmailResult() {
@@ -21,18 +24,31 @@ export default function EmailResult() {
     const code = urlParams.get('code')!;
     setEmail(email);
 
-    if (isSignInWithEmailLink(auth, window.location.href)) {
+    if (isSignInWithEmailLink(auth, window.location.href) && email !== '') {
       signInWithEmailLink(auth, email, window.location.href)
         .then((result) => {
-          console.log(result.user);
+          elixirClient
+            .post<LoginResponse>('/email_link_login', {
+              code: code,
+              email: result.user.email,
+              provider: AuthProvider.email,
+              firebase_uid: result.user.uid,
+            })
+            .then((response) => {
+              console.log(response);
+              cacheUtil.set(CacheKey.AccessToken, response.data.data.access_token);
+            })
+            .catch((error) => {
+              console.error(error);
+              activateError();
+            });
         })
-        .catch((err) => {
-          Sentry.captureException(err);
+        .catch((error) => {
+          Sentry.captureException(error);
           activateError();
-          console.error(err);
         });
     }
-  }, []);
+  }, [email]);
 
   const activateError = () => {
     setHasError(true);
