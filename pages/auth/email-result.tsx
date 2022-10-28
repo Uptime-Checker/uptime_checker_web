@@ -29,6 +29,7 @@ export default function EmailResult() {
         .then((result) => {
           elixirClient
             .post<LoginResponse>('/email_link_login', {
+              name: email.substring(0, email.lastIndexOf('@')),
               code: code,
               email: result.user.email,
               provider: AuthProvider.email,
