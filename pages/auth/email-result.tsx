@@ -11,7 +11,6 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
 export default function EmailResult() {
-  let signingIn = false;
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(true);
@@ -28,11 +27,10 @@ export default function EmailResult() {
     const code = urlParams.get('code')!;
     setEmail(email);
 
-    if (!isSignInWithEmailLink(auth, window.location.href) || signingIn) {
+    if (!isSignInWithEmailLink(auth, window.location.href) || !router.isReady) {
       return;
     }
 
-    signingIn = true;
     signInWithEmailLink(auth, email, window.location.href)
       .then((result) => {
         elixirClient
