@@ -5,12 +5,13 @@ import { isSignInWithEmailLink, signInWithEmailLink } from 'firebase/auth';
 import { addToken, elixirClient } from 'lib/axios';
 import { CacheKey, cacheUtil } from 'lib/cache';
 import { auth } from 'lib/firebase';
-import { AccessToken, AuthProvider, UserResponse } from 'models/user';
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
 import { setCurrentUser } from 'lib/global';
+import { AccessToken, AuthProvider, UserResponse } from 'models/user';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 
 export default function EmailResult() {
+  let signingIn = false;
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(true);
@@ -27,37 +28,40 @@ export default function EmailResult() {
     const code = urlParams.get('code')!;
     setEmail(email);
 
-    if (isSignInWithEmailLink(auth, window.location.href) && email !== '') {
-      signInWithEmailLink(auth, email, window.location.href)
-        .then((result) => {
-          elixirClient
-            .post<AccessToken>('/email_link_login', {
-              name: email.substring(0, email.lastIndexOf('@')),
-              code: code,
-              email: result.user.email,
-              provider: AuthProvider.email,
-              firebase_uid: result.user.uid,
-            })
-            .then((tokenResponse) => {
-              cacheUtil.set(CacheKey.AccessToken, tokenResponse.data.access_token);
-              addToken(tokenResponse.data.access_token);
-              elixirClient.get<UserResponse>('/me').then((userResponse) => {
-                setCurrentUser(userResponse.data.data);
-                const nextPath = userResponse.data.data.organization == null ? '/onboarding' : 'dashboard';
-                router.push(nextPath).then((_) => {});
-              });
-            })
-            .catch((error) => {
-              console.error(error);
-              activateError();
-            });
-        })
-        .catch((error) => {
-          Sentry.captureException(error);
-          activateError();
-        });
+    if (!isSignInWithEmailLink(auth, window.location.href) || signingIn) {
+      return;
     }
-  }, [email, router]);
+
+    signingIn = true;
+    signInWithEmailLink(auth, email, window.location.href)
+      .then((result) => {
+        elixirClient
+          .post<AccessToken>('/email_link_login', {
+            name: email.substring(0, email.lastIndexOf('@')),
+            code: code,
+            email: result.user.email,
+            provider: AuthProvider.email,
+            firebase_uid: result.user.uid,
+          })
+          .then((tokenResponse) => {
+            cacheUtil.set(CacheKey.AccessToken, tokenResponse.data.access_token);
+            addToken(tokenResponse.data.access_token);
+            elixirClient.get<UserResponse>('/me').then((userResponse) => {
+              setCurrentUser(userResponse.data.data);
+              const nextPath = userResponse.data.data.organization == null ? '/onboarding' : 'dashboard';
+              router.push(nextPath).then((_) => {});
+            });
+          })
+          .catch((error) => {
+            console.error(error);
+            activateError();
+          });
+      })
+      .catch((error) => {
+        Sentry.captureException(error);
+        activateError();
+      });
+  }, [router]);
 
   const activateError = () => {
     setHasError(true);
