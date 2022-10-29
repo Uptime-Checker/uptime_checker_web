@@ -2,13 +2,16 @@ import * as Sentry from '@sentry/nextjs';
 import LoadingBubbleIcon from 'components/icon/loading-bubble';
 import TwoFactorAuthIcon from 'components/icon/two-factor-auth';
 import { isSignInWithEmailLink, signInWithEmailLink } from 'firebase/auth';
-import { elixirClient } from 'lib/axios';
+import { addToken, elixirClient } from 'lib/axios';
 import { CacheKey, cacheUtil } from 'lib/cache';
 import { auth } from 'lib/firebase';
-import { AuthProvider, LoginResponse } from 'models/user';
+import { AccessToken, AuthProvider, UserResponse } from 'models/user';
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import { setCurrentUser } from 'lib/global';
 
 export default function EmailResult() {
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
@@ -28,16 +31,21 @@ export default function EmailResult() {
       signInWithEmailLink(auth, email, window.location.href)
         .then((result) => {
           elixirClient
-            .post<LoginResponse>('/email_link_login', {
+            .post<AccessToken>('/email_link_login', {
               name: email.substring(0, email.lastIndexOf('@')),
               code: code,
               email: result.user.email,
               provider: AuthProvider.email,
               firebase_uid: result.user.uid,
             })
-            .then((response) => {
-              console.log(response);
-              cacheUtil.set(CacheKey.AccessToken, response.data.data.access_token);
+            .then((tokenResponse) => {
+              cacheUtil.set(CacheKey.AccessToken, tokenResponse.data.access_token);
+              addToken(tokenResponse.data.access_token);
+              elixirClient.get<UserResponse>('/me').then((userResponse) => {
+                setCurrentUser(userResponse.data.data);
+                const nextPath = userResponse.data.data.organization == null ? '/onboarding' : 'dashboard';
+                router.push(nextPath).then((_) => {});
+              });
             })
             .catch((error) => {
               console.error(error);
@@ -49,7 +57,7 @@ export default function EmailResult() {
           activateError();
         });
     }
-  }, [email]);
+  }, [email, router]);
 
   const activateError = () => {
     setHasError(true);
