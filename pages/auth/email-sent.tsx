@@ -1,5 +1,5 @@
 import EmailSentIcon from 'components/icon/email-sent';
-import { CacheKey, cacheUtil } from '../../lib/cache';
+import { CacheKey, cacheUtil } from 'lib/cache';
 import { useEffect, useState } from 'react';
 
 export default function EmailSent() {
