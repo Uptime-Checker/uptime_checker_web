@@ -1,12 +1,52 @@
 import LoadingIcon from 'components/icon/loading';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
+import { elixirClient } from 'lib/axios';
+import { CurrentUser, setCurrentUser } from 'lib/global';
+import { useRouter } from 'next/router';
+import { AccessToken, UserResponse } from 'models/user';
 
 export default function Onboarding() {
+  let nameUpdated = false;
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (CurrentUser != null || !router.isReady) {
+      return;
+    }
+    elixirClient
+      .get<UserResponse>('/me')
+      .then((userResponse) => {
+        setCurrentUser(userResponse.data.data);
+      })
+      .catch((e) => {
+        console.error(e);
+        router.replace('/auth').then((_) => {});
+      });
+  }, [router]);
 
   const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const firstNameRef = event.currentTarget.elements[0] as HTMLInputElement;
+    const lastNameRef = event.currentTarget.elements[1] as HTMLInputElement;
+    const orgRef = event.currentTarget.elements[2] as HTMLInputElement;
+
     setLoading(true);
+    if (!nameUpdated) {
+      await updateName(`${firstNameRef.value} ${lastNameRef.value}`);
+      // nameUpdated = true;
+      setLoading(false);
+    }
+  };
+
+  const updateName = async (name: string) => {
+    try {
+      await elixirClient.post<AccessToken>(`/users/update/${CurrentUser?.id}`, {
+        name: name,
+      });
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   return (
@@ -16,7 +56,7 @@ export default function Onboarding() {
           className="flex flex-col items-center justify-center space-y-6 sm:mx-auto sm:w-full sm:max-w-2xl"
           onSubmit={handleFormSubmit}
         >
-          <h1 className="px-4 text-center text-4xl font-bold text-gray-900 sm:px-0">Let's get started</h1>
+          <h1 className="px-4 text-center text-4xl font-bold text-gray-900 sm:px-0">Let&apos;s get started</h1>
           <div className="w-full bg-white px-4 py-5 drop-shadow-md sm:rounded-lg sm:p-6">
             <div className="mt-5 md:col-span-2 md:mt-0">
               <div className="space-y-6">
