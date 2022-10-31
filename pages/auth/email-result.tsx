@@ -44,11 +44,7 @@ export default function EmailResult() {
           .then((tokenResponse) => {
             cacheUtil.set(CacheKey.AccessToken, tokenResponse.data.access_token);
             addToken(tokenResponse.data.access_token);
-            elixirClient.get<UserResponse>('/me').then((userResponse) => {
-              setCurrentUser(userResponse.data.data);
-              const nextPath = userResponse.data.data.organization == null ? '/onboarding' : 'dashboard';
-              router.push(nextPath).then((_) => {});
-            });
+            getMe().then((_) => {});
           })
           .catch((error) => {
             console.error(error);
@@ -60,6 +56,13 @@ export default function EmailResult() {
         activateError();
       });
   }, [router]);
+
+  async function getMe() {
+    const userResponse = await elixirClient.get<UserResponse>('/me');
+    setCurrentUser(userResponse.data.data);
+    const nextPath = userResponse.data.data.organization == null ? '/onboarding' : '/dashboard';
+    await router.replace(nextPath);
+  }
 
   const activateError = () => {
     setHasError(true);
