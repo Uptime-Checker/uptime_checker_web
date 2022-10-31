@@ -31,6 +31,13 @@ export default function EmailResult() {
       return;
     }
 
+    async function getMe() {
+      const userResponse = await elixirClient.get<UserResponse>('/me');
+      setCurrentUser(userResponse.data.data);
+      const nextPath = userResponse.data.data.organization == null ? '/onboarding' : '/dashboard';
+      await router.replace(nextPath);
+    }
+
     signInWithEmailLink(auth, email, window.location.href)
       .then((result) => {
         elixirClient
@@ -56,13 +63,6 @@ export default function EmailResult() {
         activateError();
       });
   }, [router]);
-
-  async function getMe() {
-    const userResponse = await elixirClient.get<UserResponse>('/me');
-    setCurrentUser(userResponse.data.data);
-    const nextPath = userResponse.data.data.organization == null ? '/onboarding' : '/dashboard';
-    await router.replace(nextPath);
-  }
 
   const activateError = () => {
     setHasError(true);
