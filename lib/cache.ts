@@ -3,11 +3,13 @@ interface Value {}
 export enum CacheKey {
   Email = 'email',
   AccessToken = 'access_token',
+  CurrentUser = 'current_user',
 }
 
 interface CacheValues {
   [CacheKey.Email]: Value;
   [CacheKey.AccessToken]: Value;
+  [CacheKey.CurrentUser]: Value;
 }
 
 interface CacheUtil {
