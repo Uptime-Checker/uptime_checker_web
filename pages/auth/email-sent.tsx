@@ -7,8 +7,8 @@ export default function EmailSent() {
   const [email, setEmail] = useState('');
 
   useEffect(() => {
-    const email = cacheUtil.get(CacheKey.Email);
-    setEmail(email as string);
+    const email = cacheUtil.get(CacheKey.Email)!;
+    setEmail(email);
   }, []);
 
   return (
