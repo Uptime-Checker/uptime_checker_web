@@ -5,8 +5,9 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { FormEvent, useEffect, useState } from 'react';
 
+let nameUpdated = false;
+
 export default function Onboarding() {
-  let nameUpdated = false;
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
@@ -28,7 +29,7 @@ export default function Onboarding() {
     setLoading(true);
     if (!nameUpdated) {
       await updateName(`${firstNameRef.value} ${lastNameRef.value}`);
-      // nameUpdated = true;
+      nameUpdated = true;
       setLoading(false);
     }
   };
