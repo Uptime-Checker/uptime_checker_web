@@ -1,4 +1,4 @@
-interface Value {}
+import { User } from 'models/user';
 
 export enum CacheKey {
   Email = 'email',
@@ -7,9 +7,9 @@ export enum CacheKey {
 }
 
 interface CacheValues {
-  [CacheKey.Email]: Value;
-  [CacheKey.AccessToken]: Value;
-  [CacheKey.CurrentUser]: Value;
+  [CacheKey.Email]: string | null;
+  [CacheKey.AccessToken]: string | null;
+  [CacheKey.CurrentUser]: User | null;
 }
 
 interface CacheUtil {
@@ -25,7 +25,7 @@ export const cacheUtil: CacheUtil = {
   },
   get: (key) => {
     const val = localStorage.getItem(key);
-    return val == null ? {} : JSON.parse(val);
+    return val === null ? null : JSON.parse(val);
   },
   remove: (key) => localStorage.removeItem(key),
   removeAll: () => localStorage.clear(),
