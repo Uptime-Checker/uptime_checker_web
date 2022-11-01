@@ -1,7 +1,6 @@
 import LoadingIcon from 'components/icon/loading';
-import { elixirClient } from 'lib/axios';
+import { authClientRequest, HTTPMethod } from 'lib/axios';
 import { getCurrentUser } from 'lib/global';
-import { UserResponse } from 'models/user';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { FormEvent, useEffect, useState } from 'react';
@@ -36,9 +35,7 @@ export default function Onboarding() {
 
   const updateName = async (name: string) => {
     try {
-      await elixirClient.patch<UserResponse>(`/users`, {
-        name: name,
-      });
+      await authClientRequest({ method: HTTPMethod.PATCH, url: '/users', data: { name: name } });
     } catch (e) {
       console.error(e);
     }

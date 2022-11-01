@@ -3,9 +3,8 @@ import LoadingBubbleIcon from 'components/icon/loading-bubble';
 import TwoFactorAuthIcon from 'components/icon/two-factor-auth';
 import { isSignInWithEmailLink, signInWithEmailLink } from 'firebase/auth';
 import { addToken, elixirClient } from 'lib/axios';
-import { CacheKey, cacheUtil } from 'lib/cache';
 import { auth } from 'lib/firebase';
-import { setCurrentUser } from 'lib/global';
+import { setAccessToken, setCurrentUser } from 'lib/global';
 import { AccessToken, AuthProvider, UserResponse } from 'models/user';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -50,7 +49,7 @@ export default function EmailResult() {
             firebase_uid: result.user.uid,
           })
           .then((tokenResponse) => {
-            cacheUtil.set(CacheKey.AccessToken, tokenResponse.data.access_token);
+            setAccessToken(tokenResponse.data.access_token);
             addToken(tokenResponse.data.access_token);
             getMe().then((_) => {});
           })
