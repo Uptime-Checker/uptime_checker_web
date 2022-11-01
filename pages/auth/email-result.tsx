@@ -7,6 +7,7 @@ import { CacheKey, cacheUtil } from 'lib/cache';
 import { auth } from 'lib/firebase';
 import { setCurrentUser } from 'lib/global';
 import { AccessToken, AuthProvider, UserResponse } from 'models/user';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
@@ -71,6 +72,10 @@ export default function EmailResult() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <Head>
+        <title>Auth</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
       <div className="flex flex-col justify-center py-12 sm:px-6 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">

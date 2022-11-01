@@ -2,6 +2,7 @@ import LoadingIcon from 'components/icon/loading';
 import { elixirClient } from 'lib/axios';
 import { getCurrentUser } from 'lib/global';
 import { UserResponse } from 'models/user';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { FormEvent, useEffect, useState } from 'react';
 
@@ -35,7 +36,7 @@ export default function Onboarding() {
 
   const updateName = async (name: string) => {
     try {
-      await elixirClient.post<UserResponse>(`/users/update`, {
+      await elixirClient.patch<UserResponse>(`/users`, {
         name: name,
       });
     } catch (e) {
@@ -45,6 +46,10 @@ export default function Onboarding() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <Head>
+        <title>Onboarding</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
       <div className="w-full py-32 sm:mx-auto sm:max-w-md sm:px-6 lg:px-8">
         <form
           className="flex flex-col items-center justify-center space-y-6 sm:mx-auto sm:w-full sm:max-w-2xl"

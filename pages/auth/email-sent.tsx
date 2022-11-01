@@ -1,5 +1,6 @@
 import EmailSentIcon from 'components/icon/email-sent';
 import { CacheKey, cacheUtil } from 'lib/cache';
+import Head from 'next/head';
 import { useEffect, useState } from 'react';
 
 export default function EmailSent() {
@@ -12,6 +13,10 @@ export default function EmailSent() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <Head>
+        <title>Auth</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
       <div className="flex flex-col justify-center py-12 sm:px-6 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Check your email</h2>

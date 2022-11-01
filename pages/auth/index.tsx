@@ -12,6 +12,7 @@ import { elixirClient } from 'lib/axios';
 import { CacheKey, cacheUtil } from 'lib/cache';
 import { auth } from 'lib/firebase';
 import { GuestUserResponse } from 'models/user';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { FormEvent, MouseEvent, useState } from 'react';
 import { ElixirError } from 'types/error';
@@ -100,6 +101,10 @@ export default function Auth() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <Head>
+        <title>Auth</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
       <SimpleAlert
         on={alertState.on}
         success={alertState.success}
