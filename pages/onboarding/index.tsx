@@ -1,9 +1,9 @@
 import LoadingIcon from 'components/icon/loading';
-import { FormEvent, useEffect, useState } from 'react';
 import { elixirClient } from 'lib/axios';
-import { CurrentUser, setCurrentUser } from 'lib/global';
+import { getCurrentUser } from 'lib/global';
+import { UserResponse } from 'models/user';
 import { useRouter } from 'next/router';
-import { AccessToken, UserResponse } from 'models/user';
+import { FormEvent, useEffect, useState } from 'react';
 
 export default function Onboarding() {
   let nameUpdated = false;
@@ -11,18 +11,12 @@ export default function Onboarding() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (CurrentUser != null || !router.isReady) {
+    if (!router.isReady) {
       return;
     }
-    elixirClient
-      .get<UserResponse>('/me')
-      .then((userResponse) => {
-        setCurrentUser(userResponse.data.data);
-      })
-      .catch((e) => {
-        console.error(e);
-        router.replace('/auth').then((_) => {});
-      });
+    if (getCurrentUser() == null) {
+      router.replace('/auth').then((_) => {});
+    }
   }, [router]);
 
   const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -41,7 +35,7 @@ export default function Onboarding() {
 
   const updateName = async (name: string) => {
     try {
-      await elixirClient.post<AccessToken>(`/users/update/${CurrentUser?.id}`, {
+      await elixirClient.post<UserResponse>(`/users/update`, {
         name: name,
       });
     } catch (e) {
