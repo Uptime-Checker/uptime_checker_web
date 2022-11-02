@@ -34,7 +34,7 @@ export default function EmailResult() {
     async function getMe() {
       const userResponse = await authClientRequest({ method: HTTPMethod.GET, url: '/me' });
       setCurrentUser(userResponse.data.data);
-      const nextPath = userResponse.data.data.organization == null ? '/onboarding' : '/dashboard';
+      const nextPath = userResponse.data.data.organization === null ? '/onboarding' : '/dashboard';
       await router.replace(nextPath);
     }
 

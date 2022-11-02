@@ -11,10 +11,11 @@ import produce from 'immer';
 import { elixirClient } from 'lib/axios';
 import { CacheKey, cacheUtil } from 'lib/cache';
 import { auth } from 'lib/firebase';
+import { getCurrentUser } from 'lib/global';
 import { GuestUserResponse } from 'models/user';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { FormEvent, MouseEvent, useState } from 'react';
+import { FormEvent, MouseEvent, useEffect, useState } from 'react';
 import { ElixirError } from 'types/error';
 import { toUpper } from 'utils/misc';
 
@@ -24,6 +25,15 @@ export default function Auth() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [alertState, setAlertState] = useState({ on: false, success: true, title: '', detail: '' });
+
+  useEffect(() => {
+    if (!router.isReady) return;
+    const user = getCurrentUser();
+    if (user !== null) {
+      const nextPath = user.organization === null ? '/onboarding' : '/dashboard';
+      router.replace(nextPath).then((_) => {});
+    }
+  }, [router]);
 
   const handleGoogleClick = async (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
