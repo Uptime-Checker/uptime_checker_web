@@ -2,10 +2,10 @@ import * as Sentry from '@sentry/nextjs';
 import LoadingBubbleIcon from 'components/icon/loading-bubble';
 import TwoFactorAuthIcon from 'components/icon/two-factor-auth';
 import { isSignInWithEmailLink, signInWithEmailLink } from 'firebase/auth';
-import { addToken, elixirClient } from 'lib/axios';
+import { authClientRequest, elixirClient, HTTPMethod } from 'lib/axios';
 import { auth } from 'lib/firebase';
 import { setAccessToken, setCurrentUser } from 'lib/global';
-import { AccessToken, AuthProvider, UserResponse } from 'models/user';
+import { AccessToken, AuthProvider } from 'models/user';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -32,7 +32,7 @@ export default function EmailResult() {
     }
 
     async function getMe() {
-      const userResponse = await elixirClient.get<UserResponse>('/me');
+      const userResponse = await authClientRequest({ method: HTTPMethod.GET, url: '/me' });
       setCurrentUser(userResponse.data.data);
       const nextPath = userResponse.data.data.organization == null ? '/onboarding' : '/dashboard';
       await router.replace(nextPath);
@@ -50,7 +50,6 @@ export default function EmailResult() {
           })
           .then((tokenResponse) => {
             setAccessToken(tokenResponse.data.access_token);
-            addToken(tokenResponse.data.access_token);
             getMe().then((_) => {});
           })
           .catch((error) => {
