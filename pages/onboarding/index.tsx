@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/nextjs';
 import LoadingIcon from 'components/icon/loading';
 import { authClientRequest, HTTPMethod } from 'lib/axios';
 import { getCurrentUser } from 'lib/global';
@@ -37,8 +38,8 @@ export default function Onboarding() {
   const updateName = async (name: string) => {
     try {
       await authClientRequest({ method: HTTPMethod.PATCH, url: '/users', data: { name: name } });
-    } catch (e) {
-      console.error(e);
+    } catch (error) {
+      Sentry.captureException(error);
     }
   };
 
