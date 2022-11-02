@@ -1,7 +1,7 @@
 import * as Sentry from '@sentry/nextjs';
 import LoadingIcon from 'components/icon/loading';
 import { authClientRequest, HTTPMethod } from 'lib/axios';
-import { getCurrentUser } from 'lib/global';
+import { getCurrentUser, logout } from 'lib/global';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { FormEvent, useEffect, useState } from 'react';
@@ -16,8 +16,8 @@ export default function Onboarding() {
     if (!router.isReady) {
       return;
     }
-    if (getCurrentUser() == null) {
-      router.replace('/auth').then((_) => {});
+    if (getCurrentUser() === null) {
+      logout().then((_) => {});
     }
   }, [router]);
 

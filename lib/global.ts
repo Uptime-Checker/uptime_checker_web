@@ -1,3 +1,6 @@
+import * as Sentry from '@sentry/nextjs';
+import { signOut } from 'firebase/auth';
+import { auth } from 'lib/firebase';
 import { User } from 'models/user';
 import { CacheKey, cacheUtil } from './cache';
 
@@ -34,4 +37,19 @@ export const getAccessToken = () => {
     AccessToken = token;
   }
   return token;
+};
+
+export const logout = async () => {
+  try {
+    await signOut(auth);
+    cacheUtil.remove(CacheKey.AccessToken);
+    cacheUtil.remove(CacheKey.CurrentUser);
+    redirectToAuth();
+  } catch (error) {
+    Sentry.captureException(error);
+  }
+};
+
+const redirectToAuth = () => {
+  window.location.replace(`${window.location.origin}/auth`);
 };

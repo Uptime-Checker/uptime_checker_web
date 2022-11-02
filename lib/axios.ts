@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
-import { getAccessToken } from './global';
+import { getAccessToken, logout } from './global';
 
 const UNAUTHENTICATED = 401;
 
@@ -28,8 +28,7 @@ export const authClientRequest = async <T = any, R = AxiosResponse<T>, D = any>(
   try {
     const token = getAccessToken();
     if (token === null) {
-      redirectToAuth();
-      return <R>await Promise.resolve();
+      return <R>await logout();
     } else {
       addToken(token);
     }
@@ -37,8 +36,7 @@ export const authClientRequest = async <T = any, R = AxiosResponse<T>, D = any>(
   } catch (error) {
     if (error instanceof AxiosError && error.response) {
       if (error.response.status === UNAUTHENTICATED) {
-        redirectToAuth();
-        return <R>await Promise.resolve();
+        return <R>await logout();
       } else {
         throw error;
       }
@@ -46,10 +44,6 @@ export const authClientRequest = async <T = any, R = AxiosResponse<T>, D = any>(
       throw error;
     }
   }
-};
-
-const redirectToAuth = () => {
-  window.location.replace(`${window.location.origin}/auth`);
 };
 
 export const elixirClient = client;
