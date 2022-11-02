@@ -2,14 +2,13 @@ import * as Sentry from '@sentry/nextjs';
 import LoadingIcon from 'components/icon/loading';
 import { authClientRequest, HTTPMethod } from 'lib/axios';
 import { getCurrentUser, logout } from 'lib/global';
+import { UserResponse } from 'models/user';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
 import { FormEvent, useEffect, useState } from 'react';
 
 let nameUpdated = false;
 
 export default function Onboarding() {
-  const router = useRouter();
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -34,7 +33,7 @@ export default function Onboarding() {
 
   const updateName = async (name: string) => {
     try {
-      await authClientRequest({ method: HTTPMethod.PATCH, url: '/users', data: { name: name } });
+      await authClientRequest<UserResponse>({ method: HTTPMethod.PATCH, url: '/users', data: { name: name } });
     } catch (error) {
       Sentry.captureException(error);
     }

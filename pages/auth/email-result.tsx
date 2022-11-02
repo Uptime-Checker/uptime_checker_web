@@ -4,8 +4,8 @@ import TwoFactorAuthIcon from 'components/icon/two-factor-auth';
 import { isSignInWithEmailLink, signInWithEmailLink } from 'firebase/auth';
 import { authClientRequest, elixirClient, HTTPMethod } from 'lib/axios';
 import { auth } from 'lib/firebase';
-import { setAccessToken, setCurrentUser } from 'lib/global';
-import { AccessToken, AuthProvider } from 'models/user';
+import { redirectToDashboard, setAccessToken, setCurrentUser } from 'lib/global';
+import { AccessToken, AuthProvider, UserResponse } from 'models/user';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -32,10 +32,9 @@ export default function EmailResult() {
     }
 
     async function getMe() {
-      const userResponse = await authClientRequest({ method: HTTPMethod.GET, url: '/me' });
+      const userResponse = await authClientRequest<UserResponse>({ method: HTTPMethod.GET, url: '/me' });
       setCurrentUser(userResponse.data.data);
-      const nextPath = userResponse.data.data.organization === null ? '/onboarding' : '/dashboard';
-      await router.replace(nextPath);
+      redirectToDashboard(userResponse.data.data);
     }
 
     signInWithEmailLink(auth, email, window.location.href)
