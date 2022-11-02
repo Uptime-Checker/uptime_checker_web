@@ -1,5 +1,6 @@
 import * as Sentry from '@sentry/nextjs';
 import LoadingIcon from 'components/icon/loading';
+import { FREE_PLAN_ID } from 'constants/payment';
 import { authClientRequest, HTTPMethod } from 'lib/axios';
 import { getCurrentUser, logout } from 'lib/global';
 import { UserResponse } from 'models/user';
@@ -22,11 +23,21 @@ export default function Onboarding() {
     const firstNameRef = event.currentTarget.elements[0] as HTMLInputElement;
     const lastNameRef = event.currentTarget.elements[1] as HTMLInputElement;
     const orgRef = event.currentTarget.elements[2] as HTMLInputElement;
+    const slugRef = event.currentTarget.elements[3] as HTMLInputElement;
 
     setLoading(true);
     if (!nameUpdated) {
       await updateName(`${firstNameRef.value} ${lastNameRef.value}`);
       nameUpdated = true;
+      try {
+        await authClientRequest<UserResponse>({
+          method: HTTPMethod.POST,
+          url: '/organizations',
+          data: { name: orgRef.value, slug: slugRef.value, plan_id: FREE_PLAN_ID },
+        });
+      } catch (error) {
+        Sentry.captureException(error);
+      }
       setLoading(false);
     }
   };
@@ -45,7 +56,7 @@ export default function Onboarding() {
         <title>Onboarding</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <div className="w-full py-32 sm:mx-auto sm:max-w-md sm:px-6 lg:px-8">
+      <div className="w-full py-10 sm:mx-auto sm:max-w-md sm:py-32 sm:px-6 lg:px-8">
         <form
           className="flex flex-col items-center justify-center space-y-6 sm:mx-auto sm:w-full sm:max-w-2xl"
           onSubmit={handleFormSubmit}
@@ -108,6 +119,23 @@ export default function Onboarding() {
                         placeholder="Twitter Inc."
                         aria-invalid="false"
                         aria-describedby="error-organisation-required"
+                        className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                      />
+                    </div>
+                    <label htmlFor="organisation-slug" className="mt-5 block text-sm font-medium text-gray-700">
+                      Organisation Slug
+                    </label>
+                    <div className="mt-1">
+                      <input
+                        required
+                        disabled={loading}
+                        type="text"
+                        name="organisation-slug"
+                        id="organisation-slug"
+                        autoComplete="organization-slug"
+                        placeholder="twtr"
+                        aria-invalid="false"
+                        aria-describedby="error-organisation-slug-required"
                         className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                       />
                     </div>
