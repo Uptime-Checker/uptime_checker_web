@@ -13,13 +13,10 @@ export default function Onboarding() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (!router.isReady) {
-      return;
-    }
     if (getCurrentUser() === null) {
       logout().then((_) => {});
     }
-  }, [router]);
+  }, []);
 
   const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
