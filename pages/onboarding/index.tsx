@@ -73,6 +73,8 @@ export default function Onboarding() {
                     <div className="mt-1">
                       <input
                         required
+                        minLength={3}
+                        pattern="[a-zA-Z]*"
                         disabled={loading}
                         type="text"
                         name="firstName"
@@ -92,6 +94,8 @@ export default function Onboarding() {
                     <div className="mt-1">
                       <input
                         required
+                        minLength={3}
+                        pattern="[a-zA-Z]*"
                         disabled={loading}
                         type="text"
                         name="lastName"
@@ -111,6 +115,7 @@ export default function Onboarding() {
                     <div className="mt-1">
                       <input
                         required
+                        minLength={4}
                         disabled={loading}
                         type="text"
                         name="organisation"
@@ -132,6 +137,7 @@ export default function Onboarding() {
                         </span>
                         <input
                           required
+                          minLength={4}
                           disabled={loading}
                           type="text"
                           name="organisation-slug"
