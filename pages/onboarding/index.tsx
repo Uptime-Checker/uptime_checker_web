@@ -5,11 +5,13 @@ import { authClientRequest, HTTPMethod } from 'lib/axios';
 import { getCurrentUser, logout } from 'lib/global';
 import { UserResponse } from 'models/user';
 import Head from 'next/head';
-import { FormEvent, useEffect, useState } from 'react';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import { sanitizeString } from '../../utils/misc';
 
 let nameUpdated = false;
 
 export default function Onboarding() {
+  const [orgSlug, setOrgSlug] = useState('');
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -49,6 +51,23 @@ export default function Onboarding() {
     } catch (error) {
       Sentry.captureException(error);
     }
+  };
+
+  const handleOrganizationChange = (event: ChangeEvent) => {
+    let target = event.currentTarget as HTMLInputElement;
+    let slug = makeKey(target.value);
+    setOrgSlug(slug);
+  };
+
+  const handleOrganizationSlugChange = (event: ChangeEvent) => {
+    let target = event.currentTarget as HTMLInputElement;
+    let slug = makeKey(target.value);
+    setOrgSlug(slug);
+  };
+
+  const makeKey = (title: string) => {
+    let newStr = title.replaceAll(' ', '-');
+    return sanitizeString(newStr);
   };
 
   return (
@@ -118,6 +137,7 @@ export default function Onboarding() {
                         required
                         minLength={4}
                         disabled={loading}
+                        onChange={handleOrganizationChange}
                         type="text"
                         name="organisation"
                         id="organisation"
@@ -140,6 +160,8 @@ export default function Onboarding() {
                           required
                           minLength={4}
                           disabled={loading}
+                          value={orgSlug}
+                          onChange={handleOrganizationSlugChange}
                           type="text"
                           name="organisation-slug"
                           id="organisation-slug"
