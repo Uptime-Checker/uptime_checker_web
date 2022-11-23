@@ -3,3 +3,6 @@ coverage
 node_modules
 .idea
 .next
+.vscode
+postcss.config.js
+pnpm-lock.yaml
