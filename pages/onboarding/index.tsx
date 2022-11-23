@@ -29,15 +29,16 @@ export default function Onboarding() {
     if (!nameUpdated) {
       await updateName(`${firstNameRef.value} ${lastNameRef.value}`);
       nameUpdated = true;
-      try {
-        await authClientRequest<UserResponse>({
-          method: HTTPMethod.POST,
-          url: '/organizations',
-          data: { name: orgRef.value, slug: slugRef.value, plan_id: FREE_PLAN_ID },
-        });
-      } catch (error) {
-        Sentry.captureException(error);
-      }
+    }
+    try {
+      await authClientRequest<UserResponse>({
+        method: HTTPMethod.POST,
+        url: '/organizations',
+        data: { name: orgRef.value, slug: slugRef.value, plan_id: FREE_PLAN_ID },
+      });
+    } catch (error) {
+      console.log(error);
+    } finally {
       setLoading(false);
     }
   };
