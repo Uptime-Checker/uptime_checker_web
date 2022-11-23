@@ -56,14 +56,14 @@ export default function Onboarding() {
         <title>Onboarding</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <div className="w-full py-10 sm:mx-auto sm:max-w-md sm:py-32 sm:px-6 lg:px-8">
+      <div className="w-full py-10 sm:mx-auto sm:max-w-lg sm:py-32 sm:px-6 lg:px-8">
         <form
           className="flex flex-col items-center justify-center space-y-6 sm:mx-auto sm:w-full sm:max-w-2xl"
           onSubmit={handleFormSubmit}
         >
           <h1 className="px-4 text-center text-4xl font-bold text-gray-900 sm:px-0">Let&apos;s get started</h1>
           <div className="w-full bg-white px-4 py-5 drop-shadow-md sm:rounded-lg sm:p-6">
-            <div className="mt-5 md:col-span-2 md:mt-0">
+            <div className="mt-0 md:col-span-2">
               <div className="space-y-6">
                 <div className="grid grid-cols-1 gap-6 sm:grid-cols-6">
                   <div className="sm:col-span-3">
@@ -125,19 +125,27 @@ export default function Onboarding() {
                     <label htmlFor="organisation-slug" className="mt-5 block text-sm font-medium text-gray-700">
                       Organisation Slug
                     </label>
-                    <div className="mt-1">
-                      <input
-                        required
-                        disabled={loading}
-                        type="text"
-                        name="organisation-slug"
-                        id="organisation-slug"
-                        autoComplete="organization-slug"
-                        placeholder="twtr"
-                        aria-invalid="false"
-                        aria-describedby="error-organisation-slug-required"
-                        className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                      />
+                    <div className="mt-1 flex rounded-md shadow-sm">
+                      <div className="relative flex flex-grow items-stretch focus-within:z-10">
+                        <span className="inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-gray-500 sm:text-sm">
+                          https://
+                        </span>
+                        <input
+                          required
+                          disabled={loading}
+                          type="text"
+                          name="organisation-slug"
+                          id="organisation-slug"
+                          autoComplete="organization-slug"
+                          placeholder="twtr"
+                          aria-invalid="false"
+                          aria-describedby="error-organisation-slug-required"
+                          className="block w-full rounded-none border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                        />
+                      </div>
+                      <span className="inline-flex items-center rounded-r-md border border-l-0 border-gray-300 bg-gray-50 px-3 text-gray-500 sm:text-sm">
+                        .uptimecheckr.com
+                      </span>
                     </div>
                   </div>
                 </div>
