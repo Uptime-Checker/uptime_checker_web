@@ -1,18 +1,29 @@
 import * as Sentry from '@sentry/nextjs';
+import { AxiosError } from 'axios';
+import SimpleAlert from 'components/alert/simple';
 import LoadingIcon from 'components/icon/loading';
 import { FREE_PLAN_ID } from 'constants/payment';
+import {
+  ONBOARDING_FAIL_TO_CREATE_ORGANIZATION,
+  ONBOARDING_PLEASE_USE_DIFFERENT_SLUG,
+  ONBOARDING_YOU_ALREADY_CREATED_ORGANIZATION,
+  PLEASE_CONTACT_SUPPORT,
+} from 'constants/ui-text';
+import produce from 'immer';
 import { authClientRequest, HTTPMethod } from 'lib/axios';
 import { getCurrentUser, logout } from 'lib/global';
 import { UserResponse } from 'models/user';
 import Head from 'next/head';
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
-import { sanitizeString } from '../../utils/misc';
+import { BackendError } from 'types/error';
+import { sanitizeString } from 'utils/misc';
 
 let nameUpdated = false;
 
 export default function Onboarding() {
   const [orgSlug, setOrgSlug] = useState('');
   const [loading, setLoading] = useState(false);
+  const [alertState, setAlertState] = useState({ on: false, success: true, title: '', detail: '' });
 
   useEffect(() => {
     if (getCurrentUser() === null) {
@@ -27,6 +38,7 @@ export default function Onboarding() {
     const orgRef = event.currentTarget.elements[2] as HTMLInputElement;
     const slugRef = event.currentTarget.elements[3] as HTMLInputElement;
 
+    closeAlert();
     setLoading(true);
     if (!nameUpdated) {
       await updateName(`${firstNameRef.value} ${lastNameRef.value}`);
@@ -39,7 +51,31 @@ export default function Onboarding() {
         data: { name: orgRef.value, slug: slugRef.value, plan_id: FREE_PLAN_ID },
       });
     } catch (error) {
-      console.log(error);
+      const backendError = (error as AxiosError).response?.data as BackendError;
+      const errorKey = Object.keys(backendError.errors)[0];
+
+      let errorDescription = PLEASE_CONTACT_SUPPORT;
+      switch (errorKey) {
+        case 'organization:slug': {
+          errorDescription = ONBOARDING_PLEASE_USE_DIFFERENT_SLUG;
+          break;
+        }
+        case 'organization_user:role_id': {
+          errorDescription = ONBOARDING_YOU_ALREADY_CREATED_ORGANIZATION;
+          break;
+        }
+        default: {
+          Sentry.captureException(error);
+          break;
+        }
+      }
+
+      setAlertState({
+        on: true,
+        success: false,
+        title: ONBOARDING_FAIL_TO_CREATE_ORGANIZATION,
+        detail: errorDescription,
+      });
     } finally {
       setLoading(false);
     }
@@ -70,12 +106,29 @@ export default function Onboarding() {
     return sanitizeString(newStr);
   };
 
+  const onAlertClose = () => closeAlert();
+
+  const closeAlert = () => {
+    setAlertState(
+      produce((draft) => {
+        draft.on = false;
+      })
+    );
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Head>
         <title>Onboarding</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
+      <SimpleAlert
+        on={alertState.on}
+        success={alertState.success}
+        title={alertState.title}
+        detail={alertState.detail}
+        onClose={onAlertClose}
+      />
       <div className="w-full py-10 sm:mx-auto sm:max-w-lg sm:py-32 sm:px-6 lg:px-8">
         <form
           className="flex flex-col items-center justify-center space-y-6 sm:mx-auto sm:w-full sm:max-w-2xl"
