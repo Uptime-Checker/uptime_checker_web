@@ -5,6 +5,7 @@ import SimpleAlert from 'components/alert/simple';
 import GoogleIcon from 'components/icon/google';
 import LoadingIcon from 'components/icon/loading';
 import LogoWithoutText from 'components/logo/logo-without-text';
+import { FIREBASE_ERROR_POPUP_CLOSED } from 'constants/errors';
 import {
   AUTH_FAIL_COULD_NOT_SEND_MAGIC_LINK,
   AUTH_FAIL_TO_LOGIN_USING_GOOGLE,
@@ -72,18 +73,10 @@ export default function Auth() {
         Sentry.captureException(e);
       }
     } catch (error) {
-      console.error(error);
-      // Handle Errors here.
       if (error instanceof FirebaseError) {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-
-        console.log(errorCode);
-        console.log(errorMessage);
-        // The email of the user's account used.
-        const email = error.customData!.email;
-        // The AuthCredential type that was used.
-        const credential = GoogleAuthProvider.credentialFromError(error);
+        if (error.code !== FIREBASE_ERROR_POPUP_CLOSED) {
+          Sentry.captureException(error);
+        }
       }
     } finally {
       setLoading(false);
