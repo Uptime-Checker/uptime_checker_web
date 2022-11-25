@@ -11,7 +11,7 @@ import {
 } from 'constants/ui-text';
 import produce from 'immer';
 import { authClientRequest, HTTPMethod } from 'lib/axios';
-import { getCurrentUser, logout } from 'lib/global';
+import { getCurrentUser, logout, redirectToDashboard } from 'lib/global';
 import { UserResponse } from 'models/user';
 import Head from 'next/head';
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
@@ -26,8 +26,11 @@ export default function Onboarding() {
   const [alertState, setAlertState] = useState({ on: false, success: true, title: '', detail: '' });
 
   useEffect(() => {
-    if (getCurrentUser() === null) {
+    let user = getCurrentUser();
+    if (user === null) {
       logout().then((_) => {});
+    } else if (user.organization !== null) {
+      redirectToDashboard(user);
     }
   }, []);
 

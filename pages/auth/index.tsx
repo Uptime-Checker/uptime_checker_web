@@ -54,7 +54,6 @@ export default function Auth() {
       let result = await signInWithPopup(auth, provider);
       const user = result.user;
       let token = await getIdToken(user);
-      console.log(token);
 
       try {
         const { data } = await elixirClient.post<AccessToken>('/provider_login', {
