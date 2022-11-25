@@ -5,14 +5,18 @@ import SimpleAlert from 'components/alert/simple';
 import GoogleIcon from 'components/icon/google';
 import LoadingIcon from 'components/icon/loading';
 import LogoWithoutText from 'components/logo/logo-without-text';
-import { AUTH_FAIL_COULD_NOT_SEND_MAGIC_LINK } from 'constants/ui-text';
+import {
+  AUTH_FAIL_COULD_NOT_SEND_MAGIC_LINK,
+  AUTH_FAIL_TO_LOGIN_USING_GOOGLE,
+  PLEASE_CONTACT_SUPPORT,
+} from 'constants/ui-text';
 import { getIdToken, GoogleAuthProvider, sendSignInLinkToEmail, signInWithPopup } from 'firebase/auth';
 import produce from 'immer';
-import { elixirClient } from 'lib/axios';
+import { authClientRequest, elixirClient, HTTPMethod } from 'lib/axios';
 import { CacheKey, cacheUtil } from 'lib/cache';
 import { auth } from 'lib/firebase';
-import { getCurrentUser, redirectToDashboard } from 'lib/global';
-import { GuestUserResponse } from 'models/user';
+import { getCurrentUser, redirectToDashboard, setAccessToken, setCurrentUser } from 'lib/global';
+import { AccessToken, AuthProvider, GuestUserResponse, UserResponse } from 'models/user';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { FormEvent, MouseEvent, useEffect, useState } from 'react';
@@ -33,8 +37,16 @@ export default function Auth() {
     }
   }, []);
 
+  async function getMe() {
+    const userResponse = await authClientRequest<UserResponse>({ method: HTTPMethod.GET, url: '/me' });
+    setCurrentUser(userResponse.data.data);
+    redirectToDashboard(userResponse.data.data);
+  }
+
   const handleGoogleClick = async (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
+
+    closeAlert();
     setLoading(true);
 
     try {
@@ -42,12 +54,32 @@ export default function Auth() {
       const user = result.user;
       let token = await getIdToken(user);
       console.log(token);
+
+      try {
+        const { data } = await elixirClient.post<AccessToken>('/provider_login', {
+          id_token: token,
+          provider: AuthProvider.google,
+        });
+        setAccessToken(data.access_token);
+        await getMe();
+      } catch (e) {
+        setAlertState({
+          on: true,
+          success: false,
+          title: AUTH_FAIL_TO_LOGIN_USING_GOOGLE,
+          detail: PLEASE_CONTACT_SUPPORT,
+        });
+        Sentry.captureException(e);
+      }
     } catch (error) {
       console.error(error);
       // Handle Errors here.
       if (error instanceof FirebaseError) {
         const errorCode = error.code;
         const errorMessage = error.message;
+
+        console.log(errorCode);
+        console.log(errorMessage);
         // The email of the user's account used.
         const email = error.customData!.email;
         // The AuthCredential type that was used.
