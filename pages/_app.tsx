@@ -1,7 +1,9 @@
 import ErrorBoundary from 'components/error-boundary';
+import RootLayout from 'layout/root-layout';
 import type { AppProps } from 'next/app';
 import 'styles/globals.css';
-import RootLayout from '../layout/root-layout';
+
+import '@tremor/react/dist/esm/tremor.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
