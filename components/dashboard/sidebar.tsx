@@ -8,7 +8,9 @@ import {
   UsersIcon,
   XMarkIcon,
 } from '@heroicons/react/24/outline';
-import { Fragment, useState } from 'react';
+import { useAtom } from 'jotai';
+import { Fragment } from 'react';
+import { globalAtom } from 'store/global';
 import { classNames } from 'utils/misc';
 
 const navigation = [
@@ -21,12 +23,16 @@ const navigation = [
 ];
 
 const SideBar = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [global, setGlobal] = useAtom(globalAtom);
+  const toggleSidebar = () =>
+    setGlobal((draft) => {
+      draft.sidebar = !draft.sidebar;
+    });
 
   return (
     <>
-      <Transition.Root show={sidebarOpen} as={Fragment}>
-        <Dialog as="div" className="relative z-40 md:hidden" onClose={setSidebarOpen}>
+      <Transition.Root show={global.sidebar} as={Fragment}>
+        <Dialog as="div" className="relative z-40 md:hidden" onClose={toggleSidebar}>
           <Transition.Child
             as={Fragment}
             enter="transition-opacity ease-linear duration-300"
@@ -63,7 +69,7 @@ const SideBar = () => {
                     <button
                       type="button"
                       className="ml-1 flex h-10 w-10 items-center justify-center rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
-                      onClick={() => setSidebarOpen(false)}
+                      onClick={toggleSidebar}
                     >
                       <span className="sr-only">Close sidebar</span>
                       <XMarkIcon className="h-6 w-6 text-white" aria-hidden="true" />
