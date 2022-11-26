@@ -4,6 +4,7 @@ import type { AppProps } from 'next/app';
 import 'styles/globals.css';
 
 import '@tremor/react/dist/esm/tremor.css';
+import { Provider } from 'jotai';
 import { NextPage } from 'next';
 import { ReactElement, ReactNode } from 'react';
 
@@ -23,9 +24,11 @@ const layoutEnabledPage = ({ Component, pageProps }: AppPropsWithLayout) => {
 
 function MyApp(appPropsWithLayout: AppPropsWithLayout) {
   return (
-    <RootLayout>
-      <ErrorBoundary>{layoutEnabledPage(appPropsWithLayout)}</ErrorBoundary>
-    </RootLayout>
+    <Provider>
+      <RootLayout>
+        <ErrorBoundary>{layoutEnabledPage(appPropsWithLayout)}</ErrorBoundary>
+      </RootLayout>
+    </Provider>
   );
 }
 
