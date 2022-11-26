@@ -1,7 +1,8 @@
 import { Bars3Icon } from '@heroicons/react/24/outline';
 import SideBar from 'components/dashboard/sidebar';
 import { useAtom } from 'jotai';
-import { ReactNode } from 'react';
+import { getCurrentUser, logout, redirectToDashboard } from 'lib/global';
+import { ReactNode, useEffect } from 'react';
 import { globalAtom } from 'store/global';
 
 type Props = {
@@ -9,6 +10,15 @@ type Props = {
 };
 
 export default function DashboardLayout({ children }: Props) {
+  useEffect(() => {
+    let user = getCurrentUser();
+    if (user === null) {
+      logout().then((_) => {});
+    } else if (user.organization !== null) {
+      redirectToDashboard(user);
+    }
+  }, []);
+
   const [, setGlobal] = useAtom(globalAtom);
   const toggleSidebar = () =>
     setGlobal((draft) => {
