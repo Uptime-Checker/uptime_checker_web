@@ -16,6 +16,8 @@ specifiers:
   eslint-config-next: 13.0.5
   firebase: ^9.14.0
   immer: ^9.0.16
+  jotai: ^1.10.0
+  jotai-immer: ^0.1.0
   next: ^13.0.5
   postcss: ^8.4.19
   prettier: 2.8.0
@@ -36,6 +38,8 @@ dependencies:
   axios: 1.2.0
   firebase: 9.14.0
   immer: 9.0.16
+  jotai: 1.10.0_ldhptygwmnff4nrhjg35c5utke
+  jotai-immer: 0.1.0_ma6de6dk7v22hc4squhwntfzji
   next: 13.0.5_biqbaboplfbrettd7655fr4n2y
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
@@ -2606,6 +2610,59 @@ packages:
 
   /isexe/2.0.0:
     resolution: {integrity: sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==}
+
+  /jotai-immer/0.1.0_ma6de6dk7v22hc4squhwntfzji:
+    resolution: {integrity: sha512-TwiPKgrf/V0tSh2CSEEilhhCHm0LSgIrZmIXvQRp7+aKT+cATNFUBJeSBUb42wMnTh43DoveGSUiTN1oyTv6Wg==}
+    peerDependencies:
+      immer: '*'
+      jotai: '*'
+      react: '>=17.0.0'
+    dependencies:
+      immer: 9.0.16
+      jotai: 1.10.0_ldhptygwmnff4nrhjg35c5utke
+      react: 18.2.0
+    dev: false
+
+  /jotai/1.10.0_ldhptygwmnff4nrhjg35c5utke:
+    resolution: {integrity: sha512-3Q8kQU3Ktds+80Ku4dVcvnwSXEcK0Fg0b6mC1+4wz3rmF64lOGNUySKXQ4njvYCWodR8bw2HygOKYSYkHxQQmA==}
+    engines: {node: '>=12.7.0'}
+    peerDependencies:
+      '@babel/core': '*'
+      '@babel/template': '*'
+      jotai-immer: '*'
+      jotai-optics: '*'
+      jotai-redux: '*'
+      jotai-tanstack-query: '*'
+      jotai-urql: '*'
+      jotai-valtio: '*'
+      jotai-xstate: '*'
+      jotai-zustand: '*'
+      react: '>=16.8'
+    peerDependenciesMeta:
+      '@babel/core':
+        optional: true
+      '@babel/template':
+        optional: true
+      jotai-immer:
+        optional: true
+      jotai-optics:
+        optional: true
+      jotai-redux:
+        optional: true
+      jotai-tanstack-query:
+        optional: true
+      jotai-urql:
+        optional: true
+      jotai-valtio:
+        optional: true
+      jotai-xstate:
+        optional: true
+      jotai-zustand:
+        optional: true
+    dependencies:
+      jotai-immer: 0.1.0_ma6de6dk7v22hc4squhwntfzji
+      react: 18.2.0
+    dev: false
 
   /js-sdsl/4.2.0:
     resolution: {integrity: sha512-dyBIzQBDkCqCu+0upx25Y2jGdbTGxE9fshMsCdK0ViOongpV+n5tXRcZY9v7CaVQ79AGS9KA1KHtojxiM7aXSQ==}
