@@ -32,9 +32,9 @@ export default function EmailResult() {
     }
 
     async function getMe() {
-      const userResponse = await authClientRequest<UserResponse>({ method: HTTPMethod.GET, url: '/me' });
-      setCurrentUser(userResponse.data.data);
-      redirectToDashboard(userResponse.data.data);
+      const { data } = await authClientRequest<UserResponse>({ method: HTTPMethod.GET, url: '/me' });
+      setCurrentUser(data.data);
+      redirectToDashboard(data.data);
     }
 
     signInWithEmailLink(auth, email, window.location.href)

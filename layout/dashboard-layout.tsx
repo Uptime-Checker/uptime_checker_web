@@ -1,7 +1,9 @@
 import { Bars3Icon } from '@heroicons/react/24/outline';
 import SideBar from 'components/dashboard/sidebar';
 import { useAtom } from 'jotai';
-import { getCurrentUser, logout, redirectToDashboard } from 'lib/global';
+import { authClientRequest, HTTPMethod } from 'lib/axios';
+import { getCurrentUser, logout, redirectToDashboard, setCurrentUser } from 'lib/global';
+import { UserResponse } from 'models/user';
 import { ReactNode, useEffect } from 'react';
 import { globalAtom } from 'store/global';
 
@@ -14,8 +16,12 @@ export default function DashboardLayout({ children }: Props) {
     let user = getCurrentUser();
     if (user === null) {
       logout().then((_) => {});
-    } else if (user.organization !== null) {
+    } else if (user.organization === null) {
       redirectToDashboard(user);
+    } else {
+      authClientRequest<UserResponse>({ method: HTTPMethod.GET, url: '/me' }).then((resp) => {
+        setCurrentUser(resp.data.data);
+      });
     }
   }, []);
 
