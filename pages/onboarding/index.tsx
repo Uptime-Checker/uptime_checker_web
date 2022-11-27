@@ -48,11 +48,12 @@ export default function Onboarding() {
       nameUpdated = true;
     }
     try {
-      await authClientRequest<UserResponse>({
+      let { data } = await authClientRequest<UserResponse>({
         method: HTTPMethod.POST,
         url: '/organizations',
         data: { name: orgRef.value, slug: slugRef.value, plan_id: FREE_PLAN_ID },
       });
+      redirectToDashboard(data.data);
     } catch (error) {
       const backendError = (error as AxiosError).response?.data as BackendError;
       const errorKey = Object.keys(backendError.errors)[0];
@@ -105,7 +106,7 @@ export default function Onboarding() {
   };
 
   const makeKey = (title: string) => {
-    let newStr = title.replaceAll(' ', '-');
+    let newStr = title.replaceAll(' ', '-').toLowerCase();
     return sanitizeString(newStr);
   };
 
