@@ -10,6 +10,7 @@ import {
   UsersIcon,
   XMarkIcon,
 } from '@heroicons/react/24/outline';
+import LogoWithoutText from 'components/logo/logo-without-text';
 import { useAtom } from 'jotai';
 import { Fragment } from 'react';
 import { globalAtom } from 'store/global';
@@ -33,11 +34,7 @@ const SideBar = () => {
 
   const logo = (
     <div className="flex flex-shrink-0 items-center px-4">
-      <img
-        className="h-8 w-auto"
-        src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-        alt="Your Company"
-      />
+      <LogoWithoutText className="h-8 w-auto" />
     </div>
   );
 
