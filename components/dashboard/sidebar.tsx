@@ -41,6 +41,30 @@ const SideBar = () => {
     </div>
   );
 
+  const firstNav = (
+    <nav className="mt-5 flex-1 space-y-1 bg-white px-2">
+      {navigation.map((item) => (
+        <a
+          key={item.name}
+          href={item.href}
+          className={classNames(
+            item.current ? 'bg-gray-100 text-gray-900' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900',
+            'group flex items-center rounded-md px-2 py-2 text-sm font-medium'
+          )}
+        >
+          <item.icon
+            className={classNames(
+              item.current ? 'text-gray-500' : 'text-gray-400 group-hover:text-gray-500',
+              'mr-3 h-6 w-6 flex-shrink-0'
+            )}
+            aria-hidden="true"
+          />
+          {item.name}
+        </a>
+      ))}
+    </nav>
+  );
+
   const orgSelector = (
     <div className="flex flex-shrink-0 border-t border-gray-200">
       <button className="group block w-full flex-shrink-0 p-4">
@@ -101,35 +125,13 @@ const SideBar = () => {
                       onClick={toggleSidebar}
                     >
                       <span className="sr-only">Close sidebar</span>
-                      <XMarkIcon className="h-6 w-6 text-white" aria-hidden="true" />
+                      <XMarkIcon className="h-6 w-6" aria-hidden="true" />
                     </button>
                   </div>
                 </Transition.Child>
                 <div className="h-0 flex-1 overflow-y-auto pt-5 pb-4">
                   {logo}
-                  <nav className="mt-5 space-y-1 px-2">
-                    {navigation.map((item) => (
-                      <a
-                        key={item.name}
-                        href={item.href}
-                        className={classNames(
-                          item.current
-                            ? 'bg-gray-100 text-gray-900'
-                            : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900',
-                          'group flex items-center rounded-md px-2 py-2 text-base font-medium'
-                        )}
-                      >
-                        <item.icon
-                          className={classNames(
-                            item.current ? 'text-gray-500' : 'text-gray-400 group-hover:text-gray-500',
-                            'mr-4 h-6 w-6 flex-shrink-0'
-                          )}
-                          aria-hidden="true"
-                        />
-                        {item.name}
-                      </a>
-                    ))}
-                  </nav>
+                  {firstNav}
                 </div>
                 {orgSelector}
               </Dialog.Panel>
@@ -145,27 +147,7 @@ const SideBar = () => {
         <div className="flex min-h-0 flex-1 flex-col border-r border-gray-200 bg-white">
           <div className="flex flex-1 flex-col overflow-y-auto pt-5 pb-4">
             {logo}
-            <nav className="mt-5 flex-1 space-y-1 bg-white px-2">
-              {navigation.map((item) => (
-                <a
-                  key={item.name}
-                  href={item.href}
-                  className={classNames(
-                    item.current ? 'bg-gray-100 text-gray-900' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900',
-                    'group flex items-center rounded-md px-2 py-2 text-sm font-medium'
-                  )}
-                >
-                  <item.icon
-                    className={classNames(
-                      item.current ? 'text-gray-500' : 'text-gray-400 group-hover:text-gray-500',
-                      'mr-3 h-6 w-6 flex-shrink-0'
-                    )}
-                    aria-hidden="true"
-                  />
-                  {item.name}
-                </a>
-              ))}
-            </nav>
+            {firstNav}
           </div>
           {orgSelector}
         </div>
