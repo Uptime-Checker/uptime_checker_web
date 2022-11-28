@@ -2,9 +2,11 @@ import { Dialog, Transition } from '@headlessui/react';
 import {
   CalendarIcon,
   ChartBarIcon,
+  ChevronUpDownIcon,
   FolderIcon,
   HomeIcon,
   InboxIcon,
+  UserGroupIcon,
   UsersIcon,
   XMarkIcon,
 } from '@heroicons/react/24/outline';
@@ -36,6 +38,23 @@ const SideBar = () => {
         src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
         alt="Your Company"
       />
+    </div>
+  );
+
+  const orgSelector = (
+    <div className="flex flex-shrink-0 border-t border-gray-200">
+      <button className="group block w-full flex-shrink-0 p-4">
+        <div className="flex items-center">
+          <div className="flex flex-grow">
+            <UserGroupIcon className="inline-block h-9 w-9 rounded-full text-gray-700 group-hover:text-gray-900" />
+            <div className="ml-3 text-left font-medium">
+              <p className="text-xs text-gray-500 group-hover:text-gray-700">Organization</p>
+              <p className="text-sm text-gray-700 group-hover:text-gray-900">Twitter</p>
+            </div>
+          </div>
+          <ChevronUpDownIcon className="h-6 w-6 text-gray-700 group-hover:text-gray-900" />
+        </div>
+      </button>
     </div>
   );
 
@@ -112,23 +131,7 @@ const SideBar = () => {
                     ))}
                   </nav>
                 </div>
-                <div className="flex flex-shrink-0 border-t border-gray-200 p-4">
-                  <a href="#" className="group block flex-shrink-0">
-                    <div className="flex items-center">
-                      <div>
-                        <img
-                          className="inline-block h-10 w-10 rounded-full"
-                          src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                          alt=""
-                        />
-                      </div>
-                      <div className="ml-3">
-                        <p className="text-base font-medium text-gray-700 group-hover:text-gray-900">Tom Cook</p>
-                        <p className="text-sm font-medium text-gray-500 group-hover:text-gray-700">View profile</p>
-                      </div>
-                    </div>
-                  </a>
-                </div>
+                {orgSelector}
               </Dialog.Panel>
             </Transition.Child>
             <div className="w-14 flex-shrink-0">{/* Force sidebar to shrink to fit close icon */}</div>
@@ -164,23 +167,7 @@ const SideBar = () => {
               ))}
             </nav>
           </div>
-          <div className="flex flex-shrink-0 border-t border-gray-200 p-4">
-            <a href="#" className="group block w-full flex-shrink-0">
-              <div className="flex items-center">
-                <div>
-                  <img
-                    className="inline-block h-9 w-9 rounded-full"
-                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                    alt=""
-                  />
-                </div>
-                <div className="ml-3">
-                  <p className="text-sm font-medium text-gray-700 group-hover:text-gray-900">Tom Cook</p>
-                  <p className="text-xs font-medium text-gray-500 group-hover:text-gray-700">View profile</p>
-                </div>
-              </div>
-            </a>
-          </div>
+          {orgSelector}
         </div>
       </div>
     </>
