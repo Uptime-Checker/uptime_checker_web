@@ -29,7 +29,9 @@ const navigation = [
 const SideBar = () => {
   useEffect(() => {
     let user = getCurrentUser();
-    setOrgName(user?.organization.name);
+    if (user) {
+      setOrgName(user!.organization.name);
+    }
   }, []);
 
   const [global, setGlobal] = useAtom(globalAtom);
