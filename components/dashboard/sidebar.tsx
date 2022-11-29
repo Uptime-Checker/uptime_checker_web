@@ -12,7 +12,8 @@ import {
 } from '@heroicons/react/24/outline';
 import FullLogo from 'components/logo/full-logo';
 import { useAtom } from 'jotai';
-import { Fragment } from 'react';
+import { getCurrentUser } from 'lib/global';
+import { Fragment, useEffect, useState } from 'react';
 import { globalAtom } from 'store/global';
 import { classNames } from 'utils/misc';
 
@@ -26,11 +27,18 @@ const navigation = [
 ];
 
 const SideBar = () => {
+  useEffect(() => {
+    let user = getCurrentUser();
+    setOrgName(user?.organization.name);
+  }, []);
+
   const [global, setGlobal] = useAtom(globalAtom);
   const toggleSidebar = () =>
     setGlobal((draft) => {
       draft.sidebar = !draft.sidebar;
     });
+
+  const [orgName, setOrgName] = useState('');
 
   const logo = (
     <div className="flex flex-shrink-0 items-center px-4">
@@ -70,7 +78,7 @@ const SideBar = () => {
             <UserGroupIcon className="inline-block h-9 w-9 rounded-full text-gray-700 group-hover:text-gray-900" />
             <div className="ml-3 text-left font-medium">
               <p className="text-xs text-gray-500 group-hover:text-gray-700">Organization</p>
-              <p className="text-sm text-gray-700 group-hover:text-gray-900">Twitter</p>
+              <p className="text-sm text-gray-700 group-hover:text-gray-900">{orgName}</p>
             </div>
           </div>
           <ChevronUpDownIcon className="h-6 w-6 text-gray-700 group-hover:text-gray-900" />

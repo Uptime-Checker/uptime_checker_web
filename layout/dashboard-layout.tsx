@@ -3,7 +3,7 @@ import SideBar from 'components/dashboard/sidebar';
 import { useAtom } from 'jotai';
 import { authClientRequest, HTTPMethod } from 'lib/axios';
 import { getCurrentUser, logout, redirectToDashboard, setCurrentUser } from 'lib/global';
-import { UserResponse } from 'models/user';
+import { OrganizationUserResponse, UserResponse } from 'models/user';
 import { ReactNode, useEffect } from 'react';
 import { globalAtom } from 'store/global';
 
@@ -21,6 +21,12 @@ export default function DashboardLayout({ children }: Props) {
     } else {
       authClientRequest<UserResponse>({ method: HTTPMethod.GET, url: '/me' }).then((resp) => {
         setCurrentUser(resp.data.data);
+      });
+
+      authClientRequest<OrganizationUserResponse>({ method: HTTPMethod.GET, url: '/organizations' }).then((resp) => {
+        setGlobal((draft) => {
+          draft.organizations = resp.data.data;
+        });
       });
     }
   }, []);

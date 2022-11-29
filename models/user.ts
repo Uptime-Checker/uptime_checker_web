@@ -58,3 +58,12 @@ export interface User {
 export interface UserResponse {
   data: User;
 }
+
+export interface OrganizationUser {
+  organization: Organization;
+  role: Role;
+}
+
+export interface OrganizationUserResponse {
+  data: [OrganizationUser];
+}
