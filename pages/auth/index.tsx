@@ -185,7 +185,7 @@ export default function Auth() {
                   disabled={loading}
                 >
                   {loading ? <LoadingIcon className="-ml-1 mr-3 h-5 w-5 animate-spin text-white" /> : null}
-                  {loading ? 'Sending Link' : 'Sign in'}
+                  {loading ? 'Redirecting' : 'Sign in'}
                 </button>
               </div>
             </form>
