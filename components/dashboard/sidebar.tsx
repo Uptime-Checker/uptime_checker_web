@@ -92,9 +92,8 @@ const SideBar = () => {
           </div>
         </Popover.Button>
 
-        <Popover.Overlay className="fixed inset-0 bg-black opacity-30" />
-
         <Transition
+          as={Fragment}
           enter="transition duration-100 ease-out"
           enterFrom="transform scale-95 opacity-0"
           enterTo="transform scale-100 opacity-100"
