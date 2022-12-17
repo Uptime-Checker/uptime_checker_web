@@ -109,17 +109,26 @@ const SideBar = () => {
           </div>
         </Popover.Button>
 
-        <Popover.Panel className="absolute bottom-20 z-10 mt-3 w-full px-4">
-          <div className="overflow-hidden rounded-lg shadow-xl ring-1 ring-black ring-opacity-5">
-            <div className="flex flex-col bg-white pt-2 pb-2">
-              {solutions.map((item) => (
-                <Popover.Button className="rounded-lg p-2 text-start transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50">
-                  <p className="ml-3 text-sm font-medium text-gray-900">{item.name}</p>
-                </Popover.Button>
-              ))}
+        <Transition
+          enter="transition duration-100 ease-out"
+          enterFrom="transform scale-95 opacity-0"
+          enterTo="transform scale-100 opacity-100"
+          leave="transition duration-75 ease-out"
+          leaveFrom="transform scale-100 opacity-100"
+          leaveTo="transform scale-95 opacity-0"
+        >
+          <Popover.Panel className="absolute bottom-20 z-10 mt-3 w-full px-4">
+            <div className="overflow-hidden rounded-lg shadow-xl ring-1 ring-black ring-opacity-5">
+              <div className="flex flex-col bg-white pt-2 pb-2">
+                {solutions.map((item) => (
+                  <Popover.Button className="rounded-lg p-2 text-start transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50">
+                    <p className="ml-3 text-sm font-medium text-gray-900">{item.name}</p>
+                  </Popover.Button>
+                ))}
+              </div>
             </div>
-          </div>
-        </Popover.Panel>
+          </Popover.Panel>
+        </Transition>
       </Popover>
     </div>
   );
