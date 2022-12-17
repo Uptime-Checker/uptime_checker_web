@@ -11,7 +11,7 @@ import {
 } from 'constants/ui-text';
 import produce from 'immer';
 import { authClientRequest, HTTPMethod } from 'lib/axios';
-import { getCurrentUser, logout, redirectToDashboard } from 'lib/global';
+import { getCurrentUser, logout, redirectToDashboard, setCurrentUser } from 'lib/global';
 import { UserResponse } from 'models/user';
 import Head from 'next/head';
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
@@ -31,6 +31,15 @@ export default function Onboarding() {
       logout().then((_) => {});
     } else if (user.organization !== null) {
       redirectToDashboard(user);
+    } else {
+      authClientRequest<UserResponse>({ method: HTTPMethod.GET, url: '/me' }).then((resp) => {
+        let currentUser = resp.data.data;
+        setCurrentUser(currentUser);
+
+        if (currentUser.organization !== null) {
+          redirectToDashboard(currentUser);
+        }
+      });
     }
   }, []);
 
