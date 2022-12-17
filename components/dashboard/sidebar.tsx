@@ -26,24 +26,6 @@ const navigation = [
   { name: 'Reports', href: '#', icon: ChartBarIcon, current: false },
 ];
 
-const solutions = [
-  {
-    name: 'Insights',
-    description: 'Measure actions your users take',
-    href: '#',
-  },
-  {
-    name: 'Automations',
-    description: 'Create your own targeted content',
-    href: '#',
-  },
-  {
-    name: 'Reports',
-    description: 'Keep track of your growth',
-    href: '#',
-  },
-];
-
 const SideBar = () => {
   const [global, setGlobal] = useAtom(globalAtom);
 
@@ -122,9 +104,9 @@ const SideBar = () => {
           <Popover.Panel className="absolute bottom-20 z-10 mt-3 w-full px-4">
             <div className="overflow-hidden rounded-lg shadow-xl ring-1 ring-black ring-opacity-5">
               <div className="flex flex-col bg-white pt-2 pb-2">
-                {solutions.map((item) => (
+                {global.organizations.map((org) => (
                   <Popover.Button className="rounded-lg p-2 text-start transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50">
-                    <p className="ml-3 text-sm font-medium text-gray-900">{item.name}</p>
+                    <p className="ml-3 text-sm font-medium text-gray-900">{org.organization.name}</p>
                   </Popover.Button>
                 ))}
               </div>
