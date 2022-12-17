@@ -1,4 +1,4 @@
-import { Dialog, Transition } from '@headlessui/react';
+import { Dialog, Popover, Transition } from '@headlessui/react';
 import {
   CalendarIcon,
   ChartBarIcon,
@@ -24,6 +24,24 @@ const navigation = [
   { name: 'Calendar', href: '#', icon: CalendarIcon, current: false },
   { name: 'Documents', href: '#', icon: InboxIcon, current: false },
   { name: 'Reports', href: '#', icon: ChartBarIcon, current: false },
+];
+
+const solutions = [
+  {
+    name: 'Insights',
+    description: 'Measure actions your users take',
+    href: '#',
+  },
+  {
+    name: 'Automations',
+    description: 'Create your own targeted content',
+    href: '#',
+  },
+  {
+    name: 'Reports',
+    description: 'Keep track of your growth',
+    href: '#',
+  },
 ];
 
 const SideBar = () => {
@@ -77,18 +95,32 @@ const SideBar = () => {
 
   const orgSelector = (
     <div className="flex flex-shrink-0 border-t border-gray-200">
-      <button className="group block w-full flex-shrink-0 p-4">
-        <div className="flex items-center">
-          <div className="flex flex-grow">
-            <UserGroupIcon className="inline-block h-9 w-9 rounded-full text-gray-700 group-hover:text-gray-900" />
-            <div className="ml-3 text-left font-medium">
-              <p className="text-xs text-gray-500 group-hover:text-gray-700">Organization</p>
-              <p className="text-sm text-gray-700 group-hover:text-gray-900">{orgName}</p>
+      <Popover className="block w-full flex-shrink-0">
+        <Popover.Button className="block w-full flex-shrink-0 p-4 focus:outline-none">
+          <div className="flex items-center">
+            <div className="flex flex-grow">
+              <UserGroupIcon className="inline-block h-9 w-9 rounded-full text-gray-700 group-hover:text-gray-900" />
+              <div className="ml-3 text-left font-medium">
+                <p className="text-xs text-gray-500 group-hover:text-gray-700">Organization</p>
+                <p className="text-sm text-gray-700 group-hover:text-gray-900">{orgName}</p>
+              </div>
+            </div>
+            <ChevronUpDownIcon className="h-6 w-6 text-gray-700 group-hover:text-gray-900" />
+          </div>
+        </Popover.Button>
+
+        <Popover.Panel className="absolute bottom-20 z-10 mt-3 w-full px-4">
+          <div className="overflow-hidden rounded-lg shadow-xl ring-1 ring-black ring-opacity-5">
+            <div className="flex flex-col bg-white pt-2 pb-2">
+              {solutions.map((item) => (
+                <Popover.Button className="rounded-lg p-2 text-start transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50">
+                  <p className="ml-3 text-sm font-medium text-gray-900">{item.name}</p>
+                </Popover.Button>
+              ))}
             </div>
           </div>
-          <ChevronUpDownIcon className="h-6 w-6 text-gray-700 group-hover:text-gray-900" />
-        </div>
-      </button>
+        </Popover.Panel>
+      </Popover>
     </div>
   );
 
