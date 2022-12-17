@@ -59,7 +59,7 @@ const SideBar = () => {
           href={item.href}
           className={classNames(
             item.current ? 'bg-gray-100 text-gray-900' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900',
-            'group flex items-center rounded-md px-2 py-2 text-sm font-medium'
+            'group flex items-center rounded-md p-2 text-sm font-medium'
           )}
         >
           <item.icon
@@ -103,7 +103,7 @@ const SideBar = () => {
         >
           <Popover.Panel className="absolute bottom-20 z-10 mt-3 w-full px-4">
             <div className="overflow-hidden rounded-lg shadow-xl ring-1 ring-black ring-opacity-5">
-              <div className="flex flex-col bg-white pt-2 pb-2">
+              <div className="flex flex-col bg-white py-2">
                 {global.organizations.map((org) => (
                   <Popover.Button className="rounded-lg p-2 text-start transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50">
                     <p className="ml-3 text-sm font-medium text-gray-900">{org.organization.name}</p>
