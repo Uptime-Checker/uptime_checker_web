@@ -19,14 +19,16 @@ export default function DashboardLayout({ children }: Props) {
     } else if (user.organization === null) {
       redirectToDashboard(user);
     } else {
-      authClientRequest<UserResponse>({ method: HTTPMethod.GET, url: '/me' }).then((resp) => {
-        setCurrentUser(resp.data.data);
-      });
-
-      authClientRequest<OrganizationUserResponse>({ method: HTTPMethod.GET, url: '/organizations' }).then((resp) => {
-        setGlobal((draft) => {
-          draft.organizations = resp.data.data;
-        });
+      authClientRequest<UserResponse>({ method: HTTPMethod.GET, url: '/me' }).then((userResp) => {
+        setCurrentUser(userResp.data.data);
+        authClientRequest<OrganizationUserResponse>({ method: HTTPMethod.GET, url: '/organizations' }).then(
+          (orgResp) => {
+            setGlobal((draft) => {
+              draft.currentUser = userResp.data.data;
+              draft.organizations = orgResp.data.data;
+            });
+          }
+        );
       });
     }
   }, []);

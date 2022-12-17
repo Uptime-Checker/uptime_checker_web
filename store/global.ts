@@ -1,13 +1,15 @@
 import { atomWithImmer } from 'jotai-immer';
-import { OrganizationUser } from 'models/user';
+import { OrganizationUser, User } from 'models/user';
 
 type GlobalAtom = {
   sidebar: boolean;
+  currentUser: null | User;
   organizations: OrganizationUser[];
 };
 
 let globalAtomInit: GlobalAtom = {
   sidebar: false,
+  currentUser: null,
   organizations: [],
 };
 
