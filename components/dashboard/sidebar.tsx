@@ -103,23 +103,33 @@ const SideBar = () => {
           leaveTo="transform scale-95 opacity-0"
         >
           <Popover.Panel className="absolute bottom-20 z-10 mt-3 w-full px-4">
-            <div className="overflow-hidden rounded-lg shadow-xl ring-1 ring-black ring-opacity-5">
-              <div className="flex flex-col bg-white py-2">
-                {global.organizations.map((org) => (
-                  <Popover.Button
-                    className="flex items-center justify-between rounded-lg p-2 transition duration-150 ease-in-out
+            {({ close }) => (
+              <div className="overflow-hidden rounded-lg shadow-xl ring-1 ring-black ring-opacity-5">
+                <div className="flex flex-col bg-white py-2 px-1">
+                  {global.organizations.map((org) => (
+                    <button
+                      onClick={() => {
+                        close();
+                      }}
+                      key={org.organization.id}
+                      className="flex items-center justify-between rounded-lg p-2 transition duration-150 ease-in-out
                   hover:bg-gray-100 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
-                  >
-                    <div className="flex items-center">
-                      <UserGroupIcon className="ml-2 h-7 w-7 rounded-full text-gray-700 group-hover:text-gray-900" />
-                      <p className="ml-2 text-sm font-medium text-gray-900">{org.organization.name}</p>
-                    </div>
+                    >
+                      <div className="flex items-center">
+                        <UserGroupIcon className="ml-1 h-7 w-7 rounded-full text-gray-700 group-hover:text-gray-900" />
+                        <p className="ml-2 text-sm font-medium text-gray-900">{org.organization.name}</p>
+                      </div>
 
-                    <CheckIcon className="mr-2 h-5 w-5 text-gray-600" />
-                  </Popover.Button>
-                ))}
+                      <CheckIcon className="mr-1 h-5 w-5 text-gray-600" />
+                    </button>
+                  ))}
+
+                  <button className="border-neutral-40 mt-2 block rounded border-t py-3 px-1 text-center hover:bg-gray-100">
+                    Manage Organizations
+                  </button>
+                </div>
               </div>
-            </div>
+            )}
           </Popover.Panel>
         </Transition>
       </Popover>
