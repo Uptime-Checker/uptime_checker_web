@@ -27,14 +27,17 @@ const navigation = [
 ];
 
 const SideBar = () => {
+  const [global, setGlobal] = useAtom(globalAtom);
+
   useEffect(() => {
     let user = getCurrentUser();
-    if (user) {
-      setOrgName(user!.organization.name);
+    if (user !== null && user.organization !== null) {
+      setOrgName(user.organization.name);
+    } else if (global.currentUser !== null) {
+      setOrgName(global.currentUser.organization.name);
     }
-  }, []);
+  }, [global]);
 
-  const [global, setGlobal] = useAtom(globalAtom);
   const toggleSidebar = () =>
     setGlobal((draft) => {
       draft.sidebar = !draft.sidebar;
