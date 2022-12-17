@@ -123,7 +123,12 @@ const SideBar = () => {
                     </button>
                   ))}
 
-                  <button className="border-neutral-40 mt-2 block rounded border-t py-3 px-1 text-center hover:bg-gray-100">
+                  <button
+                    onClick={() => {
+                      close();
+                    }}
+                    className="border-neutral-40 mt-2 block rounded border-t py-3 px-1 text-center hover:bg-gray-100"
+                  >
                     Manage Organizations
                   </button>
                 </div>
