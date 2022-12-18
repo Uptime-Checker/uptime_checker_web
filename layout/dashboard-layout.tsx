@@ -3,7 +3,7 @@ import TopBar from 'components/dashboard/topbar';
 import { useAtom } from 'jotai';
 import { authClientRequest, HTTPMethod } from 'lib/axios';
 import { getCurrentUser, logout, redirectToDashboard, setCurrentUser } from 'lib/global';
-import { OrganizationUserResponse, UserResponse } from 'models/user';
+import { FullInfoResponse } from 'models/user';
 import { ReactNode, useEffect } from 'react';
 import { globalAtom } from 'store/global';
 
@@ -19,16 +19,13 @@ export default function DashboardLayout({ children }: Props) {
     } else if (user.organization === null) {
       redirectToDashboard(user);
     } else {
-      authClientRequest<UserResponse>({ method: HTTPMethod.GET, url: '/me' }).then((userResp) => {
-        setCurrentUser(userResp.data.data);
-        authClientRequest<OrganizationUserResponse>({ method: HTTPMethod.GET, url: '/organizations' }).then(
-          (orgResp) => {
-            setGlobal((draft) => {
-              draft.currentUser = userResp.data.data;
-              draft.organizations = orgResp.data.data;
-            });
-          }
-        );
+      authClientRequest<FullInfoResponse>({ method: HTTPMethod.GET, url: '/full_info' }).then((fullInfoResp) => {
+        let fullInfo = fullInfoResp.data.data;
+        setCurrentUser(fullInfo.user);
+        setGlobal((draft) => {
+          draft.currentUser = fullInfo.user;
+          draft.organizations = fullInfo.organization_users;
+        });
       });
     }
   }, []);

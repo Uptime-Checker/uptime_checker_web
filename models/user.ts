@@ -1,3 +1,5 @@
+import { Subscription } from './subscription';
+
 export interface GuestUser {
   id: number;
   email: string;
@@ -66,4 +68,14 @@ export interface OrganizationUser {
 
 export interface OrganizationUserResponse {
   data: [OrganizationUser];
+}
+
+export interface FullInfo {
+  user: User;
+  subscription: Subscription;
+  organization_users: [OrganizationUser];
+}
+
+export interface FullInfoResponse {
+  data: FullInfo;
 }
