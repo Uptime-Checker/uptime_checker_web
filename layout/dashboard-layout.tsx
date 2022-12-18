@@ -18,8 +18,6 @@ export default function DashboardLayout({ children }: Props) {
     let user = getCurrentUser();
     if (user === null) {
       logout().then((_) => {});
-    } else if (user.organization === null) {
-      redirectToDashboard(user);
     } else {
       authClientRequest<FullInfoResponse>({ method: HTTPMethod.GET, url: '/full_info' }).then((fullInfoResp) => {
         let fullInfo = fullInfoResp.data.data;
@@ -29,7 +27,9 @@ export default function DashboardLayout({ children }: Props) {
           draft.organizations = fullInfo.organization_users;
         });
 
-        if (fullInfo.subscription.plan.id !== FREE_PLAN_ID) {
+        if (fullInfo.user.organization === null) {
+          redirectToDashboard(fullInfo.user);
+        } else if (fullInfo.subscription.plan.id !== FREE_PLAN_ID) {
           LiveChat.load();
           LiveChat.configureUser(fullInfo.user, fullInfo.subscription);
         }

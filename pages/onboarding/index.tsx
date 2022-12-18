@@ -29,8 +29,6 @@ export default function Onboarding() {
     let user = getCurrentUser();
     if (user === null) {
       logout().then((_) => {});
-    } else if (user.organization !== null) {
-      redirectToDashboard(user);
     } else {
       authClientRequest<UserResponse>({ method: HTTPMethod.GET, url: '/me' }).then((resp) => {
         let currentUser = resp.data.data;
