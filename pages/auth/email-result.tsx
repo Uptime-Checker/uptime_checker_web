@@ -10,6 +10,8 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
+let signInAttempted = false;
+
 export default function EmailResult() {
   const router = useRouter();
   const [email, setEmail] = useState('');
@@ -37,6 +39,10 @@ export default function EmailResult() {
       redirectToDashboard(data.data);
     }
 
+    if (signInAttempted) {
+      return;
+    }
+    signInAttempted = true;
     signInWithEmailLink(auth, email, window.location.href)
       .then((result) => {
         elixirClient
