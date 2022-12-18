@@ -1,7 +1,9 @@
 import SideBar from 'components/dashboard/sidebar';
 import TopBar from 'components/dashboard/topbar';
+import { FREE_PLAN_ID } from 'constants/payment';
 import { useAtom } from 'jotai';
 import { authClientRequest, HTTPMethod } from 'lib/axios';
+import * as LiveChat from 'lib/crisp';
 import { getCurrentUser, logout, redirectToDashboard, setCurrentUser } from 'lib/global';
 import { FullInfoResponse } from 'models/user';
 import { ReactNode, useEffect } from 'react';
@@ -26,6 +28,11 @@ export default function DashboardLayout({ children }: Props) {
           draft.currentUser = fullInfo.user;
           draft.organizations = fullInfo.organization_users;
         });
+
+        if (fullInfo.subscription.plan.id !== FREE_PLAN_ID) {
+          LiveChat.load();
+          LiveChat.configureUser(fullInfo.user, fullInfo.subscription);
+        }
       });
     }
   }, []);
