@@ -2,6 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@headlessui/react': ^1.7.7
+  '@headwayapp/react-widget': ^0.0.4
   '@heroicons/react': ^2.0.13
   '@sentry/nextjs': ^7.27.0
   '@stripe/stripe-js': ^1.46.0
@@ -31,6 +32,7 @@ specifiers:
 
 dependencies:
   '@headlessui/react': 1.7.7_biqbaboplfbrettd7655fr4n2y
+  '@headwayapp/react-widget': 0.0.4_biqbaboplfbrettd7655fr4n2y
   '@heroicons/react': 2.0.13_react@18.2.0
   '@sentry/nextjs': 7.27.0_next@13.0.7+react@18.2.0
   '@stripe/stripe-js': 1.46.0
@@ -595,6 +597,17 @@ packages:
       react-dom: ^16 || ^17 || ^18
     dependencies:
       client-only: 0.0.1
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
+
+  /@headwayapp/react-widget/0.0.4_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-Gw7R85tE0LSYFBu7DcnGZUO1AnF2J0+HoCKxlQVCE0GgsQzZjfpoCkq+q6zAy9374zSOl4GmivDhh/wCjhH3Pw==}
+    peerDependencies:
+      react: ^16.8.0
+      react-dom: ^16.8.0
+    dependencies:
+      prop-types: 15.8.1
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
@@ -3071,7 +3084,6 @@ packages:
       loose-envify: 1.4.0
       object-assign: 4.1.1
       react-is: 16.13.1
-    dev: true
 
   /protobufjs/6.11.3:
     resolution: {integrity: sha512-xL96WDdCZYdU7Slin569tFX712BxsxslWwAfAhCYjQKGTq7dAU91Lomy6nLLhh/dyGhk/YH4TwTSRxTzhuHyZg==}

@@ -1,7 +1,8 @@
 import { Menu, Transition } from '@headlessui/react';
+import HeadwayWidget, { HeadwayWidgetTrigger } from '@headwayapp/react-widget';
 import { Bars3Icon, BellIcon } from '@heroicons/react/24/outline';
 import { useAtom } from 'jotai';
-import { Fragment } from 'react';
+import { Fragment, ReactNode } from 'react';
 import { globalAtom } from 'store/global';
 import { classNames } from 'utils/misc';
 
@@ -13,7 +14,10 @@ const userNavigation = [
 
 type Props = {
   className?: string;
+  children?: ReactNode;
 };
+
+export type Ref = HTMLSpanElement;
 
 const TopBar = ({ className }: Props) => {
   const [, setGlobal] = useAtom(globalAtom);
@@ -38,13 +42,14 @@ const TopBar = ({ className }: Props) => {
         </div>
         <div className="flex flex-1 justify-end px-4 md:px-0">
           <section className="ml-4 flex items-center md:ml-6">
-            <button
-              type="button"
-              className="rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-            >
-              <span className="sr-only">View notifications</span>
-              <BellIcon className="h-6 w-6" aria-hidden="true" />
-            </button>
+            <HeadwayWidget account={process.env.NEXT_PUBLIC_HEADWAY_WEBSITE_ID!}>
+              <HeadwayWidgetTrigger>
+                <button type="button" className="rounded-full bg-white p-1 text-gray-400 hover:text-gray-500">
+                  <span className="sr-only">View notifications</span>
+                  <BellIcon className="h-6 w-6" aria-hidden="true" />
+                </button>
+              </HeadwayWidgetTrigger>
+            </HeadwayWidget>
 
             {/* Profile dropdown */}
             <Menu as="div" className="relative ml-3">

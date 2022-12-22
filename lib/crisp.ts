@@ -3,7 +3,7 @@ import { Subscription } from 'models/subscription';
 import { User } from 'models/user';
 
 export const load = () => {
-  Crisp.configure(process.env.NEXT_PUBLIC_WEBSITE_ID!);
+  Crisp.configure(process.env.NEXT_PUBLIC_CRSIP_WEBSITE_ID!);
 };
 
 export const configureUser = (user: User, subscripttion: Subscription) => {
