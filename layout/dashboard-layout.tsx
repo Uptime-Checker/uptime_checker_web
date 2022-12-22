@@ -14,6 +14,8 @@ type Props = {
 };
 
 export default function DashboardLayout({ children }: Props) {
+  const [, setGlobal] = useAtom(globalAtom);
+
   useEffect(() => {
     let user = getCurrentUser();
     if (user === null) {
@@ -35,9 +37,7 @@ export default function DashboardLayout({ children }: Props) {
         }
       });
     }
-  }, []);
-
-  const [, setGlobal] = useAtom(globalAtom);
+  }, [setGlobal]);
 
   return (
     <div className="dashboard">
