@@ -3,8 +3,8 @@ import {
   CheckIcon,
   ChevronUpDownIcon,
   CogIcon,
-  FolderIcon,
   HomeIcon,
+  ShieldExclamationIcon,
   SquaresPlusIcon,
   UserGroupIcon,
   UsersIcon,
@@ -32,7 +32,7 @@ interface NavigationItem {
 
 const navigation: NavigationItem[] = [
   { name: 'Monitors', href: '/monitors', icon: HomeIcon },
-  { name: 'Projects', href: '#', icon: FolderIcon },
+  { name: 'Incidents', href: '/incidents', icon: ShieldExclamationIcon },
   { name: 'Integrations', href: '/integrations', icon: SquaresPlusIcon },
   { name: 'Team', href: '/team', icon: UsersIcon },
   { name: 'Settings', href: '/settings/profile', icon: CogIcon },
