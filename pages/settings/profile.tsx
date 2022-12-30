@@ -1,140 +1,71 @@
-import { NextPageWithLayout } from '../_app';
-import { ReactElement } from 'react';
 import DashboardLayout from 'layout/dashboard-layout';
 import SettingsLayout from 'layout/settings-layout';
+import { FormEvent, ReactElement } from 'react';
+import { NextPageWithLayout } from '../_app';
 
 const Profile: NextPageWithLayout = () => {
+  const handleProfileSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+  };
+
   return (
-    <>
-      {/* Description list with inline editing */}
-      <div className="mt-10 divide-y divide-gray-200">
-        <div className="space-y-1">
-          <h3 className="text-lg font-medium leading-6 text-gray-900">Profile</h3>
+    <form className="max-w-2xl" onSubmit={handleProfileSubmit}>
+      <div className="grid max-w-2xl grid-cols-1 gap-y-6 pt-8 sm:grid-cols-6 sm:gap-x-6">
+        <div className="sm:col-span-6">
+          <h2 className="text-blue-gray-900 text-xl font-medium">Profile Information</h2>
         </div>
-        <div className="mt-6">
-          <dl className="divide-y divide-gray-200">
-            <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5">
-              <dt className="text-sm font-medium text-gray-500">Name</dt>
-              <dd className="mt-1 flex text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-                <span className="flex-grow">Chelsea Hagon</span>
-                <span className="ml-4 flex-shrink-0">
-                  <button
-                    type="button"
-                    className="rounded-md bg-white font-medium text-purple-600 hover:text-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
-                  >
-                    Update
-                  </button>
-                </span>
-              </dd>
-            </div>
-            <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:pt-5">
-              <dt className="text-sm font-medium text-gray-500">Photo</dt>
-              <dd className="mt-1 flex text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-                <span className="flex-grow">
-                  <img
-                    className="h-8 w-8 rounded-full"
-                    src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                    alt=""
-                  />
-                </span>
-                <span className="ml-4 flex flex-shrink-0 items-start space-x-4">
-                  <button
-                    type="button"
-                    className="rounded-md bg-white font-medium text-purple-600 hover:text-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
-                  >
-                    Update
-                  </button>
-                  <span className="text-gray-300" aria-hidden="true">
-                    |
-                  </span>
-                  <button
-                    type="button"
-                    className="rounded-md bg-white font-medium text-purple-600 hover:text-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
-                  >
-                    Remove
-                  </button>
-                </span>
-              </dd>
-            </div>
-            <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:pt-5">
-              <dt className="text-sm font-medium text-gray-500">Email</dt>
-              <dd className="mt-1 flex text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-                <span className="flex-grow">chelsea.hagon@example.com</span>
-                <span className="ml-4 flex-shrink-0">
-                  <button
-                    type="button"
-                    className="rounded-md bg-white font-medium text-purple-600 hover:text-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
-                  >
-                    Update
-                  </button>
-                </span>
-              </dd>
-            </div>
-            <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:border-b sm:border-gray-200 sm:py-5">
-              <dt className="text-sm font-medium text-gray-500">Job title</dt>
-              <dd className="mt-1 flex text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-                <span className="flex-grow">Human Resources Manager</span>
-                <span className="ml-4 flex-shrink-0">
-                  <button
-                    type="button"
-                    className="rounded-md bg-white font-medium text-purple-600 hover:text-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
-                  >
-                    Update
-                  </button>
-                </span>
-              </dd>
-            </div>
-          </dl>
+        <div className="sm:col-span-3">
+          <label htmlFor="full-name" className="block text-sm font-medium text-gray-700">
+            Full name
+          </label>
+          <input
+            type="text"
+            name="full-name"
+            id="full-name"
+            autoComplete="cc-given-name"
+            className="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+          />
+        </div>
+
+        <div className="sm:col-span-3">
+          <label htmlFor="phone-number" className="block text-sm font-medium text-gray-700">
+            Phone number
+          </label>
+          <input
+            type="text"
+            name="phone-number"
+            id="phone-number"
+            placeholder="+1 415 630 8215"
+            autoComplete="tel"
+            className="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+          />
+        </div>
+
+        <div className="sm:col-span-6">
+          <label htmlFor="email-address" className="block text-sm font-medium text-gray-700">
+            Email address
+          </label>
+          <input
+            type="email"
+            name="email-address"
+            id="email-address"
+            autoComplete="email"
+            className="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+          />
         </div>
       </div>
 
-      <div className="mt-10 divide-y divide-gray-200">
-        <div className="space-y-1">
-          <h3 className="text-lg font-medium leading-6 text-gray-900">Account</h3>
-        </div>
-        <div className="mt-6">
-          <dl className="divide-y divide-gray-200">
-            <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5">
-              <dt className="text-sm font-medium text-gray-500">Language</dt>
-              <dd className="mt-1 flex text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-                <span className="flex-grow">English</span>
-                <span className="ml-4 flex-shrink-0">
-                  <button
-                    type="button"
-                    className="rounded-md bg-white font-medium text-purple-600 hover:text-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
-                  >
-                    Update
-                  </button>
-                </span>
-              </dd>
-            </div>
-            <div className="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:pt-5">
-              <dt className="text-sm font-medium text-gray-500">Date format</dt>
-              <dd className="mt-1 flex text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-                <span className="flex-grow">DD-MM-YYYY</span>
-                <span className="ml-4 flex flex-shrink-0 items-start space-x-4">
-                  <button
-                    type="button"
-                    className="rounded-md bg-white font-medium text-purple-600 hover:text-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
-                  >
-                    Update
-                  </button>
-                  <span className="text-gray-300" aria-hidden="true">
-                    |
-                  </span>
-                  <button
-                    type="button"
-                    className="rounded-md bg-white font-medium text-purple-600 hover:text-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
-                  >
-                    Remove
-                  </button>
-                </span>
-              </dd>
-            </div>
-          </dl>
-        </div>
+      <div className="flex justify-end pt-8">
+        <button
+          type="submit"
+          className="ml-3 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4
+          text-sm font-medium text-white shadow-sm hover:bg-indigo-700
+          focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+        >
+          Save
+        </button>
       </div>
-    </>
+    </form>
   );
 };
 
