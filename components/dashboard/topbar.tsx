@@ -8,7 +8,7 @@ import { globalAtom } from 'store/global';
 import { classNames } from 'utils/misc';
 
 const userNavigation = [
-  { name: 'Your Profile', href: '/settings' },
+  { name: 'Your Profile', href: '/settings/profile' },
   { name: 'Plan & Billing', href: '/settings/billing' },
   { name: 'Sign out', href: '#' },
 ];

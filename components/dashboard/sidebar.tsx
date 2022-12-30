@@ -35,7 +35,7 @@ const navigation: NavigationItem[] = [
   { name: 'Projects', href: '#', icon: FolderIcon },
   { name: 'Integrations', href: '/integrations', icon: SquaresPlusIcon },
   { name: 'Team', href: '/team', icon: UsersIcon },
-  { name: 'Settings', href: '/settings', icon: CogIcon },
+  { name: 'Settings', href: '/settings/profile', icon: CogIcon },
 ];
 
 const SideBar = () => {
