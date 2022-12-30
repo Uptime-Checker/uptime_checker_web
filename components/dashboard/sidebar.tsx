@@ -35,7 +35,7 @@ const navigation: NavigationItem[] = [
   { name: 'Incidents', href: '/incidents', icon: ShieldExclamationIcon },
   { name: 'Integrations', href: '/integrations', icon: SquaresPlusIcon },
   { name: 'Team', href: '/team', icon: UsersIcon },
-  { name: 'Settings', href: '/settings/profile', icon: CogIcon },
+  { name: 'Settings', href: '/settings/account', icon: CogIcon },
 ];
 
 const SideBar = () => {

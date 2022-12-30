@@ -6,7 +6,7 @@ type Props = {
 };
 
 const tabs = [
-  { name: 'Profile', href: '/settings/profile', current: true },
+  { name: 'Account', href: '/settings/account', current: true },
   { name: 'Organization', href: '/settings/organization', current: false },
   { name: 'Notifications', href: '/settings/notifications', current: false },
   { name: 'Billing', href: '/settings/billing', current: false },

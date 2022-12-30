@@ -5,7 +5,7 @@ import { FormEvent, ReactElement } from 'react';
 import { globalAtom } from 'store/global';
 import { NextPageWithLayout } from '../_app';
 
-const Profile: NextPageWithLayout = () => {
+const Account: NextPageWithLayout = () => {
   const [global, setGlobal] = useAtom(globalAtom);
 
   const handleProfileSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -98,7 +98,7 @@ const Profile: NextPageWithLayout = () => {
   );
 };
 
-Profile.getLayout = function getLayout(page: ReactElement) {
+Account.getLayout = function getLayout(page: ReactElement) {
   return (
     <DashboardLayout>
       <SettingsLayout>{page}</SettingsLayout>
@@ -106,4 +106,4 @@ Profile.getLayout = function getLayout(page: ReactElement) {
   );
 };
 
-export default Profile;
+export default Account;
