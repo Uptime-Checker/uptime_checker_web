@@ -46,17 +46,53 @@ const Profile: NextPageWithLayout = () => {
             className="mt-1 block w-full cursor-not-allowed rounded-md border border-gray-300 bg-gray-100 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
           />
         </div>
-      </div>
 
-      <div className="flex justify-end pt-8">
-        <button
-          type="submit"
-          className="ml-3 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4
-          text-sm font-medium text-white shadow-sm hover:bg-indigo-700
-          focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-        >
-          Save
-        </button>
+        <div className="sm:col-span-3">
+          <label htmlFor="photo" className="text-blue-gray-900 block text-sm font-medium">
+            Photo
+          </label>
+          <div className="mt-1 flex items-center">
+            <img
+              className="inline-block h-12 w-12 rounded-full"
+              src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2.5&w=256&h=256&q=80"
+              alt=""
+            />
+            <div className="ml-4 flex">
+              <div className="border-blue-gray-300 focus-within:ring-offset-blue-gray-50 hover:bg-blue-gray-50 relative flex cursor-pointer items-center rounded-md border bg-white py-2 px-3 shadow-sm focus-within:outline-none focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-2">
+                <label
+                  htmlFor="user-photo"
+                  className="text-blue-gray-900 pointer-events-none relative text-sm font-medium"
+                >
+                  <span>Change</span>
+                  <span className="sr-only"> user photo</span>
+                </label>
+                <input
+                  id="user-photo"
+                  name="user-photo"
+                  type="file"
+                  className="absolute inset-0 h-full w-full cursor-pointer rounded-md border-gray-300 opacity-0"
+                />
+              </div>
+              <button
+                type="button"
+                className="text-blue-gray-900 hover:text-blue-gray-700 focus:border-blue-gray-300 focus:ring-offset-blue-gray-50 ml-3 rounded-md border border-transparent bg-transparent py-2 px-3 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+              >
+                Remove
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div className="sm:col-span-3">
+          <div className="flex justify-end">
+            <button
+              type="submit"
+              className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            >
+              Save
+            </button>
+          </div>
+        </div>
       </div>
     </form>
   );
