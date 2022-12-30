@@ -55,6 +55,6 @@ const redirectToAuth = () => {
 };
 
 export const redirectToDashboard = (user: User) => {
-  const nextPath = user.organization === null ? '/onboarding' : '/dashboard';
+  const nextPath = user.organization === null ? '/onboarding' : '/monitors';
   window.location.replace(`${window.location.origin}/${nextPath}`);
 };

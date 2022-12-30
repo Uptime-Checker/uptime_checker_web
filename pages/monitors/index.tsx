@@ -2,7 +2,7 @@ import DashboardLayout from 'layout/dashboard-layout';
 import { ReactElement } from 'react';
 import { NextPageWithLayout } from '../_app';
 
-const Dashboard: NextPageWithLayout = () => {
+const Monitors: NextPageWithLayout = () => {
   return (
     <>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-8">
@@ -19,8 +19,8 @@ const Dashboard: NextPageWithLayout = () => {
   );
 };
 
-Dashboard.getLayout = function getLayout(page: ReactElement) {
+Monitors.getLayout = function getLayout(page: ReactElement) {
   return <DashboardLayout>{page}</DashboardLayout>;
 };
 
-export default Dashboard;
+export default Monitors;

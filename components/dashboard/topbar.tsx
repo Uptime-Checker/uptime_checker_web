@@ -2,13 +2,14 @@ import { Menu, Transition } from '@headlessui/react';
 import HeadwayWidget, { HeadwayWidgetTrigger } from '@headwayapp/react-widget';
 import { Bars3Icon, BellIcon } from '@heroicons/react/24/outline';
 import { useAtom } from 'jotai';
+import Link from 'next/link';
 import { Fragment, ReactNode } from 'react';
 import { globalAtom } from 'store/global';
 import { classNames } from 'utils/misc';
 
 const userNavigation = [
-  { name: 'Your Profile', href: '#' },
-  { name: 'Settings', href: '#' },
+  { name: 'Your Profile', href: '/settings' },
+  { name: 'Plan & Billing', href: '/settings/billing' },
   { name: 'Sign out', href: '#' },
 ];
 
@@ -16,8 +17,6 @@ type Props = {
   className?: string;
   children?: ReactNode;
 };
-
-export type Ref = HTMLSpanElement;
 
 const TopBar = ({ className }: Props) => {
   const [, setGlobal] = useAtom(globalAtom);
@@ -74,12 +73,12 @@ const TopBar = ({ className }: Props) => {
                   {userNavigation.map((item) => (
                     <Menu.Item key={item.name}>
                       {({ active }) => (
-                        <a
+                        <Link
                           href={item.href}
                           className={classNames(active ? 'bg-gray-100' : '', 'block py-2 px-4 text-sm text-gray-700')}
                         >
                           {item.name}
-                        </a>
+                        </Link>
                       )}
                     </Menu.Item>
                   ))}

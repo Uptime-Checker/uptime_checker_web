@@ -1,7 +1,7 @@
 import DashboardLayout from 'layout/dashboard-layout';
 import { ReactElement } from 'react';
 import { classNames } from 'utils/misc';
-import { NextPageWithLayout } from '../../_app';
+import { NextPageWithLayout } from '../_app';
 
 const tabs = [
   { name: 'General', href: '#', current: true },
