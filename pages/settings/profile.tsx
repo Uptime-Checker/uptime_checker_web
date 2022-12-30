@@ -1,9 +1,13 @@
+import { useAtom } from 'jotai';
 import DashboardLayout from 'layout/dashboard-layout';
 import SettingsLayout from 'layout/settings-layout';
 import { FormEvent, ReactElement } from 'react';
+import { globalAtom } from 'store/global';
 import { NextPageWithLayout } from '../_app';
 
 const Profile: NextPageWithLayout = () => {
+  const [global, setGlobal] = useAtom(globalAtom);
+
   const handleProfileSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
   };
@@ -19,6 +23,7 @@ const Profile: NextPageWithLayout = () => {
             Full name
           </label>
           <input
+            defaultValue={global.currentUser?.name}
             type="text"
             name="full-name"
             id="full-name"
@@ -28,25 +33,12 @@ const Profile: NextPageWithLayout = () => {
         </div>
 
         <div className="sm:col-span-3">
-          <label htmlFor="phone-number" className="block text-sm font-medium text-gray-700">
-            Phone number
-          </label>
-          <input
-            type="text"
-            name="phone-number"
-            id="phone-number"
-            placeholder="+1 415 630 8215"
-            autoComplete="tel"
-            className="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-          />
-        </div>
-
-        <div className="sm:col-span-6">
           <label htmlFor="email-address" className="block text-sm font-medium text-gray-700">
             Email address
           </label>
           <input
             disabled
+            defaultValue={global.currentUser?.email}
             type="email"
             name="email-address"
             id="email-address"
