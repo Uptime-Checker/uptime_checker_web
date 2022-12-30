@@ -1,12 +1,11 @@
 import { Dialog, Popover, Transition } from '@headlessui/react';
 import {
-  CalendarIcon,
-  ChartBarIcon,
   CheckIcon,
   ChevronUpDownIcon,
+  CogIcon,
   FolderIcon,
   HomeIcon,
-  InboxIcon,
+  SquaresPlusIcon,
   UserGroupIcon,
   UsersIcon,
   XMarkIcon,
@@ -19,12 +18,11 @@ import { globalAtom } from 'store/global';
 import { classNames } from 'utils/misc';
 
 const navigation = [
-  { name: 'Dashboard', href: '#', icon: HomeIcon, current: true },
-  { name: 'Team', href: '#', icon: UsersIcon, current: false },
+  { name: 'Monitors', href: '#', icon: HomeIcon, current: true },
   { name: 'Projects', href: '#', icon: FolderIcon, current: false },
-  { name: 'Calendar', href: '#', icon: CalendarIcon, current: false },
-  { name: 'Documents', href: '#', icon: InboxIcon, current: false },
-  { name: 'Reports', href: '#', icon: ChartBarIcon, current: false },
+  { name: 'Integrations', href: '#', icon: SquaresPlusIcon, current: false },
+  { name: 'Team', href: '#', icon: UsersIcon, current: false },
+  { name: 'Settings', href: '#', icon: CogIcon, current: false },
 ];
 
 const SideBar = () => {
