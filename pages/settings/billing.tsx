@@ -1,9 +1,9 @@
-import { NextPageWithLayout } from '../_app';
-import { ReactElement } from 'react';
+import { CheckIcon } from '@heroicons/react/24/outline';
 import DashboardLayout from 'layout/dashboard-layout';
 import SettingsLayout from 'layout/settings-layout';
+import { ReactElement } from 'react';
 import { classNames } from '../../utils/misc';
-import { CheckIcon } from '@heroicons/react/24/outline';
+import { NextPageWithLayout } from '../_app';
 
 const pricing = {
   tiers: [
@@ -62,10 +62,28 @@ const pricing = {
 const Billing: NextPageWithLayout = () => {
   return (
     <div className="mx-auto max-w-7xl bg-white py-10">
-      <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-2xl sm:leading-none lg:text-3xl">
-        Pricing plans for teams of all sizes
-      </h2>
-      <p className="mt-3 max-w-2xl text-gray-500">All plans come with a 30-day money-back guarantee</p>
+      <div className="sm:align-center sm:flex sm:flex-col">
+        <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-center sm:text-2xl sm:leading-none lg:text-3xl">
+          Pricing plans for teams of all sizes
+        </h2>
+        <p className="mt-3 text-gray-500 sm:text-center">All plans come with a 30-day money-back guarantee</p>
+
+        {/* Toggle */}
+        <div className="relative mt-6 flex self-center rounded-lg bg-gray-100 p-0.5 sm:mt-8">
+          <button
+            type="button"
+            className="relative w-1/2 whitespace-nowrap rounded-md border-gray-200 bg-white py-2 text-sm font-medium text-gray-900 shadow-sm focus:z-10 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:w-auto sm:px-8"
+          >
+            Monthly billing
+          </button>
+          <button
+            type="button"
+            className="relative ml-0.5 w-1/2 whitespace-nowrap rounded-md border border-transparent py-2 text-sm font-medium text-gray-700 focus:z-10 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:w-auto sm:px-8"
+          >
+            Yearly billing
+          </button>
+        </div>
+      </div>
 
       {/* Tiers */}
       <div className="mt-12 space-y-4 sm:mt-16 sm:grid sm:grid-cols-2 sm:gap-6 sm:space-y-0 lg:mx-auto lg:max-w-4xl xl:mx-0 xl:max-w-none xl:grid-cols-4">
