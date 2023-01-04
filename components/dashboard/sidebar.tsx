@@ -74,6 +74,7 @@ const SideBar = () => {
         <Link
           key={item.name}
           href={item.href}
+          onClick={toggleSidebar}
           className={classNames(
             isNavActive(item) ? 'bg-gray-100 text-gray-900' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900',
             'group flex items-center rounded-md p-2 text-sm font-medium'
