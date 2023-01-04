@@ -1,7 +1,7 @@
-import { ReactNode } from 'react';
-import { classNames } from '../utils/misc';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { ChangeEvent, ReactNode, useEffect, useState } from 'react';
+import { classNames } from '../utils/misc';
 
 type Props = {
   children: ReactNode;
@@ -22,20 +22,35 @@ const tabs: NavigationItem[] = [
 
 export default function SettingsLayout({ children }: Props) {
   const router = useRouter();
+  const [selectedTab, setSelectedTab] = useState(tabs[0]);
+
+  useEffect(() => {
+    if (router.isReady) {
+      const getActiveTab = () => {
+        for (const tab of tabs) {
+          let splitNavHref = tab.href.split('/');
+          if (router.pathname.includes(splitNavHref[2])) {
+            return tab;
+          }
+        }
+        return tabs[0];
+      };
+
+      setSelectedTab(getActiveTab());
+    }
+  }, [router]);
 
   const isNavActive = (navItem: NavigationItem) => {
     let splitNavHref = navItem.href.split('/');
     return router.pathname.includes(splitNavHref[2]);
   };
 
-  const getActiveTab = () => {
-    for (const tab of tabs) {
-      let splitNavHref = tab.href.split('/');
-      if (router.pathname.includes(splitNavHref[2])) {
-        return tab;
-      }
-    }
-    return tabs[0];
+  const onTabChange = async (event: ChangeEvent) => {
+    let target = event.currentTarget as HTMLInputElement;
+    const selectedTab = tabs.find((tab) => tab.name === target.value);
+    setSelectedTab(selectedTab!);
+
+    await router.push(selectedTab!.href);
   };
 
   return (
@@ -55,7 +70,8 @@ export default function SettingsLayout({ children }: Props) {
                 id="selected-tab"
                 name="selected-tab"
                 className="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                defaultValue={getActiveTab().name}
+                value={selectedTab.name}
+                onChange={onTabChange}
               >
                 {tabs.map((tab) => (
                   <option key={tab.name}>{tab.name}</option>
