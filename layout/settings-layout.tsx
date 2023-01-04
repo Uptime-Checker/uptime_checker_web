@@ -1,19 +1,43 @@
 import { ReactNode } from 'react';
 import { classNames } from '../utils/misc';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 type Props = {
   children: ReactNode;
 };
 
-const tabs = [
-  { name: 'Account', href: '/settings/account', current: true },
-  { name: 'Organization', href: '/settings/organization', current: false },
-  { name: 'Notifications', href: '/settings/notifications', current: false },
-  { name: 'Billing', href: '/settings/billing', current: false },
-  { name: 'Invitations', href: '/settings/invitations', current: false },
+interface NavigationItem {
+  name: string;
+  href: string;
+}
+
+const tabs: NavigationItem[] = [
+  { name: 'Account', href: '/settings/account' },
+  { name: 'Organization', href: '/settings/organization' },
+  { name: 'Notifications', href: '/settings/notifications' },
+  { name: 'Billing', href: '/settings/billing' },
+  { name: 'Invitations', href: '/settings/invitations' },
 ];
 
 export default function SettingsLayout({ children }: Props) {
+  const router = useRouter();
+
+  const isNavActive = (navItem: NavigationItem) => {
+    let splitNavHref = navItem.href.split('/');
+    return router.pathname.includes(splitNavHref[2]);
+  };
+
+  const getActiveTab = () => {
+    for (const tab of tabs) {
+      let splitNavHref = tab.href.split('/');
+      if (router.pathname.includes(splitNavHref[2])) {
+        return tab;
+      }
+    }
+    return tabs[0];
+  };
+
   return (
     <>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-8">
@@ -31,7 +55,7 @@ export default function SettingsLayout({ children }: Props) {
                 id="selected-tab"
                 name="selected-tab"
                 className="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                defaultValue={tabs.find((tab) => tab.current)!.name}
+                defaultValue={getActiveTab().name}
               >
                 {tabs.map((tab) => (
                   <option key={tab.name}>{tab.name}</option>
@@ -42,18 +66,18 @@ export default function SettingsLayout({ children }: Props) {
               <div className="border-b border-gray-200">
                 <nav className="-mb-px flex space-x-8">
                   {tabs.map((tab) => (
-                    <a
+                    <Link
                       key={tab.name}
                       href={tab.href}
                       className={classNames(
-                        tab.current
+                        isNavActive(tab)
                           ? 'border-indigo-500 text-indigo-600'
                           : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700',
                         'whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium'
                       )}
                     >
                       {tab.name}
-                    </a>
+                    </Link>
                   ))}
                 </nav>
               </div>

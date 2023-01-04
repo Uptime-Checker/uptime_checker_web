@@ -59,7 +59,8 @@ const SideBar = () => {
   const [orgName, setOrgName] = useState('');
 
   const isNavActive = (navItem: NavigationItem) => {
-    return router.pathname.includes(navItem.href);
+    let splitNavHref = navItem.href.split('/');
+    return router.pathname.includes(splitNavHref[1]);
   };
 
   const logo = (
