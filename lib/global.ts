@@ -1,8 +1,8 @@
+import { signOut } from '@firebase/auth';
 import * as Sentry from '@sentry/nextjs';
-import { signOut } from 'firebase/auth';
-import { auth } from 'lib/firebase';
 import { User } from 'models/user';
 import { CacheKey, cacheUtil } from './cache';
+import { auth } from 'lib/firebase';
 
 let CurrentUser: User | null = null;
 let AccessToken: string | null = null;
@@ -10,6 +10,7 @@ let AccessToken: string | null = null;
 export const setCurrentUser = (user: User) => {
   CurrentUser = user;
   cacheUtil.set(CacheKey.CurrentUser, user);
+  Sentry.setUser({ id: `${user.id}`, email: user.email });
 };
 
 export const setAccessToken = (token: string) => {
