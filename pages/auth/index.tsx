@@ -50,44 +50,44 @@ export default function Auth() {
     const user = getCurrentUser();
     if (user !== null) {
       redirectToDashboard(user);
-    }
-
-    setLoading(true);
-    getRedirectResult(auth)
-      .then((result) => {
-        if (result === null) {
-          setLoading(false);
-          return;
-        }
-        setLoading(true);
-        const user = result.user;
-        getIdToken(user).then((token) => {
-          elixirClient
-            .post<AccessToken>('/provider_login', {
-              id_token: token,
-              provider: AuthProvider.google,
-            })
-            .then((response) => {
-              setAccessToken(response.data.access_token);
-              getMe().then(() => {});
-            })
-            .catch((e) => {
-              setAlertState({
-                on: true,
-                success: false,
-                title: AUTH_FAIL_TO_LOGIN_USING_GOOGLE,
-                detail: PLEASE_CONTACT_SUPPORT,
+    } else {
+      setLoading(true);
+      getRedirectResult(auth)
+        .then((result) => {
+          if (result === null) {
+            setLoading(false);
+            return;
+          }
+          setLoading(true);
+          const user = result.user;
+          getIdToken(user).then((token) => {
+            elixirClient
+              .post<AccessToken>('/provider_login', {
+                id_token: token,
+                provider: AuthProvider.google,
+              })
+              .then((response) => {
+                setAccessToken(response.data.access_token);
+                getMe().then(() => {});
+              })
+              .catch((e) => {
+                setAlertState({
+                  on: true,
+                  success: false,
+                  title: AUTH_FAIL_TO_LOGIN_USING_GOOGLE,
+                  detail: PLEASE_CONTACT_SUPPORT,
+                });
+                Sentry.captureException(e);
+                setLoading(false);
               });
-              Sentry.captureException(e);
-              setLoading(false);
-            });
+          });
+        })
+        .catch((error) => {
+          if (error instanceof FirebaseError) {
+            Sentry.captureException(error);
+          }
         });
-      })
-      .catch((error) => {
-        if (error instanceof FirebaseError) {
-          Sentry.captureException(error);
-        }
-      });
+    }
   }, []);
 
   const handleGoogleClick = async (event: MouseEvent<HTMLButtonElement>) => {
