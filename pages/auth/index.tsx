@@ -78,8 +78,6 @@ export default function Auth() {
                 detail: PLEASE_CONTACT_SUPPORT,
               });
               Sentry.captureException(e);
-            })
-            .finally(() => {
               setLoading(false);
             });
         });
@@ -155,7 +153,6 @@ export default function Auth() {
     <div className="min-h-screen bg-gray-50">
       <Head>
         <title>Auth</title>
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <SimpleAlert
         on={alertState.on}
