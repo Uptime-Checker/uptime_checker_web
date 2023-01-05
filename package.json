@@ -12,6 +12,7 @@
     "@headlessui/react": "^1.7.7",
     "@headwayapp/react-widget": "^0.0.4",
     "@heroicons/react": "^2.0.13",
+    "@next/font": "^13.1.1",
     "@sentry/nextjs": "^7.28.1",
     "@stripe/stripe-js": "^1.46.0",
     "axios": "^1.2.2",
