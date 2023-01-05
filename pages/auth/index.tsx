@@ -56,6 +56,7 @@ export default function Auth() {
     getRedirectResult(auth)
       .then((result) => {
         if (result === null) {
+          setLoading(false);
           return;
         }
         setLoading(true);
@@ -86,9 +87,6 @@ export default function Auth() {
         if (error instanceof FirebaseError) {
           Sentry.captureException(error);
         }
-      })
-      .finally(() => {
-        setLoading(false);
       });
   }, []);
 
@@ -203,7 +201,7 @@ export default function Auth() {
                   disabled={loading}
                 >
                   {loading ? <LoadingIcon className="-ml-1 mr-3 h-5 w-5 animate-spin text-white" /> : null}
-                  {loading ? 'Redirecting' : 'Sign in'}
+                  {loading ? 'Loading' : 'Sign in'}
                 </button>
               </div>
             </form>
