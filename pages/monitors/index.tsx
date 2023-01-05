@@ -1,15 +1,19 @@
 import { ShieldCheckIcon, ShieldExclamationIcon } from '@heroicons/react/24/solid';
-import { Block, Card, ColGrid, Color, Flex, Icon, Metric, Text } from '@tremor/react';
+import { Color, Icon } from '@tremor/react';
 import DashboardLayout from 'layout/dashboard-layout';
+import { useRouter } from 'next/router';
 import { ReactElement } from 'react';
+import { classNames } from 'utils/misc';
 import { NextPageWithLayout } from '../_app';
 
-const categories: {
+interface MetricCard {
   title: string;
   metric: string;
   icon: any;
   color: Color;
-}[] = [
+}
+
+const categories: MetricCard[] = [
   {
     title: 'Passing',
     metric: '5',
@@ -23,7 +27,7 @@ const categories: {
     color: 'red',
   },
   {
-    title: 'Incidents (Last 7 Days)',
+    title: 'Incidents',
     metric: '456',
     icon: ShieldExclamationIcon,
     color: 'amber',
@@ -31,23 +35,47 @@ const categories: {
 ];
 
 const Monitors: NextPageWithLayout = () => {
+  const router = useRouter();
+
+  const handleMetricCardClick = (item: MetricCard) => {
+    if (item.title.includes('Incidents')) {
+    } else if (router.query.filter && router.query.filter.includes(item.title)) {
+      router.replace(`?filter=`, undefined, { shallow: true });
+    } else {
+      router.push(`?filter=${item.title}`, undefined, { shallow: true });
+    }
+  };
+
+  const getCardDecoration = (item: MetricCard) => {
+    return router.query.filter && router.query.filter.includes(item.title) ? item.color : 'indigo';
+  };
+
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-8">
-      <ColGrid numColsSm={2} numColsLg={3} gapX="gap-x-6" gapY="gap-y-6">
+      <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {categories.map((item) => (
-          <button>
-            <Card key={item.title} decoration="" decorationColor={item.color} shadow={true}>
-              <Flex justifyContent="justify-start" spaceX="space-x-4">
+          <div
+            key={item.title}
+            className={classNames(
+              'relative overflow-hidden rounded-lg border-t-4 bg-white px-4 py-5 shadow sm:px-6 sm:pt-6',
+              `border-${item.color}-400`
+            )}
+          >
+            <dt>
+              <div className="absolute">
                 <Icon icon={item.icon} variant="light" size="xl" color={item.color} />
-                <Block truncate={true}>
-                  <Text>{item.title}</Text>
-                  <Metric truncate={true}>{item.metric}</Metric>
-                </Block>
-              </Flex>
-            </Card>
-          </button>
+              </div>
+              <p className="ml-16 truncate pl-2 text-sm text-gray-500">{item.title}</p>
+            </dt>
+            <dd className="ml-16 flex items-baseline pl-2">
+              <p className="text-3xl font-semibold text-gray-900">{item.metric}</p>
+              <p className="ml-2 flex items-baseline truncate text-sm text-slate-500">
+                {item.title == 'Incidents' ? 'Last 7 Days' : ''}
+              </p>
+            </dd>
+          </div>
         ))}
-      </ColGrid>
+      </dl>
     </div>
   );
 };
