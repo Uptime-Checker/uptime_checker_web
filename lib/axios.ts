@@ -34,15 +34,10 @@ export const authClientRequest = async <T = any, R = AxiosResponse<T>, D = any>(
     }
     return await client.request<T, R, D>(config);
   } catch (error) {
-    if (error instanceof AxiosError && error.response) {
-      if (error.response.status === UNAUTHENTICATED) {
-        return <R>await logout();
-      } else {
-        throw error;
-      }
-    } else {
-      throw error;
+    if (error instanceof AxiosError && error.response && error.response.status === UNAUTHENTICATED) {
+      await logout();
     }
+    throw error;
   }
 };
 

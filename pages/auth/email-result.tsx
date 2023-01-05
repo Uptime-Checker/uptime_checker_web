@@ -34,9 +34,13 @@ export default function EmailResult() {
     }
 
     async function getMe() {
-      const { data } = await authClientRequest<UserResponse>({ method: HTTPMethod.GET, url: '/me' });
-      setCurrentUser(data.data);
-      redirectToDashboard(data.data);
+      try {
+        const { data } = await authClientRequest<UserResponse>({ method: HTTPMethod.GET, url: '/me' });
+        setCurrentUser(data.data);
+        redirectToDashboard(data.data);
+      } catch (error) {
+        Sentry.captureException(error);
+      }
     }
 
     if (signInAttempted) {

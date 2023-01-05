@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/nextjs';
 import SideBar from 'components/dashboard/sidebar';
 import TopBar from 'components/dashboard/topbar';
 import { FREE_PLAN_ID } from 'constants/payment';
@@ -21,24 +22,28 @@ export default function DashboardLayout({ children }: Props) {
     if (user === null) {
       logout().then((_) => {});
     } else {
-      authClientRequest<FullInfoResponse>({ method: HTTPMethod.GET, url: '/full_user_info' }).then((fullInfoResp) => {
-        let fullInfo = fullInfoResp.data.data;
-        setCurrentUser(fullInfo.user);
-        setGlobal((draft) => {
-          draft.currentUser = fullInfo.user;
-          draft.organizations = fullInfo.organization_users;
-        });
+      authClientRequest<FullInfoResponse>({ method: HTTPMethod.GET, url: '/full_user_info' })
+        .then((fullInfoResp) => {
+          let fullInfo = fullInfoResp.data.data;
+          setCurrentUser(fullInfo.user);
+          setGlobal((draft) => {
+            draft.currentUser = fullInfo.user;
+            draft.organizations = fullInfo.organization_users;
+          });
 
-        if (fullInfo.user.organization === null) {
-          redirectToDashboard(fullInfo.user);
-        } else {
-          // Do everything that was deferred
-          if (fullInfo.subscription.plan.id !== FREE_PLAN_ID) {
-            LiveChat.load();
-            LiveChat.configureUser(fullInfo.user, fullInfo.subscription);
+          if (fullInfo.user.organization === null) {
+            redirectToDashboard(fullInfo.user);
+          } else {
+            // Do everything that was deferred
+            if (fullInfo.subscription.plan.id !== FREE_PLAN_ID) {
+              LiveChat.load();
+              LiveChat.configureUser(fullInfo.user, fullInfo.subscription);
+            }
           }
-        }
-      });
+        })
+        .catch((error) => {
+          Sentry.captureException(error);
+        });
     }
   }, [setGlobal]);
 

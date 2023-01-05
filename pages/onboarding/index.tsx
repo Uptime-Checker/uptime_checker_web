@@ -30,14 +30,18 @@ export default function Onboarding() {
     if (user === null) {
       logout().then((_) => {});
     } else {
-      authClientRequest<UserResponse>({ method: HTTPMethod.GET, url: '/me' }).then((resp) => {
-        let currentUser = resp.data.data;
-        setCurrentUser(currentUser);
+      authClientRequest<UserResponse>({ method: HTTPMethod.GET, url: '/me' })
+        .then((resp) => {
+          let currentUser = resp.data.data;
+          setCurrentUser(currentUser);
 
-        if (currentUser.organization !== null) {
-          redirectToDashboard(currentUser);
-        }
-      });
+          if (currentUser.organization !== null) {
+            redirectToDashboard(currentUser);
+          }
+        })
+        .catch((error) => {
+          Sentry.captureException(error);
+        });
     }
   }, []);
 
