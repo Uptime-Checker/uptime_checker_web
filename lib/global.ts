@@ -8,12 +8,16 @@ import { CacheKey, cacheUtil } from './cache';
 let CurrentUser: User | null = null;
 let AccessToken: string | null = null;
 
-export const setCurrentUser = (user: User) => {
+export const setCurrentUser = async (user: User) => {
   CurrentUser = user;
   cacheUtil.set(CacheKey.CurrentUser, user);
   Sentry.setUser({ id: `${user.id}`, email: user.email });
-  setUserId(analytics, `${user.id}`);
-  setUserProperties(analytics, { email: user.email, name: user.name });
+
+  const firAnalytics = await analytics;
+  if (firAnalytics !== null) {
+    setUserId(firAnalytics, `${user.id}`);
+    setUserProperties(firAnalytics, { email: user.email, name: user.name });
+  }
 };
 
 export const setAccessToken = (token: string) => {

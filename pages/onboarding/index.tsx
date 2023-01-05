@@ -33,7 +33,7 @@ export default function Onboarding() {
       authClientRequest<UserResponse>({ method: HTTPMethod.GET, url: '/me' })
         .then((resp) => {
           let currentUser = resp.data.data;
-          setCurrentUser(currentUser);
+          setCurrentUser(currentUser).then(() => {});
 
           if (currentUser.organization !== null) {
             redirectToDashboard(currentUser);

@@ -25,7 +25,7 @@ export default function DashboardLayout({ children }: Props) {
       authClientRequest<FullInfoResponse>({ method: HTTPMethod.GET, url: '/full_user_info' })
         .then((fullInfoResp) => {
           let fullInfo = fullInfoResp.data.data;
-          setCurrentUser(fullInfo.user);
+          setCurrentUser(fullInfo.user).then(() => {});
           setGlobal((draft) => {
             draft.currentUser = fullInfo.user;
             draft.organizations = fullInfo.organization_users;
