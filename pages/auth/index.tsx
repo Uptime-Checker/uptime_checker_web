@@ -5,13 +5,18 @@ import SimpleAlert from 'components/alert/simple';
 import GoogleIcon from 'components/icon/google';
 import LoadingIcon from 'components/icon/loading';
 import LogoWithoutText from 'components/logo/logo-without-text';
-import { FIREBASE_ERROR_POPUP_CLOSED } from 'constants/errors';
 import {
   AUTH_FAIL_COULD_NOT_SEND_MAGIC_LINK,
   AUTH_FAIL_TO_LOGIN_USING_GOOGLE,
   PLEASE_CONTACT_SUPPORT,
 } from 'constants/ui-text';
-import { getIdToken, GoogleAuthProvider, sendSignInLinkToEmail, signInWithPopup } from 'firebase/auth';
+import {
+  getIdToken,
+  getRedirectResult,
+  GoogleAuthProvider,
+  sendSignInLinkToEmail,
+  signInWithRedirect,
+} from 'firebase/auth';
 import produce from 'immer';
 import { authClientRequest, elixirClient, HTTPMethod } from 'lib/axios';
 import { CacheKey, cacheUtil } from 'lib/cache';
@@ -31,13 +36,6 @@ export default function Auth() {
   const [loading, setLoading] = useState(false);
   const [alertState, setAlertState] = useState({ on: false, success: true, title: '', detail: '' });
 
-  useEffect(() => {
-    const user = getCurrentUser();
-    if (user !== null) {
-      redirectToDashboard(user);
-    }
-  }, []);
-
   async function getMe() {
     try {
       const { data } = await authClientRequest<UserResponse>({ method: HTTPMethod.GET, url: '/me' });
@@ -48,42 +46,60 @@ export default function Auth() {
     }
   }
 
+  useEffect(() => {
+    const user = getCurrentUser();
+    if (user !== null) {
+      redirectToDashboard(user);
+    }
+
+    setLoading(true);
+    getRedirectResult(auth)
+      .then((result) => {
+        if (result === null) {
+          return;
+        }
+        setLoading(true);
+        const user = result.user;
+        getIdToken(user).then((token) => {
+          elixirClient
+            .post<AccessToken>('/provider_login', {
+              id_token: token,
+              provider: AuthProvider.google,
+            })
+            .then((response) => {
+              setAccessToken(response.data.access_token);
+              getMe().then(() => {});
+            })
+            .catch((e) => {
+              setAlertState({
+                on: true,
+                success: false,
+                title: AUTH_FAIL_TO_LOGIN_USING_GOOGLE,
+                detail: PLEASE_CONTACT_SUPPORT,
+              });
+              Sentry.captureException(e);
+            })
+            .finally(() => {
+              setLoading(false);
+            });
+        });
+      })
+      .catch((error) => {
+        if (error instanceof FirebaseError) {
+          Sentry.captureException(error);
+        }
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
+
   const handleGoogleClick = async (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
     closeAlert();
     setLoading(true);
-
-    try {
-      let result = await signInWithPopup(auth, provider);
-      const user = result.user;
-      let token = await getIdToken(user);
-
-      try {
-        const { data } = await elixirClient.post<AccessToken>('/provider_login', {
-          id_token: token,
-          provider: AuthProvider.google,
-        });
-        setAccessToken(data.access_token);
-        await getMe();
-      } catch (e) {
-        setAlertState({
-          on: true,
-          success: false,
-          title: AUTH_FAIL_TO_LOGIN_USING_GOOGLE,
-          detail: PLEASE_CONTACT_SUPPORT,
-        });
-        Sentry.captureException(e);
-      }
-    } catch (error) {
-      if (error instanceof FirebaseError) {
-        if (error.code !== FIREBASE_ERROR_POPUP_CLOSED) {
-          Sentry.captureException(error);
-        }
-      }
-    } finally {
-      setLoading(false);
-    }
+    await signInWithRedirect(auth, provider);
   };
 
   const handleEmailSubmit = async (event: FormEvent<HTMLFormElement>) => {
