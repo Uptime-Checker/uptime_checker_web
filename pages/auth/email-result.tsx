@@ -55,7 +55,7 @@ export default function EmailResult() {
             code: code,
             email: result.user.email,
             provider: AuthProvider.email,
-            firebase_uid: result.user.uid,
+            provider_uid: result.user.uid,
           })
           .then((tokenResponse) => {
             setAccessToken(tokenResponse.data.access_token);

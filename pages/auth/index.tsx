@@ -12,7 +12,7 @@ import { authRequest, elixirClient, HTTPMethod } from 'lib/axios';
 import { CacheKey, cacheUtil } from 'lib/cache';
 import { ProviderNameGithub, ProviderNameGoogle } from 'lib/constants';
 import { auth } from 'lib/firebase';
-import { getCurrentUser, redirectToDashboard, setCurrentUser } from 'lib/global';
+import { getCurrentUser, redirectToDashboard, setAccessToken, setCurrentUser } from 'lib/global';
 import { GuestUserResponse, UserResponse } from 'models/user';
 import { signIn, useSession } from 'next-auth/react';
 import Head from 'next/head';
@@ -27,7 +27,6 @@ export default function Auth() {
   const [alertState, setAlertState] = useState({ on: false, success: true, title: '', detail: '' });
 
   const { data: session, status } = useSession();
-  const userEmail = session?.user?.email;
 
   async function getMe() {
     try {
@@ -43,18 +42,18 @@ export default function Auth() {
     const user = getCurrentUser();
     if (user !== null) {
       redirectToDashboard(user);
-    } else {
-      // setLoading(true);
+    } else if (router.isReady) {
+      if (router.query.provider_redirect) {
+        setLoading(true);
+      }
+      if (status === 'authenticated' && session.accessToken) {
+        setAccessToken(session.accessToken);
+        getMe().then(() => {});
+      }
     }
-
-    console.log(session);
-    console.log(status);
-  }, []);
+  }, [router, session, status]);
 
   const handleProviderClick = async (provider: string) => {
-    // console.log(session);
-    // return;
-
     closeAlert();
     setLoading(true);
     await signIn(provider);
