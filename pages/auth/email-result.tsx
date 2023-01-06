@@ -2,7 +2,7 @@ import * as Sentry from '@sentry/nextjs';
 import LoadingBubbleIcon from 'components/icon/loading-bubble';
 import TwoFactorAuthIcon from 'components/icon/two-factor-auth';
 import { isSignInWithEmailLink, signInWithEmailLink } from 'firebase/auth';
-import { authClientRequest, elixirClient, HTTPMethod } from 'lib/axios';
+import { authRequest, elixirClient, HTTPMethod } from 'lib/axios';
 import { auth } from 'lib/firebase';
 import { redirectToDashboard, setAccessToken, setCurrentUser } from 'lib/global';
 import { AccessToken, AuthProvider, UserResponse } from 'models/user';
@@ -35,7 +35,7 @@ export default function EmailResult() {
 
     async function getMe() {
       try {
-        const { data } = await authClientRequest<UserResponse>({ method: HTTPMethod.GET, url: '/me' });
+        const { data } = await authRequest<UserResponse>({ method: HTTPMethod.GET, url: '/me' });
         await setCurrentUser(data.data);
         redirectToDashboard(data.data);
       } catch (error) {

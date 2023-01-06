@@ -3,7 +3,7 @@ import SideBar from 'components/dashboard/sidebar';
 import TopBar from 'components/dashboard/topbar';
 import { FREE_PLAN_ID } from 'constants/payment';
 import { useAtom } from 'jotai';
-import { authClientRequest, HTTPMethod } from 'lib/axios';
+import { authRequest, HTTPMethod } from 'lib/axios';
 import * as LiveChat from 'lib/crisp';
 import { getCurrentUser, logout, redirectToDashboard, setCurrentUser } from 'lib/global';
 import { FullInfoResponse } from 'models/user';
@@ -22,7 +22,7 @@ export default function DashboardLayout({ children }: Props) {
     if (user === null) {
       logout().then((_) => {});
     } else {
-      authClientRequest<FullInfoResponse>({ method: HTTPMethod.GET, url: '/full_user_info' })
+      authRequest<FullInfoResponse>({ method: HTTPMethod.GET, url: '/full_user_info' })
         .then((fullInfoResp) => {
           let fullInfo = fullInfoResp.data.data;
           setCurrentUser(fullInfo.user).then(() => {});

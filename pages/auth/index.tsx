@@ -8,7 +8,7 @@ import LogoWithoutText from 'components/logo/logo-without-text';
 import { AUTH_FAIL_COULD_NOT_SEND_MAGIC_LINK } from 'constants/ui-text';
 import { sendSignInLinkToEmail } from 'firebase/auth';
 import produce from 'immer';
-import { authClientRequest, elixirClient, HTTPMethod } from 'lib/axios';
+import { authRequest, elixirClient, HTTPMethod } from 'lib/axios';
 import { CacheKey, cacheUtil } from 'lib/cache';
 import { ProviderNameGithub, ProviderNameGoogle } from 'lib/constants';
 import { auth } from 'lib/firebase';
@@ -31,7 +31,7 @@ export default function Auth() {
 
   async function getMe() {
     try {
-      const { data } = await authClientRequest<UserResponse>({ method: HTTPMethod.GET, url: '/me' });
+      const { data } = await authRequest<UserResponse>({ method: HTTPMethod.GET, url: '/me' });
       await setCurrentUser(data.data);
       redirectToDashboard(data.data);
     } catch (error) {
@@ -52,6 +52,9 @@ export default function Auth() {
   }, []);
 
   const handleProviderClick = async (provider: string) => {
+    // console.log(session);
+    // return;
+
     closeAlert();
     setLoading(true);
     await signIn(provider);
