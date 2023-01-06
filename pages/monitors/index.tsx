@@ -37,35 +37,38 @@ const categories: MetricCard[] = [
 const Monitors: NextPageWithLayout = () => {
   const router = useRouter();
 
-  const handleMetricCardClick = (item: MetricCard) => {
+  const handleMetricCardClick = async (item: MetricCard) => {
     if (item.title.includes('Incidents')) {
     } else if (router.query.filter && router.query.filter.includes(item.title)) {
-      router.replace(`?filter=`, undefined, { shallow: true });
+      await router.replace(`?filter=`, undefined, { shallow: true });
     } else {
-      router.push(`?filter=${item.title}`, undefined, { shallow: true });
+      await router.push(`?filter=${item.title}`, undefined, { shallow: true });
     }
   };
 
   const getCardDecoration = (item: MetricCard) => {
-    return router.query.filter && router.query.filter.includes(item.title) ? item.color : 'indigo';
+    return router.query.filter && router.query.filter.includes(item.title) ? item.color : 'white';
   };
 
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-8">
       <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {categories.map((item) => (
-          <div
+          <button
+            onClick={() => handleMetricCardClick(item)}
             key={item.title}
             className={classNames(
-              'relative overflow-hidden rounded-lg border-t-4 bg-white px-4 py-5 shadow sm:px-6 sm:pt-6',
-              `border-${item.color}-400`
+              'relative overflow-hidden rounded-lg border-t-4 px-4 py-5 shadow sm:px-6 sm:pt-6',
+              `border-${item.color}-400`,
+              `hover:bg-${item.color}-50`,
+              getCardDecoration(item) === 'white' ? 'bg-white' : `bg-${getCardDecoration(item)}-50`
             )}
           >
             <dt>
               <div className="absolute">
                 <Icon icon={item.icon} variant="light" size="xl" color={item.color} />
               </div>
-              <p className="ml-16 truncate pl-2 text-sm text-gray-500">{item.title}</p>
+              <p className="ml-16 truncate pl-2 text-left text-sm text-gray-500">{item.title}</p>
             </dt>
             <dd className="ml-16 flex items-baseline pl-2">
               <p className="text-3xl font-semibold text-gray-900">{item.metric}</p>
@@ -73,7 +76,7 @@ const Monitors: NextPageWithLayout = () => {
                 {item.title == 'Incidents' ? 'Last 7 Days' : ''}
               </p>
             </dd>
-          </div>
+          </button>
         ))}
       </dl>
     </div>
