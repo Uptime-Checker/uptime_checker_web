@@ -18,6 +18,12 @@ const client: AxiosInstance = axios.create({
   headers: { X_API_KEY: process.env.NEXT_PUBLIC_ELIXIR_API_KEY! },
 });
 
+export const apiClient: AxiosInstance = axios.create({
+  baseURL: process.env.ELIXIR_API,
+  timeout: 10000,
+  headers: { X_API_KEY: process.env.ELIXIR_API_KEY! },
+});
+
 export const addToken = (token: string) => {
   client.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 };

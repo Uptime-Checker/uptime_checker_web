@@ -49,6 +49,8 @@ export default function Auth() {
       if (status === 'authenticated' && session.accessToken) {
         setAccessToken(session.accessToken);
         getMe().then(() => {});
+      } else {
+        setLoading(false);
       }
     }
   }, [router, session, status]);

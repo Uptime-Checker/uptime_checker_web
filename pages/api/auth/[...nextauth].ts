@@ -1,6 +1,6 @@
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import * as Sentry from '@sentry/nextjs';
-import { elixirClient } from 'lib/axios';
+import { apiClient } from 'lib/axios';
 import { prisma } from 'lib/prisma';
 import { AccessToken } from 'models/user';
 import NextAuth from 'next-auth';
@@ -43,7 +43,7 @@ export default NextAuth({
         // After sign in
 
         try {
-          const { data } = await elixirClient.post<AccessToken>('/provider_login', {
+          const { data } = await apiClient.post<AccessToken>('/provider_login', {
             name: token.name,
             email: token.email,
             provider: account.provider,
