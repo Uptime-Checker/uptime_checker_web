@@ -31,6 +31,8 @@ export default function Auth() {
   async function getMe() {
     try {
       const { data } = await authRequest<UserResponse>({ method: HTTPMethod.GET, url: '/me' });
+
+      setLoading(false);
       await setCurrentUser(data.data);
       redirectToDashboard(data.data);
     } catch (error) {
