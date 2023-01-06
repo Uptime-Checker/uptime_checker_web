@@ -1,40 +1,33 @@
-import { FirebaseError } from '@firebase/util';
 import * as Sentry from '@sentry/nextjs';
 import { AxiosError } from 'axios';
 import SimpleAlert from 'components/alert/simple';
+import GithubIcon from 'components/icon/github';
 import GoogleIcon from 'components/icon/google';
 import LoadingIcon from 'components/icon/loading';
 import LogoWithoutText from 'components/logo/logo-without-text';
-import {
-  AUTH_FAIL_COULD_NOT_SEND_MAGIC_LINK,
-  AUTH_FAIL_TO_LOGIN_USING_GOOGLE,
-  PLEASE_CONTACT_SUPPORT,
-} from 'constants/ui-text';
-import {
-  getIdToken,
-  getRedirectResult,
-  GoogleAuthProvider,
-  sendSignInLinkToEmail,
-  signInWithRedirect,
-} from 'firebase/auth';
+import { AUTH_FAIL_COULD_NOT_SEND_MAGIC_LINK } from 'constants/ui-text';
+import { sendSignInLinkToEmail } from 'firebase/auth';
 import produce from 'immer';
 import { authClientRequest, elixirClient, HTTPMethod } from 'lib/axios';
 import { CacheKey, cacheUtil } from 'lib/cache';
+import { ProviderNameGithub, ProviderNameGoogle } from 'lib/constants';
 import { auth } from 'lib/firebase';
-import { getCurrentUser, redirectToDashboard, setAccessToken, setCurrentUser } from 'lib/global';
-import { AccessToken, AuthProvider, GuestUserResponse, UserResponse } from 'models/user';
+import { getCurrentUser, redirectToDashboard, setCurrentUser } from 'lib/global';
+import { GuestUserResponse, UserResponse } from 'models/user';
+import { signIn, useSession } from 'next-auth/react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { FormEvent, MouseEvent, useEffect, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { ElixirError } from 'types/error';
 import { toUpper } from 'utils/misc';
-
-const provider = new GoogleAuthProvider();
 
 export default function Auth() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [alertState, setAlertState] = useState({ on: false, success: true, title: '', detail: '' });
+
+  const { data: session, status } = useSession();
+  const userEmail = session?.user?.email;
 
   async function getMe() {
     try {
@@ -51,51 +44,17 @@ export default function Auth() {
     if (user !== null) {
       redirectToDashboard(user);
     } else {
-      setLoading(true);
-      getRedirectResult(auth)
-        .then((result) => {
-          if (result === null) {
-            setLoading(false);
-            return;
-          }
-          setLoading(true);
-          const user = result.user;
-          getIdToken(user).then((token) => {
-            elixirClient
-              .post<AccessToken>('/provider_login', {
-                id_token: token,
-                provider: AuthProvider.google,
-              })
-              .then((response) => {
-                setAccessToken(response.data.access_token);
-                getMe().then(() => {});
-              })
-              .catch((e) => {
-                setAlertState({
-                  on: true,
-                  success: false,
-                  title: AUTH_FAIL_TO_LOGIN_USING_GOOGLE,
-                  detail: PLEASE_CONTACT_SUPPORT,
-                });
-                Sentry.captureException(e);
-                setLoading(false);
-              });
-          });
-        })
-        .catch((error) => {
-          if (error instanceof FirebaseError) {
-            Sentry.captureException(error);
-          }
-        });
+      // setLoading(true);
     }
+
+    console.log(session);
+    console.log(status);
   }, []);
 
-  const handleGoogleClick = async (event: MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-
+  const handleProviderClick = async (provider: string) => {
     closeAlert();
     setLoading(true);
-    await signInWithRedirect(auth, provider);
+    await signIn(provider);
   };
 
   const handleEmailSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -221,7 +180,21 @@ export default function Auth() {
                   <button
                     type="button"
                     className="flex w-full items-center justify-center rounded-md border border-indigo-600 bg-white py-2 px-4 font-medium text-indigo-600 shadow-sm hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                    onClick={handleGoogleClick}
+                    onClick={() => handleProviderClick(ProviderNameGithub)}
+                    disabled={loading}
+                  >
+                    <GithubIcon />
+                    Continue with Github
+                  </button>
+                </div>
+              </div>
+
+              <div className="mt-6">
+                <div>
+                  <button
+                    type="button"
+                    className="flex w-full items-center justify-center rounded-md border border-indigo-600 bg-white py-2 px-4 font-medium text-indigo-600 shadow-sm hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    onClick={() => handleProviderClick(ProviderNameGoogle)}
                     disabled={loading}
                   >
                     <GoogleIcon />
