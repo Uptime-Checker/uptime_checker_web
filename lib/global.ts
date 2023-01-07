@@ -1,15 +1,23 @@
+import { setUserId, setUserProperties } from '@firebase/analytics';
+import { signOut } from '@firebase/auth';
 import * as Sentry from '@sentry/nextjs';
-import { signOut } from 'firebase/auth';
-import { auth } from 'lib/firebase';
+import { analytics, auth } from 'lib/firebase';
 import { User } from 'models/user';
 import { CacheKey, cacheUtil } from './cache';
 
 let CurrentUser: User | null = null;
 let AccessToken: string | null = null;
 
-export const setCurrentUser = (user: User) => {
+export const setCurrentUser = async (user: User) => {
   CurrentUser = user;
   cacheUtil.set(CacheKey.CurrentUser, user);
+  Sentry.setUser({ id: `${user.id}`, email: user.email });
+
+  const firAnalytics = await analytics;
+  if (firAnalytics !== null) {
+    setUserId(firAnalytics, `${user.id}`);
+    setUserProperties(firAnalytics, { email: user.email, name: user.name });
+  }
 };
 
 export const setAccessToken = (token: string) => {
@@ -55,6 +63,6 @@ const redirectToAuth = () => {
 };
 
 export const redirectToDashboard = (user: User) => {
-  const nextPath = user.organization === null ? '/onboarding' : '/dashboard';
+  const nextPath = user.organization === null ? '/onboarding' : '/monitors';
   window.location.replace(`${window.location.origin}/${nextPath}`);
 };

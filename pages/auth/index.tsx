@@ -1,85 +1,66 @@
-import { FirebaseError } from '@firebase/util';
 import * as Sentry from '@sentry/nextjs';
 import { AxiosError } from 'axios';
 import SimpleAlert from 'components/alert/simple';
+import GithubIcon from 'components/icon/github';
 import GoogleIcon from 'components/icon/google';
 import LoadingIcon from 'components/icon/loading';
 import LogoWithoutText from 'components/logo/logo-without-text';
-import { FIREBASE_ERROR_POPUP_CLOSED } from 'constants/errors';
-import {
-  AUTH_FAIL_COULD_NOT_SEND_MAGIC_LINK,
-  AUTH_FAIL_TO_LOGIN_USING_GOOGLE,
-  PLEASE_CONTACT_SUPPORT,
-} from 'constants/ui-text';
-import { getIdToken, GoogleAuthProvider, sendSignInLinkToEmail, signInWithPopup } from 'firebase/auth';
+import { AUTH_FAIL_COULD_NOT_SEND_MAGIC_LINK } from 'constants/ui-text';
+import { sendSignInLinkToEmail } from 'firebase/auth';
 import produce from 'immer';
-import { authClientRequest, elixirClient, HTTPMethod } from 'lib/axios';
+import { authRequest, elixirClient, HTTPMethod } from 'lib/axios';
 import { CacheKey, cacheUtil } from 'lib/cache';
+import { ProviderNameGithub, ProviderNameGoogle } from 'lib/constants';
 import { auth } from 'lib/firebase';
 import { getCurrentUser, redirectToDashboard, setAccessToken, setCurrentUser } from 'lib/global';
-import { AccessToken, AuthProvider, GuestUserResponse, UserResponse } from 'models/user';
+import { GuestUserResponse, UserResponse } from 'models/user';
+import { signIn, useSession } from 'next-auth/react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { FormEvent, MouseEvent, useEffect, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { ElixirError } from 'types/error';
 import { toUpper } from 'utils/misc';
-
-const provider = new GoogleAuthProvider();
 
 export default function Auth() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [alertState, setAlertState] = useState({ on: false, success: true, title: '', detail: '' });
 
+  const { data: session, status } = useSession();
+
+  async function getMe() {
+    try {
+      const { data } = await authRequest<UserResponse>({ method: HTTPMethod.GET, url: '/me' });
+
+      setLoading(false);
+      await setCurrentUser(data.data);
+      redirectToDashboard(data.data);
+    } catch (error) {
+      Sentry.captureException(error);
+    }
+  }
+
   useEffect(() => {
     const user = getCurrentUser();
     if (user !== null) {
       redirectToDashboard(user);
+    } else if (router.isReady) {
+      if (router.query.provider_redirect) {
+        setLoading(true);
+      }
+      if (status === 'authenticated' && session.accessToken) {
+        setAccessToken(session.accessToken);
+        getMe().then(() => {});
+      } else {
+        setLoading(false);
+      }
     }
-  }, []);
+  }, [router, session, status]);
 
-  async function getMe() {
-    const { data } = await authClientRequest<UserResponse>({ method: HTTPMethod.GET, url: '/me' });
-    setCurrentUser(data.data);
-    redirectToDashboard(data.data);
-  }
-
-  const handleGoogleClick = async (event: MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-
+  const handleProviderClick = async (provider: string) => {
     closeAlert();
     setLoading(true);
-
-    try {
-      let result = await signInWithPopup(auth, provider);
-      const user = result.user;
-      let token = await getIdToken(user);
-
-      try {
-        const { data } = await elixirClient.post<AccessToken>('/provider_login', {
-          id_token: token,
-          provider: AuthProvider.google,
-        });
-        setAccessToken(data.access_token);
-        await getMe();
-      } catch (e) {
-        setAlertState({
-          on: true,
-          success: false,
-          title: AUTH_FAIL_TO_LOGIN_USING_GOOGLE,
-          detail: PLEASE_CONTACT_SUPPORT,
-        });
-        Sentry.captureException(e);
-      }
-    } catch (error) {
-      if (error instanceof FirebaseError) {
-        if (error.code !== FIREBASE_ERROR_POPUP_CLOSED) {
-          Sentry.captureException(error);
-        }
-      }
-    } finally {
-      setLoading(false);
-    }
+    await signIn(provider);
   };
 
   const handleEmailSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -135,7 +116,6 @@ export default function Auth() {
     <div className="min-h-screen bg-gray-50">
       <Head>
         <title>Auth</title>
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <SimpleAlert
         on={alertState.on}
@@ -170,6 +150,7 @@ export default function Auth() {
                     type="email"
                     placeholder="you@example.com"
                     autoComplete="email"
+                    disabled={loading}
                     required
                     className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                   />
@@ -185,7 +166,7 @@ export default function Auth() {
                   disabled={loading}
                 >
                   {loading ? <LoadingIcon className="-ml-1 mr-3 h-5 w-5 animate-spin text-white" /> : null}
-                  {loading ? 'Redirecting' : 'Sign in'}
+                  {loading ? 'Loading' : 'Sign in'}
                 </button>
               </div>
             </form>
@@ -205,7 +186,21 @@ export default function Auth() {
                   <button
                     type="button"
                     className="flex w-full items-center justify-center rounded-md border border-indigo-600 bg-white py-2 px-4 font-medium text-indigo-600 shadow-sm hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                    onClick={handleGoogleClick}
+                    onClick={() => handleProviderClick(ProviderNameGithub)}
+                    disabled={loading}
+                  >
+                    <GithubIcon />
+                    Continue with Github
+                  </button>
+                </div>
+              </div>
+
+              <div className="mt-6">
+                <div>
+                  <button
+                    type="button"
+                    className="flex w-full items-center justify-center rounded-md border border-indigo-600 bg-white py-2 px-4 font-medium text-indigo-600 shadow-sm hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    onClick={() => handleProviderClick(ProviderNameGoogle)}
                     disabled={loading}
                   >
                     <GoogleIcon />

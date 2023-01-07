@@ -1,12 +1,11 @@
 import { Dialog, Popover, Transition } from '@headlessui/react';
 import {
-  CalendarIcon,
-  ChartBarIcon,
   CheckIcon,
   ChevronUpDownIcon,
-  FolderIcon,
+  CogIcon,
   HomeIcon,
-  InboxIcon,
+  ShieldExclamationIcon,
+  SquaresPlusIcon,
   UserGroupIcon,
   UsersIcon,
   XMarkIcon,
@@ -14,20 +13,33 @@ import {
 import FullLogo from 'components/logo/full-logo';
 import { useAtom } from 'jotai';
 import { getCurrentUser } from 'lib/global';
-import { Fragment, useEffect, useState } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { Fragment, SVGProps, useEffect, useState } from 'react';
 import { globalAtom } from 'store/global';
 import { classNames } from 'utils/misc';
 
-const navigation = [
-  { name: 'Dashboard', href: '#', icon: HomeIcon, current: true },
-  { name: 'Team', href: '#', icon: UsersIcon, current: false },
-  { name: 'Projects', href: '#', icon: FolderIcon, current: false },
-  { name: 'Calendar', href: '#', icon: CalendarIcon, current: false },
-  { name: 'Documents', href: '#', icon: InboxIcon, current: false },
-  { name: 'Reports', href: '#', icon: ChartBarIcon, current: false },
+interface NavigationItem {
+  name: string;
+  href: string;
+  icon: (
+    props: SVGProps<SVGSVGElement> & {
+      title?: string | undefined;
+      titleId?: string | undefined;
+    }
+  ) => JSX.Element;
+}
+
+const navigation: NavigationItem[] = [
+  { name: 'Monitors', href: '/monitors', icon: HomeIcon },
+  { name: 'Incidents', href: '/incidents', icon: ShieldExclamationIcon },
+  { name: 'Integrations', href: '/integrations', icon: SquaresPlusIcon },
+  { name: 'Team', href: '/team', icon: UsersIcon },
+  { name: 'Settings', href: '/settings/account', icon: CogIcon },
 ];
 
 const SideBar = () => {
+  const router = useRouter();
   const [global, setGlobal] = useAtom(globalAtom);
 
   useEffect(() => {
@@ -46,32 +58,38 @@ const SideBar = () => {
 
   const [orgName, setOrgName] = useState('');
 
+  const isNavActive = (navItem: NavigationItem) => {
+    let splitNavHref = navItem.href.split('/');
+    return router.pathname.includes(splitNavHref[1]);
+  };
+
   const logo = (
-    <div className="flex flex-shrink-0 items-center px-4">
+    <Link className="flex flex-shrink-0 items-center px-4" href="/monitors">
       <FullLogo className="h-8 w-auto" />
-    </div>
+    </Link>
   );
 
   const firstNav = (
     <nav className="mt-5 flex-1 space-y-1 bg-white px-2">
       {navigation.map((item) => (
-        <a
+        <Link
           key={item.name}
           href={item.href}
+          onClick={toggleSidebar}
           className={classNames(
-            item.current ? 'bg-gray-100 text-gray-900' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900',
+            isNavActive(item) ? 'bg-gray-100 text-gray-900' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900',
             'group flex items-center rounded-md p-2 text-sm font-medium'
           )}
         >
           <item.icon
             className={classNames(
-              item.current ? 'text-gray-500' : 'text-gray-400 group-hover:text-gray-500',
+              isNavActive(item) ? 'text-gray-500' : 'text-gray-400 group-hover:text-gray-500',
               'mr-3 h-6 w-6 flex-shrink-0'
             )}
             aria-hidden="true"
           />
           {item.name}
-        </a>
+        </Link>
       ))}
     </nav>
   );

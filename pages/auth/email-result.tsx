@@ -2,13 +2,15 @@ import * as Sentry from '@sentry/nextjs';
 import LoadingBubbleIcon from 'components/icon/loading-bubble';
 import TwoFactorAuthIcon from 'components/icon/two-factor-auth';
 import { isSignInWithEmailLink, signInWithEmailLink } from 'firebase/auth';
-import { authClientRequest, elixirClient, HTTPMethod } from 'lib/axios';
+import { authRequest, elixirClient, HTTPMethod } from 'lib/axios';
 import { auth } from 'lib/firebase';
 import { redirectToDashboard, setAccessToken, setCurrentUser } from 'lib/global';
 import { AccessToken, AuthProvider, UserResponse } from 'models/user';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+
+let signInAttempted = false;
 
 export default function EmailResult() {
   const router = useRouter();
@@ -32,11 +34,19 @@ export default function EmailResult() {
     }
 
     async function getMe() {
-      const { data } = await authClientRequest<UserResponse>({ method: HTTPMethod.GET, url: '/me' });
-      setCurrentUser(data.data);
-      redirectToDashboard(data.data);
+      try {
+        const { data } = await authRequest<UserResponse>({ method: HTTPMethod.GET, url: '/me' });
+        await setCurrentUser(data.data);
+        redirectToDashboard(data.data);
+      } catch (error) {
+        Sentry.captureException(error);
+      }
     }
 
+    if (signInAttempted) {
+      return;
+    }
+    signInAttempted = true;
     signInWithEmailLink(auth, email, window.location.href)
       .then((result) => {
         elixirClient
@@ -45,7 +55,7 @@ export default function EmailResult() {
             code: code,
             email: result.user.email,
             provider: AuthProvider.email,
-            firebase_uid: result.user.uid,
+            provider_uid: result.user.uid,
           })
           .then((tokenResponse) => {
             setAccessToken(tokenResponse.data.access_token);

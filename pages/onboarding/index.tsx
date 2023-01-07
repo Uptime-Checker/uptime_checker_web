@@ -10,7 +10,7 @@ import {
   PLEASE_CONTACT_SUPPORT,
 } from 'constants/ui-text';
 import produce from 'immer';
-import { authClientRequest, HTTPMethod } from 'lib/axios';
+import { authRequest, HTTPMethod } from 'lib/axios';
 import { getCurrentUser, logout, redirectToDashboard, setCurrentUser } from 'lib/global';
 import { UserResponse } from 'models/user';
 import Head from 'next/head';
@@ -29,17 +29,19 @@ export default function Onboarding() {
     let user = getCurrentUser();
     if (user === null) {
       logout().then((_) => {});
-    } else if (user.organization !== null) {
-      redirectToDashboard(user);
     } else {
-      authClientRequest<UserResponse>({ method: HTTPMethod.GET, url: '/me' }).then((resp) => {
-        let currentUser = resp.data.data;
-        setCurrentUser(currentUser);
+      authRequest<UserResponse>({ method: HTTPMethod.GET, url: '/me' })
+        .then((resp) => {
+          let currentUser = resp.data.data;
+          setCurrentUser(currentUser).then(() => {});
 
-        if (currentUser.organization !== null) {
-          redirectToDashboard(currentUser);
-        }
-      });
+          if (currentUser.organization !== null) {
+            redirectToDashboard(currentUser);
+          }
+        })
+        .catch((error) => {
+          Sentry.captureException(error);
+        });
     }
   }, []);
 
@@ -57,7 +59,7 @@ export default function Onboarding() {
       nameUpdated = true;
     }
     try {
-      let { data } = await authClientRequest<UserResponse>({
+      let { data } = await authRequest<UserResponse>({
         method: HTTPMethod.POST,
         url: '/organizations',
         data: { name: orgRef.value, slug: slugRef.value, plan_id: FREE_PLAN_ID },
@@ -96,7 +98,7 @@ export default function Onboarding() {
 
   const updateName = async (name: string) => {
     try {
-      await authClientRequest<UserResponse>({ method: HTTPMethod.PATCH, url: '/users', data: { name: name } });
+      await authRequest<UserResponse>({ method: HTTPMethod.PATCH, url: '/users', data: { name: name } });
     } catch (error) {
       Sentry.captureException(error);
     }

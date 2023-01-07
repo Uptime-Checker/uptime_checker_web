@@ -18,11 +18,17 @@ const client: AxiosInstance = axios.create({
   headers: { X_API_KEY: process.env.NEXT_PUBLIC_ELIXIR_API_KEY! },
 });
 
+export const apiClient: AxiosInstance = axios.create({
+  baseURL: process.env.ELIXIR_API,
+  timeout: 10000,
+  headers: { X_API_KEY: process.env.ELIXIR_API_KEY! },
+});
+
 export const addToken = (token: string) => {
   client.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 };
 
-export const authClientRequest = async <T = any, R = AxiosResponse<T>, D = any>(
+export const authRequest = async <T = any, R = AxiosResponse<T>, D = any>(
   config: AxiosRequestConfig<D>
 ): Promise<R> => {
   try {
@@ -34,15 +40,10 @@ export const authClientRequest = async <T = any, R = AxiosResponse<T>, D = any>(
     }
     return await client.request<T, R, D>(config);
   } catch (error) {
-    if (error instanceof AxiosError && error.response) {
-      if (error.response.status === UNAUTHENTICATED) {
-        return <R>await logout();
-      } else {
-        throw error;
-      }
-    } else {
-      throw error;
+    if (error instanceof AxiosError && error.response && error.response.status === UNAUTHENTICATED) {
+      await logout();
     }
+    throw error;
   }
 };
 

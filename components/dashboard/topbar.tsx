@@ -1,18 +1,21 @@
 import { Menu, Transition } from '@headlessui/react';
+import HeadwayWidget, { HeadwayWidgetTrigger } from '@headwayapp/react-widget';
 import { Bars3Icon, BellIcon } from '@heroicons/react/24/outline';
 import { useAtom } from 'jotai';
-import { Fragment } from 'react';
+import Link from 'next/link';
+import { Fragment, ReactNode } from 'react';
 import { globalAtom } from 'store/global';
 import { classNames } from 'utils/misc';
 
 const userNavigation = [
-  { name: 'Your Profile', href: '#' },
-  { name: 'Settings', href: '#' },
+  { name: 'Your Profile', href: '/settings/account' },
+  { name: 'Plan & Billing', href: '/settings/billing' },
   { name: 'Sign out', href: '#' },
 ];
 
 type Props = {
   className?: string;
+  children?: ReactNode;
 };
 
 const TopBar = ({ className }: Props) => {
@@ -38,26 +41,25 @@ const TopBar = ({ className }: Props) => {
         </div>
         <div className="flex flex-1 justify-end px-4 md:px-0">
           <section className="ml-4 flex items-center md:ml-6">
-            <button
-              type="button"
-              className="rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-            >
-              <span className="sr-only">View notifications</span>
-              <BellIcon className="h-6 w-6" aria-hidden="true" />
-            </button>
+            <HeadwayWidget account={process.env.NEXT_PUBLIC_HEADWAY_WEBSITE_ID!}>
+              <HeadwayWidgetTrigger>
+                <button type="button" className="rounded-md bg-gray-100 p-1 text-gray-500">
+                  <span className="sr-only">View notifications</span>
+                  <BellIcon className="h-6 w-6" aria-hidden="true" />
+                </button>
+              </HeadwayWidgetTrigger>
+            </HeadwayWidget>
 
             {/* Profile dropdown */}
-            <Menu as="div" className="relative ml-3">
-              <div>
-                <Menu.Button className="flex max-w-xs items-center rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                  <span className="sr-only">Open user menu</span>
-                  <img
-                    className="h-8 w-8 rounded-full"
-                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                    alt=""
-                  />
-                </Menu.Button>
-              </div>
+            <Menu as="div" className="relative ml-6">
+              <Menu.Button className="flex max-w-xs items-center rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                <span className="sr-only">Open user menu</span>
+                <img
+                  className="w-8 rounded-md"
+                  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                  alt=""
+                />
+              </Menu.Button>
               <Transition
                 as={Fragment}
                 enter="transition ease-out duration-100"
@@ -71,12 +73,12 @@ const TopBar = ({ className }: Props) => {
                   {userNavigation.map((item) => (
                     <Menu.Item key={item.name}>
                       {({ active }) => (
-                        <a
+                        <Link
                           href={item.href}
                           className={classNames(active ? 'bg-gray-100' : '', 'block py-2 px-4 text-sm text-gray-700')}
                         >
                           {item.name}
-                        </a>
+                        </Link>
                       )}
                     </Menu.Item>
                   ))}
