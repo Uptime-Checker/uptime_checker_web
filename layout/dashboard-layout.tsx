@@ -52,9 +52,7 @@ export default function DashboardLayout({ children }: Props) {
       <SideBar />
       <TopBar className="md:pl-64" />
       <div className="flex flex-col md:pl-64">
-        <main className="flex-1">
-          <div className="py-6">{children}</div>
-        </main>
+        <main className="flex-1">{children}</main>
       </div>
     </div>
   );

@@ -54,7 +54,7 @@ export default function SettingsLayout({ children }: Props) {
   };
 
   return (
-    <>
+    <section className="mt-6">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-8">
         <h1 className="px-1 text-2xl font-semibold text-gray-900 sm:px-6 md:px-0">Settings</h1>
       </div>
@@ -103,6 +103,6 @@ export default function SettingsLayout({ children }: Props) {
           </div>
         </div>
       </div>
-    </>
+    </section>
   );
 }
