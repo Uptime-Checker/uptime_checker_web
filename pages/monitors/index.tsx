@@ -1,5 +1,5 @@
 import { EllipsisVerticalIcon, ShieldCheckIcon, ShieldExclamationIcon } from '@heroicons/react/24/solid';
-import { Color, Icon } from '@tremor/react';
+import { Color, Icon, Tracking, TrackingBlock } from '@tremor/react';
 import DashboardLayout from 'layout/dashboard-layout';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -44,6 +44,23 @@ const people = [
     downtime: '3 hours 29 minutes',
   },
   // More people...
+];
+
+const statusStyles = {
+  Operational: 'teal',
+  Downtime: 'rose',
+  Maintenance: 'gray',
+  Degraded: 'amber',
+};
+
+const data = [
+  { id: 1, status: '27th Oct, 96.5% Uptime' },
+  { id: 2, status: 'Operational' },
+  { id: 3, status: 'Operational' },
+  { id: 4, status: 'Operational' },
+  { id: 5, status: 'Operational' },
+  { id: 6, status: 'Operational' },
+  { id: 7, status: 'Operational' },
 ];
 
 const Monitors: NextPageWithLayout = () => {
@@ -121,7 +138,7 @@ const Monitors: NextPageWithLayout = () => {
               </th>
               <th
                 scope="col"
-                className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell"
+                className="hidden px-3 py-3.5 text-center text-sm font-semibold text-gray-900 lg:table-cell"
               >
                 UPTIME
               </th>
@@ -153,7 +170,11 @@ const Monitors: NextPageWithLayout = () => {
                   </span>
                 </td>
                 <td className="hidden whitespace-nowrap px-3 py-4 text-sm text-gray-500 lg:table-cell">
-                  {person.email}
+                  <Tracking>
+                    {data.map((item) => (
+                      <TrackingBlock color={statusStyles[item.status]} tooltip={item.status} key={item.id} />
+                    ))}
+                  </Tracking>
                 </td>
                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{person.lastChecked}</td>
                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{person.downtime}</td>
