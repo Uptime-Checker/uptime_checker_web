@@ -10,7 +10,7 @@ import { classNames } from 'utils/misc';
 const userNavigation = [
   { name: 'Your Profile', href: '/settings/account' },
   { name: 'Plan & Billing', href: '/settings/billing' },
-  { name: 'Sign out', href: '#' },
+  { name: 'Support', href: '#' },
 ];
 
 type Props = {
@@ -69,19 +69,42 @@ const TopBar = ({ className }: Props) => {
                 leaveFrom="transform opacity-100 scale-100"
                 leaveTo="transform opacity-0 scale-95"
               >
-                <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                  {userNavigation.map((item) => (
-                    <Menu.Item key={item.name}>
+                <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                  <div className="px-4 py-3">
+                    <p className="text-sm">Signed in as</p>
+                    <p className="truncate text-sm font-medium text-gray-900">tom@example.com</p>
+                  </div>
+                  <div className="py-1">
+                    {userNavigation.map((item) => (
+                      <Menu.Item key={item.name}>
+                        {({ active }) => (
+                          <Link
+                            href={item.href}
+                            className={classNames(
+                              active ? 'bg-gray-100 text-gray-900' : '',
+                              'block py-2 px-4 text-sm text-gray-700'
+                            )}
+                          >
+                            {item.name}
+                          </Link>
+                        )}
+                      </Menu.Item>
+                    ))}
+                  </div>
+                  <div className="py-1">
+                    <Menu.Item>
                       {({ active }) => (
-                        <Link
-                          href={item.href}
-                          className={classNames(active ? 'bg-gray-100' : '', 'block py-2 px-4 text-sm text-gray-700')}
+                        <button
+                          className={classNames(
+                            active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                            'block w-full px-4 py-2 text-left text-sm'
+                          )}
                         >
-                          {item.name}
-                        </Link>
+                          Sign out
+                        </button>
                       )}
                     </Menu.Item>
-                  ))}
+                  </div>
                 </Menu.Items>
               </Transition>
             </Menu>
