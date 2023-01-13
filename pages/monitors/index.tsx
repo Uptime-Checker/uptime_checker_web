@@ -22,16 +22,16 @@ const categories: MetricCard[] = [
     color: 'teal',
   },
   {
+    title: 'Degraded',
+    metric: '3',
+    icon: ShieldExclamationIcon,
+    color: 'amber',
+  },
+  {
     title: 'Failing',
     metric: '2',
     icon: ShieldExclamationIcon,
     color: 'red',
-  },
-  {
-    title: 'Incidents',
-    metric: '456',
-    icon: ShieldExclamationIcon,
-    color: 'amber',
   },
 ];
 
