@@ -132,7 +132,7 @@ const Monitors: NextPageWithLayout = () => {
               </th>
               <th
                 scope="col"
-                className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:table-cell"
+                className="hidden px-3 py-3.5 text-center text-sm font-semibold text-gray-900 sm:table-cell"
               >
                 STATUS
               </th>
@@ -164,9 +164,9 @@ const Monitors: NextPageWithLayout = () => {
                     {person.url}
                   </Link>
                 </td>
-                <td className="hidden whitespace-nowrap px-3 py-4 text-sm text-gray-600 sm:table-cell">
+                <td className="hidden whitespace-nowrap px-3 py-4 text-center text-sm text-gray-600 sm:table-cell">
                   <span className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
-                    Passing
+                    Degraded
                   </span>
                 </td>
                 <td className="hidden whitespace-nowrap px-3 py-4 text-sm text-gray-500 lg:table-cell">
