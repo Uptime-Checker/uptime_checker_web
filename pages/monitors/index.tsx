@@ -1,12 +1,12 @@
 import { EllipsisVerticalIcon, ShieldCheckIcon, ShieldExclamationIcon } from '@heroicons/react/24/solid';
 import { Tracking, TrackingBlock } from 'components/dashboard/tracker';
 import DashboardLayout from 'layout/dashboard-layout';
+import { MonitorStatus } from 'models/monitor';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { ReactElement } from 'react';
 import { classNames } from 'utils/misc';
 import { NextPageWithLayout } from '../_app';
-import { MonitorStatus } from 'models/monitor';
 
 interface MetricCard {
   title: string;
@@ -123,10 +123,7 @@ const Monitors: NextPageWithLayout = () => {
               <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
                 SITE
               </th>
-              <th
-                scope="col"
-                className="hidden px-3 py-3.5 text-center text-sm font-semibold text-gray-900 sm:table-cell"
-              >
+              <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
                 STATUS
               </th>
               <th
@@ -135,10 +132,16 @@ const Monitors: NextPageWithLayout = () => {
               >
                 UPTIME
               </th>
-              <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+              <th
+                scope="col"
+                className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:table-cell"
+              >
                 LAST CHECKED
               </th>
-              <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+              <th
+                scope="col"
+                className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 xl:table-cell"
+              >
                 DOWNTIME
               </th>
               <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6">
@@ -157,7 +160,7 @@ const Monitors: NextPageWithLayout = () => {
                     {person.url}
                   </Link>
                 </td>
-                <td className="hidden whitespace-nowrap px-3 py-4 text-center text-sm text-gray-600 sm:table-cell">
+                <td className="whitespace-nowrap px-3 py-4 text-center text-sm text-gray-600">
                   <span className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
                     Degraded
                   </span>
@@ -169,8 +172,12 @@ const Monitors: NextPageWithLayout = () => {
                     ))}
                   </Tracking>
                 </td>
-                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{person.lastChecked}</td>
-                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{person.downtime}</td>
+                <td className="hidden whitespace-nowrap px-3 py-4 text-sm text-gray-500 sm:table-cell">
+                  {person.lastChecked}
+                </td>
+                <td className="hidden whitespace-nowrap px-3 py-4 text-sm text-gray-500 xl:table-cell">
+                  {person.downtime}
+                </td>
                 <td className="whitespace-nowrap text-right text-sm font-medium">
                   <button className="py-4 pl-3 pr-4">
                     <EllipsisVerticalIcon className="h-6 w-6 text-gray-500" />
