@@ -37,7 +37,7 @@ const TopBar = ({ className }: Props) => {
     });
 
   const searchBar = showSearch ? (
-    <div className="flex flex-1 pt-1 sm:pt-0">
+    <div className="flex flex-1 pt-1 md:pt-0">
       <form className="flex w-full md:ml-0" action="#" method="GET">
         <label htmlFor="search-field" className="sr-only">
           Search
