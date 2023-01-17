@@ -48,16 +48,16 @@ const people = [
 ];
 
 const data = [
-  { id: 1, status: MonitorStatus.PASSING },
-  { id: 2, status: MonitorStatus.PASSING },
-  { id: 3, status: MonitorStatus.MAINTENANCE },
-  { id: 4, status: MonitorStatus.FAILING },
-  { id: 5, status: MonitorStatus.PASSING },
-  { id: 6, status: MonitorStatus.PASSING },
-  { id: 7, status: MonitorStatus.DEGRADED },
-  { id: 8, status: MonitorStatus.PASSING },
-  { id: 9, status: MonitorStatus.PASSING },
-  { id: 10, status: MonitorStatus.PASSING },
+  { id: 1, status: MonitorStatus.PASSING, message: 'Operational' },
+  { id: 2, status: MonitorStatus.PASSING, message: 'Operational' },
+  { id: 3, status: MonitorStatus.MAINTENANCE, message: 'Maintenance' },
+  { id: 4, status: MonitorStatus.FAILING, message: 'Operational' },
+  { id: 5, status: MonitorStatus.PASSING, message: 'Operational' },
+  { id: 6, status: MonitorStatus.PASSING, message: 'Operational' },
+  { id: 7, status: MonitorStatus.DEGRADED, message: 'Degraded' },
+  { id: 8, status: MonitorStatus.PASSING, message: 'Operational' },
+  { id: 9, status: MonitorStatus.PASSING, message: 'Operational' },
+  { id: 10, status: MonitorStatus.PASSING, message: 'Operational' },
 ];
 
 const Monitors: NextPageWithLayout = () => {
@@ -168,7 +168,7 @@ const Monitors: NextPageWithLayout = () => {
                 <td className="hidden whitespace-nowrap px-3 py-4 text-center text-gray-500 lg:table-cell">
                   <Tracking>
                     {data.map((item) => (
-                      <TrackingBlock key={item.id} status={item.status} />
+                      <TrackingBlock key={item.id} status={item.status} text={item.message} />
                     ))}
                   </Tracking>
                 </td>

@@ -1,13 +1,14 @@
+import { SimpleTooltip } from 'components/tooltip';
 import { MonitorStatus } from 'models/monitor';
 import { classNames } from 'utils/misc';
 
 type Props = {
-  text?: string;
+  text: string;
   className?: string;
   status?: MonitorStatus;
 };
 
-const TrackingBlock = ({ className, status }: Props) => {
+const TrackingBlock = ({ text, className, status }: Props) => {
   let bg = 'bg-gray-500';
 
   if (status) {
@@ -30,7 +31,13 @@ const TrackingBlock = ({ className, status }: Props) => {
     }
   }
 
-  return <div className={classNames('mx-1 h-9 w-3 rounded-md', bg, className || '')}></div>;
+  return (
+    <>
+      <SimpleTooltip message={text}>
+        <div className={classNames('mx-1 h-9 w-3 rounded-md', bg, className || '')}></div>
+      </SimpleTooltip>
+    </>
+  );
 };
 
 export default TrackingBlock;

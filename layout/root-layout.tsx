@@ -1,6 +1,6 @@
 import { Inter } from '@next/font/google';
 import Head from 'next/head';
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
 
 type Props = {
   children: ReactNode;
@@ -9,6 +9,10 @@ type Props = {
 const inter = Inter({ subsets: ['latin'] });
 
 export default function RootLayout({ children }: Props) {
+  useEffect(() => {
+    import('preline');
+  }, []);
+  
   return (
     <>
       <Head>
