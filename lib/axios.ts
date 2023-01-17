@@ -29,7 +29,8 @@ export const addToken = (token: string) => {
 };
 
 export const authRequest = async <T = any, R = AxiosResponse<T>, D = any>(
-  config: AxiosRequestConfig<D>
+  config: AxiosRequestConfig<D>,
+  shouldLogout: boolean = true
 ): Promise<R> => {
   try {
     const token = getAccessToken();
@@ -40,7 +41,7 @@ export const authRequest = async <T = any, R = AxiosResponse<T>, D = any>(
     }
     return await client.request<T, R, D>(config);
   } catch (error) {
-    if (error instanceof AxiosError && error.response && error.response.status === UNAUTHENTICATED) {
+    if (error instanceof AxiosError && error.response && error.response.status === UNAUTHENTICATED && shouldLogout) {
       await logout();
     }
     throw error;

@@ -30,7 +30,7 @@ export default function Auth() {
 
   async function getMe() {
     try {
-      const { data } = await authRequest<UserResponse>({ method: HTTPMethod.GET, url: '/me' });
+      const { data } = await authRequest<UserResponse>({ method: HTTPMethod.GET, url: '/me' }, false);
 
       setLoading(false);
       await setCurrentUser(data.data);
