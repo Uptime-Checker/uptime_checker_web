@@ -94,8 +94,8 @@ const Monitors: NextPageWithLayout = () => {
             )}
           >
             <dt>
-              <div className="absolute">
-                <Icon icon={item.icon} variant="light" size="xl" color={item.color} />
+              <div className={classNames('absolute rounded-lg p-2.5', `bg-${item.color}-100`)}>
+                <item.icon className={classNames('h-9 w-9', `text-${item.color}-500`)} aria-hidden="true" />
               </div>
               <p className="ml-16 truncate pl-2 text-left text-sm text-gray-500">{item.title}</p>
             </dt>
@@ -108,7 +108,6 @@ const Monitors: NextPageWithLayout = () => {
           </button>
         ))}
       </dl>
-
       <section className="mt-10 flex">
         <div className="flex flex-auto items-baseline">
           <p className="text-3xl font-semibold text-gray-900">Monitors</p>
