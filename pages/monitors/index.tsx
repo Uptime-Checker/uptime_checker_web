@@ -50,7 +50,7 @@ const people = [
 const data = [
   { id: 1, status: MonitorStatus.PASSING },
   { id: 2, status: MonitorStatus.PASSING },
-  { id: 3, status: MonitorStatus.PASSING },
+  { id: 3, status: MonitorStatus.MAINTENANCE },
   { id: 4, status: MonitorStatus.FAILING },
   { id: 5, status: MonitorStatus.PASSING },
   { id: 6, status: MonitorStatus.PASSING },

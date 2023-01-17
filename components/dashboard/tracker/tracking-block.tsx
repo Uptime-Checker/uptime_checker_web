@@ -8,7 +8,7 @@ type Props = {
 };
 
 const TrackingBlock = ({ className, status }: Props) => {
-  let bg = 'bg-teal-500';
+  let bg = 'bg-gray-500';
 
   if (status) {
     switch (status) {
@@ -25,6 +25,7 @@ const TrackingBlock = ({ className, status }: Props) => {
         break;
 
       default:
+        bg = 'bg-teal-500';
         break;
     }
   }
