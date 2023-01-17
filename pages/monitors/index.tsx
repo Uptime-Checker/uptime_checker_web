@@ -1,5 +1,5 @@
 import { EllipsisVerticalIcon, ShieldCheckIcon, ShieldExclamationIcon } from '@heroicons/react/24/solid';
-import { Color, Icon, Tracking, TrackingBlock } from '@tremor/react';
+import { Tracking, TrackingBlock } from 'components/dashboard/tracker';
 import DashboardLayout from 'layout/dashboard-layout';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -11,7 +11,7 @@ interface MetricCard {
   title: string;
   metric: string;
   icon: any;
-  color: Color;
+  color: string;
 }
 
 const categories: MetricCard[] = [
@@ -61,6 +61,9 @@ const data = [
   { id: 5, status: 'Operational' },
   { id: 6, status: 'Operational' },
   { id: 7, status: 'Operational' },
+  { id: 8, status: 'Operational' },
+  { id: 9, status: 'Operational' },
+  { id: 10, status: 'Operational' },
 ];
 
 const Monitors: NextPageWithLayout = () => {
@@ -168,10 +171,10 @@ const Monitors: NextPageWithLayout = () => {
                     Degraded
                   </span>
                 </td>
-                <td className="hidden whitespace-nowrap px-3 py-4 text-sm text-gray-500 lg:table-cell">
+                <td className="hidden whitespace-nowrap px-3 py-4 text-center text-gray-500 lg:table-cell">
                   <Tracking>
                     {data.map((item) => (
-                      <TrackingBlock color={statusStyles[item.status]} tooltip={item.status} key={item.id} />
+                      <TrackingBlock key={item.id} />
                     ))}
                   </Tracking>
                 </td>
