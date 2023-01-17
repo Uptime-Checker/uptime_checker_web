@@ -1,11 +1,35 @@
+import { MonitorStatus } from 'models/monitor';
 import { classNames } from 'utils/misc';
 
 type Props = {
+  text?: string;
   className?: string;
+  status?: MonitorStatus;
 };
 
-const TrackingBlock = ({ className }: Props) => {
-  return <div className={classNames('mx-1 h-9 w-3 rounded-md bg-teal-500', className || '')}></div>;
+const TrackingBlock = ({ className, status }: Props) => {
+  let bg = 'bg-teal-500';
+
+  if (status) {
+    switch (status) {
+      case MonitorStatus.FAILING:
+        bg = 'bg-red-500';
+        break;
+
+      case MonitorStatus.MAINTENANCE:
+        bg = 'bg-gray-500';
+        break;
+
+      case MonitorStatus.DEGRADED:
+        bg = 'bg-amber-500';
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  return <div className={classNames('mx-1 h-9 w-3 rounded-md', bg, className || '')}></div>;
 };
 
 export default TrackingBlock;

@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import { ReactElement } from 'react';
 import { classNames } from 'utils/misc';
 import { NextPageWithLayout } from '../_app';
+import { MonitorStatus } from 'models/monitor';
 
 interface MetricCard {
   title: string;
@@ -46,24 +47,17 @@ const people = [
   // More people...
 ];
 
-const statusStyles = {
-  Operational: 'teal',
-  Downtime: 'rose',
-  Maintenance: 'gray',
-  Degraded: 'amber',
-};
-
 const data = [
-  { id: 1, status: '27th Oct, 96.5% Uptime' },
-  { id: 2, status: 'Operational' },
-  { id: 3, status: 'Operational' },
-  { id: 4, status: 'Operational' },
-  { id: 5, status: 'Operational' },
-  { id: 6, status: 'Operational' },
-  { id: 7, status: 'Operational' },
-  { id: 8, status: 'Operational' },
-  { id: 9, status: 'Operational' },
-  { id: 10, status: 'Operational' },
+  { id: 1, status: MonitorStatus.PASSING },
+  { id: 2, status: MonitorStatus.PASSING },
+  { id: 3, status: MonitorStatus.PASSING },
+  { id: 4, status: MonitorStatus.FAILING },
+  { id: 5, status: MonitorStatus.PASSING },
+  { id: 6, status: MonitorStatus.PASSING },
+  { id: 7, status: MonitorStatus.DEGRADED },
+  { id: 8, status: MonitorStatus.PASSING },
+  { id: 9, status: MonitorStatus.PASSING },
+  { id: 10, status: MonitorStatus.PASSING },
 ];
 
 const Monitors: NextPageWithLayout = () => {
@@ -104,9 +98,6 @@ const Monitors: NextPageWithLayout = () => {
             </dt>
             <dd className="ml-16 flex items-baseline pl-2">
               <p className="text-3xl font-semibold text-gray-900">{item.metric}</p>
-              <p className="ml-2 flex items-baseline truncate text-sm text-slate-500">
-                {item.title == 'Incidents' ? 'Last 7 Days' : ''}
-              </p>
             </dd>
           </button>
         ))}
@@ -114,7 +105,7 @@ const Monitors: NextPageWithLayout = () => {
       <section className="mt-10 flex">
         <div className="flex flex-auto items-baseline">
           <p className="text-3xl font-semibold text-gray-900">Monitors</p>
-          <p className="ml-2 flex items-baseline truncate text-sm text-slate-500">Last 7 Days</p>
+          <p className="ml-2 flex items-baseline truncate text-sm text-slate-500">Last 10 Days</p>
         </div>
 
         <button
@@ -174,7 +165,7 @@ const Monitors: NextPageWithLayout = () => {
                 <td className="hidden whitespace-nowrap px-3 py-4 text-center text-gray-500 lg:table-cell">
                   <Tracking>
                     {data.map((item) => (
-                      <TrackingBlock key={item.id} />
+                      <TrackingBlock key={item.id} status={item.status} />
                     ))}
                   </Tracking>
                 </td>

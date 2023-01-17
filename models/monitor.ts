@@ -1,10 +1,10 @@
-export enum HTTPMethod {
-  GET = 'GET',
-  POST = 'POST',
-  PUT = 'PUT',
-  PATCH = 'PATCH',
-  DELETE = 'DELETE',
-  HEAD = 'HEAD',
+import { HTTPMethod } from 'lib/axios';
+
+export enum MonitorStatus {
+  PASSING = 'passing',
+  FAILING = 'failing',
+  DEGRADED = 'degraded',
+  MAINTENANCE = 'maintenance',
 }
 
 export interface Monitor {
@@ -12,6 +12,7 @@ export interface Monitor {
   name: string;
   url: string;
   method: HTTPMethod;
+  status: MonitorStatus;
   interval: number;
   user_ids: [number];
   body: string;
