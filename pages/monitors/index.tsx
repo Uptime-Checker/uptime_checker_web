@@ -48,7 +48,7 @@ const people = [
 ];
 
 const data = [
-  { id: 1, status: MonitorStatus.PASSING, message: 'Operational' },
+  { id: 1, status: MonitorStatus.PASSING, message: '27th Oct, 96.5% Uptime' },
   { id: 2, status: MonitorStatus.PASSING, message: 'Operational' },
   { id: 3, status: MonitorStatus.MAINTENANCE, message: 'Maintenance' },
   { id: 4, status: MonitorStatus.FAILING, message: 'Operational' },
