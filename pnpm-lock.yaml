@@ -25,7 +25,6 @@ specifiers:
   next: ^13.1.1
   next-auth: ^4.18.7
   postcss: ^8.4.20
-  preline: ^1.6.0
   prettier: ^2.8.1
   prettier-plugin-tailwindcss: ^0.2.1
   prisma: ^4.8.1
@@ -53,7 +52,6 @@ dependencies:
   jotai-immer: 0.1.0_dp24wn5ahba4izfoliy5lo56qy
   next: 13.1.1_biqbaboplfbrettd7655fr4n2y
   next-auth: 4.18.7_q76c2b4vyoegvsbrcwkfvimnai
-  preline: 1.6.0
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
   stripe: 11.5.0
@@ -828,10 +826,6 @@ packages:
       tiny-glob: 0.2.9
       tslib: 2.4.1
     dev: true
-
-  /@popperjs/core/2.11.6:
-    resolution: {integrity: sha512-50/17A98tWUfQ176raKiOGXuYpLyyVMkxxG6oylzL3BPOlA6ADGdK7EYunSa4I064xerltq9TGXs8HmOk5E+vw==}
-    dev: false
 
   /@prisma/client/4.8.1_prisma@4.8.1:
     resolution: {integrity: sha512-d4xhZhETmeXK/yZ7K0KcVOzEfI5YKGGEr4F5SBV04/MU4ncN/HcE28sy3e4Yt8UFW0ZuImKFQJE+9rWt9WbGSQ==}
@@ -3172,12 +3166,6 @@ packages:
 
   /preact/10.11.3:
     resolution: {integrity: sha512-eY93IVpod/zG3uMF22Unl8h9KkrcKIRs2EGar8hwLZZDU1lkjph303V9HZBwufh2s736U6VXuhD109LYqPoffg==}
-    dev: false
-
-  /preline/1.6.0:
-    resolution: {integrity: sha512-H86+auVrHhzxN5aFf44wLLL0QOiMBkhSdGdoALpWP99efFdPhtTSeZrZamUYqi9DWg/J95wJciN7aJXk8Qk5vg==}
-    dependencies:
-      '@popperjs/core': 2.11.6
     dev: false
 
   /prelude-ls/1.2.1:

@@ -4,7 +4,6 @@ module.exports = {
     './layout/**/*.{js,ts,jsx,tsx}',
     './pages/**/*.{js,ts,jsx,tsx}',
     './components/**/*.{js,ts,jsx,tsx}',
-    'node_modules/preline/dist/*.js',
   ],
   theme: {
     extend: {},
@@ -26,5 +25,5 @@ module.exports = {
     'hover:bg-red-50',
     'hover:bg-amber-50',
   ],
-  plugins: [require('@tailwindcss/forms'), require('preline/plugin')],
+  plugins: [require('@tailwindcss/forms')],
 };
