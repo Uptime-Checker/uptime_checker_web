@@ -10,7 +10,7 @@ const Monitor = () => {
   return (
     <section className="mx-auto mt-6 max-w-7xl px-4 sm:px-6 md:px-8">
       <div className="flex justify-between">
-        <div className="w-full md:flex md:items-center md:justify-between md:space-x-4 xl:border-b xl:pb-6">
+        <div className="w-full md:flex md:items-center md:justify-between md:space-x-4 xl:pb-6">
           <div>
             <h1 className="text-2xl font-bold text-gray-900">Textr API</h1>
             <p className="mt-2 text-sm text-gray-500">
