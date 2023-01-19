@@ -152,11 +152,14 @@ const Monitors: NextPageWithLayout = () => {
           <tbody className="divide-y divide-gray-200 bg-white">
             {people.map((person) => (
               <tr key={person.email}>
-                <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-900 sm:pl-6">
-                  <Link className="block font-medium text-indigo-600" href="#">
+                <td
+                  className="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-900 hover:cursor-pointer
+                hover:underline sm:pl-6"
+                >
+                  <Link className="block font-medium text-indigo-600" href="monitors/1">
                     {person.name}
                   </Link>
-                  <Link className="block pt-1 text-gray-500" href="#">
+                  <Link className="block pt-1 text-gray-500" href="monitors/1">
                     {person.url}
                   </Link>
                 </td>
@@ -179,8 +182,8 @@ const Monitors: NextPageWithLayout = () => {
                   {person.downtime}
                 </td>
                 <td className="whitespace-nowrap text-right text-sm font-medium">
-                  <button className="py-4 pl-3 pr-4">
-                    <EllipsisVerticalIcon className="h-6 w-6 text-gray-500" />
+                  <button className="py-4 pl-3 pr-3">
+                    <EllipsisVerticalIcon className="h-7 w-7 text-gray-500" />
                   </button>
                 </td>
               </tr>
