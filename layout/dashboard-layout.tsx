@@ -48,12 +48,12 @@ export default function DashboardLayout({ children }: Props) {
   }, [setGlobal]);
 
   return (
-    <div className="dashboard">
+    <>
       <SideBar />
       <TopBar className="md:pl-64" />
       <div className="flex flex-col md:pl-64">
         <main className="flex-1">{children}</main>
       </div>
-    </div>
+    </>
   );
 }
