@@ -7,6 +7,7 @@ import { classNames } from 'utils/misc';
 
 type Props = {
   className?: string;
+  top?: boolean;
 };
 
 const userNavigation = [
@@ -14,7 +15,13 @@ const userNavigation = [
   { name: 'Delete', href: '/settings/billing', icon: TrashIcon },
 ];
 
-const MonitorRowOption = ({ className }: Props) => {
+const MonitorRowOption = ({ className, top }: Props) => {
+  let postionTop = true;
+
+  if (top) {
+    postionTop = top!;
+  }
+
   return (
     <section className={className}>
       <Menu as="div" className="relative ml-6">
@@ -30,7 +37,12 @@ const MonitorRowOption = ({ className }: Props) => {
           leaveFrom="transform opacity-100 scale-100"
           leaveTo="transform opacity-0 scale-95"
         >
-          <Menu.Items className="absolute right-4 z-10 w-32 origin-top-right divide-y divide-gray-200 rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+          <Menu.Items
+            className={classNames(
+              'absolute right-4 z-10 w-32 origin-top-right divide-y divide-gray-200 rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none',
+              postionTop ? '' : 'bottom-14'
+            )}
+          >
             {userNavigation.map((item) => (
               <Menu.Item key={item.name}>
                 {({ active }) => (
