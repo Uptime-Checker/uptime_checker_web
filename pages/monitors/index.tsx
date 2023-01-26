@@ -1,4 +1,5 @@
-import { EllipsisVerticalIcon, ShieldCheckIcon, ShieldExclamationIcon } from '@heroicons/react/24/solid';
+import { ShieldCheckIcon, ShieldExclamationIcon } from '@heroicons/react/24/solid';
+import MonitorRowOption from 'components/dashboard/monitor/monitor-row-option';
 import { Tracking, TrackingBlock } from 'components/dashboard/tracker';
 import DashboardLayout from 'layout/dashboard-layout';
 import { MonitorStatus } from 'models/monitor';
@@ -208,10 +209,8 @@ const Monitors: NextPageWithLayout = () => {
                 <td className="hidden whitespace-nowrap px-3 py-4 text-sm text-gray-500 xl:table-cell">
                   {person.downtime}
                 </td>
-                <td className="whitespace-nowrap text-right text-sm font-medium">
-                  <button className="py-4 pl-3 pr-3">
-                    <EllipsisVerticalIcon className="h-7 w-7 text-gray-500" />
-                  </button>
+                <td className="whitespace-nowrap">
+                  <MonitorRowOption />
                 </td>
               </tr>
             ))}
