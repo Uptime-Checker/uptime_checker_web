@@ -15,19 +15,15 @@ import { useAtom } from 'jotai';
 import { getCurrentUser } from 'lib/global';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { Fragment, SVGProps, useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { globalAtom } from 'store/global';
+import { HeroIcon } from 'types/main';
 import { classNames } from 'utils/misc';
 
 interface NavigationItem {
   name: string;
   href: string;
-  icon: (
-    props: SVGProps<SVGSVGElement> & {
-      title?: string | undefined;
-      titleId?: string | undefined;
-    }
-  ) => JSX.Element;
+  icon: HeroIcon;
 }
 
 const navigation: NavigationItem[] = [

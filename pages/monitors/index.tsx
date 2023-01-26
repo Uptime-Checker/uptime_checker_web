@@ -6,14 +6,23 @@ import { MonitorStatus } from 'models/monitor';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { ReactElement } from 'react';
+import { HeroIcon } from 'types/main';
 import { classNames } from 'utils/misc';
 import { NextPageWithLayout } from '../_app';
 
 interface MetricCard {
   title: string;
   metric: string;
-  icon: any;
+  icon: HeroIcon;
   color: string;
+}
+
+interface Person {
+  name: string;
+  url: string;
+  email: string;
+  lastChecked: string;
+  downtime: string;
 }
 
 const categories: MetricCard[] = [
@@ -37,7 +46,7 @@ const categories: MetricCard[] = [
   },
 ];
 
-const people = [
+const people: Person[] = [
   {
     name: 'Textr API',
     url: 'https://api.textrapp.me/v1/status',
@@ -47,28 +56,28 @@ const people = [
   },
   {
     name: 'Textr API',
-    url: 'https://api.textrapp.me/v1/status',
+    url: 'https://api.textrapp.me/v1/statuss',
     email: 'lindsay.walton@example.com',
     lastChecked: '2 hours ago',
     downtime: '3 hours 29 minutes',
   },
   {
     name: 'Textr API',
-    url: 'https://api.textrapp.me/v1/status',
+    url: 'https://api.textrapp.me/v1/statusss',
     email: 'lindsay.walton@example.com',
     lastChecked: '2 hours ago',
     downtime: '3 hours 29 minutes',
   },
   {
     name: 'Textr API',
-    url: 'https://api.textrapp.me/v1/status',
+    url: 'https://api.textrapp.me/v1/statusssss',
     email: 'lindsay.walton@example.com',
     lastChecked: '2 hours ago',
     downtime: '3 hours 29 minutes',
   },
   {
     name: 'Textr API',
-    url: 'https://api.textrapp.me/v1/status',
+    url: 'https://api.textrapp.me/v1/stat',
     email: 'lindsay.walton@example.com',
     lastChecked: '2 hours ago',
     downtime: '3 hours 29 minutes',
@@ -104,8 +113,17 @@ const Monitors: NextPageWithLayout = () => {
     return router.query.filter && router.query.filter.includes(item.title) ? item.color : 'white';
   };
 
+  const getMonitorRowOption = (item: Person) => {
+    let postionTop = true;
+    const lastItem = people[people.length - 1];
+    if (lastItem.url === item.url) {
+      postionTop = false;
+    }
+    return <MonitorRowOption top={postionTop} />;
+  };
+
   return (
-    <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-8">
+    <div className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 md:px-8">
       <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {categories.map((item) => (
           <button
@@ -144,7 +162,7 @@ const Monitors: NextPageWithLayout = () => {
         </button>
       </section>
 
-      <div className="-mx-4 mt-8 overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:-mx-6 md:mx-0 md:rounded-lg">
+      <div className="-mx-4 mt-8 overflow-auto shadow ring-1 ring-black ring-opacity-5 sm:-mx-6 md:mx-0 md:rounded-lg">
         <table className="min-w-full divide-y divide-gray-300">
           <thead className="bg-white">
             <tr>
@@ -179,7 +197,7 @@ const Monitors: NextPageWithLayout = () => {
           </thead>
           <tbody className="divide-y divide-gray-200 bg-white">
             {people.map((person) => (
-              <tr key={person.email}>
+              <tr key={person.url}>
                 <td
                   className="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-900 hover:cursor-pointer
                 hover:underline sm:pl-6"
@@ -209,9 +227,7 @@ const Monitors: NextPageWithLayout = () => {
                 <td className="hidden whitespace-nowrap px-3 py-4 text-sm text-gray-500 xl:table-cell">
                   {person.downtime}
                 </td>
-                <td className="whitespace-nowrap">
-                  <MonitorRowOption />
-                </td>
+                <td className="whitespace-nowrap">{getMonitorRowOption(person)}</td>
               </tr>
             ))}
           </tbody>

@@ -18,7 +18,7 @@ const userNavigation = [
 const MonitorRowOption = ({ className, top }: Props) => {
   let postionTop = true;
 
-  if (top) {
+  if (top !== undefined) {
     postionTop = top!;
   }
 
