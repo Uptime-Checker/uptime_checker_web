@@ -44,7 +44,34 @@ const people = [
     lastChecked: '2 hours ago',
     downtime: '3 hours 29 minutes',
   },
-  // More people...
+  {
+    name: 'Textr API',
+    url: 'https://api.textrapp.me/v1/status',
+    email: 'lindsay.walton@example.com',
+    lastChecked: '2 hours ago',
+    downtime: '3 hours 29 minutes',
+  },
+  {
+    name: 'Textr API',
+    url: 'https://api.textrapp.me/v1/status',
+    email: 'lindsay.walton@example.com',
+    lastChecked: '2 hours ago',
+    downtime: '3 hours 29 minutes',
+  },
+  {
+    name: 'Textr API',
+    url: 'https://api.textrapp.me/v1/status',
+    email: 'lindsay.walton@example.com',
+    lastChecked: '2 hours ago',
+    downtime: '3 hours 29 minutes',
+  },
+  {
+    name: 'Textr API',
+    url: 'https://api.textrapp.me/v1/status',
+    email: 'lindsay.walton@example.com',
+    lastChecked: '2 hours ago',
+    downtime: '3 hours 29 minutes',
+  },
 ];
 
 const data = [
