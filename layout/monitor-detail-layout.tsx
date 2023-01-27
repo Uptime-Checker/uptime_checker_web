@@ -14,7 +14,12 @@ interface NavigationItem {
   count?: number;
 }
 
-const stats = [
+interface StatItem {
+  name: string;
+  stat: string;
+}
+
+const stats: StatItem[] = [
   { name: 'Status', stat: 'Passing' },
   { name: 'Uptime', stat: '58.16%' },
   { name: 'Avg. Response Time', stat: '186ms' },
@@ -61,6 +66,13 @@ export default function MonitorDetailLayout({ children }: Props) {
     await router.push(`/monitors/${monitorId}/` + selectedTab!.href);
   };
 
+  const getStat = (item: StatItem) => {
+    if (item.name == 'Status') {
+      return <span className="rounded-full bg-green-100 px-2 py-1 text-sm leading-5 text-green-800">{item.stat}</span>;
+    }
+    return item.stat;
+  };
+
   return (
     <section className="mx-auto mt-6 max-w-7xl px-4 sm:px-6 md:px-8">
       <section className="w-full border-b pb-6 md:flex md:items-center md:justify-between md:space-x-4">
@@ -94,7 +106,6 @@ export default function MonitorDetailLayout({ children }: Props) {
           </a>
         </div>
       </section>
-
       <section className="pt-5">
         <h3 className="text-lg font-medium leading-6 text-gray-900">Last 10 days</h3>
         <dl className="mt-5 grid grid-cols-1 divide-y divide-gray-200 overflow-hidden rounded-lg border bg-white drop-shadow md:grid-cols-5 md:divide-y-0 md:divide-x">
@@ -102,13 +113,13 @@ export default function MonitorDetailLayout({ children }: Props) {
             <div key={item.name} className="px-4 py-5 sm:p-4">
               <dt className="truncate text-sm font-normal text-gray-900">{item.name}</dt>
               <dd className="mt-1 flex items-baseline justify-between text-lg font-semibold text-indigo-600">
-                {item.stat}
+                {getStat(item)}
               </dd>
             </div>
           ))}
         </dl>
       </section>
-      <section className="py-6">
+      <section className="py-5">
         {/* Tabs */}
         <div className="md:hidden">
           <label htmlFor="selected-tab" className="sr-only">
