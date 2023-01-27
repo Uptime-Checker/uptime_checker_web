@@ -23,7 +23,7 @@ type Props = {
 const TopBar = ({ className }: Props) => {
   const router = useRouter();
   const [, setGlobal] = useAtom(globalAtom);
-  const [showSearch, setShowSearch] = useState(true);
+  const [showSearch, setShowSearch] = useState(false);
 
   useEffect(() => {
     if (router.isReady) {
