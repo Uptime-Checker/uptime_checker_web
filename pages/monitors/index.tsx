@@ -125,13 +125,26 @@ const Monitors: NextPageWithLayout = () => {
     return router.query.filter && router.query.filter.includes(item.title) ? item.color : 'white';
   };
 
+  const monitorRowOptionTapped = (item: Person, optionaName: string) => {
+    console.log(item);
+    console.log(optionaName);
+  };
+
   const getMonitorRowOption = (item: Person) => {
     let postionTop = true;
     const lastItem = people[people.length - 1];
     if (lastItem.url === item.url && people.length > 1) {
       postionTop = false;
     }
-    return <MonitorRowOption top={postionTop} options={monitorRowOptions} />;
+    return (
+      <MonitorRowOption
+        top={postionTop}
+        options={monitorRowOptions}
+        optionTapped={(optionaName) => {
+          monitorRowOptionTapped(item, optionaName);
+        }}
+      />
+    );
   };
 
   return (
