@@ -227,10 +227,10 @@ const Monitors: NextPageWithLayout = () => {
                   className="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-900 hover:cursor-pointer
                 hover:underline sm:pl-6"
                 >
-                  <Link className="block font-medium text-indigo-600" href="monitors/1">
+                  <Link className="block font-medium text-indigo-600" href="monitors/1/overview">
                     {person.name}
                   </Link>
-                  <Link className="block pt-1 text-gray-500" href="monitors/1">
+                  <Link className="block pt-1 text-gray-500" href="monitors/1/overview">
                     {person.url}
                   </Link>
                 </td>
