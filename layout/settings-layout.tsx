@@ -10,6 +10,7 @@ type Props = {
 interface NavigationItem {
   name: string;
   href: string;
+  count?: number;
 }
 
 const tabs: NavigationItem[] = [
@@ -17,7 +18,7 @@ const tabs: NavigationItem[] = [
   { name: 'Organization', href: '/settings/organization' },
   { name: 'Notifications', href: '/settings/notifications' },
   { name: 'Billing', href: '/settings/billing' },
-  { name: 'Invitations', href: '/settings/invitations' },
+  { name: 'Invitations', href: '/settings/invitations', count: 5 },
 ];
 
 export default function SettingsLayout({ children }: Props) {
@@ -90,6 +91,16 @@ export default function SettingsLayout({ children }: Props) {
                     )}
                   >
                     {tab.name}
+                    {tab.count ? (
+                      <span
+                        className={classNames(
+                          isNavActive(tab) ? 'bg-indigo-100 text-indigo-600' : 'bg-gray-100 text-gray-900',
+                          'ml-3 hidden rounded-full py-0.5 px-2.5 text-xs font-medium md:inline-block'
+                        )}
+                      >
+                        {tab.count}
+                      </span>
+                    ) : null}
                   </Link>
                 ))}
               </nav>
