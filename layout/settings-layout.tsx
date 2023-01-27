@@ -14,11 +14,11 @@ interface NavigationItem {
 }
 
 const tabs: NavigationItem[] = [
-  { name: 'Account', href: '/settings/account' },
-  { name: 'Organization', href: '/settings/organization' },
-  { name: 'Notifications', href: '/settings/notifications' },
-  { name: 'Billing', href: '/settings/billing' },
-  { name: 'Invitations', href: '/settings/invitations', count: 5 },
+  { name: 'Account', href: 'account' },
+  { name: 'Organization', href: 'organization' },
+  { name: 'Notifications', href: 'notifications' },
+  { name: 'Billing', href: 'billing' },
+  { name: 'Invitations', href: 'invitations', count: 5 },
 ];
 
 export default function SettingsLayout({ children }: Props) {
@@ -29,8 +29,7 @@ export default function SettingsLayout({ children }: Props) {
     if (router.isReady) {
       const getActiveTab = () => {
         for (const tab of tabs) {
-          let splitNavHref = tab.href.split('/');
-          if (router.pathname.includes(splitNavHref[2])) {
+          if (router.pathname.includes(tab.href)) {
             return tab;
           }
         }
@@ -42,8 +41,7 @@ export default function SettingsLayout({ children }: Props) {
   }, [router]);
 
   const isNavActive = (navItem: NavigationItem) => {
-    let splitNavHref = navItem.href.split('/');
-    return router.pathname.includes(splitNavHref[2]);
+    return router.pathname.includes(navItem.href);
   };
 
   const onTabChange = async (event: ChangeEvent) => {
@@ -51,7 +49,7 @@ export default function SettingsLayout({ children }: Props) {
     const selectedTab = tabs.find((tab) => tab.name === target.value);
     setSelectedTab(selectedTab!);
 
-    await router.push(selectedTab!.href);
+    await router.push(`/settings/${selectedTab!.href}`);
   };
 
   return (
@@ -82,7 +80,7 @@ export default function SettingsLayout({ children }: Props) {
                 {tabs.map((tab) => (
                   <Link
                     key={tab.name}
-                    href={tab.href}
+                    href={'/settings/' + tab.href}
                     className={classNames(
                       isNavActive(tab)
                         ? 'border-indigo-500 text-indigo-600'
