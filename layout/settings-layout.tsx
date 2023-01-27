@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { ChangeEvent, ReactNode, useEffect, useState } from 'react';
-import { classNames } from '../utils/misc';
+import { classNames } from 'utils/misc';
 
 type Props = {
   children: ReactNode;
