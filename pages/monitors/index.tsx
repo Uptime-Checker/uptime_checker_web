@@ -1,3 +1,4 @@
+import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { ShieldCheckIcon, ShieldExclamationIcon } from '@heroicons/react/24/solid';
 import MonitorRowOption from 'components/dashboard/monitor/monitor-row-option';
 import { Tracking, TrackingBlock } from 'components/dashboard/tracker';
@@ -6,7 +7,7 @@ import { MonitorStatus } from 'models/monitor';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { ReactElement } from 'react';
-import { HeroIcon } from 'types/main';
+import { HeroIcon, RowOption } from 'types/main';
 import { classNames } from 'utils/misc';
 import { NextPageWithLayout } from '../_app';
 
@@ -24,6 +25,17 @@ interface Person {
   lastChecked: string;
   downtime: string;
 }
+
+const monitorRowOptions: RowOption[] = [
+  {
+    name: 'Edit',
+    icon: PencilSquareIcon,
+  },
+  {
+    name: 'Delete',
+    icon: TrashIcon,
+  },
+];
 
 const categories: MetricCard[] = [
   {
@@ -116,10 +128,10 @@ const Monitors: NextPageWithLayout = () => {
   const getMonitorRowOption = (item: Person) => {
     let postionTop = true;
     const lastItem = people[people.length - 1];
-    if (lastItem.url === item.url) {
+    if (lastItem.url === item.url && people.length > 1) {
       postionTop = false;
     }
-    return <MonitorRowOption top={postionTop} />;
+    return <MonitorRowOption top={postionTop} options={monitorRowOptions} />;
   };
 
   return (

@@ -1,21 +1,16 @@
 import { Menu, Transition } from '@headlessui/react';
-import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { EllipsisVerticalIcon } from '@heroicons/react/24/solid';
-import Link from 'next/link';
 import { Fragment } from 'react';
+import { RowOption } from 'types/main';
 import { classNames } from 'utils/misc';
 
 type Props = {
   className?: string;
   top?: boolean;
+  options: RowOption[];
 };
 
-const userNavigation = [
-  { name: 'Edit', href: '/settings/account', icon: PencilSquareIcon },
-  { name: 'Delete', href: '/settings/billing', icon: TrashIcon },
-];
-
-const MonitorRowOption = ({ className, top }: Props) => {
+const MonitorRowOption = ({ className, top, options }: Props) => {
   let postionTop = true;
 
   if (top !== undefined) {
@@ -43,14 +38,13 @@ const MonitorRowOption = ({ className, top }: Props) => {
               postionTop ? '' : 'bottom-14'
             )}
           >
-            {userNavigation.map((item) => (
+            {options.map((item) => (
               <Menu.Item key={item.name}>
                 {({ active }) => (
-                  <Link
-                    href={item.href}
+                  <button
                     className={classNames(
                       active ? 'bg-gray-100 text-gray-900' : '',
-                      'flex py-2 px-4 text-sm text-gray-700',
+                      'flex w-full py-2 px-4 text-sm text-gray-700',
                       item.name === 'Delete' ? 'text-red-600' : ''
                     )}
                   >
@@ -62,7 +56,7 @@ const MonitorRowOption = ({ className, top }: Props) => {
                       aria-hidden="true"
                     />
                     {item.name}
-                  </Link>
+                  </button>
                 )}
               </Menu.Item>
             ))}

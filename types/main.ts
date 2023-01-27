@@ -6,3 +6,8 @@ export type HeroIcon = (
     titleId?: string | undefined;
   }
 ) => JSX.Element;
+
+export interface RowOption {
+  name: string;
+  icon: HeroIcon;
+}
