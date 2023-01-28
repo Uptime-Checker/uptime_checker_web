@@ -223,15 +223,10 @@ const Monitors: NextPageWithLayout = () => {
           <tbody className="divide-y divide-gray-200 bg-white">
             {people.map((person) => (
               <tr key={person.url}>
-                <td
-                  className="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-900 hover:cursor-pointer
-                hover:underline sm:pl-6"
-                >
-                  <Link className="block font-medium text-indigo-600" href="monitors/1/overview">
-                    {person.name}
-                  </Link>
-                  <Link className="block pt-1 text-gray-500" href="monitors/1/overview">
-                    {person.url}
+                <td className="whitespace-nowrap text-sm text-gray-900 hover:cursor-pointer hover:underline">
+                  <Link className="block py-4 pl-4 pr-3 sm:pl-6" href="monitors/1/overview">
+                    <div className="font-medium text-indigo-600">{person.name}</div>
+                    <div className="pt-1 text-gray-500">{person.url}</div>
                   </Link>
                 </td>
                 <td className="whitespace-nowrap px-3 py-4 text-center text-sm text-gray-600">
