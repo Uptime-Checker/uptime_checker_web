@@ -28,7 +28,7 @@ const stats: StatItem[] = [
 
 const tabs: NavigationItem[] = [
   { name: 'Overview', href: 'overview' },
-  { name: 'Feed', href: 'feed' },
+  { name: 'Checks', href: 'checks' },
   { name: 'Error Logs', href: 'error-logs' },
   { name: 'Incidents', href: 'incidents' },
 ];

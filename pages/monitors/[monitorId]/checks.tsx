@@ -4,7 +4,7 @@ import { ReactElement } from 'react';
 import { NextPageWithLayout } from '../../_app';
 
 const Feed: NextPageWithLayout = () => {
-  return <h1>Feed</h1>;
+  return <h1>Checks</h1>;
 };
 
 Feed.getLayout = function getLayout(page: ReactElement) {

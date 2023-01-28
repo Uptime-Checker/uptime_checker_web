@@ -33,8 +33,8 @@ const MonitorRowOption = ({ top, options, optionTapped }: Props) => {
       >
         <Menu.Items
           className={classNames(
-            'absolute right-4 z-10 w-32 origin-top-right divide-y divide-gray-200 rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none',
-            postionTop ? '' : 'bottom-14'
+            'absolute right-12 z-10 w-32 origin-top-right divide-y divide-gray-200 rounded-md bg-white ring-1 ring-black ring-opacity-5 drop-shadow-xl focus:outline-none',
+            postionTop ? 'top-10' : 'bottom-8'
           )}
         >
           {options.map((item) => (
