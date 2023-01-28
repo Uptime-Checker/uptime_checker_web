@@ -32,11 +32,9 @@ const TrackingBlock = ({ text, className, status }: Props) => {
   }
 
   return (
-    <>
-      <SimpleTooltip message={text}>
-        <div className={classNames('mx-1 h-9 w-3 rounded-md', bg, className || '')}></div>
-      </SimpleTooltip>
-    </>
+    <SimpleTooltip message={text}>
+      <div className={classNames('mx-1 h-9 w-3 rounded-md', bg, className || '')}></div>
+    </SimpleTooltip>
   );
 };
 

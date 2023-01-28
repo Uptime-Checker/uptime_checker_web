@@ -21,7 +21,7 @@ interface StatItem {
 const stats: StatItem[] = [
   { name: 'Status', stat: 'Passing' },
   { name: 'Uptime', stat: '58.16%' },
-  { name: 'Avg. Response Time', stat: '186ms' },
+  { name: 'SSL Expiration', stat: '129 Days' },
   { name: 'Checks', stat: '289' },
   { name: 'Incidents', stat: 'None' },
 ];
