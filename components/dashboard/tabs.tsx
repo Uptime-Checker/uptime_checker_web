@@ -109,7 +109,7 @@ const Tabs = ({ baseURL, tabs, children, breakpoint }: Props) => {
         </div>
       </div>
 
-      <div className="mt-1 divide-y divide-gray-200">{children}</div>
+      {children}
     </section>
   );
 };

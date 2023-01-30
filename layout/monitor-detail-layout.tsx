@@ -78,7 +78,9 @@ export default function MonitorDetailLayout({ children }: Props) {
         </div>
       </section>
       <section className="pt-5">
-        <h3 className="text-lg font-medium leading-6 text-gray-900">Last 10 days</h3>
+        <h3 className="text-lg font-medium leading-6 text-gray-900">
+          Last 10 days · <span className="text-sm text-gray-600">Checked every 3 minutes</span>
+        </h3>
         <dl className="mt-5 grid grid-cols-1 divide-y divide-gray-200 overflow-hidden rounded-lg border bg-white drop-shadow md:grid-cols-5 md:divide-y-0 md:divide-x">
           {stats.map((item) => (
             <div key={item.name} className="px-4 py-5 sm:p-4">
