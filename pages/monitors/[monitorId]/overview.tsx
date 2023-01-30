@@ -6,8 +6,8 @@ import { NextPageWithLayout } from '../../_app';
 const Overview: NextPageWithLayout = () => {
   return (
     <div className="mt-5">
-      <section className="flex flex-col items-end justify-between md:flex-row">
-        <h2 className="mb-2 pr-2 md:mb-0">Response times across regions in the last day</h2>
+      <section className="flex flex-col items-baseline justify-between lg:flex-row">
+        <h2 className="mb-2 lg:mb-0 lg:pr-4">Response times across regions in the last day</h2>
         <div
           className="flex items-baseline rounded bg-neutral-100 p-[2px]"
           data-target="endpoints--response-times-tabs.tabs"
