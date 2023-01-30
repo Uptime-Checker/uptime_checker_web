@@ -39,13 +39,17 @@ export default function MonitorDetailLayout({ children }: Props) {
 
   const getStat = (item: StatItem) => {
     if (item.name == 'Status') {
-      return <span className="rounded-full bg-green-100 px-2 py-1 text-sm leading-5 text-green-800">{item.stat}</span>;
+      return (
+        <span className="rounded-full bg-green-100 px-2 py-1 text-sm leading-5 text-green-800 md:text-xs lg:text-sm">
+          {item.stat}
+        </span>
+      );
     }
     return <span className="truncate">{item.stat}</span>;
   };
 
   return (
-    <section className="mx-auto mt-6 max-w-7xl px-4 sm:px-6 md:px-8">
+    <section className="mx-auto mt-6 max-w-7xl px-4 sm:px-5 lg:px-8">
       <section className="w-full border-b pb-6 md:flex md:items-center md:justify-between md:space-x-4">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Textr API</h1>
@@ -84,8 +88,8 @@ export default function MonitorDetailLayout({ children }: Props) {
         <dl className="mt-5 grid grid-cols-1 divide-y divide-gray-200 overflow-hidden rounded-lg border bg-white drop-shadow md:grid-cols-5 md:divide-y-0 md:divide-x">
           {stats.map((item) => (
             <div key={item.name} className="px-4 py-5 sm:p-4">
-              <dt className="truncate text-sm font-normal text-gray-900">{item.name}</dt>
-              <dd className="mt-1 flex items-baseline justify-between text-lg font-semibold text-indigo-600">
+              <dt className="truncate text-sm font-normal text-gray-900 md:text-xs lg:text-sm">{item.name}</dt>
+              <dd className="mt-1 flex items-baseline justify-between text-lg font-semibold text-indigo-600 md:text-base lg:text-lg">
                 {getStat(item)}
               </dd>
             </div>
