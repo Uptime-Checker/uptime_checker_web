@@ -41,7 +41,7 @@ export default function MonitorDetailLayout({ children }: Props) {
     if (item.name == 'Status') {
       return <span className="rounded-full bg-green-100 px-2 py-1 text-sm leading-5 text-green-800">{item.stat}</span>;
     }
-    return item.stat;
+    return <span className="truncate">{item.stat}</span>;
   };
 
   return (
