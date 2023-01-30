@@ -17,6 +17,7 @@
     "@prisma/client": "^4.8.1",
     "@sentry/nextjs": "^7.28.1",
     "@stripe/stripe-js": "^1.46.0",
+    "@visx/xychart": "^2.18.0",
     "axios": "^1.2.2",
     "crisp-sdk-web": "^1.0.5",
     "firebase": "^9.15.0",
