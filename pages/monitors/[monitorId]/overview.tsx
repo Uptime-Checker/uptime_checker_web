@@ -1,25 +1,7 @@
-import { Axis, Grid, LineSeries, Tooltip, XYChart } from '@visx/xychart';
 import DashboardLayout from 'layout/dashboard-layout';
 import MonitorDetailLayout from 'layout/monitor-detail-layout';
 import { ReactElement } from 'react';
 import { NextPageWithLayout } from '../../_app';
-
-const data1 = [
-  { x: '2020-01-01', y: 50 },
-  { x: '2020-01-02', y: 10 },
-  { x: '2020-01-03', y: 20 },
-];
-
-const data2 = [
-  { x: '2020-01-01', y: 30 },
-  { x: '2020-01-02', y: 40 },
-  { x: '2020-01-03', y: 80 },
-];
-
-const accessors = {
-  xAccessor: (d) => d.x,
-  yAccessor: (d) => d.y,
-};
 
 const Overview: NextPageWithLayout = () => {
   return (
@@ -56,26 +38,7 @@ const Overview: NextPageWithLayout = () => {
           </div>
         </div>
       </section>
-      <section>
-        <XYChart height={300} xScale={{ type: 'band' }} yScale={{ type: 'linear' }}>
-          <Axis orientation="bottom" />
-          <Grid columns={false} numTicks={4} />
-          <LineSeries dataKey="Line 1" data={data1} {...accessors} />
-          <LineSeries dataKey="Line 2" data={data2} {...accessors} />
-          <Tooltip
-            showVerticalCrosshair
-            showSeriesGlyphs
-            renderTooltip={({ tooltipData, colorScale }) => (
-              <div>
-                <div>{tooltipData?.nearestDatum?.key}</div>
-                {accessors.xAccessor(tooltipData?.nearestDatum?.datum)}
-                {', '}
-                {accessors.yAccessor(tooltipData?.nearestDatum?.datum)}
-              </div>
-            )}
-          />
-        </XYChart>
-      </section>
+      <section></section>
     </div>
   );
 };
