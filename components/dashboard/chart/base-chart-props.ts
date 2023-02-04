@@ -1,6 +1,4 @@
-export type ValueFormatter = {
-  (value: number): string;
-};
+import { ValueFormatter } from './utils';
 
 interface BaseChartProps {
   data: any[];
