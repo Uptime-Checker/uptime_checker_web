@@ -1,11 +1,11 @@
-import { SVGProps } from 'react';
+import { JSXElementConstructor, ReactElement, SVGProps } from 'react';
 
 export type HeroIcon = (
   props: SVGProps<SVGSVGElement> & {
     title?: string | undefined;
     titleId?: string | undefined;
   }
-) => JSX.Element;
+) => ReactElement<any, string | JSXElementConstructor<any>> | null;
 
 export interface RowOption {
   name: string;
