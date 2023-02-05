@@ -1,10 +1,11 @@
+import { Color } from 'lib/tailwind/input-types';
 import { ValueFormatter } from './utils';
 
 interface BaseChartProps {
   data: any[];
   categories: string[];
   dataKey: string;
-  colors?: string[];
+  colors?: Color[];
   valueFormatter?: ValueFormatter;
   startEndOnly?: boolean;
   showXAxis?: boolean;
