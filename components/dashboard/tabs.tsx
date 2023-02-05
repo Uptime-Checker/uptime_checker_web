@@ -1,9 +1,9 @@
 import produce from 'immer';
+import { classNames } from 'lib/tailwind/utils';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { ChangeEvent, ReactNode, useEffect, useState } from 'react';
 import { TabNavigationItem } from 'types/main';
-import { classNames } from 'utils/misc';
 
 export enum Breakpoint {
   SM = 'sm',

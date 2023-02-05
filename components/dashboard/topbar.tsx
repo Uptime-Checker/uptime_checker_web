@@ -3,11 +3,11 @@ import HeadwayWidget, { HeadwayWidgetTrigger } from '@headwayapp/react-widget';
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid';
 import { Bars3Icon, BellIcon } from '@heroicons/react/24/outline';
 import { useAtom } from 'jotai';
+import { classNames } from 'lib/tailwind/utils';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Fragment, ReactNode, useEffect, useState } from 'react';
 import { globalAtom } from 'store/global';
-import { classNames } from 'utils/misc';
 
 const userNavigation = [
   { name: 'Your Profile', href: '/settings/account' },

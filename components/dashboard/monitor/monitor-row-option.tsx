@@ -1,8 +1,8 @@
 import { Menu, Transition } from '@headlessui/react';
 import { EllipsisVerticalIcon } from '@heroicons/react/24/solid';
+import { classNames } from 'lib/tailwind/utils';
 import { Fragment } from 'react';
 import { RowOption } from 'types/main';
-import { classNames } from 'utils/misc';
 
 type Props = {
   top?: boolean;

@@ -30,3 +30,11 @@ export const getColorTheme = (
   }
   return colorTheme[baseColor];
 };
+
+interface StringJoiner {
+  (...classes: string[]): string;
+}
+
+export const classNames: StringJoiner = (...classes: string[]): string => {
+  return classes.filter(Boolean).join(' ');
+};

@@ -1,7 +1,7 @@
 import { Inter } from '@next/font/google';
+import { classNames } from 'lib/tailwind/utils';
 import Head from 'next/head';
 import { ReactNode } from 'react';
-import { classNames } from 'utils/misc';
 
 type Props = {
   children: ReactNode;

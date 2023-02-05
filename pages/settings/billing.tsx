@@ -1,8 +1,8 @@
 import { CheckIcon } from '@heroicons/react/24/outline';
 import DashboardLayout from 'layout/dashboard-layout';
 import SettingsLayout from 'layout/settings-layout';
+import { classNames } from 'lib/tailwind/utils';
 import { ReactElement } from 'react';
-import { classNames } from 'utils/misc';
 import { NextPageWithLayout } from '../_app';
 
 const pricing = {

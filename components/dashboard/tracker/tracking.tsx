@@ -1,5 +1,5 @@
+import { classNames } from 'lib/tailwind/utils';
 import { ReactNode } from 'react';
-import { classNames } from 'utils/misc';
 
 type Props = {
   className?: string;

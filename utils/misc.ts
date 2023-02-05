@@ -9,7 +9,3 @@ export const sanitizeString = (str: string) => {
   let newStr = str.replace(/[^a-z0-9áéíóúñü _-]/gim, '');
   return newStr.trim();
 };
-
-export const classNames = (...classes: string[]) => {
-  return classes.filter(Boolean).join(' ');
-};

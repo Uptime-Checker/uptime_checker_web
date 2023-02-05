@@ -1,5 +1,5 @@
+import { classNames } from 'lib/tailwind/utils';
 import { ReactNode, useState } from 'react';
-import { classNames } from 'utils/misc';
 
 const SimpleTooltip = ({ message, children }: { message: string; children: ReactNode }) => {
   const [show, setShow] = useState(false);

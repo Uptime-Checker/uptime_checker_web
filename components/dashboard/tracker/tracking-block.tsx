@@ -1,6 +1,6 @@
 import { SimpleTooltip } from 'components/tooltip';
+import { classNames } from 'lib/tailwind/utils';
 import { MonitorStatus } from 'models/monitor';
-import { classNames } from 'utils/misc';
 
 type Props = {
   text: string;

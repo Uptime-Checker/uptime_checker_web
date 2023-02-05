@@ -1,8 +1,7 @@
 import React from 'react';
 
 import { Color } from 'lib/tailwind/input-types';
-import { getColorTheme, getColorVariantsFromColorThemeValue } from 'lib/tailwind/utils';
-import { classNames } from 'utils/misc';
+import { classNames, getColorTheme, getColorVariantsFromColorThemeValue } from 'lib/tailwind/utils';
 import { ValueFormatter } from './utils';
 
 export const ChartTooltipFrame = ({ children }: { children: React.ReactNode }) => (

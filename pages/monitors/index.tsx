@@ -3,12 +3,12 @@ import { ShieldCheckIcon, ShieldExclamationIcon } from '@heroicons/react/24/soli
 import MonitorRowOption from 'components/dashboard/monitor/monitor-row-option';
 import { Tracking, TrackingBlock } from 'components/dashboard/tracker';
 import DashboardLayout from 'layout/dashboard-layout';
+import { classNames } from 'lib/tailwind/utils';
 import { MonitorStatus } from 'models/monitor';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { ReactElement } from 'react';
 import { HeroIcon, RowOption } from 'types/main';
-import { classNames } from 'utils/misc';
 import { NextPageWithLayout } from '../_app';
 
 interface MetricCard {
