@@ -1,7 +1,53 @@
+import LineChart from 'components/dashboard/chart/line-chart';
 import DashboardLayout from 'layout/dashboard-layout';
 import MonitorDetailLayout from 'layout/monitor-detail-layout';
 import { ReactElement } from 'react';
 import { NextPageWithLayout } from '../../_app';
+
+const chartData = [
+  {
+    year: 1951,
+    'Population growth rate': 1.74,
+  },
+  {
+    year: 1952,
+    'Population growth rate': 1.93,
+  },
+  {
+    year: 1953,
+    'Population growth rate': 1.9,
+  },
+  {
+    year: 1954,
+    'Population growth rate': 1.98,
+  },
+  {
+    year: 1955,
+    'Population growth rate': 2,
+  },
+  {
+    year: 1956,
+    'Population growth rate': 1.74,
+  },
+  {
+    year: 1957,
+    'Population growth rate': 1.84,
+  },
+  {
+    year: 1958,
+    'Population growth rate': 1.56,
+  },
+  {
+    year: 1959,
+    'Population growth rate': 1.48,
+  },
+  {
+    year: 1960,
+    'Population growth rate': 1.32,
+  },
+];
+
+const dataFormatter = (number: number) => `${Intl.NumberFormat('us').format(number).toString()}%`;
 
 const Overview: NextPageWithLayout = () => {
   return (
@@ -38,7 +84,18 @@ const Overview: NextPageWithLayout = () => {
           </div>
         </div>
       </section>
-      <section></section>
+      <section>
+        <LineChart
+          data={chartData}
+          dataKey="year"
+          autoMinValue={true}
+          categories={['Population growth rate']}
+          colors={['blue']}
+          valueFormatter={dataFormatter}
+          className="mt-5 h-80"
+          maxValue={2.2}
+        ></LineChart>
+      </section>
     </div>
   );
 };
