@@ -91,7 +91,7 @@ const LineChart = ({
 
   const handleTooltip = useCallback(
     (event: EventType) => {
-      const { x } = localPoint(event) || { x: 0 };
+      const { x, y } = localPoint(event) || { x: 0 };
       const x0 = timeScale.invert(x - margin.left); // get Date from the scale
 
       const index = bisectDate(getFlatPoints, x0, 1); // get index of this date from the array
@@ -102,11 +102,11 @@ const LineChart = ({
       if (d1 && getDate(d1)) {
         d = x0.valueOf() - getDate(d0).valueOf() > getDate(d1).valueOf() - x0.valueOf() ? d1 : d0;
       }
-      const coords = localPoint(event.target?.ownerSVGElement, event);
+
       showTooltip({
         tooltipData: getD(d.temporalValue),
-        tooltipLeft: coords?.x,
-        tooltipTop: coords?.y,
+        tooltipLeft: x,
+        tooltipTop: y,
       });
     },
     [bisectDate, getD, getFlatPoints, margin.left, rdScale, showTooltip, timeScale]
