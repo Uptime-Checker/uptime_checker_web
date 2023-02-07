@@ -6,11 +6,11 @@ export interface ChartPoint {
 export interface ChartLine {
   key: string;
   color: string;
-  points: [ChartPoint];
+  points: ChartPoint[];
 }
 
 export interface ChartData {
-  lines: [ChartLine];
+  lines: ChartLine[];
   spatialKey: string;
   temporalKey: string;
 }

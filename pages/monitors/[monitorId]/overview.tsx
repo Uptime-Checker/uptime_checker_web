@@ -1,8 +1,11 @@
-import LineChart from 'components/dashboard/chart/line-chart';
+import ReLineChart from 'components/dashboard/chart/line-chart';
 import DashboardLayout from 'layout/dashboard-layout';
 import MonitorDetailLayout from 'layout/monitor-detail-layout';
 import { ReactElement } from 'react';
+import ParentSize from '@visx/responsive/lib/components/ParentSize';
 import { NextPageWithLayout } from '../../_app';
+import { ChartData, ChartLine, ChartPoint } from 'components/dashboard/chartv2/utils';
+import LineChart from 'components/dashboard/chartv2/line-chart';
 
 const chartData = [
   {
@@ -51,7 +54,27 @@ const dataFormatter = (number: number) => `${Intl.NumberFormat('us').format(numb
 
 const Overview: NextPageWithLayout = () => {
   const getChartData = () => {
-    // chartData.map((el) => {});
+    let points = chartData.map((el) => {
+      let point: ChartPoint = {
+        spatialValue: el['Population growth rate'],
+        temporalValue: el.year,
+      };
+      return point;
+    });
+
+    let line: ChartLine = {
+      key: 'Denmark',
+      color: '#0000FF',
+      points: points,
+    };
+
+    let data: ChartData = {
+      spatialKey: 'Population growth rate',
+      temporalKey: 'Year',
+      lines: [line],
+    };
+
+    return data;
   };
 
   return (
@@ -89,7 +112,7 @@ const Overview: NextPageWithLayout = () => {
         </div>
       </section>
       <section>
-        <LineChart
+        <ReLineChart
           data={chartData}
           dataKey="year"
           autoMinValue={true}
@@ -98,8 +121,12 @@ const Overview: NextPageWithLayout = () => {
           valueFormatter={dataFormatter}
           className="mt-5 h-80"
           maxValue={2.2}
-        ></LineChart>
+        ></ReLineChart>
+        <ParentSize>
+          {({ width, height }) => <LineChart data={getChartData()} width={width} height={height} />}
+        </ParentSize>
       </section>
+      <section></section>
     </div>
   );
 };
