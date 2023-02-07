@@ -50,6 +50,10 @@ const chartData = [
 const dataFormatter = (number: number) => `${Intl.NumberFormat('us').format(number).toString()}%`;
 
 const Overview: NextPageWithLayout = () => {
+  const getChartData = () => {
+    // chartData.map((el) => {});
+  };
+
   return (
     <div className="mt-5">
       <section className="flex flex-col items-baseline justify-between lg:flex-row">
