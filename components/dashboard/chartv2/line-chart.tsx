@@ -1,20 +1,22 @@
-import { ChartData, ChartPoint, defaultValueFormatter, ValueFormatter } from './utils';
-import { defaultStyles, useTooltip } from '@visx/tooltip';
-import { bisector, extent } from 'd3-array';
-import { scaleLinear } from '@visx/scale';
-import { useCallback, useMemo } from 'react';
+import { AxisBottom, AxisLeft } from '@visx/axis';
 import { localPoint } from '@visx/event';
 import { EventType } from '@visx/event/lib/types';
-import { Group } from '@visx/group';
-import { AxisBottom, AxisLeft } from '@visx/axis';
-import { LinearGradient } from '@visx/gradient';
+import { GlyphCircle } from '@visx/glyph';
 import { GridColumns, GridRows } from '@visx/grid';
-import { LinePath } from '@visx/shape';
+import { Group } from '@visx/group';
+import { scaleLinear } from '@visx/scale';
+import { Line, LinePath } from '@visx/shape';
+import { defaultStyles, TooltipWithBounds, useTooltip } from '@visx/tooltip';
+import { bisector, extent } from 'd3-array';
+import { useCallback, useEffect, useMemo } from 'react';
+import { ChartData, ChartPoint, defaultValueFormatter, ValueFormatter } from './utils';
 
 interface ChartProps {
   width: number;
   height: number;
   data: ChartData;
+  showGridRows?: boolean;
+  showGridColumns?: boolean;
   spatialValueFormatter?: ValueFormatter;
   temporalValueFormatter?: ValueFormatter;
 }
@@ -23,6 +25,8 @@ const LineChart = ({
   width,
   height,
   data,
+  showGridRows = true,
+  showGridColumns = true,
   spatialValueFormatter = defaultValueFormatter,
   temporalValueFormatter = defaultValueFormatter,
 }: ChartProps) => {
@@ -77,9 +81,13 @@ const LineChart = ({
   const tooltipStyles = {
     ...defaultStyles,
     minWidth: 60,
-    backgroundColor: 'rgba(0,0,0,0.9)',
-    color: 'white',
+    // backgroundColor: 'rgba(0,0,0,0.9)',
+    // color: 'white',
   };
+
+  useEffect(() => {
+    console.log(width);
+  }, [width]);
 
   const handleTooltip = useCallback(
     (event: EventType) => {
@@ -94,50 +102,115 @@ const LineChart = ({
       if (d1 && getDate(d1)) {
         d = x0.valueOf() - getDate(d0).valueOf() > getDate(d1).valueOf() - x0.valueOf() ? d1 : d0;
       }
+      const coords = localPoint(event.target?.ownerSVGElement, event);
       showTooltip({
         tooltipData: getD(d.temporalValue),
-        tooltipLeft: x,
-        tooltipTop: rdScale(getRD(d)),
+        tooltipLeft: coords?.x,
+        tooltipTop: coords?.y,
       });
     },
     [bisectDate, getD, getFlatPoints, margin.left, rdScale, showTooltip, timeScale]
   );
 
+  const renderTooltipLine = useCallback(() => {
+    if (!tooltipData) return null;
+
+    let toolData = tooltipData as ChartPoint[];
+    if (toolData.length === 0) return null;
+    let d = toolData[0];
+
+    return (
+      <Line
+        from={{ x: timeScale(d.temporalValue), y: 0 }}
+        to={{ x: timeScale(d.temporalValue), y: innerHeight }}
+        stroke={'#E5E5E5'}
+        strokeWidth={1.5}
+        pointerEvents="none"
+      />
+    );
+  }, [innerHeight, timeScale, tooltipData]);
+
+  const renderGlyphs = useCallback(() => {
+    if (!tooltipData) return null;
+
+    let toolData = tooltipData as ChartPoint[];
+    let circles = toolData.map((d, i) => {
+      return (
+        <GlyphCircle
+          key={i}
+          left={timeScale(d.temporalValue)}
+          top={rdScale(d.spatialValue)}
+          size={50}
+          fill={colors[i]}
+          stroke={'white'}
+          strokeWidth={1}
+        />
+      );
+    });
+
+    return <g>{circles}</g>;
+  }, [colors, rdScale, timeScale, tooltipData]);
+
+  const tooltipRect = useCallback(() => {
+    if (width === 0 || height === 0) return null;
+    return (
+      <rect
+        x={0}
+        y={0}
+        width={innerWidth}
+        height={innerHeight}
+        onTouchStart={handleTooltip}
+        fill={'transparent'}
+        onTouchMove={handleTooltip}
+        onMouseMove={handleTooltip}
+        onMouseLeave={() => hideTooltip()}
+      />
+    );
+  }, [handleTooltip, height, hideTooltip, innerHeight, innerWidth, width]);
+
   return (
-    <div style={{ position: 'relative' }}>
+    <div className="relative">
       <svg width={width} height={height}>
-        <rect x={0} y={0} width={width} height={height} fill={'#718096'} rx={14} />
+        {/*<rect x={0} y={0} width={width} height={height} fill={'#718096'} rx={14} />*/}
         <Group left={margin.left} top={margin.top}>
-          <GridRows
-            scale={rdScale}
-            width={innerWidth}
-            height={innerHeight - margin.top}
-            stroke="#EDF2F7"
-            strokeOpacity={0.2}
-          />
-          <GridColumns scale={timeScale} width={innerWidth} height={innerHeight} stroke="#EDF2F7" strokeOpacity={0.2} />
-          <LinearGradient id="area-gradient" from={'#43b284'} to={'#43b284'} toOpacity={0.1} />
+          {showGridRows ? (
+            <GridRows
+              scale={rdScale}
+              width={innerWidth}
+              height={innerHeight - margin.top}
+              stroke="#A3A3A3"
+              numTicks={4}
+              strokeDasharray="4,2"
+              strokeOpacity={0.4}
+            />
+          ) : null}
+          {showGridColumns ? (
+            <GridColumns
+              scale={timeScale}
+              width={innerWidth}
+              height={innerHeight}
+              stroke="#EDF2F7"
+              strokeOpacity={0.2}
+            />
+          ) : null}
           <AxisLeft
-            stroke={'#EDF2F7'}
-            tickStroke={'#EDF2F7'}
+            stroke={'white'}
+            tickStroke={'white'}
             scale={rdScale}
             tickLabelProps={() => ({
-              fill: '#EDF2F7',
+              fill: '#71717A',
               fontSize: 11,
               textAnchor: 'end',
             })}
           />
-          <text x="-125" y="20" transform="rotate(-90)" fontSize={12} fill="#EDF2F7">
-            R&D Spend, RDDUSD
-          </text>
           <AxisBottom
             scale={timeScale}
-            stroke={'#EDF2F7'}
-            tickStroke={'#EDF2F7'}
+            stroke={'white'}
+            tickStroke={'white'}
             top={innerHeight}
             tickLabelProps={() => ({
-              fill: '#EDF2F7',
-              fontSize: 11,
+              fill: '#71717A',
+              fontSize: 12,
               textAnchor: 'middle',
             })}
           />
@@ -145,25 +218,24 @@ const LineChart = ({
             <LinePath
               key={i}
               stroke={colors[i]}
-              strokeWidth={3}
+              strokeWidth={2}
               data={sData.points}
-              x={(d) => timeScale(getDate(d)) ?? 0}
-              y={(d) => rdScale(getRD(d)) ?? 0}
+              x={(d) => timeScale(getDate(d))}
+              y={(d) => rdScale(getRD(d))}
             />
           ))}
-          <rect
-            x={0}
-            y={0}
-            width={innerWidth}
-            height={innerHeight}
-            onTouchStart={handleTooltip}
-            fill={'transparent'}
-            onTouchMove={handleTooltip}
-            onMouseMove={handleTooltip}
-            onMouseLeave={() => hideTooltip()}
-          />
+          {renderTooltipLine()}
+          {renderGlyphs()}
+          {tooltipRect()}
         </Group>
       </svg>
+      {tooltipData ? (
+        <TooltipWithBounds key={Math.random()} top={tooltipTop} left={tooltipLeft} style={tooltipStyles}>
+          <p>{`Total Spend: $111`}</p>
+          <p>{`Renewable Spend: $111`}</p>
+          <p>{`Year: 111`}</p>
+        </TooltipWithBounds>
+      ) : null}
     </div>
   );
 };

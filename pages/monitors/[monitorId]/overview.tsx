@@ -64,7 +64,7 @@ const Overview: NextPageWithLayout = () => {
 
     let line: ChartLine = {
       key: 'Denmark',
-      color: '#0000FF',
+      color: '#3B82F6',
       points: points,
     };
 
@@ -114,6 +114,7 @@ const Overview: NextPageWithLayout = () => {
       <section>
         <ReLineChart
           data={chartData}
+          showAnimation={false}
           dataKey="year"
           autoMinValue={true}
           categories={['Population growth rate']}
@@ -122,11 +123,14 @@ const Overview: NextPageWithLayout = () => {
           className="mt-5 h-80"
           maxValue={2.2}
         ></ReLineChart>
+      </section>
+      <section className="h-80 w-full">
         <ParentSize>
-          {({ width, height }) => <LineChart data={getChartData()} width={width} height={height} />}
+          {({ width, height }) => (
+            <LineChart data={getChartData()} width={width} height={height} showGridColumns={false} />
+          )}
         </ParentSize>
       </section>
-      <section></section>
     </div>
   );
 };
