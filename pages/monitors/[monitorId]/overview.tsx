@@ -59,7 +59,7 @@ const Overview: NextPageWithLayout = () => {
           data-target="endpoints--response-times-tabs.tabs"
         >
           <div
-            className="cursor-pointer rounded bg-white px-4 py-1 text-gray-800 shadow"
+            className="cursor-pointer rounded bg-white px-4 py-1 shadow"
             data-action="click->endpoints--response-times-tabs#changeTab"
             data-preference="day"
             data-url="/team/44631/monitors/751810/response-chart?days=1"
