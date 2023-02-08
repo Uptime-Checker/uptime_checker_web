@@ -1,5 +1,4 @@
 import LineChart from 'components/dashboard/chart/line-chart';
-import { ChartData, ChartLine, ChartPoint } from 'components/dashboard/chartv2/utils';
 import DashboardLayout from 'layout/dashboard-layout';
 import MonitorDetailLayout from 'layout/monitor-detail-layout';
 import { ReactElement } from 'react';
@@ -51,30 +50,6 @@ const chartData = [
 const dataFormatter = (number: number) => `${Intl.NumberFormat('us').format(number).toString()}%`;
 
 const Overview: NextPageWithLayout = () => {
-  const getChartData = () => {
-    let points = chartData.map((el) => {
-      let point: ChartPoint = {
-        spatialValue: el['Population growth rate'],
-        temporalValue: el.year,
-      };
-      return point;
-    });
-
-    let line: ChartLine = {
-      key: 'Denmark',
-      color: '#3B82F6',
-      points: points,
-    };
-
-    let data: ChartData = {
-      spatialKey: 'Population growth rate',
-      temporalKey: 'Year',
-      lines: [line],
-    };
-
-    return data;
-  };
-
   return (
     <div className="mt-5">
       <section className="flex flex-col items-baseline justify-between lg:flex-row">

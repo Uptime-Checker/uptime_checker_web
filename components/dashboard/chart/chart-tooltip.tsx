@@ -29,28 +29,6 @@ export const ChartTooltipRow = ({ value, name, color }: ChartTooltipRowProps) =>
   </div>
 );
 
-// export const ChartTooltipRow = ({ value, name, color }: ChartTooltipRowProps) => {
-//   const bgColor = (color: Color | null | undefined) => {
-//     // return 'bg-blue-500';
-//     // console.log(getColorVariantsFromColorThemeValue(getColorTheme(color).background).bgColor);
-//     // console.time('Execution Time');
-//     // let bla = getColorVariantsFromColorThemeValue(getColorTheme(color).background).bgColor;
-//     // console.timeEnd('Execution Time');
-
-//     // return bla;
-//     return getColorVariantsFromColorThemeValue(getColorTheme(color).background).bgColor;
-//   };
-//   return (
-//     <div className="flex items-center justify-between space-x-8">
-//       <div className="flex items-center space-x-2">
-//         <span className={classNames('h-3 w-3 shrink-0 rounded-full border-2 border-white shadow-md', bgColor(color))} />
-//         <p className="whitespace-nowrap text-right font-medium tabular-nums text-gray-700">{value}</p>
-//       </div>
-//       <p className="whitespace-nowrap text-right font-normal text-gray-500">{name}</p>
-//     </div>
-//   );
-// };
-
 export interface ChartTooltipProps {
   active: boolean | undefined;
   payload: any;
