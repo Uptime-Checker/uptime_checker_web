@@ -1,4 +1,4 @@
-/** @type {import('tailwindcss').Config} */
+/** @type {import("tailwindcss").Config} */
 
 // https://stackoverflow.com/a/73057959
 const colorSafeList = [];
@@ -11,11 +11,11 @@ for (const colorName in tailwindColors) {
     continue;
   }
   const shades = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900];
-  const pallette = tailwindColors[colorName];
+  const palette = tailwindColors[colorName];
 
-  if (typeof pallette === 'object') {
+  if (typeof palette === 'object') {
     shades.forEach((shade) => {
-      if (shade in pallette) {
+      if (shade in palette) {
         colorSafeList.push(`text-${colorName}-${shade}`);
         colorSafeList.push(`bg-${colorName}-${shade}`);
         colorSafeList.push(`hover:bg-${colorName}-${shade}`);
