@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { Color } from 'lib/tailwind/input-types';
-import { classNames, getColorTheme, getColorVariantsFromColorThemeValue } from 'lib/tailwind/utils';
+import { Color, ColorType } from 'lib/tailwind/color';
+import { classNames, composeColor } from 'lib/tailwind/utils';
 import { ValueFormatter } from './utils';
 
 export const ChartTooltipFrame = ({ children }: { children: React.ReactNode }) => (
@@ -20,7 +20,7 @@ export const ChartTooltipRow = ({ value, name, color }: ChartTooltipRowProps) =>
       <span
         className={classNames(
           'h-3 w-3 shrink-0 rounded-full border-2 border-white shadow-md',
-          getColorVariantsFromColorThemeValue(getColorTheme(color).background).bgColor
+          composeColor(ColorType.bg, color!, 500)
         )}
       />
       <p className="whitespace-nowrap text-right font-medium tabular-nums text-gray-700">{value}</p>
