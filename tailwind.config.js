@@ -1,10 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [
-    './layout/**/*.{js,ts,jsx,tsx}',
-    './pages/**/*.{js,ts,jsx,tsx}',
-    './components/**/*.{js,ts,jsx,tsx}',
-  ],
+  content: ['./layout/**/*.{js,ts,jsx,tsx}', './pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {},
   },
@@ -15,7 +11,7 @@ module.exports = {
     'text-teal-500',
     'text-red-500',
     'text-amber-500',
-    'text-teal-50',
+    'bg-teal-50',
     'bg-red-50',
     'bg-amber-50',
     'bg-teal-100',
