@@ -1,11 +1,9 @@
-import ReLineChart from 'components/dashboard/chart/line-chart';
+import LineChart from 'components/dashboard/chart/line-chart';
+import { ChartData, ChartLine, ChartPoint } from 'components/dashboard/chartv2/utils';
 import DashboardLayout from 'layout/dashboard-layout';
 import MonitorDetailLayout from 'layout/monitor-detail-layout';
 import { ReactElement } from 'react';
-import ParentSize from '@visx/responsive/lib/components/ParentSize';
 import { NextPageWithLayout } from '../../_app';
-import { ChartData, ChartLine, ChartPoint } from 'components/dashboard/chartv2/utils';
-import LineChart from 'components/dashboard/chartv2/line-chart';
 
 const chartData = [
   {
@@ -112,7 +110,7 @@ const Overview: NextPageWithLayout = () => {
         </div>
       </section>
       <section>
-        <ReLineChart
+        <LineChart
           data={chartData}
           showAnimation={false}
           dataKey="year"
@@ -122,14 +120,7 @@ const Overview: NextPageWithLayout = () => {
           valueFormatter={dataFormatter}
           className="mt-5 h-80"
           maxValue={2.2}
-        ></ReLineChart>
-      </section>
-      <section className="h-80 w-full">
-        <ParentSize>
-          {({ width, height }) => (
-            <LineChart data={getChartData()} width={width} height={height} showGridColumns={false} />
-          )}
-        </ParentSize>
+        ></LineChart>
       </section>
     </div>
   );
