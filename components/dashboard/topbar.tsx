@@ -129,8 +129,8 @@ const TopBar = ({ className }: Props) => {
                       {({ active }) => (
                         <button
                           className={classNames(
-                            active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                            'block w-full px-4 py-2 text-left text-sm'
+                            active ? 'bg-gray-100' : '',
+                            'block w-full px-4 py-2 text-left text-sm text-red-700'
                           )}
                         >
                           Sign out
