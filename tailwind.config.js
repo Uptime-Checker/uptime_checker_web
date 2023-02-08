@@ -1,25 +1,35 @@
 /** @type {import('tailwindcss').Config} */
+
+// https://stackoverflow.com/a/73057959
+const colorSafeList = [];
+const safeColors = ['teal', 'blue', 'amber', 'red'];
+const deprecated = ['lightBlue', 'warmGray', 'trueGray', 'coolGray', 'blueGray'];
+const tailwindColors = require('./node_modules/tailwindcss/colors');
+
+for (const colorName in tailwindColors) {
+  if (deprecated.includes(colorName) || !safeColors.includes(colorName)) {
+    continue;
+  }
+  const shades = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900];
+  const pallette = tailwindColors[colorName];
+
+  if (typeof pallette === 'object') {
+    shades.forEach((shade) => {
+      if (shade in pallette) {
+        colorSafeList.push(`text-${colorName}-${shade}`);
+        colorSafeList.push(`bg-${colorName}-${shade}`);
+        colorSafeList.push(`hover:bg-${colorName}-${shade}`);
+        colorSafeList.push(`border-${colorName}-${shade}`);
+      }
+    });
+  }
+}
+
 module.exports = {
   content: ['./layout/**/*.{js,ts,jsx,tsx}', './pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {},
   },
-  safelist: [
-    'border-teal-400',
-    'border-red-400',
-    'border-amber-400',
-    'text-teal-500',
-    'text-red-500',
-    'text-amber-500',
-    'bg-teal-50',
-    'bg-red-50',
-    'bg-amber-50',
-    'bg-teal-100',
-    'bg-red-100',
-    'bg-amber-100',
-    'hover:bg-teal-50',
-    'hover:bg-red-50',
-    'hover:bg-amber-50',
-  ],
+  safelist: colorSafeList,
   plugins: [require('@tailwindcss/forms')],
 };

@@ -3,6 +3,7 @@ import { ShieldCheckIcon, ShieldExclamationIcon } from '@heroicons/react/24/soli
 import MonitorRowOption from 'components/dashboard/monitor/monitor-row-option';
 import { Tracking, TrackingBlock } from 'components/dashboard/tracker';
 import DashboardLayout from 'layout/dashboard-layout';
+import { BaseColor, Color } from 'lib/tailwind/color';
 import { classNames } from 'lib/tailwind/utils';
 import { MonitorStatus } from 'models/monitor';
 import Link from 'next/link';
@@ -15,7 +16,7 @@ interface MetricCard {
   title: string;
   metric: string;
   icon: HeroIcon;
-  color: string;
+  color: Color;
 }
 
 interface Person {
@@ -42,19 +43,19 @@ const categories: MetricCard[] = [
     title: 'Passing',
     metric: '5',
     icon: ShieldCheckIcon,
-    color: 'teal',
+    color: BaseColor.Teal,
   },
   {
     title: 'Degraded',
     metric: '3',
     icon: ShieldExclamationIcon,
-    color: 'amber',
+    color: BaseColor.Amber,
   },
   {
     title: 'Failing',
     metric: '2',
     icon: ShieldExclamationIcon,
-    color: 'red',
+    color: BaseColor.Red,
   },
 ];
 
@@ -121,8 +122,8 @@ const Monitors: NextPageWithLayout = () => {
     }
   };
 
-  const getCardDecoration = (item: MetricCard) => {
-    return router.query.filter && router.query.filter.includes(item.title) ? item.color : 'white';
+  const getCardDecoration = (item: MetricCard): Color => {
+    return router.query.filter && router.query.filter.includes(item.title) ? item.color : BaseColor.White;
   };
 
   const monitorRowOptionTapped = (item: Person, optionName: string) => {

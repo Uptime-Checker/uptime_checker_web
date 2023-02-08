@@ -14,8 +14,8 @@ import BaseChartProps from './base-chart-props';
 import ChartTooltip from './chart-tooltip';
 import { constructCategoryColors, defaultValueFormatter, getYAxisDomain } from './utils';
 
-import { themeColorRange } from 'lib/tailwind/color';
-import { getColorTheme, getHexFromColorThemeValue } from 'lib/tailwind/utils';
+import { ColorType, themeColorRange } from 'lib/tailwind/color';
+import { composeColor, getHexFromColorThemeValue } from 'lib/tailwind/utils';
 import { AxisDomain } from 'recharts/types/util/types';
 
 const LineChart = ({
@@ -100,7 +100,7 @@ const LineChart = ({
               name={category}
               type="linear"
               dataKey={category}
-              stroke={getHexFromColorThemeValue(getColorTheme(categoryColors.get(category)).background)}
+              stroke={getHexFromColorThemeValue(composeColor(ColorType.bg, categoryColors.get(category)!, 500))}
               strokeWidth={2}
               dot={false}
               isAnimationActive={showAnimation}

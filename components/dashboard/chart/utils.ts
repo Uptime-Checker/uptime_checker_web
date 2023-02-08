@@ -1,4 +1,4 @@
-import { Color } from 'lib/tailwind/input-types';
+import { Color } from 'lib/tailwind/color';
 
 export const getYAxisDomain = (autoMinValue: boolean, minValue: number | undefined, maxValue: number | undefined) => {
   const minDomain = autoMinValue ? 'auto' : minValue ?? 0;
