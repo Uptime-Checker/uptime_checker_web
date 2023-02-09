@@ -87,6 +87,7 @@ const Overview: NextPageWithLayout = () => {
       <section>
         <LineChart
           data={chartData}
+          showLegend={true}
           showAnimation={false}
           dataKey="year"
           autoMinValue={true}

@@ -1,4 +1,4 @@
-import { Color } from 'lib/tailwind/input-types';
+import { Color } from 'lib/tailwind/color';
 import { ValueFormatter } from './utils';
 
 interface BaseChartProps {

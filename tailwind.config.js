@@ -10,7 +10,7 @@ for (const colorName in tailwindColors) {
   if (deprecated.includes(colorName) || !safeColors.includes(colorName)) {
     continue;
   }
-  const shades = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900];
+  const shades = [50, 100, 200, 300, 400, 500];
   const palette = tailwindColors[colorName];
 
   if (typeof palette === 'object') {

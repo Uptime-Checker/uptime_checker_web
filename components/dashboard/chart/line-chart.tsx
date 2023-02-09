@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import {
   CartesianGrid,
+  Legend,
   Line,
   LineChart as ReChartsLineChart,
   ResponsiveContainer,
@@ -17,6 +18,7 @@ import { constructCategoryColors, defaultValueFormatter, getYAxisDomain } from '
 import { ColorType, themeColorRange } from 'lib/tailwind/color';
 import { composeColor, getHexFromColorThemeValue } from 'lib/tailwind/utils';
 import { AxisDomain } from 'recharts/types/util/types';
+import ChartLegend from './chart-legend';
 
 const LineChart = ({
   data = [],
@@ -92,6 +94,13 @@ const LineChart = ({
                 />
               )}
               position={{ y: 0 }}
+            />
+          ) : null}
+          {showLegend ? (
+            <Legend
+              verticalAlign="top"
+              height={legendHeight}
+              content={({ payload }) => ChartLegend({ payload }, categoryColors, setLegendHeight)}
             />
           ) : null}
           {categories.map((category) => (
