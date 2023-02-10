@@ -17,7 +17,6 @@ import { constructCategoryColors, defaultValueFormatter, getYAxisDomain } from '
 
 import { ColorType, themeColorRange } from 'lib/tailwind/color';
 import { composeColor, getHexFromColorThemeValue } from 'lib/tailwind/utils';
-import { AxisDomain } from 'recharts/types/util/types';
 import ChartLegend from './chart-legend';
 
 const LineChart = ({
@@ -70,7 +69,7 @@ const LineChart = ({
             axisLine={false}
             tickLine={false}
             type="number"
-            domain={yAxisDomain as AxisDomain}
+            domain={yAxisDomain}
             tick={{ transform: 'translate(-3, 0)' }}
             style={{
               fontSize: '12px',

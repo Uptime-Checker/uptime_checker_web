@@ -1,6 +1,11 @@
 import { Color } from 'lib/tailwind/color';
+import { AxisDomainItem } from 'recharts/types/util/types';
 
-export const getYAxisDomain = (autoMinValue: boolean, minValue: number | undefined, maxValue: number | undefined) => {
+export const getYAxisDomain = (
+  autoMinValue: boolean,
+  minValue: number | undefined,
+  maxValue: number | undefined
+): [AxisDomainItem, AxisDomainItem] => {
   const minDomain = autoMinValue ? 'auto' : minValue ?? 0;
   const maxDomain = maxValue ?? 'auto';
   return [minDomain, maxDomain];
