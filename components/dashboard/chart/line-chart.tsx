@@ -45,9 +45,9 @@ const LineChart = ({
   const yAxisDomain = getYAxisDomain(autoMinValue, minValue, maxValue);
 
   return (
-    <div className={className}>
+    <section className={className}>
       <ResponsiveContainer width="100%" height="100%">
-        <ReChartsLineChart data={data}>
+        <ReChartsLineChart data={data} margin={{ top: 5, bottom: 5, left: -10, right: 0 }}>
           {showGridLines ? <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} /> : null}
           <XAxis
             hide={!showXAxis}
@@ -107,7 +107,7 @@ const LineChart = ({
             <Line
               key={category}
               name={category}
-              type="linear"
+              type="monotone"
               dataKey={category}
               stroke={getHexFromColorThemeValue(composeColor(ColorType.bg, categoryColors.get(category)!, 500))}
               strokeWidth={2}
@@ -117,7 +117,7 @@ const LineChart = ({
           ))}
         </ReChartsLineChart>
       </ResponsiveContainer>
-    </div>
+    </section>
   );
 };
 

@@ -84,20 +84,18 @@ const Overview: NextPageWithLayout = () => {
           </div>
         </div>
       </section>
-      <section>
-        <LineChart
-          data={chartData}
-          showLegend={true}
-          showAnimation={false}
-          dataKey="year"
-          autoMinValue={true}
-          categories={['Population growth rate']}
-          colors={['blue']}
-          valueFormatter={dataFormatter}
-          className="mt-5 h-80"
-          maxValue={2.2}
-        ></LineChart>
-      </section>
+      <LineChart
+        data={chartData}
+        showLegend={true}
+        showAnimation={false}
+        dataKey="year"
+        autoMinValue={true}
+        categories={['Population growth rate']}
+        colors={['blue']}
+        valueFormatter={dataFormatter}
+        className="mt-5 h-80"
+        maxValue={2.2}
+      ></LineChart>
     </div>
   );
 };

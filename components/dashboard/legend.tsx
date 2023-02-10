@@ -7,7 +7,7 @@ export interface LegendItemProps {
 }
 
 const LegendItem = ({ name, color }: LegendItemProps) => (
-  <li className={classNames('mr-2.5 inline-flex items-center truncate text-gray-700')}>
+  <li className={classNames('inline-flex items-center truncate text-gray-700')}>
     <svg
       className={classNames('h-2, mr-1.5 w-2 flex-none', composeColor(ColorType.text, color, 500))}
       fill="currentColor"
