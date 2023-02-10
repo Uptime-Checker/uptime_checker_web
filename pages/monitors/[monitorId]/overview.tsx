@@ -1,7 +1,8 @@
+import { Transition } from '@headlessui/react';
 import LineChart from 'components/dashboard/chart/line-chart';
 import DashboardLayout from 'layout/dashboard-layout';
 import MonitorDetailLayout from 'layout/monitor-detail-layout';
-import { ReactElement } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 import { NextPageWithLayout } from '../../_app';
 
 const chartData = [
@@ -50,6 +51,13 @@ const chartData = [
 const dataFormatter = (number: number) => `${Intl.NumberFormat('us').format(number).toString()}%`;
 
 const Overview: NextPageWithLayout = () => {
+  const [showChart, setShowChart] = useState(false);
+  useEffect(() => {
+    setTimeout(() => {
+      setShowChart(true);
+    }, 100);
+  }, []);
+
   return (
     <div className="mt-5">
       <section className="flex flex-col items-baseline justify-between lg:flex-row">
@@ -84,18 +92,26 @@ const Overview: NextPageWithLayout = () => {
           </div>
         </div>
       </section>
-      <LineChart
-        data={chartData}
-        showLegend={true}
-        showAnimation={false}
-        dataKey="year"
-        autoMinValue={true}
-        categories={['Population growth rate']}
-        colors={['blue']}
-        valueFormatter={dataFormatter}
-        className="mt-5 h-80"
-        maxValue={2.2}
-      ></LineChart>
+      <Transition
+        appear={true}
+        show={showChart}
+        enter="transition-opacity duration-150"
+        enterFrom="opacity-0"
+        enterTo="opacity-100"
+      >
+        <LineChart
+          data={chartData}
+          showLegend={true}
+          showAnimation={true}
+          dataKey="year"
+          autoMinValue={true}
+          categories={['Population growth rate']}
+          colors={['blue']}
+          valueFormatter={dataFormatter}
+          className="mt-5 h-80"
+          maxValue={2.2}
+        />
+      </Transition>
     </div>
   );
 };
