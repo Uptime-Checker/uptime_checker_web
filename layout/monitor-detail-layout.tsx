@@ -63,6 +63,7 @@ export default function MonitorDetailLayout({ children }: Props) {
               https://api.textrapp.me/v1/status
             </a>
           </p>
+          <p className="mt-2 text-sm font-medium text-gray-600">Next Check In: 2 Minutes</p>
         </div>
         <div className="mt-4 flex space-x-3 md:mt-0">
           <button
