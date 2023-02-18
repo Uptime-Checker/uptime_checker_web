@@ -8,50 +8,50 @@ import { NextPageWithLayout } from '../../_app';
 const timeline = [
   {
     id: 1,
-    content: 'Applied to',
-    target: 'Front End Developer',
+    content: 'Check failed with Status Code 400 - Bad Request',
+    target: '🇬🇲 Frankfurt, Germany',
     href: '#',
-    date: 'Sep 20',
+    date: 'A few seconds ago',
     datetime: '2020-09-20',
     icon: UserIcon,
     iconBackground: 'bg-gray-400',
   },
   {
     id: 2,
-    content: 'Advanced to phone screening by',
-    target: 'Bethany Blake',
+    content: 'Check failed with Status Code 400 - Bad Request',
+    target: '🇺🇸 California, USA',
     href: '#',
-    date: 'Sep 22',
+    date: '4 minutes ago',
     datetime: '2020-09-22',
     icon: HandThumbUpIcon,
     iconBackground: 'bg-blue-500',
   },
   {
     id: 3,
-    content: 'Completed phone screening with',
-    target: 'Martha Gardner',
+    content: 'Check passed with Status Code 200 - OK',
+    target: '🇬🇲 Frankfurt, Germany',
     href: '#',
-    date: 'Sep 28',
+    date: '5:36 PM, Oct 4, 2022',
     datetime: '2020-09-28',
     icon: CheckIcon,
     iconBackground: 'bg-green-500',
   },
   {
     id: 4,
-    content: 'Advanced to interview by',
-    target: 'Bethany Blake',
+    content: 'Check failed with Status Code 400 - Bad Request',
+    target: '🇺🇸 California, USA',
     href: '#',
-    date: 'Sep 30',
+    date: '12:36 PM, Nov 4, 2022',
     datetime: '2020-09-30',
     icon: HandThumbUpIcon,
     iconBackground: 'bg-blue-500',
   },
   {
     id: 5,
-    content: 'Completed interview with',
-    target: 'Katherine Snyder',
+    content: 'Check passed with Status Code 200 - OK',
+    target: '🇬🇲 Frankfurt, Germany',
     href: '#',
-    date: 'Oct 4',
+    date: '11:36 PM, Dec 4, 2022',
     datetime: '2020-10-04',
     icon: CheckIcon,
     iconBackground: 'bg-green-500',
@@ -68,7 +68,7 @@ const Feed: NextPageWithLayout = () => {
               {eventIdx !== timeline.length - 1 ? (
                 <span className="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true" />
               ) : null}
-              <div className="relative flex space-x-3">
+              <div className="relative flex items-start space-x-3">
                 <div>
                   <span
                     className={classNames(
@@ -79,17 +79,27 @@ const Feed: NextPageWithLayout = () => {
                     <event.icon className="h-5 w-5 text-white" aria-hidden="true" />
                   </span>
                 </div>
-                <div className="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
-                  <div>
-                    <p className="text-sm text-gray-500">
-                      {event.content}{' '}
-                      <a href={event.href} className="font-medium text-gray-900">
-                        {event.target}
+                <div className="flex min-w-0 flex-1 justify-between space-x-4">
+                  <div className="min-w-0">
+                    <div className="text-sm">
+                      <a href="" className="font-medium text-gray-900">
+                        {event.content}
                       </a>
-                    </p>
+                    </div>
+                    <div className="mt-1 whitespace-nowrap text-sm text-gray-500">
+                      <time dateTime={event.datetime}>{event.date}</time>
+                    </div>
+                    <div className="mt-3 text-sm text-gray-500">
+                      <p>Duration: 324ms</p>
+                    </div>
+                    <div className="mt-1 text-sm text-gray-500">
+                      <p>{event.target}</p>
+                    </div>
                   </div>
-                  <div className="whitespace-nowrap text-right text-sm text-gray-500">
-                    <time dateTime={event.datetime}>{event.date}</time>
+                  <div className="whitespace-nowrap text-right text-sm font-medium sm:pr-6">
+                    <a href="#" className="ml-4 text-indigo-600 hover:text-indigo-900">
+                      View
+                    </a>
                   </div>
                 </div>
               </div>
