@@ -143,7 +143,7 @@ const Overview: NextPageWithLayout = () => {
             <p className="mt-2 text-sm text-gray-700">Uptime status change feed</p>
           </div>
         </div>
-        <div className="sm:hidden">
+        <div className="lg:hidden">
           <div className="rounded-sm bg-white shadow">
             <ul role="list" className="divide-y divide-gray-200">
               <li className="relative bg-white py-5 px-4 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 hover:bg-gray-50">
@@ -200,7 +200,7 @@ const Overview: NextPageWithLayout = () => {
             </ul>
           </div>
         </div>
-        <section className="hidden sm:block">
+        <section className="hidden lg:block">
           <div className="flex flex-col">
             <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
               <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
@@ -231,7 +231,7 @@ const Overview: NextPageWithLayout = () => {
                     <tbody className="divide-y divide-gray-200">
                       {people.map((person) => (
                         <tr key={person.email}>
-                          <td className="whitespace-nowrap py-4 pl-4 pr-3 text-center sm:pl-6 md:pl-0">
+                          <td className="whitespace-nowrap py-4 pl-4 pr-3 text-center sm:pl-6 md:pl-2">
                             <span className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
                               Degraded
                             </span>
