@@ -56,7 +56,8 @@ const SideBar = () => {
 
   const isNavActive = (navItem: NavigationItem) => {
     let splitNavHref = navItem.href.split('/');
-    return router.pathname.includes(splitNavHref[1]);
+    let splitRouterHref = router.pathname.split('/');
+    return splitRouterHref[1] === splitNavHref[1];
   };
 
   const logo = (
