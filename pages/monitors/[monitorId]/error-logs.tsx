@@ -4,8 +4,14 @@ import { ReactElement } from 'react';
 import { NextPageWithLayout } from '../../_app';
 
 const people = [
-  { name: 'Bad Request', title: '400', email: 'Frankfurt, Germany', role: 'Bad Request, Try Again' },
-  { name: 'Timeout', title: '500', email: 'California, USA', role: '' },
+  {
+    name: 'Bad Request',
+    title: '400',
+    email: 'Frankfurt, Germany',
+    role: 'Bad Request, Try Again',
+    time: '5:39 PM, Oct 4, 2022',
+  },
+  { name: 'Timeout', title: '500', email: 'California, USA', role: '', time: '5:21 PM, Oct 4, 2022' },
 ];
 
 const ErrorLogs: NextPageWithLayout = () => {
@@ -41,6 +47,9 @@ const ErrorLogs: NextPageWithLayout = () => {
               <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
                 Text
               </th>
+              <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                Detected At
+              </th>
               <th scope="col" className="relative py-3.5 pl-3 pr-6 sm:pr-0">
                 <span className="sr-only">Edit</span>
               </th>
@@ -61,6 +70,7 @@ const ErrorLogs: NextPageWithLayout = () => {
                 <td className="hidden px-3 py-4 text-sm text-gray-500 lg:table-cell">{person.title}</td>
                 <td className="hidden px-3 py-4 text-sm text-gray-500 sm:table-cell">{person.email}</td>
                 <td className="px-3 py-4 text-sm text-gray-500">{person.role}</td>
+                <td className="px-3 py-4 text-sm text-gray-500">{person.time}</td>
                 <td className="py-4 pl-3 pr-6 text-right text-sm font-medium sm:pr-0">
                   <a href="#" className="text-indigo-600 hover:text-indigo-900">
                     View<span className="sr-only">, {person.name}</span>
