@@ -1,7 +1,7 @@
 import DashboardLayout from 'layout/dashboard-layout';
 import MonitorDetailLayout from 'layout/monitor-detail-layout';
 import { ReactElement } from 'react';
-import { NextPageWithLayout } from '../../_app';
+import { NextPageWithLayout } from '../../../_app';
 
 const people = [
   { name: 'Lindsay Walton', title: '5:36 PM, Oct 4, 2022', email: '5:39 PM, Oct 4, 2022', role: '3 Minutes' },

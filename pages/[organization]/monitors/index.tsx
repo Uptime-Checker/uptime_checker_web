@@ -10,7 +10,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { ReactElement } from 'react';
 import { HeroIcon, RowOption } from 'types/main';
-import { NextPageWithLayout } from '../_app';
+import { NextPageWithLayout } from '../../_app';
 
 interface MetricCard {
   title: string;

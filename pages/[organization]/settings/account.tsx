@@ -3,7 +3,7 @@ import DashboardLayout from 'layout/dashboard-layout';
 import SettingsLayout from 'layout/settings-layout';
 import { FormEvent, ReactElement } from 'react';
 import { globalAtom } from 'store/global';
-import { NextPageWithLayout } from '../_app';
+import { NextPageWithLayout } from '../../_app';
 
 const Account: NextPageWithLayout = () => {
   const [global, setGlobal] = useAtom(globalAtom);
