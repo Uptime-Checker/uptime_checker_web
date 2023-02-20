@@ -1,8 +1,10 @@
 import produce from 'immer';
+import { useAtom } from 'jotai';
 import { classNames } from 'lib/tailwind/utils';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { ChangeEvent, ReactNode, useEffect, useState } from 'react';
+import { globalAtom } from 'store/global';
 import { TabNavigationItem } from 'types/main';
 
 export enum Breakpoint {
@@ -20,6 +22,7 @@ type Props = {
 
 const Tabs = ({ baseURL, tabs, children, breakpoint }: Props) => {
   const router = useRouter();
+  const [global, _] = useAtom(globalAtom);
   const [selectedTab, setSelectedTab] = useState(tabs[0]);
   const [selectedBreakpoint, setSelectedBreakpoint] = useState({ select: 'md:hidden', tab: 'md:block' });
 
@@ -27,7 +30,7 @@ const Tabs = ({ baseURL, tabs, children, breakpoint }: Props) => {
     if (router.isReady) {
       const getActiveTab = () => {
         for (const tab of tabs) {
-          if (router.pathname.includes(tab.href)) {
+          if (isNavActive(tab)) {
             return tab;
           }
         }
@@ -48,7 +51,8 @@ const Tabs = ({ baseURL, tabs, children, breakpoint }: Props) => {
   }, [router]);
 
   const isNavActive = (navItem: TabNavigationItem) => {
-    return router.pathname.includes(navItem.href);
+    let splitRouterHref = router.pathname.split('/');
+    return splitRouterHref[3] === navItem.href;
   };
 
   const onTabChange = async (event: ChangeEvent) => {
@@ -84,7 +88,10 @@ const Tabs = ({ baseURL, tabs, children, breakpoint }: Props) => {
             {tabs.map((tab) => (
               <Link
                 key={tab.name}
-                href={baseURL + tab.href}
+                href={{
+                  pathname: `${baseURL}${tab.href}`,
+                  query: { organization: global.currentUser?.organization.slug },
+                }}
                 className={classNames(
                   isNavActive(tab)
                     ? 'border-indigo-500 text-indigo-600'
