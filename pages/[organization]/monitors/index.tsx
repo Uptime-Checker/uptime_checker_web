@@ -2,6 +2,7 @@ import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { ShieldCheckIcon, ShieldExclamationIcon } from '@heroicons/react/24/solid';
 import MonitorRowOption from 'components/dashboard/monitor/monitor-row-option';
 import { Tracking, TrackingBlock } from 'components/dashboard/tracker';
+import { useAtom } from 'jotai';
 import DashboardLayout from 'layout/dashboard-layout';
 import { BaseColor, Color } from 'lib/tailwind/color';
 import { classNames } from 'lib/tailwind/utils';
@@ -9,6 +10,7 @@ import { MonitorStatus } from 'models/monitor';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { ReactElement } from 'react';
+import { globalAtom } from 'store/global';
 import { HeroIcon, RowOption } from 'types/main';
 import { NextPageWithLayout } from '../../_app';
 
@@ -112,6 +114,7 @@ const data = [
 
 const Monitors: NextPageWithLayout = () => {
   const router = useRouter();
+  const [global, _] = useAtom(globalAtom);
 
   const handleMetricCardClick = async (item: MetricCard) => {
     if (item.title.includes('Incidents')) {
@@ -225,7 +228,10 @@ const Monitors: NextPageWithLayout = () => {
             {people.map((person) => (
               <tr key={person.url}>
                 <td className="whitespace-nowrap text-sm text-gray-900 hover:cursor-pointer hover:underline">
-                  <Link className="block py-4 pl-4 pr-3 sm:pl-6" href="monitors/1/overview">
+                  <Link
+                    className="block py-4 pl-4 pr-3 sm:pl-6"
+                    href={`/${global.currentUser?.organization.slug}/monitors/${1}/overview`}
+                  >
                     <div className="font-medium text-indigo-600">{person.name}</div>
                     <div className="pt-1 text-gray-500">{person.url}</div>
                   </Link>
