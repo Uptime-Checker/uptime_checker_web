@@ -60,7 +60,10 @@ const Tabs = ({ baseURL, tabs, children, breakpoint }: Props) => {
     const selectedTab = tabs.find((tab) => tab.name === target.value);
     setSelectedTab(selectedTab!);
 
-    await router.push(baseURL + selectedTab!.href);
+    await router.push({
+      pathname: `${baseURL}${selectedTab!.href}`,
+      query: { organization: global.currentUser?.organization.slug },
+    });
   };
 
   return (
