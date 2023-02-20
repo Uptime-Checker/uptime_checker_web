@@ -18,9 +18,10 @@ type Props = {
   tabs: TabNavigationItem[];
   children: ReactNode;
   breakpoint: Breakpoint;
+  routeIndex: number;
 };
 
-const Tabs = ({ baseURL, tabs, children, breakpoint }: Props) => {
+const Tabs = ({ baseURL, tabs, children, breakpoint, routeIndex }: Props) => {
   const router = useRouter();
   const [global, _] = useAtom(globalAtom);
   const [selectedTab, setSelectedTab] = useState(tabs[0]);
@@ -52,7 +53,7 @@ const Tabs = ({ baseURL, tabs, children, breakpoint }: Props) => {
 
   const isNavActive = (navItem: TabNavigationItem) => {
     let splitRouterHref = router.pathname.split('/');
-    return splitRouterHref[3] === navItem.href;
+    return splitRouterHref[routeIndex] === navItem.href;
   };
 
   const onTabChange = async (event: ChangeEvent) => {
@@ -60,10 +61,7 @@ const Tabs = ({ baseURL, tabs, children, breakpoint }: Props) => {
     const selectedTab = tabs.find((tab) => tab.name === target.value);
     setSelectedTab(selectedTab!);
 
-    await router.push({
-      pathname: `${baseURL}${selectedTab!.href}`,
-      query: { organization: global.currentUser?.organization.slug },
-    });
+    await router.push(`/${global.currentUser?.organization.slug}${baseURL}${selectedTab!.href}`);
   };
 
   return (
@@ -91,10 +89,7 @@ const Tabs = ({ baseURL, tabs, children, breakpoint }: Props) => {
             {tabs.map((tab) => (
               <Link
                 key={tab.name}
-                href={{
-                  pathname: `${baseURL}${tab.href}`,
-                  query: { organization: global.currentUser?.organization.slug },
-                }}
+                href={`/${global.currentUser?.organization.slug}${baseURL}${tab.href}`}
                 className={classNames(
                   isNavActive(tab)
                     ? 'border-indigo-500 text-indigo-600'
