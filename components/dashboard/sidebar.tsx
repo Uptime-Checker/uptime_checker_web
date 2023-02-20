@@ -27,11 +27,11 @@ interface NavigationItem {
 }
 
 const navigation: NavigationItem[] = [
-  { name: 'Monitors', href: '/[organization]/monitors', icon: HomeIcon },
-  { name: 'Incidents', href: '/[organization]/incidents', icon: ShieldExclamationIcon },
-  { name: 'Integrations', href: '/[organization]/integrations', icon: SquaresPlusIcon },
-  { name: 'Team', href: '/[organization]/team', icon: UsersIcon },
-  { name: 'Settings', href: '/[organization]/settings/account', icon: CogIcon },
+  { name: 'Monitors', href: 'monitors', icon: HomeIcon },
+  { name: 'Incidents', href: 'incidents', icon: ShieldExclamationIcon },
+  { name: 'Integrations', href: 'integrations', icon: SquaresPlusIcon },
+  { name: 'Team', href: 'team', icon: UsersIcon },
+  { name: 'Settings', href: 'settings/account', icon: CogIcon },
 ];
 
 const SideBar = () => {
@@ -56,7 +56,7 @@ const SideBar = () => {
   const isNavActive = (navItem: NavigationItem) => {
     let splitNavHref = navItem.href.split('/');
     let splitRouterHref = router.pathname.split('/');
-    return splitRouterHref[2] === splitNavHref[2];
+    return splitRouterHref[2] === splitNavHref[0];
   };
 
   const logo = (
@@ -70,10 +70,7 @@ const SideBar = () => {
       {navigation.map((item) => (
         <Link
           key={item.name}
-          href={{
-            pathname: item.href,
-            query: { organization: global.currentUser?.organization.slug },
-          }}
+          href={`/${global.currentUser?.organization.slug}/${item.href}`}
           onClick={toggleSidebar}
           className={classNames(
             isNavActive(item) ? 'bg-gray-100 text-gray-900' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900',
