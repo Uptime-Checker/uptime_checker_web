@@ -27,15 +27,16 @@ interface NavigationItem {
 }
 
 const navigation: NavigationItem[] = [
-  { name: 'Monitors', href: '/monitors', icon: HomeIcon },
-  { name: 'Incidents', href: '/incidents', icon: ShieldExclamationIcon },
-  { name: 'Integrations', href: '/integrations', icon: SquaresPlusIcon },
-  { name: 'Team', href: '/team', icon: UsersIcon },
-  { name: 'Settings', href: '/settings/account', icon: CogIcon },
+  { name: 'Monitors', href: '/[organization]/monitors', icon: HomeIcon },
+  { name: 'Incidents', href: '/[organization]/incidents', icon: ShieldExclamationIcon },
+  { name: 'Integrations', href: '/[organization]/integrations', icon: SquaresPlusIcon },
+  { name: 'Team', href: '/[organization]/team', icon: UsersIcon },
+  { name: 'Settings', href: '/[organization]/settings/account', icon: CogIcon },
 ];
 
 const SideBar = () => {
   const router = useRouter();
+  const [orgName, setOrgName] = useState('');
   const [global, setGlobal] = useAtom(globalAtom);
 
   useEffect(() => {
@@ -52,12 +53,10 @@ const SideBar = () => {
       draft.sidebar = !draft.sidebar;
     });
 
-  const [orgName, setOrgName] = useState('');
-
   const isNavActive = (navItem: NavigationItem) => {
     let splitNavHref = navItem.href.split('/');
     let splitRouterHref = router.pathname.split('/');
-    return splitRouterHref[1] === splitNavHref[1];
+    return splitRouterHref[2] === splitNavHref[2];
   };
 
   const logo = (
@@ -71,7 +70,10 @@ const SideBar = () => {
       {navigation.map((item) => (
         <Link
           key={item.name}
-          href={item.href}
+          href={{
+            pathname: item.href,
+            query: { organization: global.currentUser?.organization.slug },
+          }}
           onClick={toggleSidebar}
           className={classNames(
             isNavActive(item) ? 'bg-gray-100 text-gray-900' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900',
