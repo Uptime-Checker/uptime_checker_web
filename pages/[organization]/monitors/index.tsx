@@ -115,13 +115,27 @@ const data = [
 const Monitors: NextPageWithLayout = () => {
   const router = useRouter();
   const [global, _] = useAtom(globalAtom);
+  const orgSlug = global.currentUser?.organization.slug;
 
   const handleMetricCardClick = async (item: MetricCard) => {
-    if (item.title.includes('Incidents')) {
-    } else if (router.query.filter && router.query.filter.includes(item.title)) {
-      await router.replace(`?filter=`, undefined, { shallow: true });
+    if (router.query.filter && router.query.filter.includes(item.title)) {
+      await router.replace(
+        {
+          pathname: `${router.pathname}`,
+          query: { organization: orgSlug },
+        },
+        undefined,
+        { shallow: true }
+      );
     } else {
-      await router.push(`?filter=${item.title}`, undefined, { shallow: true });
+      await router.push(
+        {
+          pathname: `${router.pathname}`,
+          query: { organization: orgSlug, filter: item.title },
+        },
+        undefined,
+        { shallow: true }
+      );
     }
   };
 
@@ -228,10 +242,7 @@ const Monitors: NextPageWithLayout = () => {
             {people.map((person) => (
               <tr key={person.url}>
                 <td className="whitespace-nowrap text-sm text-gray-900 hover:cursor-pointer hover:underline">
-                  <Link
-                    className="block py-4 pl-4 pr-3 sm:pl-6"
-                    href={`/${global.currentUser?.organization.slug}/monitors/${1}/overview`}
-                  >
+                  <Link className="block py-4 pl-4 pr-3 sm:pl-6" href={`/${orgSlug}/monitors/${1}/overview`}>
                     <div className="font-medium text-indigo-600">{person.name}</div>
                     <div className="pt-1 text-gray-500">{person.url}</div>
                   </Link>
