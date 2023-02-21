@@ -8,7 +8,7 @@ const people = [
   // More people...
 ];
 
-const Incidents: NextPageWithLayout = () => {
+const Alarms: NextPageWithLayout = () => {
   return (
     <section className="mt-5">
       <div className="sm:flex sm:items-center">
@@ -77,7 +77,7 @@ const Incidents: NextPageWithLayout = () => {
   );
 };
 
-Incidents.getLayout = function getLayout(page: ReactElement) {
+Alarms.getLayout = function getLayout(page: ReactElement) {
   return (
     <DashboardLayout>
       <MonitorDetailLayout>{page}</MonitorDetailLayout>
@@ -85,4 +85,4 @@ Incidents.getLayout = function getLayout(page: ReactElement) {
   );
 };
 
-export default Incidents;
+export default Alarms;

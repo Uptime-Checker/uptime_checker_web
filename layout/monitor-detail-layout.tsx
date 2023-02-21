@@ -23,14 +23,14 @@ const stats: StatItem[] = [
   { name: 'Uptime', stat: '58.16%' },
   { name: 'SSL Expiration', stat: '129 Days' },
   { name: 'Checks', stat: '289' },
-  { name: 'Incidents', stat: 'None' },
+  { name: 'Alarms', stat: 'None' },
 ];
 
 const tabs: NavigationItem[] = [
   { name: 'Overview', href: 'overview' },
   { name: 'Checks', href: 'checks' },
   { name: 'Error Logs', href: 'error-logs' },
-  { name: 'Incidents', href: 'incidents' },
+  { name: 'Alarms', href: 'alarms' },
 ];
 
 export default function MonitorDetailLayout({ children }: Props) {
