@@ -26,7 +26,9 @@ const Alerts: NextPageWithLayout = () => {
           </p>
         </div>
       </div>
-      <AlertsComponent alarms={alarms} />
+      <div className="mt-8">
+        <AlertsComponent alarms={alarms} topLevel={false} />
+      </div>
     </section>
   );
 };

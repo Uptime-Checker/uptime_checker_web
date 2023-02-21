@@ -11,7 +11,13 @@ const alarms = [
     resolvedAt: '5:39 PM, Oct 4, 2022',
     duration: '3 Minutes',
   },
-  // More people...
+  {
+    id: 2,
+    status: 'Lindsay Waltow',
+    startedAt: '5:36 PM, Oct 4, 2022',
+    resolvedAt: '5:39 PM, Oct 4, 2022',
+    duration: '3 Minutes',
+  },
 ];
 
 const Alarms: NextPageWithLayout = () => {
@@ -21,7 +27,15 @@ const Alarms: NextPageWithLayout = () => {
         <h1 className="text-2xl font-semibold text-gray-900">Alerts</h1>
         <p className="mt-2 text-sm text-gray-700">A list of all the alerts that fired when running checks</p>
       </div>
-      <AlertsComponent alarms={alarms} />
+      <div className="mt-8">
+        <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+          <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+            <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+              <AlertsComponent alarms={alarms} topLevel={true} />
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
   );
 };
