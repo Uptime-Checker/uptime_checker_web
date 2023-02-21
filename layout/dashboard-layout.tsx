@@ -7,6 +7,7 @@ import { authRequest, HTTPMethod } from 'lib/axios';
 import * as LiveChat from 'lib/crisp';
 import { getCurrentUser, logout, redirectToDashboard, setCurrentUser } from 'lib/global';
 import { FullInfoResponse } from 'models/user';
+import { useRouter } from 'next/router';
 import { ReactNode, useEffect } from 'react';
 import { globalAtom } from 'store/global';
 
@@ -15,6 +16,7 @@ type Props = {
 };
 
 export default function DashboardLayout({ children }: Props) {
+  const router = useRouter();
   const [, setGlobal] = useAtom(globalAtom);
 
   useEffect(() => {
@@ -31,13 +33,17 @@ export default function DashboardLayout({ children }: Props) {
             draft.organizations = fullInfo.organization_users;
           });
 
-          if (fullInfo.user.organization === null) {
-            redirectToDashboard(fullInfo.user);
-          } else {
-            // Do everything that was deferred
-            if (fullInfo.subscription.plan.id !== FREE_PLAN_ID) {
-              LiveChat.load();
-              LiveChat.configureUser(fullInfo.user, fullInfo.subscription);
+          if (router.isReady) {
+            if (fullInfo.user.organization === null) {
+              redirectToDashboard(fullInfo.user);
+            } else if (fullInfo.user.organization.slug !== router.query.organization) {
+              logout().then((_) => {});
+            } else {
+              // Do everything that was deferred
+              if (fullInfo.subscription.plan.id !== FREE_PLAN_ID) {
+                LiveChat.load();
+                LiveChat.configureUser(fullInfo.user, fullInfo.subscription);
+              }
             }
           }
         })
@@ -45,7 +51,7 @@ export default function DashboardLayout({ children }: Props) {
           Sentry.captureException(error);
         });
     }
-  }, [setGlobal]);
+  }, [router, setGlobal]);
 
   return (
     <>
