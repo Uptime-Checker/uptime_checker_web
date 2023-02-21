@@ -14,7 +14,16 @@ const AlertsComponent = ({ alarms, topLevel }: AlertProps) => {
           <th
             scope="col"
             className={classNames(
-              topLevel ? 'pl-4 sm:pl-6' : 'pl-0',
+              topLevel ? 'pl-4 sm:pl-6' : 'hidden',
+              'py-3.5 pr-3 text-left text-sm font-semibold text-gray-900'
+            )}
+          >
+            Monitor
+          </th>
+          <th
+            scope="col"
+            className={classNames(
+              topLevel ? 'hidden pl-3 lg:table-cell' : 'pl-0',
               'py-3.5 pr-3 text-left text-sm font-semibold text-gray-900'
             )}
           >
@@ -38,8 +47,14 @@ const AlertsComponent = ({ alarms, topLevel }: AlertProps) => {
         {alarms.map((alarm) => (
           <tr key={alarm.id}>
             <td
-              className={classNames(topLevel ? 'pl-4 sm:pl-6' : 'pl-0', 'py-4 pr-3 text-sm font-medium text-gray-900')}
+              className={classNames(
+                topLevel ? 'pl-6 lg:table-cell' : '',
+                'hidden px-3 py-4 text-sm font-medium text-indigo-600'
+              )}
             >
+              Textr API
+            </td>
+            <td className={classNames('py-4 pl-0 pr-3 text-sm font-medium text-gray-900')}>
               <span className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
                 Resolved
               </span>
@@ -48,8 +63,6 @@ const AlertsComponent = ({ alarms, topLevel }: AlertProps) => {
                 <dd className="mt-2 truncate text-gray-700">Duration: {alarm.duration}</dd>
                 <dt className="sr-only sm:hidden">Email</dt>
                 <dd className="mt-1 truncate text-gray-700 sm:hidden">Detected At: {alarm.startedAt}</dd>
-                <dt className="sr-only md:hidden">Email</dt>
-                <dd className="mt-1 truncate text-gray-700 md:hidden">Resolved At: {alarm.resolvedAt}</dd>
               </dl>
             </td>
             <td className="hidden px-3 py-4 text-sm text-gray-500 sm:table-cell">{alarm.startedAt}</td>
