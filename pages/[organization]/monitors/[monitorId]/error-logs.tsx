@@ -40,14 +40,17 @@ const ErrorLogs: NextPageWithLayout = () => {
               </th>
               <th
                 scope="col"
-                className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:table-cell"
+                className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell"
               >
                 Region
               </th>
               <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
                 Text
               </th>
-              <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+              <th
+                scope="col"
+                className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 md:table-cell"
+              >
                 Detected At
               </th>
               <th scope="col" className="relative py-3.5 pl-3 pr-6 sm:pr-0">
@@ -58,19 +61,21 @@ const ErrorLogs: NextPageWithLayout = () => {
           <tbody className="divide-y divide-gray-200 bg-white">
             {people.map((person) => (
               <tr key={person.email}>
-                <td className="w-full max-w-0 py-4 pl-6 pr-3 text-sm font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pl-0">
+                <td className="w-auto max-w-none py-4 pl-6 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
                   {person.name}
                   <dl className="font-normal lg:hidden">
                     <dt className="sr-only">Title</dt>
-                    <dd className="mt-1 truncate text-gray-700">{person.title}</dd>
-                    <dt className="sr-only sm:hidden">Email</dt>
-                    <dd className="mt-1 truncate text-gray-500 sm:hidden">{person.email}</dd>
+                    <dd className="mt-1 truncate text-gray-700">Status Code {person.title}</dd>
+                    <dt className="sr-only">Email</dt>
+                    <dd className="mt-1 truncate text-gray-500">{person.email}</dd>
+                    <dt className="sr-only md:hidden">Time</dt>
+                    <dd className="mt-1 truncate text-gray-500 md:hidden">{person.time}</dd>
                   </dl>
                 </td>
                 <td className="hidden px-3 py-4 text-sm text-gray-500 lg:table-cell">{person.title}</td>
-                <td className="hidden px-3 py-4 text-sm text-gray-500 sm:table-cell">{person.email}</td>
+                <td className="hidden px-3 py-4 text-sm text-gray-500 lg:table-cell">{person.email}</td>
                 <td className="px-3 py-4 text-sm text-gray-500">{person.role}</td>
-                <td className="px-3 py-4 text-sm text-gray-500">{person.time}</td>
+                <td className="hidden px-3 py-4 text-sm text-gray-500 md:table-cell">{person.time}</td>
                 <td className="py-4 pl-3 pr-6 text-right text-sm font-medium sm:pr-0">
                   <a href="#" className="text-indigo-600 hover:text-indigo-900">
                     View<span className="sr-only">, {person.name}</span>
