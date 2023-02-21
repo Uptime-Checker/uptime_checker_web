@@ -1,6 +1,6 @@
 import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { ShieldCheckIcon, ShieldExclamationIcon } from '@heroicons/react/24/solid';
-import MonitorRowOption from 'components/dashboard/monitor/monitor-row-option';
+import TableRowOption from 'components/dashboard/monitor/table-row-option';
 import { Tracking, TrackingBlock } from 'components/dashboard/tracker';
 import { useAtom } from 'jotai';
 import DashboardLayout from 'layout/dashboard-layout';
@@ -155,7 +155,7 @@ const Monitors: NextPageWithLayout = () => {
       positionTop = false;
     }
     return (
-      <MonitorRowOption
+      <TableRowOption
         top={positionTop}
         options={monitorRowOptions}
         optionTapped={(optionName) => {

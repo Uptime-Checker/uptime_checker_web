@@ -10,7 +10,7 @@ type Props = {
   optionTapped: (arg: string) => void;
 };
 
-const MonitorRowOption = ({ top, options, optionTapped }: Props) => {
+const TableRowOption = ({ top, options, optionTapped }: Props) => {
   let positionTop = true;
 
   if (top !== undefined) {
@@ -68,4 +68,4 @@ const MonitorRowOption = ({ top, options, optionTapped }: Props) => {
   );
 };
 
-export default MonitorRowOption;
+export default TableRowOption;
