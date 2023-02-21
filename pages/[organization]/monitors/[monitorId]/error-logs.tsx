@@ -25,11 +25,11 @@ const ErrorLogs: NextPageWithLayout = () => {
           </p>
         </div>
       </div>
-      <div className="-mx-6 mt-8 sm:-mx-0">
+      <div className="mt-8">
         <table className="min-w-full divide-y divide-gray-300">
           <thead>
             <tr>
-              <th scope="col" className="py-3.5 pl-6 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">
+              <th scope="col" className="py-3.5 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">
                 Type
               </th>
               <th
@@ -61,7 +61,7 @@ const ErrorLogs: NextPageWithLayout = () => {
           <tbody className="divide-y divide-gray-200 bg-white">
             {people.map((person) => (
               <tr key={person.email}>
-                <td className="w-auto max-w-none py-4 pl-6 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
+                <td className="w-auto max-w-none py-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
                   {person.name}
                   <dl className="font-normal lg:hidden">
                     <dt className="sr-only">Title</dt>
