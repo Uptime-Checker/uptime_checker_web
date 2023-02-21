@@ -24,6 +24,7 @@ type Props = {
 const Tabs = ({ baseURL, tabs, children, breakpoint, routeIndex }: Props) => {
   const router = useRouter();
   const [global, _] = useAtom(globalAtom);
+  const orgSlug = global.currentUser?.organization.slug;
   const [selectedTab, setSelectedTab] = useState(tabs[0]);
   const [selectedBreakpoint, setSelectedBreakpoint] = useState({ select: 'md:hidden', tab: 'md:block' });
 
@@ -61,7 +62,7 @@ const Tabs = ({ baseURL, tabs, children, breakpoint, routeIndex }: Props) => {
     const selectedTab = tabs.find((tab) => tab.name === target.value);
     setSelectedTab(selectedTab!);
 
-    await router.push(`/${global.currentUser?.organization.slug}${baseURL}${selectedTab!.href}`);
+    await router.push(`/${orgSlug}/${baseURL}/${selectedTab!.href}`);
   };
 
   return (
@@ -89,7 +90,7 @@ const Tabs = ({ baseURL, tabs, children, breakpoint, routeIndex }: Props) => {
             {tabs.map((tab) => (
               <Link
                 key={tab.name}
-                href={`/${global.currentUser?.organization.slug}${baseURL}${tab.href}`}
+                href={`/${orgSlug}/${baseURL}/${tab.href}`}
                 className={classNames(
                   isNavActive(tab)
                     ? 'border-indigo-500 text-indigo-600'

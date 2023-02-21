@@ -98,7 +98,7 @@ export default function MonitorDetailLayout({ children }: Props) {
         </dl>
       </section>
       <Tabs
-        baseURL={`/monitors/${monitorId}/`}
+        baseURL={`monitors/${monitorId}`}
         tabs={tabs}
         children={children}
         breakpoint={Breakpoint.MD}
