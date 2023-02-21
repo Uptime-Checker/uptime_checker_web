@@ -30,7 +30,7 @@ const tabs: NavigationItem[] = [
   { name: 'Overview', href: 'overview' },
   { name: 'Checks', href: 'checks' },
   { name: 'Error Logs', href: 'error-logs' },
-  { name: 'Alarms', href: 'alarms' },
+  { name: 'Alerts', href: 'alerts' },
 ];
 
 export default function MonitorDetailLayout({ children }: Props) {

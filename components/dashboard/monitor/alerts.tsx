@@ -1,10 +1,10 @@
 import { Alarm } from 'models/alarm';
 
-interface AlarmProps {
+interface AlertProps {
   alarms: Alarm[];
 }
 
-const AlarmsComponent = ({ alarms }: AlarmProps) => {
+const AlertsComponent = ({ alarms }: AlertProps) => {
   return (
     <div className="mt-8">
       <table className="min-w-full divide-y divide-gray-300">
@@ -59,4 +59,4 @@ const AlarmsComponent = ({ alarms }: AlarmProps) => {
   );
 };
 
-export default AlarmsComponent;
+export default AlertsComponent;

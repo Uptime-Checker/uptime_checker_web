@@ -28,7 +28,7 @@ interface NavigationItem {
 
 const navigation: NavigationItem[] = [
   { name: 'Monitors', href: 'monitors', icon: HomeIcon },
-  { name: 'Alarms', href: 'alarms', icon: ShieldExclamationIcon },
+  { name: 'Alerts', href: 'alerts', icon: ShieldExclamationIcon },
   { name: 'Integrations', href: 'integrations', icon: SquaresPlusIcon },
   { name: 'Team', href: 'team', icon: UsersIcon },
   { name: 'Settings', href: 'settings/account', icon: CogIcon },

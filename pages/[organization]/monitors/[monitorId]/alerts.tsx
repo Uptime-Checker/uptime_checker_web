@@ -1,4 +1,4 @@
-import AlarmsComponent from 'components/dashboard/monitor/alarms';
+import AlertsComponent from 'components/dashboard/monitor/alerts';
 import DashboardLayout from 'layout/dashboard-layout';
 import MonitorDetailLayout from 'layout/monitor-detail-layout';
 import { ReactElement } from 'react';
@@ -20,13 +20,13 @@ const Alarms: NextPageWithLayout = () => {
     <section className="mt-5">
       <div className="sm:flex sm:items-center">
         <div className="sm:flex-auto">
-          <h1 className="text-xl font-semibold text-gray-900">Alarms</h1>
+          <h1 className="text-xl font-semibold text-gray-900">Alerts</h1>
           <p className="mt-2 text-sm text-gray-700">
-            A list of all the alarms that fired when running checks for this monitor
+            A list of all the alerts that fired when running checks for this monitor
           </p>
         </div>
       </div>
-      <AlarmsComponent alarms={alarms} />
+      <AlertsComponent alarms={alarms} />
     </section>
   );
 };
