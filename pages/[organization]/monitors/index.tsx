@@ -1,4 +1,4 @@
-import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline';
+import { PauseCircleIcon, PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { ShieldCheckIcon, ShieldExclamationIcon } from '@heroicons/react/24/solid';
 import TableRowOption from 'components/dashboard/monitor/table-row-option';
 import { Tracking, TrackingBlock } from 'components/dashboard/tracker';
@@ -33,10 +33,17 @@ const monitorRowOptions: RowOption[] = [
   {
     name: 'Edit',
     icon: PencilSquareIcon,
+    destruct: false,
+  },
+  {
+    name: 'Pause',
+    icon: PauseCircleIcon,
+    destruct: false,
   },
   {
     name: 'Delete',
     icon: TrashIcon,
+    destruct: true,
   },
 ];
 

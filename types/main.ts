@@ -10,6 +10,7 @@ export type HeroIcon = (
 export interface RowOption {
   name: string;
   icon: HeroIcon;
+  destruct: boolean;
 }
 
 export interface TabNavigationItem {

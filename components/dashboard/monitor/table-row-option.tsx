@@ -53,7 +53,7 @@ const TableRowOption = ({ top, options, optionTapped }: Props) => {
                   <item.icon
                     className={classNames(
                       'mr-3 h-5 w-5 flex-shrink-0 text-gray-500',
-                      item.name === 'Delete' ? 'text-red-600' : ''
+                      item.destruct ? 'text-red-600' : ''
                     )}
                     aria-hidden="true"
                   />
