@@ -32,7 +32,7 @@ const AlertsComponent = ({ alarms, topLevel }: AlertProps) => {
           <th scope="col" className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:table-cell">
             Detected At
           </th>
-          <th scope="col" className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 md:table-cell">
+          <th scope="col" className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 xl:table-cell">
             Resolved At
           </th>
           <th scope="col" className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell">
@@ -52,13 +52,35 @@ const AlertsComponent = ({ alarms, topLevel }: AlertProps) => {
                 'hidden px-3 py-4 text-sm font-medium text-indigo-600'
               )}
             >
-              Textr API
+              Textr Migration API
             </td>
-            <td className={classNames('py-4 pl-0 pr-3 text-sm font-medium text-gray-900')}>
-              <span className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
+            <td
+              className={classNames(
+                topLevel ? 'pl-4 sm:pl-6 lg:pl-0' : 'pl-0',
+                'py-4 pr-3 text-sm font-medium text-gray-900'
+              )}
+            >
+              <span
+                className={classNames(
+                  topLevel ? 'hidden lg:inline-flex' : 'inline-flex',
+                  ' rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800'
+                )}
+              >
                 Resolved
               </span>
               <dl className="font-normal lg:hidden">
+                <dt className="sr-only">Monitor</dt>
+                <dd className={classNames(topLevel ? '' : 'hidden', 'truncate text-sm font-medium text-indigo-600')}>
+                  Textr Migration API
+                </dd>
+                <span
+                  className={classNames(
+                    topLevel ? '' : 'hidden',
+                    'mt-2 inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800'
+                  )}
+                >
+                  Resolved
+                </span>
                 <dt className="sr-only">Duration</dt>
                 <dd className="mt-2 truncate text-gray-700">Duration: {alarm.duration}</dd>
                 <dt className="sr-only sm:hidden">Email</dt>
@@ -66,7 +88,7 @@ const AlertsComponent = ({ alarms, topLevel }: AlertProps) => {
               </dl>
             </td>
             <td className="hidden px-3 py-4 text-sm text-gray-500 sm:table-cell">{alarm.startedAt}</td>
-            <td className="hidden px-3 py-4 text-sm text-gray-500 md:table-cell">{alarm.resolvedAt}</td>
+            <td className="hidden px-3 py-4 text-sm text-gray-500 xl:table-cell">{alarm.resolvedAt}</td>
             <td className="hidden px-3 py-4 text-sm text-gray-500 lg:table-cell">{alarm.duration}</td>
             <td className={classNames(topLevel ? 'pr-4 sm:pr-6' : 'pr-0', 'py-4 pl-3 text-right text-sm font-medium')}>
               <a href="#" className="text-indigo-600 hover:text-indigo-900">

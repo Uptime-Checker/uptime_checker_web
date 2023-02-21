@@ -9,7 +9,7 @@ const alarms = [
     status: 'Lindsay Walton',
     startedAt: '5:36 PM, Oct 4, 2022',
     resolvedAt: '5:39 PM, Oct 4, 2022',
-    duration: '3 Minutes',
+    duration: '3 Minutes 48 Seconds',
   },
   {
     id: 2,
