@@ -22,12 +22,13 @@ type Props = {
 
 const TopBar = ({ className }: Props) => {
   const router = useRouter();
-  const [, setGlobal] = useAtom(globalAtom);
+  const [_, setGlobal] = useAtom(globalAtom);
   const [showSearch, setShowSearch] = useState(false);
 
   useEffect(() => {
     if (router.isReady) {
-      setShowSearch(router.pathname === '/monitors');
+      let splitRouterHref = router.pathname.split('/');
+      setShowSearch(splitRouterHref[2] === 'monitors' && splitRouterHref.length === 3);
     }
   }, [router]);
 

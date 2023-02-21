@@ -38,6 +38,7 @@ const SideBar = () => {
   const router = useRouter();
   const [orgName, setOrgName] = useState('');
   const [global, setGlobal] = useAtom(globalAtom);
+  const orgSlug = global.currentUser?.organization.slug;
 
   useEffect(() => {
     let user = getCurrentUser();
@@ -70,7 +71,7 @@ const SideBar = () => {
       {navigation.map((item) => (
         <Link
           key={item.name}
-          href={`/${global.currentUser?.organization.slug}/${item.href}`}
+          href={`/${orgSlug}/${item.href}`}
           onClick={toggleSidebar}
           className={classNames(
             isNavActive(item) ? 'bg-gray-100 text-gray-900' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900',
