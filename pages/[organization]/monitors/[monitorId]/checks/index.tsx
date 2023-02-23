@@ -101,7 +101,7 @@ const Feed: NextPageWithLayout = () => {
                     </div>
                   </div>
                   <div className="whitespace-nowrap text-right text-sm font-medium sm:pr-6">
-                    <Link href={`${router.asPath}/1`} className="ml-4 text-indigo-600 hover:text-indigo-900">
+                    <Link href={`${router.asPath}/1/raw`} className="ml-4 text-indigo-600 hover:text-indigo-900">
                       View
                     </Link>
                   </div>

@@ -1,7 +1,16 @@
-import DashboardLayout from 'layout/dashboard-layout';
+import Tabs, { Breakpoint } from 'components/dashboard/tabs';
 import Link from 'next/link';
-import { ReactElement } from 'react';
-import { NextPageWithLayout } from '../../../../_app';
+import { ReactNode } from 'react';
+
+type Props = {
+  children: ReactNode;
+};
+
+interface NavigationItem {
+  name: string;
+  href: string;
+  count?: number;
+}
 
 const requestBody = {
   subscription: {
@@ -14,20 +23,17 @@ const requestBody = {
       product: null,
       type: 'monthly',
     },
-    product: {
-      description: 'Free for lifetime',
-      external_id: null,
-      features: null,
-      id: 1,
-      name: 'Free',
-      plans: null,
-    },
     starts_at: '2023-02-17T20:34:28Z',
     status: 'active',
   },
 };
 
-const CheckDetail: NextPageWithLayout = () => {
+const tabs: NavigationItem[] = [
+  { name: 'Raw', href: 'raw' },
+  { name: 'Preview', href: 'preview' },
+];
+
+export default function CheckDetailLayout({ children }: Props) {
   return (
     <section className="mx-auto mt-6 max-w-7xl px-4 pb-16 sm:px-6 md:px-8">
       <div className="px-1 sm:px-6 md:px-0">
@@ -98,7 +104,7 @@ const CheckDetail: NextPageWithLayout = () => {
 
           <article className="mt-5 min-w-full divide-y-2 divide-gray-200 overflow-hidden rounded text-sm shadow">
             <div className="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900">Body</div>
-            <div className="px-4 py-2">
+            <div className="bg-gray-50 px-4 py-2">
               <pre>{JSON.stringify(requestBody, null, 2)}</pre>
             </div>
           </article>
@@ -181,12 +187,13 @@ const CheckDetail: NextPageWithLayout = () => {
           </article>
         </section>
       </div>
+
+      <div className="mt-10">
+        <h2 className="-mb-2 text-xl font-medium">Response Preview</h2>
+        <Tabs baseURL={`monitors/1/checks/1`} tabs={tabs} breakpoint={Breakpoint.MD} routeIndex={6}>
+          {children}
+        </Tabs>
+      </div>
     </section>
   );
-};
-
-CheckDetail.getLayout = function getLayout(page: ReactElement) {
-  return <DashboardLayout>{page}</DashboardLayout>;
-};
-
-export default CheckDetail;
+}
