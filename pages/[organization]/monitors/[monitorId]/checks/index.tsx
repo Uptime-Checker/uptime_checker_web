@@ -2,8 +2,10 @@ import { CheckIcon, HandThumbUpIcon, UserIcon } from '@heroicons/react/20/solid'
 import DashboardLayout from 'layout/dashboard-layout';
 import MonitorDetailLayout from 'layout/monitor-detail-layout';
 import { classNames } from 'lib/tailwind/utils';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { ReactElement } from 'react';
-import { NextPageWithLayout } from '../../../_app';
+import { NextPageWithLayout } from '../../../../_app';
 
 const timeline = [
   {
@@ -59,6 +61,8 @@ const timeline = [
 ];
 
 const Feed: NextPageWithLayout = () => {
+  const router = useRouter();
+
   return (
     <div className="mt-5 flow-root">
       <ul role="list" className="-mb-8">
@@ -97,9 +101,9 @@ const Feed: NextPageWithLayout = () => {
                     </div>
                   </div>
                   <div className="whitespace-nowrap text-right text-sm font-medium sm:pr-6">
-                    <a href="#" className="ml-4 text-indigo-600 hover:text-indigo-900">
+                    <Link href={`${router.asPath}/1`} className="ml-4 text-indigo-600 hover:text-indigo-900">
                       View
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </div>

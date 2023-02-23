@@ -156,14 +156,8 @@ const Monitors: NextPageWithLayout = () => {
   };
 
   const getMonitorRowOption = (item: Person) => {
-    let positionTop = true;
-    const lastItem = people[people.length - 1];
-    if (lastItem.url === item.url && people.length > 1) {
-      positionTop = false;
-    }
     return (
       <TableRowOption
-        top={positionTop}
         options={monitorRowOptions}
         optionTapped={(optionName) => {
           monitorRowOptionTapped(item, optionName);
@@ -173,7 +167,7 @@ const Monitors: NextPageWithLayout = () => {
   };
 
   return (
-    <div className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 md:px-8">
+    <div className="mx-auto max-w-7xl px-4 pb-10 sm:px-6 md:px-8">
       <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {categories.map((item) => (
           <button

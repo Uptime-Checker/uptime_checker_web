@@ -61,7 +61,7 @@ const SideBar = () => {
   };
 
   const logo = (
-    <Link className="flex flex-shrink-0 items-center px-4" href="/monitors">
+    <Link href="/monitors" className="flex flex-shrink-0 items-center px-4">
       <FullLogo className="h-8 w-auto" />
     </Link>
   );
