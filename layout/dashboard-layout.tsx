@@ -20,6 +20,7 @@ export default function DashboardLayout({ children }: Props) {
   const [, setGlobal] = useAtom(globalAtom);
 
   useEffect(() => {
+    if (!router.isReady) return;
     let user = getCurrentUser();
     if (user === null) {
       logout().then((_) => {});
@@ -33,17 +34,15 @@ export default function DashboardLayout({ children }: Props) {
             draft.organizations = fullInfo.organization_users;
           });
 
-          if (router.isReady) {
-            if (fullInfo.user.organization === null) {
-              redirectToDashboard(fullInfo.user);
-            } else if (fullInfo.user.organization.slug !== router.query.organization) {
-              logout().then((_) => {});
-            } else {
-              // Do everything that was deferred
-              if (fullInfo.subscription.plan.id !== FREE_PLAN_ID) {
-                LiveChat.load();
-                LiveChat.configureUser(fullInfo.user, fullInfo.subscription);
-              }
+          if (fullInfo.user.organization === null) {
+            redirectToDashboard(fullInfo.user);
+          } else if (fullInfo.user.organization.slug !== router.query.organization) {
+            logout().then((_) => {});
+          } else {
+            // Do everything that was deferred
+            if (fullInfo.subscription.plan.id !== FREE_PLAN_ID) {
+              LiveChat.load();
+              LiveChat.configureUser(fullInfo.user, fullInfo.subscription);
             }
           }
         })
