@@ -62,7 +62,7 @@ const Tabs = ({ baseURL, tabs, children, breakpoint, routeIndex }: Props) => {
     const selectedTab = tabs.find((tab) => tab.name === target.value);
     setSelectedTab(selectedTab!);
 
-    await router.push(`/${orgSlug}/${baseURL}/${selectedTab!.href}`);
+    await router.push(`/${orgSlug}/${baseURL}/${selectedTab!.href}`, undefined, { scroll: false });
   };
 
   return (
@@ -90,6 +90,7 @@ const Tabs = ({ baseURL, tabs, children, breakpoint, routeIndex }: Props) => {
             {tabs.map((tab) => (
               <Link
                 key={tab.name}
+                scroll={false}
                 href={`/${orgSlug}/${baseURL}/${tab.href}`}
                 className={classNames(
                   isNavActive(tab)
