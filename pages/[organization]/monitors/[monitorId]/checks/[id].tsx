@@ -1,6 +1,6 @@
+import DashboardLayout from 'layout/dashboard-layout';
 import Link from 'next/link';
 import { ReactElement } from 'react';
-import DashboardLayout from '../../../../../layout/dashboard-layout';
 import { NextPageWithLayout } from '../../../../_app';
 
 const CheckDetail: NextPageWithLayout = () => {
@@ -43,6 +43,34 @@ const CheckDetail: NextPageWithLayout = () => {
               </tbody>
             </table>
           </article>
+
+          <article className="mt-5 overflow-hidden rounded shadow">
+            <table className="min-w-full divide-y-2 divide-gray-200 text-sm">
+              <thead>
+                <tr>
+                  <th className="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900">Headers</th>
+                  <th className="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900"></th>
+                </tr>
+              </thead>
+
+              <tbody className="divide-y divide-gray-200">
+                <tr>
+                  <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">x-api-key</td>
+                  <td className="whitespace-nowrap px-4 py-2 text-gray-700">f69df0f1-ded7-45ac-93a8-6eb69783eae5</td>
+                </tr>
+
+                <tr>
+                  <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Accept-Language</td>
+                  <td className="whitespace-nowrap px-4 py-2 text-gray-700">en-US</td>
+                </tr>
+
+                <tr>
+                  <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Content-Type</td>
+                  <td className="whitespace-nowrap px-4 py-2 text-gray-700">application-json</td>
+                </tr>
+              </tbody>
+            </table>
+          </article>
         </section>
         <section className="pl-5">
           <h2 className="text-xl font-medium">Response Info</h2>
@@ -78,6 +106,44 @@ const CheckDetail: NextPageWithLayout = () => {
                 <tr>
                   <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Content Size</td>
                   <td className="whitespace-nowrap px-4 py-2 text-gray-700">434 Kilobytes</td>
+                </tr>
+              </tbody>
+            </table>
+          </article>
+
+          <article className="mt-5 overflow-hidden rounded shadow">
+            <table className="min-w-full divide-y-2 divide-gray-200 text-sm">
+              <thead>
+                <tr>
+                  <th className="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900">Headers</th>
+                  <th className="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900"></th>
+                </tr>
+              </thead>
+
+              <tbody className="divide-y divide-gray-200">
+                <tr>
+                  <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Server</td>
+                  <td className="whitespace-nowrap px-4 py-2 text-gray-700">Cowboy</td>
+                </tr>
+
+                <tr>
+                  <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Cache-Control</td>
+                  <td className="whitespace-nowrap px-4 py-2 text-gray-700">max-age=0, private, must-revalidate</td>
+                </tr>
+
+                <tr>
+                  <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Content-Type</td>
+                  <td className="whitespace-nowrap px-4 py-2 text-gray-700">application/json; charset=utf-8</td>
+                </tr>
+
+                <tr>
+                  <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">X-Request-Id</td>
+                  <td className="whitespace-nowrap px-4 py-2 text-gray-700">F0aOBe7nUsF49A8AAAAI</td>
+                </tr>
+
+                <tr>
+                  <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Date</td>
+                  <td className="whitespace-nowrap px-4 py-2 text-gray-700">Thu, 23 Feb 2023 20:27:46 GMT</td>
                 </tr>
               </tbody>
             </table>
