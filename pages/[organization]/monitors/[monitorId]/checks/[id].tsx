@@ -3,9 +3,33 @@ import Link from 'next/link';
 import { ReactElement } from 'react';
 import { NextPageWithLayout } from '../../../../_app';
 
+const requestBody = {
+  subscription: {
+    expires_at: '2033-02-17T20:34:28Z',
+    id: 1,
+    is_trial: false,
+    plan: {
+      id: 1,
+      price: 0,
+      product: null,
+      type: 'monthly',
+    },
+    product: {
+      description: 'Free for lifetime',
+      external_id: null,
+      features: null,
+      id: 1,
+      name: 'Free',
+      plans: null,
+    },
+    starts_at: '2023-02-17T20:34:28Z',
+    status: 'active',
+  },
+};
+
 const CheckDetail: NextPageWithLayout = () => {
   return (
-    <section className="mx-auto mt-6 max-w-7xl px-4 sm:px-6 md:px-8">
+    <section className="mx-auto mt-6 max-w-7xl px-4 pb-16 sm:px-6 md:px-8">
       <div className="px-1 sm:px-6 md:px-0">
         <h1 className="mb-2 text-2xl font-semibold text-gray-900">Check #47</h1>
         <Link href="https://api.textrapp.me/api/v1/full_user_info" className="text-indigo-600 underline">
@@ -70,6 +94,13 @@ const CheckDetail: NextPageWithLayout = () => {
                 </tr>
               </tbody>
             </table>
+          </article>
+
+          <article className="mt-5 min-w-full divide-y-2 divide-gray-200 overflow-hidden rounded text-sm shadow">
+            <div className="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900">Body</div>
+            <div className="px-4 py-2">
+              <pre>{JSON.stringify(requestBody, null, 2)}</pre>
+            </div>
           </article>
         </section>
         <section className="pl-5">
