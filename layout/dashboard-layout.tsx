@@ -15,12 +15,15 @@ type Props = {
   children: ReactNode;
 };
 
+let gotUserInfo = false;
+
 export default function DashboardLayout({ children }: Props) {
   const router = useRouter();
   const [, setGlobal] = useAtom(globalAtom);
 
   useEffect(() => {
-    if (!router.isReady) return;
+    if (!router.isReady || gotUserInfo) return;
+
     let user = getCurrentUser();
     if (user === null) {
       logout().then((_) => {});
@@ -48,6 +51,9 @@ export default function DashboardLayout({ children }: Props) {
         })
         .catch((error) => {
           Sentry.captureException(error);
+        })
+        .finally(() => {
+          gotUserInfo = true;
         });
     }
   }, [router, setGlobal]);
