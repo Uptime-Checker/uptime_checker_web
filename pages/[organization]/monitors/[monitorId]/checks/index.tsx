@@ -2,59 +2,50 @@ import { CheckIcon, HandThumbUpIcon, UserIcon } from '@heroicons/react/20/solid'
 import DashboardLayout from 'layout/dashboard-layout';
 import MonitorDetailLayout from 'layout/monitor-detail-layout';
 import { classNames } from 'lib/tailwind/utils';
+import { Check } from 'models/check';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { ReactElement } from 'react';
 import { NextPageWithLayout } from '../../../../_app';
 
-const timeline = [
+const timeline: Check[] = [
   {
     id: 1,
     content: 'Check failed with Status Code 400 - Bad Request',
-    target: '🇬🇲 Frankfurt, Germany',
-    href: '#',
+    location: '🇬🇲 Frankfurt, Germany',
     date: 'A few seconds ago',
-    datetime: '2020-09-20',
     icon: UserIcon,
     iconBackground: 'bg-gray-400',
   },
   {
     id: 2,
     content: 'Check failed with Status Code 400 - Bad Request',
-    target: '🇺🇸 California, USA',
-    href: '#',
+    location: '🇺🇸 California, USA',
     date: '4 minutes ago',
-    datetime: '2020-09-22',
     icon: HandThumbUpIcon,
     iconBackground: 'bg-blue-500',
   },
   {
     id: 3,
     content: 'Check passed with Status Code 200 - OK',
-    target: '🇬🇲 Frankfurt, Germany',
-    href: '#',
+    location: '🇬🇲 Frankfurt, Germany',
     date: '5:36 PM, Oct 4, 2022',
-    datetime: '2020-09-28',
     icon: CheckIcon,
     iconBackground: 'bg-green-500',
   },
   {
     id: 4,
     content: 'Check failed with Status Code 400 - Bad Request',
-    target: '🇺🇸 California, USA',
-    href: '#',
+    location: '🇺🇸 California, USA',
     date: '12:36 PM, Nov 4, 2022',
-    datetime: '2020-09-30',
     icon: HandThumbUpIcon,
     iconBackground: 'bg-blue-500',
   },
   {
     id: 5,
     content: 'Check passed with Status Code 200 - OK',
-    target: '🇬🇲 Frankfurt, Germany',
-    href: '#',
+    location: '🇬🇲 Frankfurt, Germany',
     date: '11:36 PM, Dec 4, 2022',
-    datetime: '2020-10-04',
     icon: CheckIcon,
     iconBackground: 'bg-green-500',
   },
@@ -91,13 +82,13 @@ const Feed: NextPageWithLayout = () => {
                       </a>
                     </div>
                     <div className="mt-1 whitespace-nowrap text-sm text-gray-500">
-                      <time dateTime={event.datetime}>{event.date}</time>
+                      <time>{event.date}</time>
                     </div>
                     <div className="mt-3 text-sm text-gray-500">
                       <p>Duration: 324ms</p>
                     </div>
                     <div className="mt-1 text-sm text-gray-500">
-                      <p>{event.target}</p>
+                      <p>{event.location}</p>
                     </div>
                   </div>
                   <div className="whitespace-nowrap text-right text-sm font-medium sm:pr-6">
