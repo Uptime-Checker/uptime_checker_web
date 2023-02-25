@@ -14,7 +14,7 @@ export interface Monitor {
   method: HTTPMethod;
   status: MonitorStatus;
   interval: number;
-  user_ids: [number];
+  user_ids: number[];
   body: string;
 }
 

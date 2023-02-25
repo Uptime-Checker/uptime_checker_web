@@ -1,15 +1,34 @@
+import { useAtom } from 'jotai';
 import { classNames } from 'lib/tailwind/utils';
 import { Check } from 'models/check';
 import Link from 'next/link';
+import { globalAtom } from 'store/global';
 
 interface ChecksProps {
   checks: Check[];
-  topLevel: boolean;
-  detailPath: string;
+  monitorId?: number;
   className?: string;
 }
 
-const ChecksComponent = ({ checks, topLevel, detailPath, className }: ChecksProps) => {
+const ChecksComponent = ({ checks, monitorId, className }: ChecksProps) => {
+  const [global, _] = useAtom(globalAtom);
+  const orgSlug = global.currentUser?.organization.slug;
+
+  const getLink = (check: Check) => {
+    if (monitorId) {
+      return `/${orgSlug}/monitors/${monitorId}/checks/${check.id}`;
+    }
+    return `/${orgSlug}/monitors/${check.monitor?.id}/checks/${check.id}`;
+  };
+
+  const getMonitor = (check: Check) => {
+    return check.monitor ? (
+      <div className="mt-1 text-sm font-medium text-indigo-600">
+        <Link href={`/${orgSlug}/monitors/${check.monitor.id}/overview`}>{check.monitor.name}</Link>
+      </div>
+    ) : null;
+  };
+
   return (
     <ul role="list" className={className}>
       {checks.map((event, eventIdx) => (
@@ -36,6 +55,7 @@ const ChecksComponent = ({ checks, topLevel, detailPath, className }: ChecksProp
                       {event.content}
                     </a>
                   </div>
+                  {getMonitor(event)}
                   <div className="mt-1 whitespace-nowrap text-sm text-gray-500">
                     <time>{event.date}</time>
                   </div>
@@ -46,11 +66,12 @@ const ChecksComponent = ({ checks, topLevel, detailPath, className }: ChecksProp
                     <p>{event.location}</p>
                   </div>
                 </div>
-                <div className="whitespace-nowrap text-right text-sm font-medium sm:pr-6">
-                  <Link href={`${detailPath}/raw`} className="ml-4 text-indigo-600 hover:text-indigo-900">
-                    View
-                  </Link>
-                </div>
+                <Link
+                  className="ml-4 whitespace-nowrap text-right text-sm font-medium text-indigo-600 hover:text-indigo-900 sm:pr-6"
+                  href={`${getLink(event)}/raw`}
+                >
+                  View
+                </Link>
               </div>
             </div>
           </div>

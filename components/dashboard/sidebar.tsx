@@ -1,5 +1,6 @@
 import { Dialog, Popover, Transition } from '@headlessui/react';
 import {
+  CheckBadgeIcon,
   CheckIcon,
   ChevronUpDownIcon,
   CogIcon,
@@ -28,6 +29,7 @@ interface NavigationItem {
 
 const navigation: NavigationItem[] = [
   { name: 'Monitors', href: 'monitors', icon: HomeIcon },
+  { name: 'Checks', href: 'checks', icon: CheckBadgeIcon },
   { name: 'Alerts', href: 'alerts', icon: ShieldExclamationIcon },
   { name: 'Integrations', href: 'integrations', icon: SquaresPlusIcon },
   { name: 'Team', href: 'team', icon: UsersIcon },
