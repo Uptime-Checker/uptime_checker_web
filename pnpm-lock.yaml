@@ -31,6 +31,7 @@ specifiers:
   prisma: ^4.10.1
   react: ^18.2.0
   react-dom: ^18.2.0
+  react-frame-component: ^5.2.6
   recharts: ^2.4.3
   stripe: ^11.11.0
   swr: ^2.0.3
@@ -57,6 +58,7 @@ dependencies:
   next-auth: 4.19.2_3vryta7zmbcsw4rrqf4axjqggm
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
+  react-frame-component: 5.2.6_v2m5e27vhdewzwhryxwfaorcca
   recharts: 2.4.3_v2m5e27vhdewzwhryxwfaorcca
   stripe: 11.11.0
   swr: 2.0.3_react@18.2.0
@@ -3570,6 +3572,18 @@ packages:
       loose-envify: 1.4.0
       react: 18.2.0
       scheduler: 0.23.0
+    dev: false
+
+  /react-frame-component/5.2.6_v2m5e27vhdewzwhryxwfaorcca:
+    resolution: {integrity: sha512-CwkEM5VSt6nFwZ1Op8hi3JB5rPseZlmnp5CGiismVTauE6S4Jsc4TNMlT0O7Cts4WgIC3ZBAQ2p1Mm9XgLbj+w==}
+    peerDependencies:
+      prop-types: ^15.5.9
+      react: '>= 16.3'
+      react-dom: '>= 16.3'
+    dependencies:
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
     dev: false
 
   /react-is/16.13.1:
