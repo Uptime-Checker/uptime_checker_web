@@ -52,7 +52,7 @@ const timeline: Check[] = [
 const Feed: NextPageWithLayout = () => {
   return (
     <div className="mt-5 flow-root">
-      <ChecksComponent checks={timeline} monitorId={1} className="-mb-8" />
+      <ChecksComponent checks={timeline} monitorId={1} />
     </div>
   );
 };

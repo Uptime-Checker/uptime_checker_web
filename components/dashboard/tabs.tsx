@@ -15,13 +15,14 @@ export enum Breakpoint {
 
 type Props = {
   baseURL: string;
+  className?: string;
   tabs: TabNavigationItem[];
   children: ReactNode;
   breakpoint: Breakpoint;
   routeIndex: number;
 };
 
-const Tabs = ({ baseURL, tabs, children, breakpoint, routeIndex }: Props) => {
+const Tabs = ({ baseURL, className, tabs, children, breakpoint, routeIndex }: Props) => {
   const router = useRouter();
   const [global, _] = useAtom(globalAtom);
   const orgSlug = global.currentUser?.organization.slug;
@@ -66,7 +67,7 @@ const Tabs = ({ baseURL, tabs, children, breakpoint, routeIndex }: Props) => {
   };
 
   return (
-    <section className="py-5">
+    <section className={className}>
       {/* Tabs */}
       <div className={selectedBreakpoint.select}>
         <label htmlFor="selected-tab" className="sr-only">

@@ -14,7 +14,7 @@ const html = `<!DOCTYPE html>
 </html>`;
 
 const ResponseRawView: NextPageWithLayout = () => {
-  return <pre className="mt-4 -mb-8 text-sm">{html}</pre>;
+  return <pre className="mt-4 text-sm">{html}</pre>;
 };
 
 ResponseRawView.getLayout = function getLayout(page: ReactElement) {

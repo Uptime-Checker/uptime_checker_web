@@ -23,7 +23,7 @@ p    {color: red;}
 
 const ResponsePreview: NextPageWithLayout = () => {
   return (
-    <Frame initialContent={html}>
+    <Frame initialContent={html} className="h-80 w-full">
       <></>
     </Frame>
   );

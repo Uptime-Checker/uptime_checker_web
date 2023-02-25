@@ -35,7 +35,7 @@ const tabs: NavigationItem[] = [
 
 export default function CheckDetailLayout({ children }: Props) {
   return (
-    <section className="mx-auto mt-6 max-w-7xl px-4 pb-16 sm:px-6 md:px-8">
+    <section className="mx-auto mt-6 max-w-7xl px-4 pb-10 sm:px-6 md:px-8">
       <div className="px-1 sm:px-6 md:px-0">
         <h1 className="mb-2 text-2xl font-semibold text-gray-900">Check #47</h1>
         <Link href="https://api.textrapp.me/api/v1/full_user_info" className="text-indigo-600 underline">
@@ -190,7 +190,7 @@ export default function CheckDetailLayout({ children }: Props) {
 
       <div className="mt-10">
         <h2 className="-mb-2 text-xl font-medium">Response Preview</h2>
-        <Tabs baseURL={`monitors/1/checks/1`} tabs={tabs} breakpoint={Breakpoint.MD} routeIndex={6}>
+        <Tabs className="mt-5" baseURL={`monitors/1/checks/1`} tabs={tabs} breakpoint={Breakpoint.MD} routeIndex={6}>
           {children}
         </Tabs>
       </div>
