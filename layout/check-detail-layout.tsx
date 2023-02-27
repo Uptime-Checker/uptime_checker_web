@@ -43,7 +43,7 @@ export default function CheckDetailLayout({ children }: Props) {
         </Link>
       </div>
 
-      <div className="mt-10 grid grid-cols-2 divide-x">
+      <div className="mt-10 lg:grid lg:grid-cols-2 lg:divide-x">
         <section className="pr-5">
           <h2 className="text-xl font-medium">Request Info</h2>
           <article className="mt-5 overflow-hidden rounded shadow">
@@ -86,7 +86,7 @@ export default function CheckDetailLayout({ children }: Props) {
               <tbody className="divide-y divide-gray-200">
                 <tr>
                   <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">x-api-key</td>
-                  <td className="whitespace-nowrap px-4 py-2 text-gray-700">f69df0f1-ded7-45ac-93a8-6eb69783eae5</td>
+                  <td className="px-4 py-2 text-gray-700">f69df0f1-ded7-45ac-93a8-6eb69783eae5</td>
                 </tr>
 
                 <tr>
@@ -109,7 +109,7 @@ export default function CheckDetailLayout({ children }: Props) {
             </div>
           </article>
         </section>
-        <section className="pl-5">
+        <section className="mt-10 lg:pl-5">
           <h2 className="text-xl font-medium">Response Info</h2>
           <article className="mt-5 overflow-hidden rounded shadow">
             <table className="min-w-full divide-y-2 divide-gray-200 text-sm">
@@ -165,12 +165,12 @@ export default function CheckDetailLayout({ children }: Props) {
 
                 <tr>
                   <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Cache-Control</td>
-                  <td className="whitespace-nowrap px-4 py-2 text-gray-700">max-age=0, private, must-revalidate</td>
+                  <td className="px-4 py-2 text-gray-700">max-age=0, private, must-revalidate</td>
                 </tr>
 
                 <tr>
                   <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Content-Type</td>
-                  <td className="whitespace-nowrap px-4 py-2 text-gray-700">application/json; charset=utf-8</td>
+                  <td className="px-4 py-2 text-gray-700">application/json; charset=utf-8</td>
                 </tr>
 
                 <tr>
