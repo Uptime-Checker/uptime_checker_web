@@ -65,6 +65,11 @@ const ChecksComponent = ({ checks, monitorId, className }: ChecksProps) => {
                   <div className="mt-1 text-sm text-gray-500">
                     <p>{event.location}</p>
                   </div>
+                  <div className="mb-4 flex h-2.5 overflow-hidden rounded bg-emerald-200 text-xs">
+                    <div className="flex w-1/4 flex-col justify-center whitespace-nowrap bg-red-500 text-center text-white shadow-none"></div>
+                    <div className="flex w-1/4 flex-col justify-center whitespace-nowrap bg-orange-500 text-center text-white shadow-none"></div>
+                    <div className="flex w-2/4 flex-col justify-center whitespace-nowrap bg-emerald-500 text-center text-white shadow-none"></div>
+                  </div>
                 </div>
                 <Link
                   className="ml-4 whitespace-nowrap text-right text-sm font-medium text-indigo-600 hover:text-indigo-900 sm:pr-6"
