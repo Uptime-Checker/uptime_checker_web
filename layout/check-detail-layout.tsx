@@ -109,7 +109,7 @@ export default function CheckDetailLayout({ children }: Props) {
             </div>
           </article>
         </section>
-        <section className="mt-10 lg:pl-5">
+        <section className="mt-10 lg:mt-0 lg:pl-5">
           <h2 className="text-xl font-medium">Response Info</h2>
           <article className="mt-5 overflow-hidden rounded shadow">
             <table className="min-w-full divide-y-2 divide-gray-200 text-sm">
@@ -181,6 +181,54 @@ export default function CheckDetailLayout({ children }: Props) {
                 <tr>
                   <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Date</td>
                   <td className="whitespace-nowrap px-4 py-2 text-gray-700">Thu, 23 Feb 2023 20:27:46 GMT</td>
+                </tr>
+              </tbody>
+            </table>
+          </article>
+
+          <article className="mt-5 overflow-hidden rounded shadow">
+            <table className="min-w-full divide-y-2 divide-gray-200 text-sm">
+              <thead>
+                <tr>
+                  <th className="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900">Tracing Info</th>
+                  <th className="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900"></th>
+                </tr>
+              </thead>
+
+              <tbody className="divide-y divide-gray-200">
+                <tr>
+                  <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Total Time</td>
+                  <td className="whitespace-nowrap px-4 py-2 text-gray-700">2.562416041s</td>
+                </tr>
+
+                <tr>
+                  <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">DNS Lookup Time</td>
+                  <td className="px-4 py-2 text-gray-700">445.246375ms</td>
+                </tr>
+
+                <tr>
+                  <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">TCP Connect Time</td>
+                  <td className="px-4 py-2 text-gray-700">428.458µs</td>
+                </tr>
+
+                <tr>
+                  <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">TLS Handshake Time</td>
+                  <td className="px-4 py-2 text-gray-700">825.888208ms</td>
+                </tr>
+
+                <tr>
+                  <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">First Response Time</td>
+                  <td className="whitespace-nowrap px-4 py-2 text-gray-700">1.289082208s</td>
+                </tr>
+
+                <tr>
+                  <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Response Time</td>
+                  <td className="whitespace-nowrap px-4 py-2 text-gray-700">1.712375ms</td>
+                </tr>
+
+                <tr>
+                  <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Remote Address</td>
+                  <td className="whitespace-nowrap px-4 py-2 text-gray-700">98.126.155.187:443</td>
                 </tr>
               </tbody>
             </table>
