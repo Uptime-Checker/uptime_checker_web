@@ -5,7 +5,7 @@ import { FREE_PLAN_ID } from 'constants/payment';
 import { useAtom } from 'jotai';
 import { authRequest, HTTPMethod } from 'lib/axios';
 import * as LiveChat from 'lib/crisp';
-import { getCurrentUser, logout, redirectToDashboard, setCurrentUser } from 'lib/global';
+import { logout, redirectToDashboard, setCurrentUser } from 'lib/global';
 import { FullInfoResponse } from 'models/user';
 import { useRouter } from 'next/router';
 import { ReactNode, useEffect } from 'react';
@@ -24,38 +24,33 @@ export default function DashboardLayout({ children }: Props) {
   useEffect(() => {
     if (!router.isReady || gotUserInfo) return;
 
-    let user = getCurrentUser();
-    if (user === null) {
-      logout().then((_) => {});
-    } else {
-      authRequest<FullInfoResponse>({ method: HTTPMethod.GET, url: '/full_user_info' })
-        .then((fullInfoResp) => {
-          let fullInfo = fullInfoResp.data.data;
-          setCurrentUser(fullInfo.user).then(() => {});
-          setGlobal((draft) => {
-            draft.currentUser = fullInfo.user;
-            draft.organizations = fullInfo.organization_users;
-          });
-
-          if (fullInfo.user.organization === null) {
-            redirectToDashboard(fullInfo.user);
-          } else if (fullInfo.user.organization.slug !== router.query.organization) {
-            logout().then((_) => {});
-          } else {
-            // Do everything that was deferred
-            if (fullInfo.subscription.plan.id !== FREE_PLAN_ID) {
-              LiveChat.load();
-              LiveChat.configureUser(fullInfo.user, fullInfo.subscription);
-            }
-          }
-        })
-        .catch((error) => {
-          Sentry.captureException(error);
-        })
-        .finally(() => {
-          gotUserInfo = true;
+    authRequest<FullInfoResponse>({ method: HTTPMethod.GET, url: '/full_user_info' })
+      .then((fullInfoResp) => {
+        let fullInfo = fullInfoResp.data.data;
+        setCurrentUser(fullInfo.user).then(() => {});
+        setGlobal((draft) => {
+          draft.currentUser = fullInfo.user;
+          draft.organizations = fullInfo.organization_users;
         });
-    }
+
+        if (fullInfo.user.organization === null) {
+          redirectToDashboard(fullInfo.user);
+        } else if (fullInfo.user.organization.slug !== router.query.organization) {
+          logout().then((_) => {});
+        } else {
+          // Do everything that was deferred
+          if (fullInfo.subscription.plan.id !== FREE_PLAN_ID) {
+            LiveChat.load();
+            LiveChat.configureUser(fullInfo.user, fullInfo.subscription);
+          }
+        }
+      })
+      .catch((error) => {
+        Sentry.captureException(error);
+      })
+      .finally(() => {
+        gotUserInfo = true;
+      });
   }, [router, setGlobal]);
 
   return (
