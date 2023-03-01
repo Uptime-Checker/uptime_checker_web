@@ -66,21 +66,22 @@ export default function Auth() {
   const handleEmailSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const emailRef = event.currentTarget.elements[0] as HTMLInputElement;
+    const email = emailRef.value;
 
     closeAlert();
     setLoading(true);
 
     try {
       const { data } = await elixirClient.post<GuestUserResponse>('/guest_user', {
-        email: emailRef.value,
+        email: email,
       });
 
       try {
-        await sendSignInLinkToEmail(auth, emailRef.value, {
-          url: `${window.location.origin}/auth/email-result?code=${data.data.code!}&email=${emailRef.value}`,
+        await sendSignInLinkToEmail(auth, email, {
+          url: `${window.location.origin}/auth/email-result?code=${data.data.code!}&email=${email}`,
           handleCodeInApp: true,
         });
-        cacheUtil.set(CacheKey.Email, emailRef.value);
+        cacheUtil.set(CacheKey.Email, email);
         await router.push('/auth/email-sent');
       } catch (error) {
         Sentry.captureException(error);
