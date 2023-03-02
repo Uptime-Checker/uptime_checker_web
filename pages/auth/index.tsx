@@ -5,6 +5,7 @@ import GithubIcon from 'components/icon/github';
 import GoogleIcon from 'components/icon/google';
 import LoadingIcon from 'components/icon/loading';
 import LogoWithoutText from 'components/logo/logo-without-text';
+import { SESSION_STATUS_AUTHENTICATED } from 'constants/default';
 import { AUTH_FAIL_COULD_NOT_SEND_MAGIC_LINK } from 'constants/ui-text';
 import { sendSignInLinkToEmail } from 'firebase/auth';
 import produce from 'immer';
@@ -48,7 +49,7 @@ export default function Auth() {
       if (router.query.provider_redirect) {
         setLoading(true);
       }
-      if (status === 'authenticated' && session.accessToken) {
+      if (status === SESSION_STATUS_AUTHENTICATED && session.accessToken) {
         setAccessToken(session.accessToken);
         getMe().then(() => {});
       } else {
