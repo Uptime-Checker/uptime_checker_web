@@ -1,10 +1,10 @@
 import { Subscription } from './subscription';
 
 export interface GuestUser {
-  id: number;
-  email: string;
-  code?: string;
-  expires_at: string;
+  ID: number;
+  Email: string;
+  Code?: string;
+  ExpiresAt: string;
 }
 
 export interface GuestUserResponse {
