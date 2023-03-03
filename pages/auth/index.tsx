@@ -1,5 +1,5 @@
 import * as Sentry from '@sentry/nextjs';
-import { AxiosError } from 'axios';
+import axios, { AxiosError } from 'axios';
 import SimpleAlert from 'components/alert/simple';
 import GithubIcon from 'components/icon/github';
 import GoogleIcon from 'components/icon/google';
@@ -7,12 +7,10 @@ import LoadingIcon from 'components/icon/loading';
 import LogoWithoutText from 'components/logo/logo-without-text';
 import { SESSION_STATUS_AUTHENTICATED } from 'constants/default';
 import { AUTH_FAIL_COULD_NOT_SEND_MAGIC_LINK } from 'constants/ui-text';
-import { sendSignInLinkToEmail } from 'firebase/auth';
 import produce from 'immer';
-import { authRequest, elixirClient, HTTPMethod } from 'lib/axios';
+import { authRequest, HTTPMethod } from 'lib/axios';
 import { CacheKey, cacheUtil } from 'lib/cache';
 import { ProviderNameGithub, ProviderNameGoogle } from 'lib/constants';
-import { auth } from 'lib/firebase';
 import { getCurrentUser, redirectToDashboard, setAccessToken, setCurrentUser } from 'lib/global';
 import { GuestUserResponse, UserResponse } from 'models/user';
 import { signIn, useSession } from 'next-auth/react';
@@ -42,10 +40,12 @@ export default function Auth() {
   }
 
   useEffect(() => {
+    if (!router.isReady) return;
+
     const user = getCurrentUser();
     if (user !== null) {
       redirectToDashboard(user);
-    } else if (router.isReady) {
+    } else {
       if (router.query.provider_redirect) {
         setLoading(true);
       }
@@ -73,22 +73,12 @@ export default function Auth() {
     setLoading(true);
 
     try {
-      const { data } = await elixirClient.post<GuestUserResponse>('/guest_user', {
-        email: email,
-      });
+      const { data } = await axios.post<GuestUserResponse>('/api/guest', { email: email });
 
-      try {
-        await sendSignInLinkToEmail(auth, email, {
-          url: `${window.location.origin}/auth/email-result?code=${data.data.code!}&email=${email}`,
-          handleCodeInApp: true,
-        });
-        cacheUtil.set(CacheKey.Email, email);
-        await router.push('/auth/email-sent');
-      } catch (error) {
-        Sentry.captureException(error);
-      } finally {
-        setLoading(false);
-      }
+      cacheUtil.set(CacheKey.Email, data.data.email);
+      await router.push('/auth/email-sent');
+
+      setLoading(false);
     } catch (error) {
       if (error instanceof AxiosError) {
         const elixirError = (error as AxiosError).response?.data as ElixirError;
