@@ -26,10 +26,10 @@ const TopBar = ({ className }: Props) => {
   const [showSearch, setShowSearch] = useState(false);
 
   useEffect(() => {
-    if (router.isReady) {
-      let splitRouterHref = router.pathname.split('/');
-      setShowSearch(splitRouterHref[2] === 'monitors' && splitRouterHref.length === 3);
-    }
+    if (router.isReady) return;
+
+    let splitRouterHref = router.pathname.split('/');
+    setShowSearch(splitRouterHref[2] === 'monitors' && splitRouterHref.length === 3);
   }, [router]);
 
   const toggleSidebar = () =>

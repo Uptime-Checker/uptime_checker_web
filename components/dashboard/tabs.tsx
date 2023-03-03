@@ -30,18 +30,18 @@ const Tabs = ({ baseURL, className, tabs, children, breakpoint, routeIndex }: Pr
   const [selectedBreakpoint, setSelectedBreakpoint] = useState({ select: 'md:hidden', tab: 'md:block' });
 
   useEffect(() => {
-    if (router.isReady) {
-      const getActiveTab = () => {
-        for (const tab of tabs) {
-          if (isNavActive(tab)) {
-            return tab;
-          }
-        }
-        return tabs[0];
-      };
+    if (!router.isReady) return;
 
-      setSelectedTab(getActiveTab());
-    }
+    const getActiveTab = () => {
+      for (const tab of tabs) {
+        if (isNavActive(tab)) {
+          return tab;
+        }
+      }
+      return tabs[0];
+    };
+
+    setSelectedTab(getActiveTab());
 
     if (breakpoint === Breakpoint.LG) {
       setSelectedBreakpoint(

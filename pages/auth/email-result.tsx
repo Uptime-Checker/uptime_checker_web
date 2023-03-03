@@ -19,6 +19,8 @@ export default function EmailResult() {
   const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
+    if (!router.isReady) return;
+
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     if (!urlParams.has('email') || !urlParams.has('code')) {
@@ -29,7 +31,7 @@ export default function EmailResult() {
     const code = urlParams.get('code')!;
     setEmail(email);
 
-    if (!isSignInWithEmailLink(auth, window.location.href) || !router.isReady) {
+    if (!isSignInWithEmailLink(auth, window.location.href)) {
       return;
     }
 
