@@ -241,7 +241,7 @@ export default function Onboarding() {
                         />
                       </div>
                       <span className="inline-flex items-center rounded-r-md border border-l-0 border-gray-300 bg-gray-50 px-3 text-gray-500 sm:text-sm">
-                        .uptimecheckr.com
+                        .{process.env.NEXT_PUBLIC_HOST!}
                       </span>
                     </div>
                   </div>
