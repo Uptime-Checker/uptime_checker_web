@@ -75,7 +75,7 @@ export default function Auth() {
     try {
       const { data } = await axios.post<GuestUserResponse>('/api/guest', { email: email });
 
-      cacheUtil.set(CacheKey.Email, data.data.email);
+      cacheUtil.set(CacheKey.Email, data.data.Email);
       await router.push('/auth/email-sent');
 
       setLoading(false);
