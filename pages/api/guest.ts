@@ -7,12 +7,35 @@ import { ERROR_FAILED_TO_SEND_EMAIL } from 'constants/errors';
 import { sendEmail } from 'lib/aws/email';
 import { apiClient, HTTPMethod } from 'lib/axios';
 import { ErrorResponse } from 'models/error';
-import { GuestUserResponse } from 'models/user';
+import { AccessTokenResponse, GuestUserResponse } from 'models/user';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-const emailHtml = render(Email({ url: 'https://example.com' }), { pretty: true });
+const emailHtml = (email: string, code: string) => {
+  const link = `https://www.${process.env.HOST!}/api/guest?email=${email}&code=${code}`;
+  return render(Email({ magicLink: link }), { pretty: true });
+};
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse<GuestUserResponse | ErrorResponse>) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse<AccessTokenResponse | GuestUserResponse | ErrorResponse>
+) {
+  if (req.method === HTTPMethod.GET) {
+    if (req.query.email === '' || req.query.code === '') {
+      res.status(HttpStatusCode.UnprocessableEntity).end();
+      return;
+    }
+    try {
+      const { data } = await apiClient.post<AccessTokenResponse>('/user/guest/login', {
+        email: req.query.email,
+        code: req.query.code,
+      });
+
+      res.status(200).json(data);
+    } catch (error) {
+      Sentry.captureException(error);
+    }
+    return;
+  }
   if (req.method !== HTTPMethod.POST) {
     res.status(HttpStatusCode.MethodNotAllowed).end();
     return;
@@ -21,7 +44,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   try {
     const { data } = await apiClient.post<GuestUserResponse>('/user/guest', { email: req.body.email });
     try {
-      await sendEmail(getDefaultFromEmail(), data.data.Email, `Sign in to ${process.env.APP_NAME!}`, emailHtml);
+      await sendEmail(
+        getDefaultFromEmail(),
+        data.data.Email,
+        `Sign in to ${process.env.APP_NAME!}`,
+        emailHtml(data.data.Email, data.data.Code!)
+      );
       res.status(200).json({ data: { ID: data.data.ID, Email: data.data.Email, ExpiresAt: data.data.ExpiresAt } });
     } catch (error) {
       Sentry.captureException(error);

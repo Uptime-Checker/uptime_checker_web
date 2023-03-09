@@ -11,10 +11,6 @@ export interface GuestUserResponse {
   data: GuestUser;
 }
 
-export interface AccessToken {
-  access_token: string;
-}
-
 export enum AuthProvider {
   email = 'email',
   google = 'google',
@@ -48,17 +44,25 @@ export interface Role {
 }
 
 export interface User {
-  id: number;
-  name: string;
-  email: string;
-  organization_id: string;
-  payment_customer_id?: string;
-  organization: Organization;
-  role: Role;
+  ID: number;
+  Name: string;
+  Email: string;
+  OrganizationID: string;
+  PaymentCustomerID?: string;
+  Organization: Organization;
+  Role: Role;
 }
 
 export interface UserResponse {
   data: User;
+}
+
+interface AccessToken extends User {
+  Token: string;
+}
+
+export interface AccessTokenResponse {
+  data: AccessToken;
 }
 
 export interface OrganizationUser {
