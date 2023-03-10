@@ -6,6 +6,7 @@ import { getDefaultFromEmail } from 'constants/default';
 import { ERROR_FAILED_TO_SEND_EMAIL } from 'constants/errors';
 import { sendEmail } from 'lib/aws/email';
 import { apiClient, HTTPMethod } from 'lib/axios';
+import { withSessionRoute } from 'lib/session/withSession';
 import { ErrorResponse } from 'models/error';
 import { AccessTokenResponse, GuestUserResponse } from 'models/user';
 import type { NextApiRequest, NextApiResponse } from 'next';
@@ -15,7 +16,7 @@ const emailHtml = (email: string, code: string) => {
   return render(Email({ magicLink: link }), { pretty: true });
 };
 
-export default async function handler(
+async function handler(
   req: NextApiRequest,
   res: NextApiResponse<AccessTokenResponse | GuestUserResponse | ErrorResponse>
 ) {
@@ -30,7 +31,11 @@ export default async function handler(
         code: req.query.code,
       });
 
-      res.status(200).json(data);
+      // Save the token in the session
+      req.session.accessToken = data.data.Token;
+      await req.session.save();
+
+      res.redirect(307, '/auth/email-result');
     } catch (error) {
       Sentry.captureException(error);
     }
@@ -63,3 +68,5 @@ export default async function handler(
     res.status(HttpStatusCode.BadRequest).send({ error: errorMessage });
   }
 }
+
+export default withSessionRoute(handler);
