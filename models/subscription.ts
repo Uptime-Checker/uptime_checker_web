@@ -16,18 +16,18 @@ export enum SubscriptionStatus {
 }
 
 export interface Plan {
-  id: number;
-  price: number;
-  product: Product;
-  type: PlanType;
+  ID: number;
+  Price: number;
+  Product: Product;
+  Type: PlanType;
 }
 
 export interface Subscription {
-  id: string;
-  status: SubscriptionStatus;
-  is_trial: boolean;
-  product: Product;
-  plan: Plan;
-  starts_at: string;
-  expires_at: string;
+  ID: string;
+  Status: SubscriptionStatus;
+  IsTrial: boolean;
+  Product: Product;
+  Plan: Plan;
+  StartsAt: string;
+  ExpiresAt: string;
 }

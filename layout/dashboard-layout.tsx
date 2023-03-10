@@ -6,7 +6,7 @@ import { useAtom } from 'jotai';
 import { authRequest, HTTPMethod } from 'lib/axios';
 import * as LiveChat from 'lib/crisp';
 import { logout, redirectToDashboard, setCurrentUser } from 'lib/global';
-import { FullInfoResponse } from 'models/user';
+import { UserResponse } from 'models/user';
 import { useRouter } from 'next/router';
 import { ReactNode, useEffect } from 'react';
 import { globalAtom } from 'store/global';
@@ -24,24 +24,23 @@ export default function DashboardLayout({ children }: Props) {
   useEffect(() => {
     if (!router.isReady || gotUserInfo) return;
 
-    authRequest<FullInfoResponse>({ method: HTTPMethod.GET, url: '/user/me' })
+    authRequest<UserResponse>({ method: HTTPMethod.GET, url: '/user/me' })
       .then((fullInfoResp) => {
-        let fullInfo = fullInfoResp.data.data;
-        setCurrentUser(fullInfo.user).then(() => {});
+        let user = fullInfoResp.data.data;
+        setCurrentUser(user).then(() => {});
         setGlobal((draft) => {
-          draft.currentUser = fullInfo.user;
-          draft.organizations = fullInfo.organization_users;
+          draft.currentUser = user;
         });
 
-        if (!fullInfo.user.Organization) {
-          redirectToDashboard(fullInfo.user);
-        } else if (fullInfo.user.Organization.Slug !== router.query.organization) {
+        if (!user.Organization) {
+          redirectToDashboard(user);
+        } else if (user.Organization.Slug !== router.query.organization) {
           logout().then((_) => {});
         } else {
           // Do everything that was deferred
-          if (fullInfo.subscription.plan.id !== FREE_PLAN_ID) {
+          if (user.Subscription.Plan.ID !== FREE_PLAN_ID) {
             LiveChat.load();
-            LiveChat.configureUser(fullInfo.user, fullInfo.subscription);
+            LiveChat.configureUser(user, user.Subscription);
           }
         }
       })

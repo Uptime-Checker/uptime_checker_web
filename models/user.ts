@@ -32,15 +32,15 @@ export enum RoleType {
 }
 
 export interface Claim {
-  id: number;
-  name: string;
+  ID: number;
+  Name: string;
 }
 
 export interface Role {
-  id: number;
-  name: string;
-  type: RoleType;
-  claims: [Claim];
+  ID: number;
+  Name: string;
+  Type: RoleType;
+  Claims: [Claim];
 }
 
 export interface User {
@@ -51,6 +51,7 @@ export interface User {
   PaymentCustomerID?: string;
   Organization: Organization;
   Role: Role;
+  Subscription: Subscription;
 }
 
 export interface UserResponse {
@@ -72,14 +73,4 @@ export interface OrganizationUser {
 
 export interface OrganizationUserResponse {
   data: [OrganizationUser];
-}
-
-export interface FullInfo {
-  user: User;
-  subscription: Subscription;
-  organization_users: [OrganizationUser];
-}
-
-export interface FullInfoResponse {
-  data: FullInfo;
 }

@@ -122,7 +122,7 @@ const data = [
 const Monitors: NextPageWithLayout = () => {
   const router = useRouter();
   const [global, _] = useAtom(globalAtom);
-  const orgSlug = global.currentUser?.organization.slug;
+  const orgSlug = global.currentUser?.Organization.Slug;
 
   const handleMetricCardClick = async (item: MetricCard) => {
     if (router.query.filter && router.query.filter.includes(item.title)) {
