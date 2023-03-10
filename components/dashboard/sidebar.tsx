@@ -38,18 +38,9 @@ const navigation: NavigationItem[] = [
 
 const SideBar = () => {
   const router = useRouter();
-  const [orgName, setOrgName] = useState('');
   const [global, setGlobal] = useAtom(globalAtom);
   const orgSlug = global.currentUser?.Organization.Slug;
-
-  useEffect(() => {
-    let user = getCurrentUser();
-    if (user && user.Organization) {
-      setOrgName(user.Organization.Name);
-    } else if (global.currentUser) {
-      setOrgName(global.currentUser.Organization.Name);
-    }
-  }, [global]);
+  const orgName = global.currentUser?.Organization.Name;
 
   const toggleSidebar = () =>
     setGlobal((draft) => {

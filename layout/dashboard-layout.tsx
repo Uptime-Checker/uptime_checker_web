@@ -5,7 +5,7 @@ import { FREE_PLAN_ID } from 'constants/payment';
 import { useAtom } from 'jotai';
 import { authRequest, HTTPMethod } from 'lib/axios';
 import * as LiveChat from 'lib/crisp';
-import { logout, redirectToDashboard, setCurrentUser } from 'lib/global';
+import { getCurrentUser, logout, redirectToDashboard, setCurrentUser } from 'lib/global';
 import { UserResponse } from 'models/user';
 import { useRouter } from 'next/router';
 import { ReactNode, useEffect } from 'react';
@@ -23,6 +23,13 @@ export default function DashboardLayout({ children }: Props) {
 
   useEffect(() => {
     if (!router.isReady || gotUserInfo) return;
+
+    const currentUser = getCurrentUser();
+    if (getCurrentUser()) {
+      setGlobal((draft) => {
+        draft.currentUser = currentUser;
+      });
+    }
 
     authRequest<UserResponse>({ method: HTTPMethod.GET, url: '/user/me' })
       .then((fullInfoResp) => {
