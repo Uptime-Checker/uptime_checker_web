@@ -45,9 +45,7 @@ export default function Auth() {
     if (user) {
       redirectToDashboard(user);
     } else {
-      if (router.query.provider_redirect) {
-        setLoading(true);
-      }
+      setLoading(true);
       if (status === SESSION_STATUS_AUTHENTICATED && session.accessToken) {
         setAccessToken(session.accessToken);
         getMe().then(() => {});
