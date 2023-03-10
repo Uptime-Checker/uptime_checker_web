@@ -1,7 +1,5 @@
-import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, HttpStatusCode } from 'axios';
 import { getAccessToken, logout } from './global';
-
-const UNAUTHENTICATED = 401;
 
 export enum HTTPMethod {
   DELETE = 'DELETE',
@@ -41,7 +39,12 @@ export const authRequest = async <T = any, R = AxiosResponse<T>, D = any>(
     }
     return await client.request<T, R, D>(config);
   } catch (error) {
-    if (error instanceof AxiosError && error.response && error.response.status === UNAUTHENTICATED && shouldLogout) {
+    if (
+      error instanceof AxiosError &&
+      error.response &&
+      error.response.status === HttpStatusCode.Unauthorized &&
+      shouldLogout
+    ) {
       await logout();
     }
     throw error;

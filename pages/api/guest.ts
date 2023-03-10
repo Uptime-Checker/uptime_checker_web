@@ -10,6 +10,7 @@ import { withSessionRoute } from 'lib/session/withSession';
 import { ErrorResponse } from 'models/error';
 import { AccessTokenResponse, GuestUserResponse } from 'models/user';
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { ElixirError } from 'types/error';
 
 const emailHtml = (email: string, code: string) => {
   const link = `https://www.${process.env.HOST!}/api/guest?email=${email}&code=${code}`;
@@ -35,9 +36,12 @@ async function handler(
       req.session.accessToken = data.data.Token;
       await req.session.save();
 
-      res.redirect(307, '/auth/email-result');
+      res.redirect(HttpStatusCode.TemporaryRedirect, '/auth/email-result');
     } catch (error) {
       Sentry.captureException(error);
+
+      const elixirError = (error as AxiosError).response?.data as ElixirError;
+      res.redirect(HttpStatusCode.TemporaryRedirect, `/auth/email-result?error=${elixirError.message}`);
     }
     return;
   }
