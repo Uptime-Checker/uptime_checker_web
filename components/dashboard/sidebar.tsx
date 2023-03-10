@@ -13,11 +13,10 @@ import {
 } from '@heroicons/react/24/outline';
 import FullLogo from 'components/logo/full-logo';
 import { useAtom } from 'jotai';
-import { getCurrentUser } from 'lib/global';
 import { classNames } from 'lib/tailwind/utils';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment } from 'react';
 import { globalAtom } from 'store/global';
 import { HeroIcon } from 'types/main';
 
