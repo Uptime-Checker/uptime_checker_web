@@ -1,4 +1,4 @@
 export interface ElixirError {
-  message: string;
+  message?: string;
   error: string;
 }

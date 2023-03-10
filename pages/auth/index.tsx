@@ -86,7 +86,7 @@ export default function Auth() {
           on: true,
           success: false,
           title: AUTH_FAIL_COULD_NOT_SEND_MAGIC_LINK,
-          detail: toUpper(elixirError.message),
+          detail: toUpper(elixirError.message ?? elixirError.error),
         });
       }
     } finally {

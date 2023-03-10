@@ -19,9 +19,9 @@ export enum AuthProvider {
 }
 
 export interface Organization {
-  id: number;
-  name: string;
-  slug: string;
+  ID: number;
+  Name: string;
+  Slug: string;
 }
 
 export enum RoleType {
