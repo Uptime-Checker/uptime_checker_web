@@ -10,7 +10,7 @@ import { AUTH_FAIL_COULD_NOT_SEND_MAGIC_LINK } from 'constants/ui-text';
 import produce from 'immer';
 import { authRequest, HTTPMethod } from 'lib/axios';
 import { CacheKey, cacheUtil } from 'lib/cache';
-import { ProviderNameGithub, ProviderNameGoogle } from 'lib/constants';
+import { ProviderNameGithub, ProviderNameGoogle } from 'constants/default';
 import { getCurrentUser, redirectToDashboard, setAccessToken, setCurrentUser } from 'lib/global';
 import { GuestUserResponse, UserResponse } from 'models/user';
 import { signIn, useSession } from 'next-auth/react';

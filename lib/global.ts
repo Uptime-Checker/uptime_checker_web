@@ -11,12 +11,12 @@ let AccessToken: string | null = null;
 export const setCurrentUser = async (user: User) => {
   CurrentUser = user;
   cacheUtil.set(CacheKey.CurrentUser, user);
-  Sentry.setUser({ id: `${user.id}`, email: user.email });
+  Sentry.setUser({ id: `${user.ID}`, email: user.Email });
 
   const firAnalytics = await analytics;
   if (firAnalytics !== null) {
-    setUserId(firAnalytics, `${user.id}`);
-    setUserProperties(firAnalytics, { email: user.email, name: user.name });
+    setUserId(firAnalytics, `${user.ID}`);
+    setUserProperties(firAnalytics, { email: user.Email, name: user.Name });
   }
 };
 
@@ -63,6 +63,6 @@ const redirectToAuth = () => {
 };
 
 export const redirectToDashboard = (user: User) => {
-  const nextPath = user.organization === null ? 'onboarding' : `${user.organization.slug}/monitors`;
+  const nextPath = user.Organization === null ? 'onboarding' : `${user.Organization.slug}/monitors`;
   window.location.replace(`${window.location.origin}/${nextPath}`);
 };
