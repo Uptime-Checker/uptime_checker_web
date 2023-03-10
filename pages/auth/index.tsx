@@ -29,9 +29,9 @@ export default function Auth() {
   async function getMe() {
     try {
       const { data } = await authRequest<UserResponse>({ method: HTTPMethod.GET, url: '/user/me' }, false);
+      await setCurrentUser(data.data);
 
       setLoading(false);
-      await setCurrentUser(data.data);
       redirectToDashboard(data.data);
     } catch (error) {
       Sentry.captureException(error);
