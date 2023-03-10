@@ -1,9 +1,9 @@
 import { setUserId, setUserProperties } from '@firebase/analytics';
-import { signOut } from '@firebase/auth';
 import * as Sentry from '@sentry/nextjs';
-import { analytics, auth } from 'lib/firebase';
+import { analytics } from 'lib/firebase';
 import { User } from 'models/user';
 import { CacheKey, cacheUtil } from './cache';
+import axios from 'axios';
 
 let CurrentUser: User | null = null;
 let AccessToken: string | null = null;
@@ -49,7 +49,7 @@ export const getAccessToken = () => {
 
 export const logout = async () => {
   try {
-    await signOut(auth);
+    await axios.post('/api/logout');
     cacheUtil.remove(CacheKey.AccessToken);
     cacheUtil.remove(CacheKey.CurrentUser);
     redirectToAuth();

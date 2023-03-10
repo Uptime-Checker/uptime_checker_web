@@ -6,8 +6,9 @@ import { useAtom } from 'jotai';
 import { classNames } from 'lib/tailwind/utils';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { Fragment, ReactNode, useEffect, useState } from 'react';
+import { Fragment, MouseEvent, ReactNode, useEffect, useState } from 'react';
 import { globalAtom } from 'store/global';
+import { logout } from 'lib/global';
 
 const userNavigation = [
   { name: 'Your Profile', href: '/settings/account' },
@@ -31,6 +32,10 @@ const TopBar = ({ className }: Props) => {
     let splitRouterHref = router.pathname.split('/');
     setShowSearch(splitRouterHref[2] === 'monitors' && splitRouterHref.length === 3);
   }, [router]);
+
+  const handleLogout = async (_: MouseEvent<HTMLButtonElement>) => {
+    await logout();
+  };
 
   const toggleSidebar = () =>
     setGlobal((draft) => {
@@ -129,6 +134,7 @@ const TopBar = ({ className }: Props) => {
                     <Menu.Item>
                       {({ active }) => (
                         <button
+                          onClick={handleLogout}
                           className={classNames(
                             active ? 'bg-gray-100' : '',
                             'block w-full px-4 py-2 text-left text-sm text-red-700'
