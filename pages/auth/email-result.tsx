@@ -1,20 +1,30 @@
 import * as Sentry from '@sentry/nextjs';
 import LoadingBubbleIcon from 'components/icon/loading-bubble';
 import TwoFactorAuthIcon from 'components/icon/two-factor-auth';
-import { isSignInWithEmailLink, signInWithEmailLink } from 'firebase/auth';
-import { authRequest, elixirClient, HTTPMethod } from 'lib/axios';
-import { auth } from 'lib/firebase';
+import { authRequest, HTTPMethod } from 'lib/axios';
 import { redirectToDashboard, setAccessToken, setCurrentUser } from 'lib/global';
-import { AccessToken, AuthProvider, UserResponse } from 'models/user';
+import { UserResponse } from 'models/user';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { withSessionSsr } from 'lib/session/withSession';
 
-let signInAttempted = false;
+interface Props {
+  accessToken: string;
+}
 
-export default function EmailResult() {
+export const getServerSideProps = withSessionSsr(async function getServerSideProps({ req }) {
+  const accessToken = req.session.accessToken;
+
+  return {
+    props: {
+      accessToken: accessToken,
+    },
+  };
+});
+
+export default function EmailResult({ accessToken }: Props) {
   const router = useRouter();
-  const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
 
@@ -23,17 +33,11 @@ export default function EmailResult() {
 
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
-    if (!urlParams.has('email') || !urlParams.has('code')) {
+    if (urlParams.has('error')) {
       activateError();
       return;
     }
-    const email = urlParams.get('email')!;
-    const code = urlParams.get('code')!;
-    setEmail(email);
-
-    if (!isSignInWithEmailLink(auth, window.location.href)) {
-      return;
-    }
+    setAccessToken(accessToken);
 
     async function getMe() {
       try {
@@ -45,33 +49,7 @@ export default function EmailResult() {
       }
     }
 
-    if (signInAttempted) {
-      return;
-    }
-    signInAttempted = true;
-    signInWithEmailLink(auth, email, window.location.href)
-      .then((result) => {
-        elixirClient
-          .post<AccessToken>('/email_link_login', {
-            name: email.substring(0, email.lastIndexOf('@')),
-            code: code,
-            email: result.user.email,
-            provider: AuthProvider.email,
-            provider_uid: result.user.uid,
-          })
-          .then((tokenResponse) => {
-            setAccessToken(tokenResponse.data.access_token);
-            getMe().then((_) => {});
-          })
-          .catch((error) => {
-            console.error(error);
-            activateError();
-          });
-      })
-      .catch((error) => {
-        Sentry.captureException(error);
-        activateError();
-      });
+    getMe().then((_) => {});
   }, [router]);
 
   const activateError = () => {
@@ -96,13 +74,7 @@ export default function EmailResult() {
             <TwoFactorAuthIcon className="h-32" />
             <div className="mt-8 space-y-6">
               <div className="flex flex-col items-center text-center">
-                <p>
-                  {hasError
-                    ? 'Failed to log you in, contact support'
-                    : email === ''
-                    ? 'Checking your email'
-                    : `Confirming your email ${email}`}
-                </p>
+                <p>{hasError ? 'Failed to log you in, contact support' : 'Logging you in...'}</p>
                 {loading ? <LoadingBubbleIcon className="mt-4 w-32" /> : null}
               </div>
             </div>
