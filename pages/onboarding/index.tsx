@@ -2,6 +2,7 @@ import * as Sentry from '@sentry/nextjs';
 import { AxiosError } from 'axios';
 import SimpleAlert from 'components/alert/simple';
 import LoadingIcon from 'components/icon/loading';
+import { Duplicate_Slug_Index, Duplicate_SuperAdmin_Index } from 'constants/errors';
 import { FREE_PLAN_ID } from 'constants/payment';
 import {
   ONBOARDING_FAIL_TO_CREATE_ORGANIZATION,
@@ -67,22 +68,15 @@ export default function Onboarding() {
       redirectToDashboard(data.data);
     } catch (error) {
       const elixirError = (error as AxiosError).response?.data as ElixirError;
-      const errorKey = elixirError.message;
+      const errorKey = elixirError.error;
 
       let errorDescription = PLEASE_CONTACT_SUPPORT;
-      switch (errorKey) {
-        case 'organization:slug': {
-          errorDescription = ONBOARDING_PLEASE_USE_DIFFERENT_SLUG;
-          break;
-        }
-        case 'organization_user:role_id': {
-          errorDescription = ONBOARDING_YOU_ALREADY_CREATED_ORGANIZATION;
-          break;
-        }
-        default: {
-          Sentry.captureException(error);
-          break;
-        }
+      if (errorKey.includes(Duplicate_Slug_Index)) {
+        errorDescription = ONBOARDING_PLEASE_USE_DIFFERENT_SLUG;
+      } else if (errorKey.includes(Duplicate_SuperAdmin_Index)) {
+        errorDescription = ONBOARDING_YOU_ALREADY_CREATED_ORGANIZATION;
+      } else {
+        Sentry.captureException(error);
       }
 
       setAlertState({
