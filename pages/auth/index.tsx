@@ -5,12 +5,11 @@ import GithubIcon from 'components/icon/github';
 import GoogleIcon from 'components/icon/google';
 import LoadingIcon from 'components/icon/loading';
 import LogoWithoutText from 'components/logo/logo-without-text';
-import { SESSION_STATUS_AUTHENTICATED } from 'constants/default';
+import { ProviderNameGithub, ProviderNameGoogle, SESSION_STATUS_AUTHENTICATED } from 'constants/default';
 import { AUTH_FAIL_COULD_NOT_SEND_MAGIC_LINK } from 'constants/ui-text';
 import produce from 'immer';
 import { authRequest, HTTPMethod } from 'lib/axios';
 import { CacheKey, cacheUtil } from 'lib/cache';
-import { ProviderNameGithub, ProviderNameGoogle } from 'constants/default';
 import { getCurrentUser, redirectToDashboard, setAccessToken, setCurrentUser } from 'lib/global';
 import { GuestUserResponse, UserResponse } from 'models/user';
 import { signIn, useSession } from 'next-auth/react';
@@ -29,7 +28,7 @@ export default function Auth() {
 
   async function getMe() {
     try {
-      const { data } = await authRequest<UserResponse>({ method: HTTPMethod.GET, url: '/me' }, false);
+      const { data } = await authRequest<UserResponse>({ method: HTTPMethod.GET, url: '/user/me' }, false);
 
       setLoading(false);
       await setCurrentUser(data.data);
