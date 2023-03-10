@@ -3,7 +3,7 @@ import { useAtom } from 'jotai';
 import { classNames } from 'lib/tailwind/utils';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { ChangeEvent, ReactNode, useEffect, useState } from 'react';
+import { ChangeEvent, ReactNode, useCallback, useEffect, useState } from 'react';
 import { globalAtom } from 'store/global';
 import { TabNavigationItem } from 'types/main';
 
@@ -25,9 +25,17 @@ type Props = {
 const Tabs = ({ baseURL, className, tabs, children, breakpoint, routeIndex }: Props) => {
   const router = useRouter();
   const [global, _] = useAtom(globalAtom);
-  const orgSlug = global.currentUser?.organization.slug;
+  const orgSlug = global.currentUser?.Organization.Slug;
   const [selectedTab, setSelectedTab] = useState(tabs[0]);
   const [selectedBreakpoint, setSelectedBreakpoint] = useState({ select: 'md:hidden', tab: 'md:block' });
+
+  const isNavActive = useCallback(
+    (navItem: TabNavigationItem) => {
+      let splitRouterHref = router.pathname.split('/');
+      return splitRouterHref[routeIndex] === navItem.href;
+    },
+    [routeIndex, router.pathname]
+  );
 
   useEffect(() => {
     if (!router.isReady) return;
@@ -51,12 +59,7 @@ const Tabs = ({ baseURL, className, tabs, children, breakpoint, routeIndex }: Pr
         })
       );
     }
-  }, [router]);
-
-  const isNavActive = (navItem: TabNavigationItem) => {
-    let splitRouterHref = router.pathname.split('/');
-    return splitRouterHref[routeIndex] === navItem.href;
-  };
+  }, [breakpoint, isNavActive, router, tabs]);
 
   const onTabChange = async (event: ChangeEvent) => {
     let target = event.currentTarget as HTMLInputElement;

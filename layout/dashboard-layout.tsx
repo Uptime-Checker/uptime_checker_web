@@ -24,7 +24,7 @@ export default function DashboardLayout({ children }: Props) {
   useEffect(() => {
     if (!router.isReady || gotUserInfo) return;
 
-    authRequest<FullInfoResponse>({ method: HTTPMethod.GET, url: '/full_user_info' })
+    authRequest<FullInfoResponse>({ method: HTTPMethod.GET, url: '/user/me' })
       .then((fullInfoResp) => {
         let fullInfo = fullInfoResp.data.data;
         setCurrentUser(fullInfo.user).then(() => {});

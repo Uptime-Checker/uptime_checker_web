@@ -26,7 +26,7 @@ export const setAccessToken = (token: string) => {
 };
 
 export const getCurrentUser = () => {
-  if (CurrentUser !== null) {
+  if (CurrentUser) {
     return CurrentUser;
   }
   const user = cacheUtil.get(CacheKey.CurrentUser);

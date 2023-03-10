@@ -12,7 +12,7 @@ interface ChecksProps {
 
 const ChecksComponent = ({ checks, monitorId, className }: ChecksProps) => {
   const [global, _] = useAtom(globalAtom);
-  const orgSlug = global.currentUser?.organization.slug;
+  const orgSlug = global.currentUser?.Organization.Slug;
 
   const getLink = (check: Check) => {
     if (monitorId) {
