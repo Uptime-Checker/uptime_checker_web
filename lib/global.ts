@@ -14,7 +14,7 @@ export const setCurrentUser = async (user: User) => {
   Sentry.setUser({ id: `${user.ID}`, email: user.Email });
 
   const firAnalytics = await analytics;
-  if (firAnalytics !== null) {
+  if (firAnalytics) {
     setUserId(firAnalytics, `${user.ID}`);
     setUserProperties(firAnalytics, { email: user.Email, name: user.Name });
   }
@@ -30,18 +30,18 @@ export const getCurrentUser = () => {
     return CurrentUser;
   }
   const user = cacheUtil.get(CacheKey.CurrentUser);
-  if (user !== null) {
+  if (user) {
     CurrentUser = user;
   }
   return user;
 };
 
 export const getAccessToken = () => {
-  if (AccessToken !== null) {
+  if (AccessToken) {
     return AccessToken;
   }
   const token = cacheUtil.get(CacheKey.AccessToken);
-  if (token !== null) {
+  if (token) {
     AccessToken = token;
   }
   return token;

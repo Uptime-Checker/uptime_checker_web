@@ -4,7 +4,7 @@ import { NODE_ENV_PROD } from 'constants/default';
 
 export const sessionOptions: IronSessionOptions = {
   password: process.env.NEXTAUTH_SECRET!,
-  cookieName: process.env.APP_NAME!,
+  cookieName: `${process.env.APP_NAME!}-email-session-auth`.replace(/\s+/g, '-'),
   // secure: true should be used in production (HTTPS) but can't be used in development (HTTP)
   cookieOptions: {
     secure: process.env.NODE_ENV === NODE_ENV_PROD,

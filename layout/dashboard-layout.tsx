@@ -33,9 +33,9 @@ export default function DashboardLayout({ children }: Props) {
           draft.organizations = fullInfo.organization_users;
         });
 
-        if (fullInfo.user.organization === null) {
+        if (!fullInfo.user.Organization) {
           redirectToDashboard(fullInfo.user);
-        } else if (fullInfo.user.organization.slug !== router.query.organization) {
+        } else if (fullInfo.user.Organization.Slug !== router.query.organization) {
           logout().then((_) => {});
         } else {
           // Do everything that was deferred

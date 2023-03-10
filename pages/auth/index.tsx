@@ -43,7 +43,7 @@ export default function Auth() {
     if (!router.isReady) return;
 
     const user = getCurrentUser();
-    if (user !== null) {
+    if (user) {
       redirectToDashboard(user);
     } else {
       if (router.query.provider_redirect) {

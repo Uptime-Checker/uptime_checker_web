@@ -40,14 +40,14 @@ const SideBar = () => {
   const router = useRouter();
   const [orgName, setOrgName] = useState('');
   const [global, setGlobal] = useAtom(globalAtom);
-  const orgSlug = global.currentUser?.organization.slug;
+  const orgSlug = global.currentUser?.Organization.Slug;
 
   useEffect(() => {
     let user = getCurrentUser();
-    if (user !== null && user.organization !== null) {
-      setOrgName(user.organization.name);
-    } else if (global.currentUser !== null) {
-      setOrgName(global.currentUser.organization.name);
+    if (user && user.Organization) {
+      setOrgName(user.Organization.Name);
+    } else if (global.currentUser) {
+      setOrgName(global.currentUser.Organization.Name);
     }
   }, [global]);
 
@@ -63,7 +63,7 @@ const SideBar = () => {
   };
 
   const logo = (
-    <Link href="/monitors" className="flex flex-shrink-0 items-center px-4">
+    <Link href={`/${orgSlug}/monitors`} className="flex flex-shrink-0 items-center px-4">
       <FullLogo className="h-8 w-auto" />
     </Link>
   );
@@ -127,13 +127,13 @@ const SideBar = () => {
                       onClick={() => {
                         close();
                       }}
-                      key={org.organization.id}
+                      key={org.organization.ID}
                       className="flex items-center justify-between rounded-lg p-2 transition duration-150 ease-in-out
                   hover:bg-gray-100 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
                     >
                       <div className="flex items-center">
                         <UserGroupIcon className="ml-1 h-7 w-7 rounded-full text-gray-700 group-hover:text-gray-900" />
-                        <p className="ml-2 text-sm font-medium text-gray-900">{org.organization.name}</p>
+                        <p className="ml-2 text-sm font-medium text-gray-900">{org.organization.Name}</p>
                       </div>
 
                       <CheckIcon className="mr-1 h-5 w-5 text-gray-600" />

@@ -32,7 +32,7 @@ export const authRequest = async <T = any, R = AxiosResponse<T>, D = any>(
 ): Promise<R> => {
   try {
     const token = getAccessToken();
-    if (token === null) {
+    if (!token) {
       return <R>await logout();
     } else {
       addToken(token);

@@ -15,7 +15,7 @@ import { getCurrentUser, logout, redirectToDashboard, setCurrentUser } from 'lib
 import { UserResponse } from 'models/user';
 import Head from 'next/head';
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
-import { BackendError } from 'types/error';
+import { ElixirError } from 'types/error';
 import { sanitizeString } from 'utils/misc';
 
 let nameUpdated = false;
@@ -27,15 +27,15 @@ export default function Onboarding() {
 
   useEffect(() => {
     let user = getCurrentUser();
-    if (user === null) {
+    if (!user) {
       logout().then((_) => {});
     } else {
-      authRequest<UserResponse>({ method: HTTPMethod.GET, url: '/me' })
+      authRequest<UserResponse>({ method: HTTPMethod.GET, url: '/user/me' })
         .then((resp) => {
           let currentUser = resp.data.data;
           setCurrentUser(currentUser).then(() => {});
 
-          if (currentUser.organization !== null) {
+          if (currentUser.Organization) {
             redirectToDashboard(currentUser);
           }
         })
@@ -66,8 +66,8 @@ export default function Onboarding() {
       });
       redirectToDashboard(data.data);
     } catch (error) {
-      const backendError = (error as AxiosError).response?.data as BackendError;
-      const errorKey = Object.keys(backendError.errors)[0];
+      const elixirError = (error as AxiosError).response?.data as ElixirError;
+      const errorKey = elixirError.message;
 
       let errorDescription = PLEASE_CONTACT_SUPPORT;
       switch (errorKey) {
