@@ -1,9 +1,10 @@
 import { setUserId, setUserProperties } from '@firebase/analytics';
 import * as Sentry from '@sentry/nextjs';
+import axios from 'axios';
 import { analytics } from 'lib/firebase';
 import { User } from 'models/user';
+import { signOut } from 'next-auth/react';
 import { CacheKey, cacheUtil } from './cache';
-import axios from 'axios';
 
 let CurrentUser: User | null = null;
 let AccessToken: string | null = null;
@@ -52,14 +53,10 @@ export const logout = async () => {
     await axios.post('/api/logout');
     cacheUtil.remove(CacheKey.AccessToken);
     cacheUtil.remove(CacheKey.CurrentUser);
-    redirectToAuth();
+    await signOut({ callbackUrl: `${window.location.origin}/auth` });
   } catch (error) {
     Sentry.captureException(error);
   }
-};
-
-const redirectToAuth = () => {
-  window.location.replace(`${window.location.origin}/auth`);
 };
 
 export const redirectToDashboard = (user: User) => {
