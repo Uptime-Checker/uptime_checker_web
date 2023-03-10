@@ -61,8 +61,8 @@ export default function Onboarding() {
     try {
       let { data } = await authRequest<UserResponse>({
         method: HTTPMethod.POST,
-        url: '/organizations',
-        data: { name: orgRef.value, slug: slugRef.value, plan_id: FREE_PLAN_ID },
+        url: '/organization',
+        data: { name: orgRef.value, slug: slugRef.value, planID: FREE_PLAN_ID },
       });
       redirectToDashboard(data.data);
     } catch (error) {
@@ -98,7 +98,7 @@ export default function Onboarding() {
 
   const updateName = async (name: string) => {
     try {
-      await authRequest<UserResponse>({ method: HTTPMethod.PATCH, url: '/users', data: { name: name } });
+      await authRequest<UserResponse>({ method: HTTPMethod.PATCH, url: '/user', data: { name: name } });
     } catch (error) {
       Sentry.captureException(error);
     }
