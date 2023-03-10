@@ -65,11 +65,9 @@ async function handler(
       res.status(HttpStatusCode.InternalServerError).send({ error: ERROR_FAILED_TO_SEND_EMAIL });
     }
   } catch (error) {
-    let errorMessage = ERROR_FAILED_TO_SEND_EMAIL;
-    if (error instanceof AxiosError && error.response) {
-      errorMessage = error.response.data.message;
-    }
-    res.status(HttpStatusCode.BadRequest).send({ error: errorMessage });
+    const axiosError = error as AxiosError;
+    const elixirError = axiosError.response?.data as ElixirError;
+    res.status(axiosError.response!.status).send(elixirError);
   }
 }
 

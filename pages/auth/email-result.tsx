@@ -3,11 +3,11 @@ import LoadingBubbleIcon from 'components/icon/loading-bubble';
 import TwoFactorAuthIcon from 'components/icon/two-factor-auth';
 import { authRequest, HTTPMethod } from 'lib/axios';
 import { redirectToDashboard, setAccessToken, setCurrentUser } from 'lib/global';
+import { withSessionSsr } from 'lib/session/withSession';
 import { UserResponse } from 'models/user';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { withSessionSsr } from 'lib/session/withSession';
 
 interface Props {
   accessToken: string;
@@ -41,7 +41,7 @@ export default function EmailResult({ accessToken }: Props) {
 
     async function getMe() {
       try {
-        const { data } = await authRequest<UserResponse>({ method: HTTPMethod.GET, url: '/me' });
+        const { data } = await authRequest<UserResponse>({ method: HTTPMethod.GET, url: '/user/me' });
         await setCurrentUser(data.data);
         redirectToDashboard(data.data);
       } catch (error) {
@@ -50,7 +50,7 @@ export default function EmailResult({ accessToken }: Props) {
     }
 
     getMe().then((_) => {});
-  }, [router]);
+  }, [accessToken, router]);
 
   const activateError = () => {
     setHasError(true);
