@@ -11,6 +11,6 @@ export const configureUser = (user: User, subscription: Subscription) => {
   Crisp.user.setNickname(user.Name);
 
   Crisp.session.setData({
-    plan: subscription.product.name,
+    plan: subscription.Product.Name,
   });
 };

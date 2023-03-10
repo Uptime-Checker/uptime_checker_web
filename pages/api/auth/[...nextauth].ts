@@ -1,6 +1,7 @@
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import * as Sentry from '@sentry/nextjs';
 import { AuthSchemeJWT } from 'constants/default';
+import { GetLoginProvider } from 'lib/auth';
 import { apiClient } from 'lib/axios';
 import { prisma } from 'lib/prisma';
 import { AccessTokenResponse } from 'models/user';
@@ -45,7 +46,7 @@ export default NextAuth({
           const { data } = await apiClient.post<AccessTokenResponse>('/user/provider/login', {
             name: token.name,
             email: token.email,
-            provider: 3,
+            provider: GetLoginProvider(account.provider),
             picture: token.picture,
             providerUID: account.providerAccountId,
           });

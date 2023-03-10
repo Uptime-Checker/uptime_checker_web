@@ -7,9 +7,9 @@ export interface Price {
 }
 
 export interface Product {
-  id: number;
-  name: string;
-  prices: [Price];
+  ID: number;
+  Name: string;
+  Prices: [Price];
 }
 
 export interface ProductResponse {
