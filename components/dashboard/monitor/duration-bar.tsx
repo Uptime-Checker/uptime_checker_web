@@ -32,6 +32,8 @@ const DurationBarComponent = ({ responseTimes }: Props) => {
         if (!Array.from(responseTimes.keys())[i] && totalPercentage < 100) {
           percentage = percentage + 1;
         }
+
+        if (percentage === 0) continue;
         let responsePercentage: ResponsePercentage = { responseKey: key, percentage: percentage };
         responsePercentages.push(responsePercentage);
       }
