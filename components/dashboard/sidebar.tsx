@@ -16,7 +16,7 @@ import { useAtom } from 'jotai';
 import { classNames } from 'lib/tailwind/utils';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { Fragment } from 'react';
+import { Fragment, useRef } from 'react';
 import { globalAtom } from 'store/global';
 import { HeroIcon } from 'types/main';
 
@@ -40,6 +40,9 @@ const SideBar = () => {
   const [global, setGlobal] = useAtom(globalAtom);
   const orgSlug = global.currentUser?.Organization.Slug;
   const orgName = global.currentUser?.Organization.Name;
+
+  // For intitial focus https://headlessui.com/react/dialog#managing-initial-focus
+  let completeButtonRef = useRef(null);
 
   const toggleSidebar = () =>
     setGlobal((draft) => {
@@ -150,7 +153,7 @@ const SideBar = () => {
   return (
     <>
       <Transition.Root show={global.sidebar} as={Fragment}>
-        <Dialog as="div" className="relative z-40 md:hidden" onClose={toggleSidebar}>
+        <Dialog as="div" className="relative z-40 md:hidden" onClose={toggleSidebar} initialFocus={completeButtonRef}>
           <Transition.Child
             as={Fragment}
             enter="transition-opacity ease-linear duration-300"
@@ -185,6 +188,7 @@ const SideBar = () => {
                 >
                   <div className="absolute top-0 right-0 mr-2 pt-2">
                     <button
+                      ref={completeButtonRef}
                       type="button"
                       className="ml-1 flex h-10 w-10 items-center justify-center rounded-md bg-gray-100"
                       onClick={toggleSidebar}

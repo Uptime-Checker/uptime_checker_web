@@ -49,8 +49,6 @@ export default function DashboardLayout({ children }: Props) {
             .then((organizationUserResponse) => {
               setGlobal((draft) => {
                 draft.organizations = organizationUserResponse.data.data;
-
-                console.log(draft.organizations);
               });
             })
             .catch((error) => {
