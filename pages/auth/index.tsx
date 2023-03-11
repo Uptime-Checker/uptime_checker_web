@@ -21,43 +21,64 @@ import { toUpper } from 'utils/misc';
 
 export default function Auth() {
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState({ on: false, email: false, google: false, github: false });
   const [alertState, setAlertState] = useState({ on: false, success: true, title: '', detail: '' });
 
   const { data: session, status } = useSession();
 
-  async function getMe() {
-    try {
-      const { data } = await authRequest<UserResponse>({ method: HTTPMethod.GET, url: '/user/me' }, false);
-      await setCurrentUser(data.data);
-
-      setLoading(false);
-      redirectToDashboard(data.data);
-    } catch (error) {
-      Sentry.captureException(error);
-    }
-  }
-
   useEffect(() => {
     if (!router.isReady) return;
+
+    async function getMe() {
+      try {
+        const { data } = await authRequest<UserResponse>({ method: HTTPMethod.GET, url: '/user/me' }, false);
+        await setCurrentUser(data.data);
+        redirectToDashboard(data.data);
+      } catch (error) {
+        Sentry.captureException(error);
+        processLoading(false, false, false, false);
+      }
+    }
 
     const user = getCurrentUser();
     if (user) {
       redirectToDashboard(user);
     } else {
-      setLoading(true);
       if (status === SESSION_STATUS_AUTHENTICATED && session.accessToken) {
+        processProviderLoading(session?.provider);
         setAccessToken(session.accessToken);
         getMe().then(() => {});
       } else {
-        setLoading(false);
+        processLoading(false, false, false, false);
       }
     }
+    return () => {
+      processLoading(false, false, false, false);
+    };
   }, [router, session, status]);
+
+  const processLoading = (on: boolean, email: boolean, google: boolean, github: boolean) => {
+    setLoading(
+      produce((draft) => {
+        draft.on = on;
+        draft.email = email;
+        draft.google = google;
+        draft.github = github;
+      })
+    );
+  };
+
+  const processProviderLoading = (provider: string) => {
+    if (provider === ProviderNameGoogle) {
+      processLoading(true, false, true, false);
+    } else if (provider === ProviderNameGithub) {
+      processLoading(true, false, false, true);
+    }
+  };
 
   const handleProviderClick = async (provider: string) => {
     closeAlert();
-    setLoading(true);
+    processProviderLoading(provider);
     await signIn(provider);
   };
 
@@ -67,15 +88,13 @@ export default function Auth() {
     const email = emailRef.value;
 
     closeAlert();
-    setLoading(true);
+    processLoading(true, true, false, false);
 
     try {
       const { data } = await axios.post<GuestUserResponse>('/api/guest', { email: email });
 
       cacheUtil.set(CacheKey.Email, data.data.Email);
       await router.push('/auth/email-sent');
-
-      setLoading(false);
     } catch (error) {
       if (error instanceof AxiosError) {
         const elixirError = (error as AxiosError).response?.data as ElixirError;
@@ -87,7 +106,7 @@ export default function Auth() {
         });
       }
     } finally {
-      setLoading(false);
+      processLoading(false, false, false, false);
     }
   };
 
@@ -139,7 +158,7 @@ export default function Auth() {
                     type="email"
                     placeholder="you@example.com"
                     autoComplete="email"
-                    disabled={loading}
+                    disabled={loading.on}
                     required
                     className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                   />
@@ -152,10 +171,10 @@ export default function Auth() {
                   className="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4
                     text-sm font-medium text-white shadow-sm hover:bg-indigo-700
                     focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                  disabled={loading}
+                  disabled={loading.on}
                 >
-                  {loading ? <LoadingIcon className="-ml-1 mr-3 h-5 w-5 animate-spin text-white" /> : null}
-                  {loading ? 'Loading' : 'Sign in'}
+                  {loading.email ? <LoadingIcon className="-ml-1 mr-3 h-5 w-5 animate-spin text-white" /> : null}
+                  {loading.email ? 'Loading' : 'Sign in'}
                 </button>
               </div>
             </form>
@@ -176,7 +195,7 @@ export default function Auth() {
                     type="button"
                     className="flex w-full items-center justify-center rounded-md border border-indigo-600 bg-white py-2 px-4 font-medium text-indigo-600 shadow-sm hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                     onClick={() => handleProviderClick(ProviderNameGithub)}
-                    disabled={loading}
+                    disabled={loading.on}
                   >
                     <GithubIcon />
                     Continue with Github
@@ -190,7 +209,7 @@ export default function Auth() {
                     type="button"
                     className="flex w-full items-center justify-center rounded-md border border-indigo-600 bg-white py-2 px-4 font-medium text-indigo-600 shadow-sm hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                     onClick={() => handleProviderClick(ProviderNameGoogle)}
-                    disabled={loading}
+                    disabled={loading.on}
                   >
                     <GoogleIcon />
                     Continue with Google

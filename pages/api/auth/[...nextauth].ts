@@ -33,6 +33,7 @@ export default NextAuth({
       return baseUrl;
     },
     async session({ session, token }) {
+      session.provider = token.provider as string;
       session.accessToken = token.accessToken as string;
       return session;
     },
@@ -52,6 +53,7 @@ export default NextAuth({
           token.email = profile.email;
           token.picture = profile.picture;
           token.sub = profile.sub;
+          token.provider = account.provider;
           token.accessToken = data.data.Token;
         } catch (error) {
           Sentry.captureException(error);

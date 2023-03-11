@@ -1,15 +1,16 @@
+import { ProviderNameGithub, ProviderNameGoogle } from 'constants/default';
+
 export enum LoginProvider {
   Email = 1,
   Google,
   Github,
-  MAINTENANCE,
 }
 
 export const GetLoginProvider = (provider: string): LoginProvider => {
   switch (provider) {
-    case 'google':
+    case ProviderNameGoogle:
       return LoginProvider.Google;
-    case 'github':
+    case ProviderNameGithub:
       return LoginProvider.Github;
     default:
       return LoginProvider.Email;
