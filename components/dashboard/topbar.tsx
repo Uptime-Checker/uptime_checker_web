@@ -3,12 +3,12 @@ import HeadwayWidget, { HeadwayWidgetTrigger } from '@headwayapp/react-widget';
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid';
 import { Bars3Icon, BellIcon } from '@heroicons/react/24/outline';
 import { useAtom } from 'jotai';
+import { logout } from 'lib/global';
 import { classNames } from 'lib/tailwind/utils';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Fragment, MouseEvent, ReactNode, useEffect, useState } from 'react';
 import { globalAtom } from 'store/global';
-import { logout } from 'lib/global';
 
 const userNavigation = [
   { name: 'Your Profile', href: '/settings/account' },
@@ -23,7 +23,7 @@ type Props = {
 
 const TopBar = ({ className }: Props) => {
   const router = useRouter();
-  const [_, setGlobal] = useAtom(globalAtom);
+  const [global, setGlobal] = useAtom(globalAtom);
   const [showSearch, setShowSearch] = useState(false);
 
   useEffect(() => {
@@ -93,11 +93,7 @@ const TopBar = ({ className }: Props) => {
             <Menu as="div" className="relative ml-6">
               <Menu.Button className="flex max-w-xs items-center rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                 <span className="sr-only">Open user menu</span>
-                <img
-                  className="w-8 rounded-md"
-                  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                  alt=""
-                />
+                <img className="w-8 rounded-md" src={global.currentUser?.PictureURL} alt="" />
               </Menu.Button>
               <Transition
                 as={Fragment}

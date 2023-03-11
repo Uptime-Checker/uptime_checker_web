@@ -47,6 +47,7 @@ export interface User {
   ID: number;
   Name: string;
   Email: string;
+  PictureURL: string;
   OrganizationID: string;
   PaymentCustomerID?: string;
   Organization: Organization;

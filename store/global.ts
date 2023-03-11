@@ -4,7 +4,7 @@ import { OrganizationUser, User } from 'models/user';
 // This atom is used in the sidebar, so be careful to add more items to this type
 type GlobalAtom = {
   sidebar: boolean;
-  currentUser: null | User;
+  currentUser: User | null;
   organizations: OrganizationUser[];
 };
 
