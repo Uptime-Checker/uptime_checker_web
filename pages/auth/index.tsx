@@ -15,7 +15,7 @@ import { GuestUserResponse, UserResponse } from 'models/user';
 import { signIn, useSession } from 'next-auth/react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useCallback, useEffect, useState } from 'react';
 import { ElixirError } from 'types/error';
 import { toUpper } from 'utils/misc';
 
@@ -25,6 +25,25 @@ export default function Auth() {
   const [alertState, setAlertState] = useState({ on: false, success: true, title: '', detail: '' });
 
   const { data: session, status } = useSession();
+
+  const processLoading = (on: boolean, email: boolean, google: boolean, github: boolean) => {
+    setLoading(
+      produce((draft) => {
+        draft.on = on;
+        draft.email = email;
+        draft.google = google;
+        draft.github = github;
+      })
+    );
+  };
+
+  const processProviderLoading = useCallback((provider: string, on: boolean) => {
+    if (provider === ProviderNameGoogle) {
+      processLoading(on, false, on, false);
+    } else if (provider === ProviderNameGithub) {
+      processLoading(on, false, false, on);
+    }
+  }, []);
 
   useEffect(() => {
     if (!router.isReady) return;
@@ -55,26 +74,7 @@ export default function Auth() {
     return () => {
       processLoading(false, false, false, false);
     };
-  }, [router, session, status]);
-
-  const processLoading = (on: boolean, email: boolean, google: boolean, github: boolean) => {
-    setLoading(
-      produce((draft) => {
-        draft.on = on;
-        draft.email = email;
-        draft.google = google;
-        draft.github = github;
-      })
-    );
-  };
-
-  const processProviderLoading = (provider: string, on: boolean) => {
-    if (provider === ProviderNameGoogle) {
-      processLoading(on, false, on, false);
-    } else if (provider === ProviderNameGithub) {
-      processLoading(on, false, false, on);
-    }
-  };
+  }, [processProviderLoading, router, session, status]);
 
   const handleProviderClick = async (provider: string) => {
     closeAlert();

@@ -44,6 +44,10 @@ export default function Onboarding() {
           Sentry.captureException(error);
         });
     }
+
+    return () => {
+      setLoading(false);
+    };
   }, []);
 
   const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -85,7 +89,6 @@ export default function Onboarding() {
         title: ONBOARDING_FAIL_TO_CREATE_ORGANIZATION,
         detail: errorDescription,
       });
-    } finally {
       setLoading(false);
     }
   };
@@ -95,6 +98,7 @@ export default function Onboarding() {
       await authRequest<UserResponse>({ method: HTTPMethod.PATCH, url: '/user', data: { name: name } });
     } catch (error) {
       Sentry.captureException(error);
+      setLoading(false);
     }
   };
 
@@ -228,7 +232,7 @@ export default function Onboarding() {
                           name="organisation-slug"
                           id="organisation-slug"
                           autoComplete="organization-slug"
-                          placeholder="twtr"
+                          placeholder="twitter"
                           aria-invalid="false"
                           aria-describedby="error-organisation-slug-required"
                           className="block w-full rounded-none border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
