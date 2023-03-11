@@ -169,8 +169,8 @@ export default function Auth() {
                 <button
                   type="submit"
                   className="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4
-                    text-sm font-medium text-white shadow-sm hover:bg-indigo-700
-                    focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none
+                    focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:pointer-events-none"
                   disabled={loading.on}
                 >
                   {loading.email ? <LoadingIcon className="-ml-1 mr-3 h-5 w-5 animate-spin text-white" /> : null}
@@ -193,7 +193,9 @@ export default function Auth() {
                 <div>
                   <button
                     type="button"
-                    className="flex w-full items-center justify-center rounded-md border border-indigo-600 bg-white py-2 px-4 font-medium text-indigo-600 shadow-sm hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    className="flex w-full items-center justify-center rounded-md border border-indigo-600 bg-white
+                      py-2 px-4 font-medium text-indigo-600 shadow-sm hover:bg-indigo-100 focus:outline-none
+                      focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:pointer-events-none"
                     onClick={() => handleProviderClick(ProviderNameGithub)}
                     disabled={loading.on}
                   >
@@ -207,7 +209,9 @@ export default function Auth() {
                 <div>
                   <button
                     type="button"
-                    className="flex w-full items-center justify-center rounded-md border border-indigo-600 bg-white py-2 px-4 font-medium text-indigo-600 shadow-sm hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    className="flex w-full items-center justify-center rounded-md border border-indigo-600 bg-white
+                      py-2 px-4 font-medium text-indigo-600 shadow-sm hover:bg-indigo-100 focus:outline-none
+                      focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:pointer-events-none"
                     onClick={() => handleProviderClick(ProviderNameGoogle)}
                     disabled={loading.on}
                   >
