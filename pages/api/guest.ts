@@ -3,7 +3,7 @@ import * as Sentry from '@sentry/nextjs';
 import { AxiosError, HttpStatusCode } from 'axios';
 import Email from 'components/email/guest-login';
 import { getDefaultFromEmail } from 'constants/default';
-import { ERROR_FAILED_TO_SEND_EMAIL } from 'constants/errors';
+import { ERROR_FAILED_TO_LOGIN_GUEST, ERROR_FAILED_TO_SEND_EMAIL } from 'constants/errors';
 import { sendEmail } from 'lib/aws/email';
 import { apiClient, HTTPMethod } from 'lib/axios';
 import { withSessionRoute } from 'lib/session/withSession';
@@ -41,7 +41,10 @@ async function handler(
       Sentry.captureException(error);
 
       const elixirError = (error as AxiosError).response?.data as ElixirError;
-      res.redirect(HttpStatusCode.TemporaryRedirect, `/auth/email-result?error=${elixirError.message}`);
+      res.redirect(
+        HttpStatusCode.TemporaryRedirect,
+        `/auth/email-result?error=${elixirError.message ?? ERROR_FAILED_TO_LOGIN_GUEST}`
+      );
     }
     return;
   }

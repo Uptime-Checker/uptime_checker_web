@@ -10,6 +10,9 @@ const moduleExports = {
   swcMinify: true,
   reactStrictMode: true,
   productionBrowserSourceMaps: true,
+  images: {
+    domains: ['avatars.githubusercontent.com', 'lh3.googleusercontent.com'],
+  },
 
   sentry: {
     // Use `hidden-source-map` rather than `source-map` as the Webpack `devtool`
