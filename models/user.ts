@@ -58,7 +58,7 @@ export interface Role {
   ID: number;
   Name: string;
   Type: RoleType;
-  Claims: [Claim];
+  Claims: Claim[];
 }
 
 export interface User {
@@ -98,5 +98,5 @@ export interface OrganizationUser {
 }
 
 export interface OrganizationUserResponse {
-  data: [OrganizationUser];
+  data: OrganizationUser[];
 }

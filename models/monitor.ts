@@ -1,5 +1,14 @@
 import { HTTPMethod } from 'lib/axios';
 
+export enum ResponseTimeKey {
+  TotalTime = 'TotalTime',
+  DNSLookupTime = 'DNSLookupTime',
+  TCPConnectTime = 'TCPConnectTime',
+  TLSHandshakeTime = 'TLSHandshakeTime',
+  FirstResponseTime = 'FirstResponseTime',
+  ResponseTime = 'ResponseTime',
+}
+
 export enum MonitorStatus {
   PASSING = 'passing',
   FAILING = 'failing',
@@ -14,10 +23,9 @@ export interface Monitor {
   method: HTTPMethod;
   status: MonitorStatus;
   interval: number;
-  user_ids: number[];
   body: string;
 }
 
 export interface MonitorResponse {
-  data: [Monitor];
+  data: Monitor[];
 }

@@ -4,6 +4,7 @@ import { Check } from 'models/check';
 import Link from 'next/link';
 import { globalAtom } from 'store/global';
 import DurationBar from './duration-bar';
+import { ResponseTimeKey } from '../../../models/monitor';
 
 interface ChecksProps {
   checks: Check[];
@@ -28,6 +29,16 @@ const ChecksComponent = ({ checks, monitorId, className }: ChecksProps) => {
         <Link href={`/${orgSlug}/monitors/${check.monitor.id}/overview`}>{check.monitor.name}</Link>
       </div>
     ) : null;
+  };
+
+  const getResponseTimes = (): Map<ResponseTimeKey, number> => {
+    let responseTimes = new Map<ResponseTimeKey, number>();
+    responseTimes.set(ResponseTimeKey.TotalTime, 2562.416041);
+    responseTimes.set(ResponseTimeKey.DNSLookupTime, 445.246375);
+    responseTimes.set(ResponseTimeKey.TLSHandshakeTime, 825.888208);
+    responseTimes.set(ResponseTimeKey.FirstResponseTime, 1289.082208);
+    responseTimes.set(ResponseTimeKey.ResponseTime, 1.712375);
+    return responseTimes;
   };
 
   return (
@@ -66,7 +77,7 @@ const ChecksComponent = ({ checks, monitorId, className }: ChecksProps) => {
                   <div className="mt-1 text-sm text-gray-500">
                     <p>Duration: 324ms</p>
                   </div>
-                  <DurationBar />
+                  <DurationBar responseTimes={getResponseTimes()} />
                 </div>
                 <Link
                   className="ml-4 whitespace-nowrap text-right text-sm font-medium text-indigo-600 hover:text-indigo-900 sm:pr-6"
