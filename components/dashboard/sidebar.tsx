@@ -41,7 +41,7 @@ const SideBar = () => {
   const orgSlug = global.currentUser?.Organization.Slug;
   const orgName = global.currentUser?.Organization.Name;
 
-  // For intitial focus https://headlessui.com/react/dialog#managing-initial-focus
+  // For initial focus https://headlessui.com/react/dialog#managing-initial-focus
   let completeButtonRef = useRef(null);
 
   const toggleSidebar = () =>

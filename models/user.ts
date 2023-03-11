@@ -1,4 +1,22 @@
+import { ProviderNameGithub, ProviderNameGoogle } from 'constants/default';
 import { Subscription } from './subscription';
+
+export enum LoginProvider {
+  Email = 1,
+  Google,
+  Github,
+}
+
+export const GetLoginProvider = (provider: string): LoginProvider => {
+  switch (provider) {
+    case ProviderNameGoogle:
+      return LoginProvider.Google;
+    case ProviderNameGithub:
+      return LoginProvider.Github;
+    default:
+      return LoginProvider.Email;
+  }
+};
 
 export interface GuestUser {
   ID: number;
@@ -48,6 +66,7 @@ export interface User {
   Name: string;
   Email: string;
   PictureURL: string;
+  Provider: LoginProvider;
   OrganizationID: string;
   PaymentCustomerID?: string;
   Organization: Organization;

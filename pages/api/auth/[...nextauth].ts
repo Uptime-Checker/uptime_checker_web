@@ -1,10 +1,9 @@
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import * as Sentry from '@sentry/nextjs';
 import { AuthSchemeJWT } from 'constants/default';
-import { GetLoginProvider } from 'lib/auth';
 import { apiClient } from 'lib/axios';
 import { prisma } from 'lib/prisma';
-import { AccessTokenResponse } from 'models/user';
+import { AccessTokenResponse, GetLoginProvider } from 'models/user';
 import NextAuth from 'next-auth';
 import Github from 'next-auth/providers/github';
 import Google from 'next-auth/providers/google';
