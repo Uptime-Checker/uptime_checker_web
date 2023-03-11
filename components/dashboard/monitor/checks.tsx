@@ -49,7 +49,7 @@ const ChecksComponent = ({ checks, monitorId, className }: ChecksProps) => {
                 </span>
               </div>
               <div className="flex min-w-0 flex-1 justify-between space-x-4">
-                <div className="min-w-0">
+                <div className="w-4/5 sm:w-2/3 xl:w-1/2">
                   <div className="text-sm">
                     <a href="" className="font-medium text-gray-900">
                       {event.content}
@@ -59,13 +59,13 @@ const ChecksComponent = ({ checks, monitorId, className }: ChecksProps) => {
                   <div className="mt-1 whitespace-nowrap text-sm text-gray-500">
                     <time>{event.date}</time>
                   </div>
-                  <div className="mt-3 text-sm text-gray-500">
-                    <p>Duration: 324ms</p>
-                  </div>
-                  <div className="mt-1 text-sm text-gray-500">
+                  <div className="mt-5 text-sm text-gray-500">
                     <p>{event.location}</p>
                   </div>
-                  <div className="mb-4 flex h-2.5 overflow-hidden rounded bg-emerald-200 text-xs">
+                  <div className="mt-1 text-sm text-gray-500">
+                    <p>Duration: 324ms</p>
+                  </div>
+                  <div className="mb-2 mt-2 flex h-2.5 overflow-hidden rounded bg-emerald-200 text-xs">
                     <div className="flex w-1/4 flex-col justify-center whitespace-nowrap bg-red-500 text-center text-white shadow-none"></div>
                     <div className="flex w-1/4 flex-col justify-center whitespace-nowrap bg-orange-500 text-center text-white shadow-none"></div>
                     <div className="flex w-2/4 flex-col justify-center whitespace-nowrap bg-emerald-500 text-center text-white shadow-none"></div>
