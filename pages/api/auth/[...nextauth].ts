@@ -26,31 +26,32 @@ export default NextAuth({
   },
   callbacks: {
     async redirect({ url, baseUrl }) {
-      let returnUrl = baseUrl;
-      if (url.startsWith('/')) {
-        returnUrl = `${baseUrl}${url}`;
-      } else if (new URL(url).origin === baseUrl) {
-        returnUrl = url;
-      }
-      return returnUrl;
+      // Allows relative callback URLs
+      if (url.startsWith('/')) return `${baseUrl}${url}`;
+      // Allows callback URLs on the same origin
+      else if (new URL(url).origin === baseUrl) return url;
+      return baseUrl;
     },
     async session({ session, token }) {
       session.accessToken = token.accessToken as string;
       return session;
     },
-    async jwt({ token, account }) {
-      if (account) {
+    async jwt({ token, account, profile }) {
+      if (account && profile) {
         // After sign in
-
         try {
           const { data } = await apiClient.post<AccessTokenResponse>('/user/provider/login', {
-            name: token.name,
-            email: token.email,
+            name: profile.name,
+            email: profile.email,
             provider: GetLoginProvider(account.provider),
-            picture: token.picture,
+            picture: profile.picture,
             providerUID: account.providerAccountId,
           });
 
+          token.name = profile.name;
+          token.email = profile.email;
+          token.picture = profile.picture;
+          token.sub = profile.sub;
           token.accessToken = data.data.Token;
         } catch (error) {
           Sentry.captureException(error);

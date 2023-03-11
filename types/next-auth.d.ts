@@ -8,4 +8,8 @@ declare module 'next-auth' {
     /** The user's access token. */
     accessToken: string;
   }
+
+  interface Profile {
+    picture: string;
+  }
 }
