@@ -44,7 +44,7 @@ export default NextAuth({
             name: profile.name,
             email: profile.email,
             provider: GetLoginProvider(account.provider),
-            picture: profile.picture,
+            picture: profile.picture ?? profile.avatar_url,
             providerUID: account.providerAccountId,
           });
 
