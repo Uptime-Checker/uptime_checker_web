@@ -45,7 +45,7 @@ export default function Auth() {
       redirectToDashboard(user);
     } else {
       if (status === SESSION_STATUS_AUTHENTICATED && session.accessToken) {
-        processProviderLoading(session?.provider);
+        processProviderLoading(session?.provider, true);
         setAccessToken(session.accessToken);
         getMe().then(() => {});
       } else {
@@ -68,17 +68,17 @@ export default function Auth() {
     );
   };
 
-  const processProviderLoading = (provider: string) => {
+  const processProviderLoading = (provider: string, on: boolean) => {
     if (provider === ProviderNameGoogle) {
-      processLoading(true, false, true, false);
+      processLoading(on, false, on, false);
     } else if (provider === ProviderNameGithub) {
-      processLoading(true, false, false, true);
+      processLoading(on, false, false, on);
     }
   };
 
   const handleProviderClick = async (provider: string) => {
     closeAlert();
-    processProviderLoading(provider);
+    processProviderLoading(provider, true);
     await signIn(provider);
   };
 
@@ -199,6 +199,9 @@ export default function Auth() {
                     onClick={() => handleProviderClick(ProviderNameGithub)}
                     disabled={loading.on}
                   >
+                    {loading.github ? (
+                      <LoadingIcon className="-ml-1 mr-3 h-5 w-5 animate-spin text-indigo-600" />
+                    ) : null}
                     <GithubIcon />
                     Continue with Github
                   </button>
@@ -215,6 +218,9 @@ export default function Auth() {
                     onClick={() => handleProviderClick(ProviderNameGoogle)}
                     disabled={loading.on}
                   >
+                    {loading.google ? (
+                      <LoadingIcon className="-ml-1 mr-3 h-5 w-5 animate-spin text-indigo-600" />
+                    ) : null}
                     <GoogleIcon />
                     Continue with Google
                   </button>
