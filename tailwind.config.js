@@ -1,7 +1,7 @@
 /** @type {import("tailwindcss").Config} */
 
 // https://stackoverflow.com/a/73057959
-const colorSafeList = [];
+const safeList = [];
 const safeColors = ['teal', 'blue', 'amber', 'red'];
 const deprecated = ['lightBlue', 'warmGray', 'trueGray', 'coolGray', 'blueGray'];
 const tailwindColors = require('./node_modules/tailwindcss/colors');
@@ -16,13 +16,17 @@ for (const colorName in tailwindColors) {
   if (typeof palette === 'object') {
     shades.forEach((shade) => {
       if (shade in palette) {
-        colorSafeList.push(`text-${colorName}-${shade}`);
-        colorSafeList.push(`bg-${colorName}-${shade}`);
-        colorSafeList.push(`hover:bg-${colorName}-${shade}`);
-        colorSafeList.push(`border-${colorName}-${shade}`);
+        safeList.push(`text-${colorName}-${shade}`);
+        safeList.push(`bg-${colorName}-${shade}`);
+        safeList.push(`hover:bg-${colorName}-${shade}`);
+        safeList.push(`border-${colorName}-${shade}`);
       }
     });
   }
+}
+
+for (let index = 1; index <= 100; index++) {
+  safeList.push(`w-[${index}%]`);
 }
 
 module.exports = {
@@ -30,6 +34,6 @@ module.exports = {
   theme: {
     extend: {},
   },
-  safelist: colorSafeList,
+  safelist: safeList,
   plugins: [require('@tailwindcss/forms')],
 };

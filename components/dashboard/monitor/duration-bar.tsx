@@ -45,11 +45,13 @@ const DurationBarComponent = ({ responseTimes }: Props) => {
   const getBar = (responseTimeKey: ResponseTimeKey) => {
     if (responseTimeKey === ResponseTimeKey.TotalTime) return null;
 
-    let percentage = responsePercentages.filter((responsePercentage) => {
+    let responseKeyPercentage = responsePercentages.filter((responsePercentage) => {
       return responsePercentage.responseKey === responseTimeKey;
     })[0];
 
-    const width = `w-[${percentage}%]`;
+    if (!responseKeyPercentage) return null;
+
+    const width = `w-[${responseKeyPercentage.percentage}%]`;
     return <div key={responseTimeKey} className={classNames(width, 'bg-red-500')}></div>;
   };
 
