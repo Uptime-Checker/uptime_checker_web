@@ -6,7 +6,7 @@ import { useAtom } from 'jotai';
 import { authRequest, HTTPMethod } from 'lib/axios';
 import * as LiveChat from 'lib/crisp';
 import { getCurrentUser, logout, redirectToDashboard, setCurrentUser } from 'lib/global';
-import { UserResponse } from 'models/user';
+import { OrganizationUserResponse, UserResponse } from 'models/user';
 import { useRouter } from 'next/router';
 import { ReactNode, useEffect } from 'react';
 import { globalAtom } from 'store/global';
@@ -45,6 +45,18 @@ export default function DashboardLayout({ children }: Props) {
           logout().then((_) => {});
         } else {
           // Do everything that was deferred
+          authRequest<OrganizationUserResponse>({ method: HTTPMethod.GET, url: '/organization/list' })
+            .then((organizationUserResponse) => {
+              setGlobal((draft) => {
+                draft.organizations = organizationUserResponse.data.data;
+
+                console.log(draft.organizations);
+              });
+            })
+            .catch((error) => {
+              Sentry.captureException(error);
+            });
+
           if (user.Subscription.Plan.ID !== FREE_PLAN_ID) {
             LiveChat.load();
             LiveChat.configureUser(user, user.Subscription);

@@ -25,10 +25,10 @@ export interface Organization {
 }
 
 export enum RoleType {
-  superadmin = 'superadmin',
-  admin = 'admin',
-  editor = 'editor',
-  member = 'member',
+  superadmin = 1,
+  admin,
+  editor,
+  member,
 }
 
 export interface Claim {
@@ -67,9 +67,15 @@ export interface AccessTokenResponse {
   data: AccessToken;
 }
 
+export enum OrganizationUserStatus {
+  active = 1,
+  deactivated,
+}
+
 export interface OrganizationUser {
-  organization: Organization;
-  role: Role;
+  Status: OrganizationUserStatus;
+  Organization: Organization;
+  Role: Role;
 }
 
 export interface OrganizationUserResponse {

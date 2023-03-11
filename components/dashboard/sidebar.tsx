@@ -117,13 +117,13 @@ const SideBar = () => {
                       onClick={() => {
                         close();
                       }}
-                      key={org.organization.ID}
+                      key={org.Organization.ID}
                       className="flex items-center justify-between rounded-lg p-2 transition duration-150 ease-in-out
                   hover:bg-gray-100 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
                     >
                       <div className="flex items-center">
                         <UserGroupIcon className="ml-1 h-7 w-7 rounded-full text-gray-700 group-hover:text-gray-900" />
-                        <p className="ml-2 text-sm font-medium text-gray-900">{org.organization.Name}</p>
+                        <p className="ml-2 text-sm font-medium text-gray-900">{org.Organization.Name}</p>
                       </div>
 
                       <CheckIcon className="mr-1 h-5 w-5 text-gray-600" />
