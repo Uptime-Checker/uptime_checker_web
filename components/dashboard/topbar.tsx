@@ -43,6 +43,11 @@ const TopBar = ({ className }: Props) => {
       draft.sidebar = !draft.sidebar;
     });
 
+  const getFirstLetter = () => {
+    if (global.currentUser?.Name) return global.currentUser?.Name.charAt(0);
+    return global.currentUser?.Email.charAt(0);
+  };
+
   const searchBar = showSearch ? (
     <div className="flex flex-1 pt-1 md:pt-0">
       <form className="flex w-full md:ml-0" action="#" method="GET">
@@ -102,7 +107,11 @@ const TopBar = ({ className }: Props) => {
                     height={300}
                     alt=""
                   />
-                ) : null}
+                ) : (
+                  <div className="h-[34px] w-8 rounded-md bg-gray-100 pt-0.5 text-xl font-medium text-black">
+                    {getFirstLetter()}
+                  </div>
+                )}
               </Menu.Button>
               <Transition
                 as={Fragment}
