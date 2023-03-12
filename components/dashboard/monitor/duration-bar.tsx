@@ -11,6 +11,15 @@ type ResponsePercentage = {
   percentage: number;
 };
 
+enum BackgroundColors {
+  Main = 'bg-indigo-400',
+  DNS = 'bg-blue-400',
+  TCP = 'bg-blue-600',
+  TLS = 'bg-indigo-600',
+  Server = 'bg-orange-500',
+  Transfer = 'bg-emerald-500',
+}
+
 const DurationBarComponent = ({ responseTimes }: Props) => {
   const [responsePercentages, setResponsePercentages] = useState<ResponsePercentage[]>([]);
 
@@ -42,25 +51,32 @@ const DurationBarComponent = ({ responseTimes }: Props) => {
     setResponsePercentages(responsePercentages);
   }, [responseTimes]);
 
-  const getBar = (responseTimeKey: ResponseTimeKey) => {
-    if (responseTimeKey === ResponseTimeKey.TotalTime) return null;
-
-    let responseKeyPercentage = responsePercentages.filter((responsePercentage) => {
-      return responsePercentage.responseKey === responseTimeKey;
-    })[0];
-
-    if (!responseKeyPercentage) return null;
-
-    const width = `w-[${responseKeyPercentage.percentage}%]`;
-    return <div key={responseTimeKey} className={classNames(width, 'bg-red-500')}></div>;
+  const getBar = (responsePercentage: ResponsePercentage) => {
+    let bg = BackgroundColors.Main;
+    switch (responsePercentage.responseKey) {
+      case ResponseTimeKey.DNSLookupTime:
+        bg = BackgroundColors.DNS;
+        break;
+      case ResponseTimeKey.TCPConnectTime:
+        bg = BackgroundColors.TCP;
+        break;
+      case ResponseTimeKey.TLSHandshakeTime:
+        bg = BackgroundColors.TLS;
+        break;
+      case ResponseTimeKey.ServerProcessingTime:
+        bg = BackgroundColors.Server;
+        break;
+      case ResponseTimeKey.TransferTime:
+        bg = BackgroundColors.Transfer;
+        break;
+    }
+    const width = `w-[${responsePercentage.percentage}%]`;
+    return <div key={responsePercentage.responseKey} className={classNames(width, bg)}></div>;
   };
 
   return (
-    <div className="mb-2 mt-2 flex h-2.5 overflow-hidden rounded bg-emerald-200">
-      {/* <div className="w-1/4 bg-red-500"></div>
-      <div className="w-1/4 bg-orange-500"></div>
-      <div className="w-2/4 bg-emerald-500"></div> */}
-      {Array.from(responseTimes.keys()).map((responseTimeKey) => getBar(responseTimeKey))}
+    <div className={classNames('mb-2 mt-2 flex h-2.5 overflow-hidden rounded', BackgroundColors.Main)}>
+      {responsePercentages.map((responsePercentage) => getBar(responsePercentage))}
     </div>
   );
 };

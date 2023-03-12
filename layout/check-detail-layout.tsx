@@ -217,12 +217,12 @@ export default function CheckDetailLayout({ children }: Props) {
                 </tr>
 
                 <tr>
-                  <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">First Response Time</td>
+                  <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Server Processing Time</td>
                   <td className="whitespace-nowrap px-4 py-2 text-gray-700">1.289082208s</td>
                 </tr>
 
                 <tr>
-                  <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Response Time</td>
+                  <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Transfer Time</td>
                   <td className="whitespace-nowrap px-4 py-2 text-gray-700">1.712375ms</td>
                 </tr>
 

@@ -36,8 +36,8 @@ const ChecksComponent = ({ checks, monitorId, className }: ChecksProps) => {
     responseTimes.set(ResponseTimeKey.TotalTime, 2562.416041);
     responseTimes.set(ResponseTimeKey.DNSLookupTime, 445.246375);
     responseTimes.set(ResponseTimeKey.TLSHandshakeTime, 825.888208);
-    responseTimes.set(ResponseTimeKey.FirstResponseTime, 1289.082208);
-    responseTimes.set(ResponseTimeKey.ResponseTime, 1.712375);
+    responseTimes.set(ResponseTimeKey.ServerProcessingTime, 1289.082208);
+    responseTimes.set(ResponseTimeKey.TransferTime, 1.712375);
     return responseTimes;
   };
 

@@ -5,8 +5,8 @@ export enum ResponseTimeKey {
   DNSLookupTime = 'DNSLookupTime',
   TCPConnectTime = 'TCPConnectTime',
   TLSHandshakeTime = 'TLSHandshakeTime',
-  FirstResponseTime = 'FirstResponseTime',
-  ResponseTime = 'ResponseTime',
+  ServerProcessingTime = 'ServerProcessingTime',
+  TransferTime = 'TransferTime',
 }
 
 export enum MonitorStatus {
