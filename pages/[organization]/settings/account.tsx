@@ -6,7 +6,7 @@ import { globalAtom } from 'store/global';
 import { NextPageWithLayout } from '../../_app';
 
 const Account: NextPageWithLayout = () => {
-  const [global, setGlobal] = useAtom(globalAtom);
+  const [global, _] = useAtom(globalAtom);
 
   const handleProfileSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -23,7 +23,7 @@ const Account: NextPageWithLayout = () => {
             Full name
           </label>
           <input
-            defaultValue={global.currentUser?.name}
+            defaultValue={global.currentUser?.Name}
             type="text"
             name="full-name"
             id="full-name"
@@ -38,7 +38,7 @@ const Account: NextPageWithLayout = () => {
           </label>
           <input
             disabled
-            defaultValue={global.currentUser?.email}
+            defaultValue={global.currentUser?.Email}
             type="email"
             name="email-address"
             id="email-address"
