@@ -1,10 +1,18 @@
 import { classNames } from 'lib/tailwind/utils';
 import { ReactNode, useState } from 'react';
 
-const SimpleTooltip = ({ message, children }: { message: string; children: ReactNode }) => {
+const SimpleTooltip = ({
+  message,
+  children,
+  className,
+}: {
+  message: string;
+  children: ReactNode;
+  className?: string;
+}) => {
   const [show, setShow] = useState(false);
   return (
-    <div className="group relative flex flex-col items-center">
+    <div className={classNames('group relative flex flex-col items-center', className ?? '')}>
       <span className="flex justify-center" onMouseEnter={() => setShow(true)} onMouseLeave={() => setShow(false)}>
         {children}
       </span>
