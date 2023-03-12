@@ -15,7 +15,7 @@ const SimpleTooltip = ({ message, children }: { message: string; children: React
         )}
       >
         <span
-          className="whitespace-no-wrap relative z-10 rounded-md bg-gray-600 p-2 text-xs leading-none text-white
+          className="whitespace-no-wrap relative rounded-md bg-gray-600 p-2 text-xs leading-none text-white
           drop-shadow-lg"
         >
           {message}
