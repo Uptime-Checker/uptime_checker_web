@@ -2,7 +2,7 @@ import AlertsComponent from 'components/dashboard/monitor/alerts';
 import DashboardLayout from 'layout/dashboard-layout';
 import MonitorDetailLayout from 'layout/monitor-detail-layout';
 import { ReactElement } from 'react';
-import { NextPageWithLayout } from '../../../_app';
+import { NextPageWithLayout } from '../../../../_app';
 
 const alarms = [
   {

@@ -15,7 +15,6 @@ const monitor: Monitor = {
   status: MonitorStatus.PASSING,
   interval: 20,
   body: 'Hello',
-  user_ids: [1, 2],
 };
 
 const timeline: Check[] = [
