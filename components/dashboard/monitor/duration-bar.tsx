@@ -1,6 +1,7 @@
 import { classNames } from 'lib/tailwind/utils';
 import { ResponseTimeKey } from 'models/monitor';
 import { useEffect, useState } from 'react';
+import { SimpleTooltip } from 'components/tooltip';
 
 type Props = {
   responseTimes: Map<ResponseTimeKey, number>;
@@ -9,6 +10,7 @@ type Props = {
 type ResponsePercentage = {
   responseKey: ResponseTimeKey;
   percentage: number;
+  time: string;
 };
 
 enum BackgroundColors {
@@ -43,7 +45,11 @@ const DurationBarComponent = ({ responseTimes }: Props) => {
         }
 
         if (percentage === 0) continue;
-        let responsePercentage: ResponsePercentage = { responseKey: key, percentage: percentage };
+        let responsePercentage: ResponsePercentage = {
+          responseKey: key,
+          percentage: percentage,
+          time: `${value.toFixed(2)}`,
+        };
         responsePercentages.push(responsePercentage);
       }
     }
@@ -71,11 +77,16 @@ const DurationBarComponent = ({ responseTimes }: Props) => {
         break;
     }
     const width = `w-[${responsePercentage.percentage}%]`;
-    return <div key={responsePercentage.responseKey} className={classNames(width, bg)}></div>;
+    const message = `${responsePercentage.responseKey} ${responsePercentage.percentage}%: ${responsePercentage.time}ms`;
+    return (
+      <SimpleTooltip key={responsePercentage.responseKey} message={message} className={classNames(width)}>
+        <div className={classNames('h-full w-full', bg)}></div>
+      </SimpleTooltip>
+    );
   };
 
   return (
-    <div className={classNames('mb-2 mt-2 flex h-2.5 overflow-hidden rounded', BackgroundColors.Main)}>
+    <div className={classNames('mb-2 mt-2 flex h-2.5 rounded', BackgroundColors.Main)}>
       {responsePercentages.map((responsePercentage) => getBar(responsePercentage))}
     </div>
   );
