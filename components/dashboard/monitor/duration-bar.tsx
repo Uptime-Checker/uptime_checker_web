@@ -1,7 +1,7 @@
+import { SimpleTooltip } from 'components/tooltip';
 import { classNames } from 'lib/tailwind/utils';
 import { ResponseTimeKey } from 'models/monitor';
 import { useEffect, useState } from 'react';
-import { SimpleTooltip } from 'components/tooltip';
 
 type Props = {
   responseTimes: Map<ResponseTimeKey, number>;
@@ -85,7 +85,7 @@ const DurationBarComponent = ({ responseTimes }: Props) => {
         break;
     }
     const width = `w-[${responsePercentage.percentage}%]`;
-    const message = `${responsePercentage.responseKey} ${responsePercentage.percentage}%: ${responsePercentage.time}ms`;
+    const message = `${responsePercentage.responseKey} ${responsePercentage.percentage}%\n${responsePercentage.time}ms`;
     return (
       <SimpleTooltip key={responsePercentage.responseKey} message={message} className={classNames(width)}>
         <div className={classNames('h-full w-full', bg, rounded)}></div>

@@ -21,11 +21,11 @@ const SimpleTooltip = ({
       <div
         className={classNames(
           !show ? 'hidden' : '',
-          'absolute bottom-full flex flex-col items-center whitespace-nowrap pb-0.5 group-hover:flex'
+          'absolute bottom-full flex flex-col items-center pb-0.5 group-hover:flex'
         )}
       >
         <span
-          className="whitespace-no-wrap relative rounded-md bg-gray-600 p-2 text-xs leading-none text-white
+          className="relative w-auto whitespace-pre-wrap rounded-md bg-gray-600 p-2 text-center text-xs text-white
           drop-shadow-lg"
         >
           {message}
