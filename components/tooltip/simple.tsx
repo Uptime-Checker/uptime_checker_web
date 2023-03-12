@@ -12,10 +12,12 @@ const SimpleTooltip = ({
 }) => {
   const [show, setShow] = useState(false);
   return (
-    <div className={classNames('group relative flex flex-col items-center', className ?? '')}>
-      <span className="flex justify-center" onMouseEnter={() => setShow(true)} onMouseLeave={() => setShow(false)}>
-        {children}
-      </span>
+    <div
+      onMouseEnter={() => setShow(true)}
+      onMouseLeave={() => setShow(false)}
+      className={classNames('group relative flex flex-col items-center', className ?? '')}
+    >
+      {children}
       <div
         className={classNames(
           !show ? 'hidden' : '',
