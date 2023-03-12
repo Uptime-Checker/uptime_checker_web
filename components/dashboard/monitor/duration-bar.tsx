@@ -58,6 +58,14 @@ const DurationBarComponent = ({ responseTimes }: Props) => {
   }, [responseTimes]);
 
   const getBar = (responsePercentage: ResponsePercentage) => {
+    let index = responsePercentages.indexOf(responsePercentage);
+    let rounded = '';
+    if (index === 0) {
+      rounded = 'rounded-l';
+    } else if (index === responsePercentages.length - 1) {
+      rounded = 'rounded-r';
+    }
+
     let bg = BackgroundColors.Main;
     switch (responsePercentage.responseKey) {
       case ResponseTimeKey.DNSLookupTime:
@@ -80,13 +88,13 @@ const DurationBarComponent = ({ responseTimes }: Props) => {
     const message = `${responsePercentage.responseKey} ${responsePercentage.percentage}%: ${responsePercentage.time}ms`;
     return (
       <SimpleTooltip key={responsePercentage.responseKey} message={message} className={classNames(width)}>
-        <div className={classNames('h-full w-full', bg)}></div>
+        <div className={classNames('h-full w-full', bg, rounded)}></div>
       </SimpleTooltip>
     );
   };
 
   return (
-    <div className={classNames('mb-2 mt-2 flex h-2.5 rounded', BackgroundColors.Main)}>
+    <div className={classNames('mb-2 mt-2 flex h-2.5 rounded')}>
       {responsePercentages.map((responsePercentage) => getBar(responsePercentage))}
     </div>
   );
