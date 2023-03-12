@@ -25,7 +25,7 @@ export default function DashboardLayout({ children }: Props) {
     if (!router.isReady || gotUserInfo) return;
 
     const currentUser = getCurrentUser();
-    if (getCurrentUser()) {
+    if (currentUser && currentUser.Organization) {
       setGlobal((draft) => {
         draft.currentUser = currentUser;
       });

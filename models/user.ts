@@ -42,6 +42,10 @@ export interface Organization {
   Slug: string;
 }
 
+export interface OrganizationResponse {
+  data: Organization;
+}
+
 export enum RoleType {
   superadmin = 1,
   admin,

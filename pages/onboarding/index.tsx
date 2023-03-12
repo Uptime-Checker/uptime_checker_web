@@ -13,7 +13,7 @@ import {
 import produce from 'immer';
 import { authRequest, HTTPMethod } from 'lib/axios';
 import { getCurrentUser, logout, redirectToDashboard, setCurrentUser } from 'lib/global';
-import { UserResponse } from 'models/user';
+import { OrganizationResponse, UserResponse } from 'models/user';
 import Head from 'next/head';
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { ElixirError } from 'types/error';
@@ -64,12 +64,16 @@ export default function Onboarding() {
       nameUpdated = true;
     }
     try {
-      let { data } = await authRequest<UserResponse>({
+      let { data } = await authRequest<OrganizationResponse>({
         method: HTTPMethod.POST,
         url: '/organization',
         data: { name: orgRef.value, slug: slugRef.value, planID: FREE_PLAN_ID },
       });
-      redirectToDashboard(data.data);
+      let user = getCurrentUser()!;
+      user.Organization = data.data;
+      setCurrentUser(user).then(() => {
+        redirectToDashboard(user);
+      });
     } catch (error) {
       const elixirError = (error as AxiosError).response?.data as ElixirError;
       const errorKey = elixirError.error;
