@@ -5,10 +5,12 @@ const SimpleTooltip = ({
   message,
   children,
   className,
+  wrap,
 }: {
   message: string;
   children: ReactNode;
   className?: string;
+  wrap?: boolean;
 }) => {
   const [show, setShow] = useState(false);
   return (
@@ -25,8 +27,10 @@ const SimpleTooltip = ({
         )}
       >
         <span
-          className="relative w-auto whitespace-pre-wrap rounded-md bg-gray-600 p-2 text-center text-xs text-white
-          drop-shadow-lg"
+          className={classNames(
+            'relative w-auto rounded-md bg-gray-600 p-2 text-center text-xs text-white drop-shadow-lg',
+            wrap ? 'whitespace-pre-wrap' : 'whitespace-nowrap'
+          )}
         >
           {message}
         </span>

@@ -87,7 +87,7 @@ const DurationBarComponent = ({ responseTimes }: Props) => {
     const width = `w-[${responsePercentage.percentage}%]`;
     const message = `${responsePercentage.responseKey} ${responsePercentage.percentage}%\n${responsePercentage.time}ms`;
     return (
-      <SimpleTooltip key={responsePercentage.responseKey} message={message} className={classNames(width)}>
+      <SimpleTooltip key={responsePercentage.responseKey} message={message} className={classNames(width)} wrap={true}>
         <div className={classNames('h-full w-full', bg, rounded)}></div>
       </SimpleTooltip>
     );
