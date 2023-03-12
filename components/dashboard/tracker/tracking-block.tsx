@@ -8,25 +8,33 @@ type Props = {
   status?: MonitorStatus;
 };
 
+enum BackgroundColors {
+  Main = 'bg-gray-300',
+  FAILING = 'bg-red-500',
+  MAINTENANCE = 'bg-gray-500',
+  DEGRADED = 'bg-amber-500',
+  PASSING = 'bg-teal-500',
+}
+
 const TrackingBlock = ({ text, className, status }: Props) => {
-  let bg = 'bg-gray-500';
+  let bg = BackgroundColors.Main;
 
   if (status) {
     switch (status) {
       case MonitorStatus.FAILING:
-        bg = 'bg-red-500';
+        bg = BackgroundColors.FAILING;
         break;
 
       case MonitorStatus.MAINTENANCE:
-        bg = 'bg-gray-500';
+        bg = BackgroundColors.MAINTENANCE;
         break;
 
       case MonitorStatus.DEGRADED:
-        bg = 'bg-amber-500';
+        bg = BackgroundColors.DEGRADED;
         break;
 
-      default:
-        bg = 'bg-teal-500';
+      case MonitorStatus.PASSING:
+        bg = BackgroundColors.PASSING;
         break;
     }
   }
