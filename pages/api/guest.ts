@@ -41,10 +41,11 @@ async function handler(
       Sentry.captureException(error);
 
       const elixirError = (error as AxiosError).response?.data as ElixirError;
-      res.redirect(
-        HttpStatusCode.TemporaryRedirect,
-        `/auth/email-result?error=${elixirError.message ?? ERROR_FAILED_TO_LOGIN_GUEST}`
-      );
+      let err = ERROR_FAILED_TO_LOGIN_GUEST;
+      if (elixirError && elixirError.message) {
+        err = elixirError.message;
+      }
+      res.redirect(HttpStatusCode.TemporaryRedirect, `/auth/email-result?error=${err}`);
     }
     return;
   }
