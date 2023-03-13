@@ -53,7 +53,7 @@ export default function AlertDetailLayout({ children }: Props) {
           style={{ height: '300px', width: '300px' }}
         />
       </div>
-      <div className="-mt-10 lg:hidden">{info}</div>
+      <div className="-mt-10 mb-10 lg:hidden">{info}</div>
 
       {children}
     </section>
