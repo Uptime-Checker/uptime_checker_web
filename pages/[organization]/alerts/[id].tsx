@@ -4,11 +4,11 @@ import DashboardLayout from 'layout/dashboard-layout';
 import { NextPageWithLayout } from 'pages/_app';
 import { ReactElement } from 'react';
 
-const AlertDetail: NextPageWithLayout = () => {
+const TopAlertDetail: NextPageWithLayout = () => {
   return <AlertDetailComponent />;
 };
 
-AlertDetail.getLayout = function getLayout(page: ReactElement) {
+TopAlertDetail.getLayout = function getLayout(page: ReactElement) {
   return (
     <DashboardLayout>
       <AlertDetailLayout>{page}</AlertDetailLayout>
@@ -16,4 +16,4 @@ AlertDetail.getLayout = function getLayout(page: ReactElement) {
   );
 };
 
-export default AlertDetail;
+export default TopAlertDetail;
