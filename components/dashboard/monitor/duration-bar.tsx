@@ -15,11 +15,11 @@ type ResponsePercentage = {
 
 enum BackgroundColors {
   Main = 'bg-indigo-400',
-  DNS = 'bg-blue-400',
-  TCP = 'bg-blue-600',
-  TLS = 'bg-indigo-600',
+  DNS = 'bg-emerald-500',
+  TCP = 'bg-lime-500',
+  TLS = 'bg-yellow-500',
   Server = 'bg-orange-500',
-  Transfer = 'bg-emerald-500',
+  Transfer = 'bg-rose-500',
 }
 
 const DurationBarComponent = ({ responseTimes }: Props) => {
