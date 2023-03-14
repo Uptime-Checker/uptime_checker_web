@@ -1,8 +1,11 @@
 import SlackIcon from 'components/icon/slack';
+import TeamsIcon from 'components/icon/teams';
+import WebhookIcon from 'components/icon/webhook';
 import DashboardLayout from 'layout/dashboard-layout';
 import { NextPageWithLayout } from 'pages/_app';
 import { ReactElement } from 'react';
 import { LocalIcon } from '../../../types/main';
+import DiscordIcon from 'components/icon/discord';
 
 interface Integration {
   name: string;
@@ -15,16 +18,16 @@ const integrations: Integration[] = [
     icon: SlackIcon,
   },
   {
-    name: 'Discord',
-    icon: SlackIcon,
+    name: 'Microsoft Teams',
+    icon: TeamsIcon,
   },
   {
-    name: 'Microsoft Teams',
-    icon: SlackIcon,
+    name: 'Discord',
+    icon: DiscordIcon,
   },
   {
     name: 'Webhook',
-    icon: SlackIcon,
+    icon: WebhookIcon,
   },
 ];
 
