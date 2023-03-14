@@ -1,8 +1,6 @@
-type Props = {
-  className?: string;
-};
+import { IconProps } from 'types/main';
 
-const EmailSentIcon = ({ className }: Props) => {
+const EmailSentIcon = ({ className }: IconProps) => {
   return (
     <svg className={className} xmlns="http://www.w3.org/2000/svg" data-name="Layer 1" viewBox="0 0 614.24714 528.65003">
       <path
