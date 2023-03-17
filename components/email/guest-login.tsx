@@ -1,6 +1,6 @@
 import { Body, Container, Head, Heading, Hr, Html, Img, Link, Preview, Section, Text } from '@react-email/components';
 import { Logo } from 'constants/image';
-import process from 'process';
+import { AppName } from 'lib/global';
 
 interface GuestLoginEmailProps {
   magicLink: string;
@@ -12,7 +12,7 @@ export const GuestLoginEmail = ({ magicLink }: GuestLoginEmailProps) => (
     <Preview>Log in with this magic link.</Preview>
     <Body style={main}>
       <Container style={container}>
-        <Img src={Logo} width={48} height={48} alt={process.env.APP_NAME!} />
+        <Img src={Logo} width={48} height={48} alt={AppName} />
         <Heading style={heading}>🪄 Your magic link</Heading>
         <Section style={body}>
           <Text style={paragraph}>
@@ -24,7 +24,7 @@ export const GuestLoginEmail = ({ magicLink }: GuestLoginEmailProps) => (
         </Section>
         <Text style={paragraph}>
           Best,
-          <br />- {process.env.APP_NAME!} Team
+          <br />- {AppName} Team
         </Text>
         <Hr style={hr} />
         <Img

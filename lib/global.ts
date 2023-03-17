@@ -63,3 +63,5 @@ export const redirectToDashboard = (user: User) => {
   const nextPath = user.Organization ? `${user.Organization.Slug}/monitors` : 'onboarding';
   window.location.replace(`${window.location.origin}/${nextPath}`);
 };
+
+export const AppName = process.env.APP_NAME || process.env.NEXT_PUBLIC_APP_NAME;

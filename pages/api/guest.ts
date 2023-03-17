@@ -6,6 +6,7 @@ import { getDefaultFromEmail } from 'constants/default';
 import { ERROR_FAILED_TO_LOGIN_GUEST, ERROR_FAILED_TO_SEND_EMAIL } from 'constants/errors';
 import { sendEmail } from 'lib/aws/email';
 import { apiClient, HTTPMethod } from 'lib/axios';
+import { AppName } from 'lib/global';
 import { withSessionRoute } from 'lib/session/withSession';
 import { ErrorResponse } from 'models/error';
 import { AccessTokenResponse, GuestUserResponse } from 'models/user';
@@ -60,7 +61,7 @@ async function handler(
       await sendEmail(
         getDefaultFromEmail(),
         data.data.Email,
-        `Sign in to ${process.env.APP_NAME!}`,
+        `Sign in to ${AppName}`,
         emailHtml(data.data.Email, data.data.Code!)
       );
       res.status(200).json({ data: { ID: data.data.ID, Email: data.data.Email, ExpiresAt: data.data.ExpiresAt } });

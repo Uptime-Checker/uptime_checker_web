@@ -1,11 +1,12 @@
+import DiscordIcon from 'components/icon/discord';
 import SlackIcon from 'components/icon/slack';
 import TeamsIcon from 'components/icon/teams';
 import WebhookIcon from 'components/icon/webhook';
 import DashboardLayout from 'layout/dashboard-layout';
+import { AppName } from 'lib/global';
 import { NextPageWithLayout } from 'pages/_app';
 import { ReactElement } from 'react';
 import { LocalIcon } from '../../../types/main';
-import DiscordIcon from 'components/icon/discord';
 
 interface Integration {
   name: string;
@@ -52,7 +53,7 @@ const Integrations: NextPageWithLayout = () => {
                 <div className="grow">
                   <b className="text-neutral-800">{integration.name}</b>
                   <p className="text-sm text-gray-700">
-                    Post new {process.env.NEXT_PUBLIC_APP_NAME} incidents to {integration.name}
+                    Post new {AppName} incidents to {integration.name}
                   </p>
                 </div>
                 <a
