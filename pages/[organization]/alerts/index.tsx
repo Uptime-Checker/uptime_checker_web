@@ -1,3 +1,4 @@
+import AlertSettingsComponent from 'components/dashboard/monitor/alert-settings';
 import AlertsComponent from 'components/dashboard/monitor/alerts';
 import DashboardLayout from 'layout/dashboard-layout';
 import { AppName } from 'lib/global';
@@ -30,6 +31,9 @@ const Alerts: NextPageWithLayout = () => {
           Global alert settings determine when and how often {AppName} sends you notifications on your configured alert
           channels. You can override the global settings at monitor level
         </p>
+      </div>
+      <div>
+        <AlertSettingsComponent />
       </div>
       <div className="mt-8">
         <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
