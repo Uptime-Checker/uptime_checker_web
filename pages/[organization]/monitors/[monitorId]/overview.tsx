@@ -212,19 +212,19 @@ const Overview: NextPageWithLayout = () => {
                           scope="col"
                           className="py-3.5 pl-4 pr-3 text-center text-sm font-semibold text-gray-900 sm:pl-6 md:pl-0"
                         >
-                          STATUS
+                          Status
                         </th>
                         <th scope="col" className="py-3.5 px-3 text-center text-sm font-semibold text-gray-900">
-                          FROM
+                          From
                         </th>
                         <th
                           scope="col"
                           className="hidden py-3.5 px-3 text-center text-sm font-semibold text-gray-900 md:table-cell"
                         >
-                          TO
+                          To
                         </th>
                         <th scope="col" className="py-3.5 px-3 text-center text-sm font-semibold text-gray-900">
-                          DURATION
+                          Duration
                         </th>
                       </tr>
                     </thead>
