@@ -25,16 +25,10 @@ const alerts = [
 const Alerts: NextPageWithLayout = () => {
   return (
     <section className="mx-auto mt-6 max-w-7xl px-4 sm:px-6 md:px-8">
-      <div className="px-1 sm:px-6 md:px-0">
-        <h1 className="text-2xl font-semibold text-gray-900">Alerts</h1>
-        <p className="mt-2 text-sm text-gray-700">
-          Global alert settings determine when and how often {AppName} sends you notifications on your configured alert
-          channels. You can override the global settings at monitor level
-        </p>
-      </div>
-      <div>
-        <AlertSettingsComponent />
-      </div>
+      <AlertSettingsComponent
+        text={`Global alert settings determine when and how often ${AppName} sends you notifications on your configured alert
+          channels. You can override the global settings at monitor level`}
+      />
       <div className="mt-8">
         <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
