@@ -2,7 +2,7 @@ const AlertSettingsComponent = () => {
   return (
     <div className="my-10">
       <section className="mx-5 text-sm text-gray-700">
-        <div className="flex">
+        <div className="mb-5 flex border-b pb-5">
           <section className="mr-32">Escalation</section>
           <section className="w-full">
             <label className="text-sm text-gray-700">Send an alert notification</label>
@@ -86,9 +86,38 @@ const AlertSettingsComponent = () => {
             </fieldset>
           </section>
         </div>
-        <div>
-          <section></section>
-          <section></section>
+        <div className="flex items-center">
+          <section className="mr-32">Reminders</section>
+          <section className="w-full">
+            <label className="text-sm text-gray-700">
+              <div className="flex items-center space-x-2">
+                <span>Send out a maximum of</span>
+                <select
+                  id="location"
+                  name="location"
+                  className="w-[88px] rounded-md border-0 bg-gray-100 py-0.5 pl-3 pr-0 text-sm text-gray-900 focus:ring-0"
+                  defaultValue="1"
+                >
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>inifnite</option>
+                </select>
+                <span>reminders, with a</span>
+                <select
+                  id="location"
+                  name="location"
+                  className="w-[50px] rounded-md border-0 bg-gray-100 py-0.5 pl-3 pr-0 text-sm text-gray-900 focus:ring-0"
+                  defaultValue="5"
+                >
+                  <option>5</option>
+                  <option>10</option>
+                  <option>15</option>
+                </select>
+                <span>minutes interval</span>
+              </div>
+            </label>
+          </section>
         </div>
       </section>
       <section></section>
