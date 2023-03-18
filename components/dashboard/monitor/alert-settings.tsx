@@ -2,6 +2,28 @@ type Props = {
   text: String;
 };
 
+const people = [
+  {
+    name: 'Lindsay Walton',
+    title: 'Oct 4, 2022,  03:34:31 AM',
+    email: 'Oct 4, 2025,  03:34:31 AM',
+    role: '2 hours, 38 Minutes',
+  },
+  {
+    name: 'Lindsay Walton',
+    title: 'Oct 4, 2022,  03:34:31 AM',
+    email: 'Oct 4, 2028,  03:34:31 AM',
+    role: '2 hours, 38 Minutes',
+  },
+  {
+    name: 'Lindsay Walton',
+    title: 'Oct 4, 2022,  03:34:31 AM',
+    email: 'Oct 4, 2029,  03:34:31 AM',
+    role: '2 hours, 38 Minutes',
+  },
+  // More people...
+];
+
 const AlertSettingsComponent = ({ text }: Props) => {
   return (
     <>
@@ -139,6 +161,58 @@ const AlertSettingsComponent = ({ text }: Props) => {
           These are your global alert channels for the checks in your account. Any check failure and recovery will be
           sent to these channels.
         </p>
+      </div>
+      <div className="">
+        <div className="flex flex-col">
+          <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+              <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+                <table className="min-w-full divide-y divide-gray-200">
+                  <thead className="bg-gray-50">
+                    <tr>
+                      <th
+                        scope="col"
+                        className="py-3.5 pl-4 pr-3 text-center text-sm font-semibold text-gray-900 sm:pl-6 md:pl-0"
+                      >
+                        Status
+                      </th>
+                      <th scope="col" className="py-3.5 px-3 text-center text-sm font-semibold text-gray-900">
+                        From
+                      </th>
+                      <th
+                        scope="col"
+                        className="hidden py-3.5 px-3 text-center text-sm font-semibold text-gray-900 md:table-cell"
+                      >
+                        To
+                      </th>
+                      <th scope="col" className="py-3.5 px-3 text-center text-sm font-semibold text-gray-900">
+                        Duration
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-200">
+                    {people.map((person) => (
+                      <tr key={person.email}>
+                        <td className="whitespace-nowrap py-4 pl-4 pr-3 text-center sm:pl-6 md:pl-2">
+                          <span className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
+                            Degraded
+                          </span>
+                        </td>
+                        <td className="whitespace-nowrap py-4 px-3 text-center text-sm text-gray-500">
+                          {person.title}
+                        </td>
+                        <td className="hidden whitespace-nowrap py-4 px-3 text-center text-sm text-gray-500 md:table-cell">
+                          {person.email}
+                        </td>
+                        <td className="whitespace-nowrap py-4 px-3 text-center text-sm text-gray-500">{person.role}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );
