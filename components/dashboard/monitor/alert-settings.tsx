@@ -134,9 +134,8 @@ const AlertSettingsComponent = ({ text }: Props) => {
       <div className="my-10">
         <h2 className="text-xl font-semibold text-gray-900">Alert Channels</h2>
         <p className="mt-2 text-sm text-gray-700">
-          {' '}
           These are your global alert channels for the checks in your account. Any check failure and recovery will be
-          sent to these channels.{' '}
+          sent to these channels.
         </p>
       </div>
     </>
