@@ -164,7 +164,7 @@ const Team: NextPageWithLayout = () => {
                           <a href="#" className="text-indigo-600 hover:text-indigo-900">
                             Resend<span className="sr-only">, {invitation.name}</span>
                           </a>
-                          <a href="#" className="ml-4 text-indigo-600 hover:text-indigo-900">
+                          <a href="#" className="ml-4 text-red-500 hover:text-red-900">
                             Delete<span className="sr-only">, {invitation.name}</span>
                           </a>
                         </td>

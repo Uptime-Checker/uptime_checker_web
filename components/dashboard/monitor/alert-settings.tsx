@@ -1,3 +1,6 @@
+import { AtSymbolIcon, TrashIcon } from '@heroicons/react/24/outline';
+import SwitchControl from 'components/switch';
+
 type Props = {
   text: String;
 };
@@ -10,13 +13,13 @@ const people = [
     role: '2 hours, 38 Minutes',
   },
   {
-    name: 'Lindsay Walton',
+    name: 'Slack',
     title: 'Oct 4, 2022,  03:34:31 AM',
     email: 'Oct 4, 2028,  03:34:31 AM',
     role: '2 hours, 38 Minutes',
   },
   {
-    name: 'Lindsay Walton',
+    name: 'Webhook',
     title: 'Oct 4, 2022,  03:34:31 AM',
     email: 'Oct 4, 2029,  03:34:31 AM',
     role: '2 hours, 38 Minutes',
@@ -169,42 +172,38 @@ const AlertSettingsComponent = ({ text }: Props) => {
               <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
                 <table className="min-w-full divide-y divide-gray-200">
                   <thead className="bg-gray-50">
-                    <tr>
-                      <th
-                        scope="col"
-                        className="py-3.5 pl-4 pr-3 text-center text-sm font-semibold text-gray-900 sm:pl-6 md:pl-0"
-                      >
-                        Status
+                    <tr className="text-sm font-semibold text-gray-900">
+                      <th scope="col" className="py-3.5 pl-4 pr-3 text-left sm:pl-6">
+                        Detail
                       </th>
-                      <th scope="col" className="py-3.5 px-3 text-center text-sm font-semibold text-gray-900">
-                        From
+                      <th scope="col" className="hidden py-3.5 px-3 text-center md:table-cell">
+                        Channel
                       </th>
-                      <th
-                        scope="col"
-                        className="hidden py-3.5 px-3 text-center text-sm font-semibold text-gray-900 md:table-cell"
-                      >
-                        To
+                      <th scope="col" className="py-3.5 px-3 text-center">
+                        Subscribed
                       </th>
-                      <th scope="col" className="py-3.5 px-3 text-center text-sm font-semibold text-gray-900">
-                        Duration
+                      <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6">
+                        <span className="sr-only">Edit</span>
                       </th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200">
                     {people.map((person) => (
                       <tr key={person.email}>
-                        <td className="whitespace-nowrap py-4 pl-4 pr-3 text-center sm:pl-6 md:pl-2">
-                          <span className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
-                            Degraded
-                          </span>
+                        <td className="flex items-center gap-2 whitespace-nowrap py-4 pl-4 pr-3 text-left text-sm text-gray-500 sm:pl-6">
+                          <AtSymbolIcon className="h-4 w-4" />
+                          <span>Email to</span>
+                          <span className="text-black">mr.k779@gmail.com</span>
                         </td>
+                        <td className="whitespace-nowrap py-4 px-3 text-center text-sm text-gray-500">{person.name}</td>
                         <td className="whitespace-nowrap py-4 px-3 text-center text-sm text-gray-500">
-                          {person.title}
+                          <SwitchControl />
                         </td>
-                        <td className="hidden whitespace-nowrap py-4 px-3 text-center text-sm text-gray-500 md:table-cell">
-                          {person.email}
+                        <td className="p3-4 font-mediumsm:pr-6 relative whitespace-nowrap pl-3 pr-4 text-right text-sm">
+                          <button className="px-3 py-3 text-red-500 hover:text-red-900">
+                            <TrashIcon className="h-6 w-6" />
+                          </button>
                         </td>
-                        <td className="whitespace-nowrap py-4 px-3 text-center text-sm text-gray-500">{person.role}</td>
                       </tr>
                     ))}
                   </tbody>
