@@ -44,7 +44,7 @@ export default function CheckDetailLayout({ children }: Props) {
       </div>
 
       <div className="mt-10 lg:grid lg:grid-cols-2 lg:divide-x">
-        <section className="pr-5">
+        <section className="lg:pr-5">
           <h2 className="text-xl font-medium">Request Info</h2>
           <article className="mt-5 overflow-hidden rounded shadow">
             <table className="min-w-full divide-y-2 divide-gray-200 text-sm">
