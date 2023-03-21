@@ -35,12 +35,12 @@ const AlertSettingsComponent = ({ text }: Props) => {
         <p className="mt-2 text-sm text-gray-700">{text}</p>
       </div>
       <div className="my-10">
-        <section className="mx-5 text-sm text-gray-700">
-          <div className="mb-5 flex border-b pb-5">
-            <section className="mr-32">Escalation</section>
-            <section className="w-full">
+        <section className="mx-0 text-sm text-gray-700 sm:mx-5">
+          <div className="mb-5 border-b pb-5 lg:flex">
+            <section className="mr-32 font-semibold lg:font-normal">Escalation</section>
+            <section className="mt-5 w-full lg:mt-0">
               <label className="text-sm text-gray-700">Send an alert notification</label>
-              <fieldset className="mt-6">
+              <fieldset className="mt-3 lg:mt-6">
                 <legend className="sr-only">Notification method</legend>
                 <div className="space-y-3">
                   <div className="flex items-center">
@@ -124,33 +124,38 @@ const AlertSettingsComponent = ({ text }: Props) => {
             <section className="mr-32">Reminders</section>
             <section className="w-full">
               <label className="text-sm text-gray-700">
-                <div className="flex items-center space-x-2">
-                  <span>Send out a maximum of</span>
-                  <select
-                    id="location"
-                    name="location"
-                    className="w-[88px] rounded-md border-0 bg-gray-100 py-0.5 pl-3 pr-0 text-sm text-gray-900 focus:ring-0"
-                    defaultValue="5"
-                  >
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                    <option>inifnite</option>
-                  </select>
-                  <span>reminders, with a</span>
-                  <select
-                    id="location"
-                    name="location"
-                    className="w-[60px] rounded-md border-0 bg-gray-100 py-0.5 pl-3 pr-0 text-sm text-gray-900 focus:ring-0"
-                    defaultValue="10"
-                  >
-                    <option>5</option>
-                    <option>10</option>
-                    <option>15</option>
-                  </select>
-                  <span>minutes interval</span>
+                <div className="items-center xl:flex xl:space-x-2">
+                  <div className="flex items-center space-x-2">
+                    <span>Send out a maximum of</span>
+                    <select
+                      id="location"
+                      name="location"
+                      className="w-[88px] rounded-md border-0 bg-gray-100 py-0.5 pl-3 pr-0 text-sm text-gray-900 focus:ring-0"
+                      defaultValue="5"
+                    >
+                      <option>1</option>
+                      <option>2</option>
+                      <option>3</option>
+                      <option>4</option>
+                      <option>5</option>
+                      <option>inifnite</option>
+                    </select>
+                    <span>reminders,</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <span>with a</span>
+                    <select
+                      id="location"
+                      name="location"
+                      className="w-[60px] rounded-md border-0 bg-gray-100 py-0.5 pl-3 pr-0 text-sm text-gray-900 focus:ring-0"
+                      defaultValue="10"
+                    >
+                      <option>5</option>
+                      <option>10</option>
+                      <option>15</option>
+                    </select>
+                    <span>minutes interval</span>
+                  </div>
                 </div>
               </label>
             </section>
@@ -165,50 +170,48 @@ const AlertSettingsComponent = ({ text }: Props) => {
           sent to these channels.
         </p>
       </div>
-      <div className="">
-        <div className="flex flex-col">
-          <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
-            <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-              <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
-                <table className="min-w-full divide-y divide-gray-200">
-                  <thead className="bg-gray-50">
-                    <tr className="text-sm font-semibold text-gray-900">
-                      <th scope="col" className="py-3.5 pl-4 pr-3 text-left sm:pl-6">
-                        Detail
-                      </th>
-                      <th scope="col" className="hidden py-3.5 px-3 text-center md:table-cell">
-                        Channel
-                      </th>
-                      <th scope="col" className="py-3.5 px-3 text-center">
-                        Subscribed
-                      </th>
-                      <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6">
-                        <span className="sr-only">Edit</span>
-                      </th>
+      <div className="flex flex-col">
+        <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+          <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+            <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+              <table className="min-w-full divide-y divide-gray-200">
+                <thead className="bg-gray-50">
+                  <tr className="text-sm font-semibold text-gray-900">
+                    <th scope="col" className="py-3.5 pl-4 pr-3 text-left sm:pl-6">
+                      Detail
+                    </th>
+                    <th scope="col" className="hidden py-3.5 px-3 text-center md:table-cell">
+                      Channel
+                    </th>
+                    <th scope="col" className="py-3.5 px-3 text-center">
+                      Subscribed
+                    </th>
+                    <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6">
+                      <span className="sr-only">Edit</span>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-200">
+                  {people.map((person) => (
+                    <tr key={person.email}>
+                      <td className="flex items-center gap-2 whitespace-nowrap py-4 pl-4 pr-3 text-left text-sm text-gray-500 sm:pl-6">
+                        <AtSymbolIcon className="h-4 w-4" />
+                        <span>Email to</span>
+                        <span className="text-black">mr.k779@gmail.com</span>
+                      </td>
+                      <td className="whitespace-nowrap py-4 px-3 text-center text-sm text-gray-500">{person.name}</td>
+                      <td className="whitespace-nowrap py-4 px-3 text-center text-sm text-gray-500">
+                        <SwitchControl />
+                      </td>
+                      <td className="p3-4 font-mediumsm:pr-6 relative whitespace-nowrap pl-3 pr-4 text-right text-sm">
+                        <button className="px-3 py-3 text-red-500 hover:text-red-900">
+                          <TrashIcon className="h-6 w-6" />
+                        </button>
+                      </td>
                     </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-200">
-                    {people.map((person) => (
-                      <tr key={person.email}>
-                        <td className="flex items-center gap-2 whitespace-nowrap py-4 pl-4 pr-3 text-left text-sm text-gray-500 sm:pl-6">
-                          <AtSymbolIcon className="h-4 w-4" />
-                          <span>Email to</span>
-                          <span className="text-black">mr.k779@gmail.com</span>
-                        </td>
-                        <td className="whitespace-nowrap py-4 px-3 text-center text-sm text-gray-500">{person.name}</td>
-                        <td className="whitespace-nowrap py-4 px-3 text-center text-sm text-gray-500">
-                          <SwitchControl />
-                        </td>
-                        <td className="p3-4 font-mediumsm:pr-6 relative whitespace-nowrap pl-3 pr-4 text-right text-sm">
-                          <button className="px-3 py-3 text-red-500 hover:text-red-900">
-                            <TrashIcon className="h-6 w-6" />
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
