@@ -62,13 +62,13 @@ const Team: NextPageWithLayout = () => {
                       </th>
                       <th
                         scope="col"
-                        className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:table-cell"
+                        className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell"
                       >
                         Last Seen
                       </th>
                       <th
                         scope="col"
-                        className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:table-cell"
+                        className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 md:table-cell"
                       >
                         Status
                       </th>
@@ -92,10 +92,10 @@ const Team: NextPageWithLayout = () => {
                           </div>
                         </td>
                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{person.role}</td>
-                        <td className="hidden whitespace-nowrap px-3 py-4 text-sm text-gray-500 sm:table-cell">
+                        <td className="hidden whitespace-nowrap px-3 py-4 text-sm text-gray-500 lg:table-cell">
                           3 Days Ago
                         </td>
-                        <td className="hidden whitespace-nowrap px-3 py-4 text-sm text-gray-500 sm:table-cell">
+                        <td className="hidden whitespace-nowrap px-3 py-4 text-sm text-gray-500 md:table-cell">
                           <span className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
                             Active
                           </span>
@@ -139,7 +139,7 @@ const Team: NextPageWithLayout = () => {
                       </th>
                       <th
                         scope="col"
-                        className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:table-cell"
+                        className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 md:table-cell"
                       >
                         Status
                       </th>
@@ -155,7 +155,7 @@ const Team: NextPageWithLayout = () => {
                           {invitation.email}
                         </td>
                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{invitation.role}</td>
-                        <td className="hidden whitespace-nowrap px-3 py-4 text-sm text-gray-500 sm:table-cell">
+                        <td className="hidden whitespace-nowrap px-3 py-4 text-sm text-gray-500 md:table-cell">
                           <span className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
                             Active
                           </span>
