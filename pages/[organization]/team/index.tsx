@@ -57,7 +57,10 @@ const Team: NextPageWithLayout = () => {
                       >
                         Name
                       </th>
-                      <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                      <th
+                        scope="col"
+                        className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:table-cell"
+                      >
                         Role
                       </th>
                       <th
@@ -88,10 +91,13 @@ const Team: NextPageWithLayout = () => {
                             <div className="ml-4">
                               <div className="font-medium text-gray-900">{person.name}</div>
                               <div className="text-gray-500">{person.email}</div>
+                              <div className="mt-1 block text-gray-500 sm:hidden">Role: {person.role}</div>
                             </div>
                           </div>
                         </td>
-                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{person.role}</td>
+                        <td className="hidden whitespace-nowrap px-3 py-4 text-sm text-gray-500 sm:table-cell">
+                          {person.role}
+                        </td>
                         <td className="hidden whitespace-nowrap px-3 py-4 text-sm text-gray-500 lg:table-cell">
                           3 Days Ago
                         </td>
@@ -134,7 +140,10 @@ const Team: NextPageWithLayout = () => {
                       >
                         Name
                       </th>
-                      <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                      <th
+                        scope="col"
+                        className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:table-cell"
+                      >
                         Role
                       </th>
                       <th
@@ -153,8 +162,14 @@ const Team: NextPageWithLayout = () => {
                       <tr key={invitation.email}>
                         <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-500 sm:pl-6">
                           {invitation.email}
+                          <dl className="font-normal sm:hidden">
+                            <dt className="sr-only">Role</dt>
+                            <dd className="mt-1">Role: {invitation.role}</dd>
+                          </dl>
                         </td>
-                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{invitation.role}</td>
+                        <td className="hidden whitespace-nowrap px-3 py-4 text-sm text-gray-500 sm:table-cell">
+                          {invitation.role}
+                        </td>
                         <td className="hidden whitespace-nowrap px-3 py-4 text-sm text-gray-500 md:table-cell">
                           <span className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
                             Active
