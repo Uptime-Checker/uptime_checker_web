@@ -35,7 +35,7 @@ const AlertSettingsComponent = ({ text }: Props) => {
         <p className="mt-2 text-sm text-gray-700">{text}</p>
       </div>
       <div className="my-10">
-        <section className="mx-0 text-sm text-gray-700 sm:mx-5">
+        <section className="mx-0 px-1 text-sm text-gray-700 sm:mx-4">
           <div className="mb-5 border-b pb-5 lg:flex">
             <section className="mr-32 font-semibold lg:font-normal">Escalation</section>
             <section className="mt-5 w-full lg:mt-0">
