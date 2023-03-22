@@ -200,10 +200,16 @@ const AlertSettingsComponent = ({ text }: Props) => {
                 <tbody className="divide-y divide-gray-200">
                   {people.map((person) => (
                     <tr key={person.email}>
-                      <td className="flex items-center gap-2 whitespace-nowrap py-4 pl-4 pr-3 text-left text-sm text-gray-500 sm:pl-6">
-                        <AtSymbolIcon className="h-4 w-4" />
-                        <span>Email to</span>
-                        <span className="text-black">mr.k779@gmail.com</span>
+                      <td className="whitespace-nowrap py-4 pl-4 pr-3 text-left text-sm text-gray-500 sm:pl-6">
+                        <div className="flex items-center gap-2">
+                          <AtSymbolIcon className="h-4 w-4" />
+                          <span>Email to</span>
+                          <span className="text-black">mr.k779@gmail.com</span>
+                        </div>
+                        <dl className="font-normal sm:hidden">
+                          <dt className="sr-only">Title</dt>
+                          <dd className="mt-1 truncate text-gray-700">{person.name}</dd>
+                        </dl>
                       </td>
                       <td className="hidden whitespace-nowrap py-4 px-3 text-center text-sm text-gray-500 sm:table-cell">
                         {person.name}
