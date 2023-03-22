@@ -120,9 +120,9 @@ const AlertSettingsComponent = ({ text }: Props) => {
               </fieldset>
             </section>
           </div>
-          <div className="flex items-center">
-            <section className="mr-32">Reminders</section>
-            <section className="w-full">
+          <div className="items-center lg:flex">
+            <section className="mr-32 font-semibold lg:font-normal">Reminders</section>
+            <section className="mt-5 w-full lg:mt-0">
               <label className="text-sm text-gray-700">
                 <div className="items-center xl:flex xl:space-x-2">
                   <div className="flex items-center space-x-2">
