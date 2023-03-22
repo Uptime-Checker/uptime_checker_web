@@ -39,7 +39,10 @@ const AlertSettingsComponent = ({ text }: Props) => {
           <div className="mb-5 border-b pb-5 lg:flex">
             <section className="mr-32 font-semibold lg:font-normal">Escalation</section>
             <section className="mt-5 w-full lg:mt-0">
-              <label className="text-sm text-gray-700">Send an alert notification</label>
+              <label className="flex text-sm text-gray-700">
+                <span>Send an alert notification</span>
+                <span className="block sm:hidden">, When a Monitor</span>
+              </label>
               <fieldset className="mt-3 lg:mt-6">
                 <legend className="sr-only">Notification method</legend>
                 <div className="space-y-3">
@@ -51,9 +54,10 @@ const AlertSettingsComponent = ({ text }: Props) => {
                       defaultChecked
                       className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
                     />
-                    <label htmlFor="checkFail" className="ml-3 block text-sm text-gray-700">
+                    <label htmlFor="checkFail" className="ml-1 block text-sm text-gray-700 sm:ml-3">
                       <div className="flex items-center space-x-2">
-                        <span>When a Monitor has failed</span>
+                        <span className="hidden sm:block">When a Monitor</span>
+                        <span>has failed</span>
                         <select
                           id="location"
                           name="location"
@@ -75,9 +79,10 @@ const AlertSettingsComponent = ({ text }: Props) => {
                       type="radio"
                       className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
                     />
-                    <label htmlFor="checkTime" className="ml-3 block text-sm text-gray-700">
+                    <label htmlFor="checkTime" className="ml-1 block text-sm text-gray-700 sm:ml-3">
                       <div className="flex items-center space-x-2">
-                        <span>When a Monitor is failing for more than</span>
+                        <span className="hidden sm:block">When a Monitor</span>
+                        <span>is failing for more than</span>
                         <select
                           id="location"
                           name="location"
@@ -99,9 +104,10 @@ const AlertSettingsComponent = ({ text }: Props) => {
                       type="radio"
                       className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
                     />
-                    <label htmlFor="regionFail" className="ml-3 block text-sm text-gray-700">
+                    <label htmlFor="regionFail" className="ml-1 block text-sm text-gray-700 sm:ml-3">
                       <div className="flex items-center space-x-2">
-                        <span>When a Monitor has failed in</span>
+                        <span className="hidden sm:block">When a Monitor</span>
+                        <span>has failed in</span>
                         <select
                           id="location"
                           name="location"
