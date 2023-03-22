@@ -224,7 +224,7 @@ const Monitors: NextPageWithLayout = () => {
               </th>
               <th
                 scope="col"
-                className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:table-cell"
+                className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 xl:table-cell"
               >
                 LAST CHECKED
               </th>
@@ -260,13 +260,13 @@ const Monitors: NextPageWithLayout = () => {
                     ))}
                   </Tracking>
                 </td>
-                <td className="hidden whitespace-nowrap px-3 py-4 text-sm text-gray-500 sm:table-cell">
+                <td className="hidden whitespace-nowrap px-3 py-4 text-sm text-gray-500 xl:table-cell">
                   {person.lastChecked}
                 </td>
                 <td className="hidden whitespace-nowrap px-3 py-4 text-sm text-gray-500 xl:table-cell">
                   {person.downtime}
                 </td>
-                <td className="whitespace-nowrap">{getMonitorRowOption(person)}</td>
+                <td className="w-7 whitespace-nowrap">{getMonitorRowOption(person)}</td>
               </tr>
             ))}
           </tbody>

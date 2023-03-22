@@ -11,7 +11,7 @@ type Props = {
 
 const TableRowOption = ({ options, optionTapped }: Props) => {
   return (
-    <Menu as="div" className="relative ml-6">
+    <Menu as="div" className="relative">
       <Menu.Button className="flex max-w-xs items-center rounded-md p-3 text-sm">
         <EllipsisVerticalIcon className="h-7 w-7 text-gray-500" />
       </Menu.Button>
