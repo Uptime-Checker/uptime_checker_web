@@ -35,7 +35,7 @@ const AlertSettingsComponent = ({ text }: Props) => {
         <p className="mt-2 text-sm text-gray-700">{text}</p>
       </div>
       <div className="my-10">
-        <section className="mx-0 px-1 text-sm text-gray-700 sm:mx-4">
+        <section className="px-1 text-sm text-gray-700 sm:px-6 md:px-0">
           <div className="mb-5 border-b pb-5 lg:flex">
             <section className="mr-32 font-semibold lg:font-normal">Escalation</section>
             <section className="mt-5 w-full lg:mt-0">
@@ -169,7 +169,7 @@ const AlertSettingsComponent = ({ text }: Props) => {
         </section>
         <section></section>
       </div>
-      <div className="my-10">
+      <div className="my-10 px-1 sm:px-6 md:px-0">
         <h2 className="text-xl font-semibold text-gray-900">Alert Channels</h2>
         <p className="mt-2 text-sm text-gray-700">
           These are your global alert channels for the checks in your account. Any check failure and recovery will be
