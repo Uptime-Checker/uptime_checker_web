@@ -91,7 +91,7 @@ const SideBar = () => {
       <Popover className="block w-full flex-shrink-0">
         <Popover.Button className="block w-full flex-shrink-0 p-4 focus:outline-none">
           <div className="flex items-center">
-            <div className="flex flex-grow">
+            <div className="flex flex-grow items-center">
               <UserGroupIcon className="inline-block h-9 w-9 rounded-full text-gray-700 group-hover:text-gray-900" />
               <div className="ml-3 text-left font-medium">
                 <p className="text-xs text-gray-500 group-hover:text-gray-700">Organization</p>
