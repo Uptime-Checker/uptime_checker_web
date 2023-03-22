@@ -186,14 +186,14 @@ const AlertSettingsComponent = ({ text }: Props) => {
                     <th scope="col" className="py-3.5 pl-4 pr-3 text-left sm:pl-6">
                       Detail
                     </th>
-                    <th scope="col" className="hidden py-3.5 px-3 text-center md:table-cell">
+                    <th scope="col" className="hidden py-3.5 px-3 text-center sm:table-cell">
                       Channel
                     </th>
                     <th scope="col" className="py-3.5 px-3 text-center">
                       Subscribed
                     </th>
-                    <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6">
-                      <span className="sr-only">Edit</span>
+                    <th scope="col" className="relative hidden py-3.5 pl-3 pr-4 md:table-cell">
+                      <span className="sr-only">Delete</span>
                     </th>
                   </tr>
                 </thead>
@@ -205,11 +205,13 @@ const AlertSettingsComponent = ({ text }: Props) => {
                         <span>Email to</span>
                         <span className="text-black">mr.k779@gmail.com</span>
                       </td>
-                      <td className="whitespace-nowrap py-4 px-3 text-center text-sm text-gray-500">{person.name}</td>
+                      <td className="hidden whitespace-nowrap py-4 px-3 text-center text-sm text-gray-500 sm:table-cell">
+                        {person.name}
+                      </td>
                       <td className="whitespace-nowrap py-4 px-3 text-center text-sm text-gray-500">
                         <SwitchControl />
                       </td>
-                      <td className="p3-4 font-mediumsm:pr-6 relative whitespace-nowrap pl-3 pr-4 text-right text-sm">
+                      <td className="p3-4 font-mediumsm:pr-6 relative hidden whitespace-nowrap pl-3 pr-4 text-right text-sm md:table-cell">
                         <button className="px-3 py-3 text-red-500 hover:text-red-900">
                           <TrashIcon className="h-6 w-6" />
                         </button>
