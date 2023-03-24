@@ -66,7 +66,7 @@ export default function Auth() {
       if (status === SESSION_STATUS_AUTHENTICATED && session.accessToken) {
         processProviderLoading(session?.provider, true);
         setAccessToken(session.accessToken);
-        getMe().then(() => {});
+        getMe().catch(console.error);
       } else {
         processLoading(false, false, false, false);
       }

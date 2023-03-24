@@ -29,12 +29,12 @@ export default function Onboarding() {
   useEffect(() => {
     let user = getCurrentUser();
     if (!user) {
-      logout().then((_) => {});
+      logout().then((_) => { });
     } else {
       authRequest<UserResponse>({ method: HTTPMethod.GET, url: '/user/me' })
         .then((resp) => {
           let currentUser = resp.data.data;
-          setCurrentUser(currentUser).then(() => {});
+          setCurrentUser(currentUser).catch(console.error);
 
           if (currentUser.Organization) {
             redirectToDashboard(currentUser);

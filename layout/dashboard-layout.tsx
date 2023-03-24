@@ -10,6 +10,7 @@ import { OrganizationUserResponse, UserResponse } from 'models/user';
 import { useRouter } from 'next/router';
 import { ReactNode, useEffect } from 'react';
 import { globalAtom } from 'store/global';
+import * as console from 'console';
 
 type Props = {
   children: ReactNode;
@@ -34,7 +35,7 @@ export default function DashboardLayout({ children }: Props) {
     authRequest<UserResponse>({ method: HTTPMethod.GET, url: '/user/me' })
       .then((fullInfoResp) => {
         let user = fullInfoResp.data.data;
-        setCurrentUser(user).then(() => {});
+        setCurrentUser(user).catch(console.error);
         setGlobal((draft) => {
           draft.currentUser = user;
         });
