@@ -10,7 +10,6 @@ import { OrganizationUserResponse, UserResponse } from 'models/user';
 import { useRouter } from 'next/router';
 import { ReactNode, useEffect } from 'react';
 import { globalAtom } from 'store/global';
-import * as console from 'console';
 
 type Props = {
   children: ReactNode;
