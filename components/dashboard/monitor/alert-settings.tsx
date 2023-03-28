@@ -136,7 +136,7 @@ const AlertSettingsComponent = ({ text }: Props) => {
                     <select
                       id="location"
                       name="location"
-                      className="w-[88px] rounded-md border-0 bg-gray-100 py-0.5 pl-3 pr-0 text-sm text-gray-900 focus:ring-0"
+                      className="w-[60px] rounded-md border-0 bg-gray-100 py-0.5 pl-3 pr-0 text-sm text-gray-900 focus:ring-0"
                       defaultValue="5"
                     >
                       <option>1</option>
@@ -144,7 +144,7 @@ const AlertSettingsComponent = ({ text }: Props) => {
                       <option>3</option>
                       <option>4</option>
                       <option>5</option>
-                      <option>inifnite</option>
+                      <option>30</option>
                     </select>
                     <span>reminders,</span>
                   </div>
