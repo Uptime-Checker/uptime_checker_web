@@ -1,10 +1,10 @@
-/** @type {import("tailwindcss").Config} */
+import type { Config } from 'tailwindcss';
+const tailwindColors = require('./node_modules/tailwindcss/colors');
 
 // https://stackoverflow.com/a/73057959
-const safeList = [];
-const safeColors = ['teal', 'blue', 'amber', 'red'];
-const deprecated = ['lightBlue', 'warmGray', 'trueGray', 'coolGray', 'blueGray'];
-const tailwindColors = require('./node_modules/tailwindcss/colors');
+const safeList: string[] = [];
+const safeColors: string[] = ['teal', 'blue', 'amber', 'red'];
+const deprecated: string[] = ['lightBlue', 'warmGray', 'trueGray', 'coolGray', 'blueGray'];
 
 for (const colorName in tailwindColors) {
   if (deprecated.includes(colorName) || !safeColors.includes(colorName)) {
@@ -29,11 +29,11 @@ for (let index = 1; index <= 100; index++) {
   safeList.push(`w-[${index}%]`);
 }
 
-module.exports = {
+export default {
   content: ['./layout/**/*.{js,ts,jsx,tsx}', './pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {},
   },
   safelist: safeList,
   plugins: [require('@tailwindcss/forms')],
-};
+} satisfies Config;
