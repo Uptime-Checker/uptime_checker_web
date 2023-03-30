@@ -5,7 +5,7 @@ import Email from 'components/email/guest-login';
 import { getDefaultFromEmail } from 'constants/default';
 import { ERROR_FAILED_TO_LOGIN_GUEST, ERROR_FAILED_TO_SEND_EMAIL } from 'constants/errors';
 import { sendEmail } from 'lib/aws/email';
-import { apiClient, HTTPMethod } from 'lib/axios';
+import { HTTPMethod, apiClient } from 'lib/axios';
 import { AppName } from 'lib/global';
 import { withSessionRoute } from 'lib/session/withSession';
 import { ErrorResponse } from 'models/error';

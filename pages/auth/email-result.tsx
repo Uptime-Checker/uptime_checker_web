@@ -13,7 +13,7 @@ interface Props {
   accessToken: string;
 }
 
-export const getServerSideProps = withSessionSsr(async function getServerSideProps({ req }) {
+export const getServerSideProps = withSessionSsr(function getServerSideProps({ req }) {
   const accessToken = req.session.accessToken;
 
   return {
@@ -49,7 +49,7 @@ export default function EmailResult({ accessToken }: Props) {
       }
     }
 
-    getMe().then((_) => {});
+    getMe().catch(console.error);
   }, [accessToken, router]);
 
   const activateError = () => {
@@ -69,8 +69,8 @@ export default function EmailResult({ accessToken }: Props) {
             {hasError ? 'Verification failed' : 'Confirming your account'}
           </h2>
         </div>
-        <div className="mt-8 mb-8 sm:mx-auto sm:w-full sm:max-w-md">
-          <div className="flex flex-col items-center bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+        <div className="mb-8 mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+          <div className="flex flex-col items-center bg-white px-4 py-8 shadow sm:rounded-lg sm:px-10">
             <TwoFactorAuthIcon className="h-32" />
             <div className="mt-8 space-y-6">
               <div className="flex flex-col items-center text-center">

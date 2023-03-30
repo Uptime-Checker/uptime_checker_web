@@ -28,7 +28,7 @@ export const addToken = (token: string) => {
 
 export const authRequest = async <T = any, R = AxiosResponse<T>, D = any>(
   config: AxiosRequestConfig<D>,
-  shouldLogout: boolean = true
+  shouldLogout = true
 ): Promise<R> => {
   try {
     const token = getAccessToken();

@@ -24,14 +24,14 @@ export default NextAuth({
     strategy: AuthSchemeJWT,
   },
   callbacks: {
-    async redirect({ url, baseUrl }) {
+    redirect({ url, baseUrl }) {
       // Allows relative callback URLs
       if (url.startsWith('/')) return `${baseUrl}${url}`;
       // Allows callback URLs on the same origin
       else if (new URL(url).origin === baseUrl) return url;
       return baseUrl;
     },
-    async session({ session, token }) {
+    session({ session, token }) {
       session.provider = token.provider as string;
       session.accessToken = token.accessToken as string;
       return session;
