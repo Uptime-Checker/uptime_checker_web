@@ -1,8 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import Legend from 'components/dashboard/legend';
 import { useOnWindowResize } from 'lib/hooks';
 import { Color } from 'lib/tailwind/color';
+import { useEffectOnlyOnce } from 'utils/helpers';
 
 const ChartLegend = (
   { payload }: any,
@@ -15,16 +16,15 @@ const ChartLegend = (
       : 60; // default height
 
   const legendRef = useRef<HTMLDivElement>(null);
-  const [currentheight, setCurrentHeight] = useState(calculateHeight(undefined));
+  const [currentHeight, setCurrentHeight] = useState(calculateHeight(undefined));
 
   useEffect(() => {
-    setCurrentHeight(calculateHeight(currentheight));
     // setLegendHeight setState action from Chart parent
     setLegendHeight(calculateHeight(legendRef.current?.clientHeight));
-  }, []);
+  }, [setLegendHeight]);
 
   useOnWindowResize(() => {
-    setCurrentHeight(calculateHeight(currentheight));
+    setCurrentHeight(calculateHeight(currentHeight));
     // setLegendHeight setState action from Chart parent
     setLegendHeight(calculateHeight(legendRef.current?.clientHeight));
   });
