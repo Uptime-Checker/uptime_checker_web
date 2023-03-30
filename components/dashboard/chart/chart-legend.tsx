@@ -1,9 +1,8 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import Legend from 'components/dashboard/legend';
 import { useOnWindowResize } from 'lib/hooks';
 import { Color } from 'lib/tailwind/color';
-import { useEffectOnlyOnce } from 'utils/helpers';
 
 const ChartLegend = (
   { payload }: any,
