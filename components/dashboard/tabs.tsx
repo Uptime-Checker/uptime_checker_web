@@ -31,7 +31,7 @@ const Tabs = ({ baseURL, className, tabs, children, breakpoint, routeIndex }: Pr
 
   const isNavActive = useCallback(
     (navItem: TabNavigationItem) => {
-      let splitRouterHref = router.pathname.split('/');
+      const splitRouterHref = router.pathname.split('/');
       return splitRouterHref[routeIndex] === navItem.href;
     },
     [routeIndex, router.pathname]
@@ -100,7 +100,7 @@ const Tabs = ({ baseURL, className, tabs, children, breakpoint, routeIndex }: Pr
                   isNavActive(tab)
                     ? 'border-indigo-500 text-indigo-600'
                     : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700',
-                  'whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium'
+                  'whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium'
                 )}
               >
                 {tab.name}
@@ -108,7 +108,7 @@ const Tabs = ({ baseURL, className, tabs, children, breakpoint, routeIndex }: Pr
                   <span
                     className={classNames(
                       isNavActive(tab) ? 'bg-indigo-100 text-indigo-600' : 'bg-gray-100 text-gray-900',
-                      'ml-3 hidden rounded-full py-0.5 px-2.5 text-xs font-medium md:inline-block'
+                      'ml-3 hidden rounded-full px-2.5 py-0.5 text-xs font-medium md:inline-block'
                     )}
                   >
                     {tab.count}

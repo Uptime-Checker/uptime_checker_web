@@ -109,19 +109,19 @@ export default function Onboarding() {
   };
 
   const handleOrganizationChange = (event: ChangeEvent) => {
-    let target = event.currentTarget as HTMLInputElement;
-    let slug = makeKey(target.value);
+    const target = event.currentTarget as HTMLInputElement;
+    const slug = makeKey(target.value);
     setOrgSlug(slug);
   };
 
   const handleOrganizationSlugChange = (event: ChangeEvent) => {
-    let target = event.currentTarget as HTMLInputElement;
-    let slug = makeKey(target.value);
+    const target = event.currentTarget as HTMLInputElement;
+    const slug = makeKey(target.value);
     setOrgSlug(slug);
   };
 
   const makeKey = (title: string) => {
-    let newStr = title.replaceAll(' ', '-').toLowerCase();
+    const newStr = title.replaceAll(' ', '-').toLowerCase();
     return sanitizeString(newStr);
   };
 

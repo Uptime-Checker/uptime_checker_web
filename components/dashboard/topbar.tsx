@@ -6,7 +6,6 @@ import { useAtom } from 'jotai';
 import { logout } from 'lib/global';
 import { classNames } from 'lib/tailwind/utils';
 import Image from 'next/image';
-import * as Sentry from '@sentry/nextjs';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Fragment, ReactNode, useEffect, useState } from 'react';
@@ -35,8 +34,8 @@ const TopBar = ({ className }: Props) => {
     setShowSearch(splitRouterHref[2] === 'monitors' && splitRouterHref.length === 3);
   }, [router]);
 
-  const handleLogout = () => {
-    logout().catch((e) => Sentry.captureException(e));
+  const handleLogout = async () => {
+    await logout();
   };
 
   const toggleSidebar = () =>
