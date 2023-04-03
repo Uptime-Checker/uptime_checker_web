@@ -29,11 +29,11 @@ export default function Onboarding() {
   useEffect(() => {
     const user = getCurrentUser();
     if (!user) {
-      logout().catch((e) => Sentry.captureException(e));
+      logout().catch(console.error);
     } else {
       authRequest<UserResponse>({ method: HTTPMethod.GET, url: '/user/me' })
         .then((resp) => {
-          let currentUser = resp.data.data;
+          const currentUser = resp.data.data;
           setCurrentUser(currentUser).catch(console.error);
 
           if (currentUser.Organization) {
@@ -64,16 +64,18 @@ export default function Onboarding() {
       nameUpdated = true;
     }
     try {
-      let { data } = await authRequest<OrganizationResponse>({
+      const { data } = await authRequest<OrganizationResponse>({
         method: HTTPMethod.POST,
         url: '/organization',
         data: { name: orgRef.value, slug: slugRef.value, planID: FREE_PLAN_ID },
       });
-      let user = getCurrentUser()!;
+      const user = getCurrentUser()!;
       user.Organization = data.data;
-      setCurrentUser(user).then(() => {
-        redirectToDashboard(user);
-      });
+      setCurrentUser(user)
+        .then(() => {
+          redirectToDashboard(user);
+        })
+        .catch(console.error);
     } catch (error) {
       const elixirError = (error as AxiosError).response?.data as ElixirError;
       const errorKey = elixirError.error;

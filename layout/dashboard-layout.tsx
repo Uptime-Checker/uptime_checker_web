@@ -33,7 +33,7 @@ export default function DashboardLayout({ children }: Props) {
 
     authRequest<UserResponse>({ method: HTTPMethod.GET, url: '/user/me' })
       .then((fullInfoResp) => {
-        let user = fullInfoResp.data.data;
+        const user = fullInfoResp.data.data;
         setCurrentUser(user).catch((e) => Sentry.captureException(e));
         setGlobal((draft) => {
           draft.currentUser = user;
@@ -42,7 +42,7 @@ export default function DashboardLayout({ children }: Props) {
         if (!user.Organization) {
           redirectToDashboard(user);
         } else if (user.Organization.Slug !== router.query.organization) {
-          logout().then((_) => {});
+          logout().catch(console.error);
         } else {
           // Do everything that was deferred
           authRequest<OrganizationUserResponse>({ method: HTTPMethod.GET, url: '/organization/list' })

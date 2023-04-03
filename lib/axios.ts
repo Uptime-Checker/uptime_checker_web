@@ -26,7 +26,7 @@ export const addToken = (token: string) => {
   client.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 };
 
-export const authRequest = async <T = never, R = AxiosResponse<T>, D = never>(
+export const authRequest = async <T = any, R = AxiosResponse<T>, D = any>(
   config: AxiosRequestConfig<D>,
   shouldLogout = true
 ): Promise<R> => {
