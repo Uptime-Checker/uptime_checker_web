@@ -26,7 +26,7 @@ const DurationBarComponent = ({ responseTimes }: Props) => {
   const [responsePercentages, setResponsePercentages] = useState<ResponsePercentage[]>([]);
 
   useEffect(() => {
-    let responsePercentages: ResponsePercentage[] = [];
+    const responsePercentages: ResponsePercentage[] = [];
 
     let i = 0;
     let totalTime = 0;
@@ -45,7 +45,7 @@ const DurationBarComponent = ({ responseTimes }: Props) => {
         }
 
         if (percentage === 0) continue;
-        let responsePercentage: ResponsePercentage = {
+        const responsePercentage: ResponsePercentage = {
           responseKey: key,
           percentage: percentage,
           time: `${value.toFixed(2)}`,
@@ -58,7 +58,7 @@ const DurationBarComponent = ({ responseTimes }: Props) => {
   }, [responseTimes]);
 
   const getBar = (responsePercentage: ResponsePercentage) => {
-    let index = responsePercentages.indexOf(responsePercentage);
+    const index = responsePercentages.indexOf(responsePercentage);
     let rounded = '';
     if (index === 0) {
       rounded = 'rounded-l';

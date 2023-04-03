@@ -42,7 +42,7 @@ const SideBar = () => {
   const orgName = global.currentUser?.Organization.Name;
 
   // For initial focus https://headlessui.com/react/dialog#managing-initial-focus
-  let completeButtonRef = useRef(null);
+  const completeButtonRef = useRef(null);
 
   const toggleSidebar = () =>
     setGlobal((draft) => {
@@ -50,13 +50,13 @@ const SideBar = () => {
     });
 
   const isNavActive = (navItem: NavigationItem) => {
-    let splitNavHref = navItem.href.split('/');
-    let splitRouterHref = router.pathname.split('/');
+    const splitNavHref = navItem.href.split('/');
+    const splitRouterHref = router.pathname.split('/');
     return splitRouterHref[2] === splitNavHref[0];
   };
 
   const logo = (
-    <Link href={`/${orgSlug}/monitors`} className="flex flex-shrink-0 items-center px-4">
+    <Link href={`/${orgSlug!}/monitors`} className="flex flex-shrink-0 items-center px-4">
       <FullLogo className="h-8 w-auto" />
     </Link>
   );
@@ -66,7 +66,7 @@ const SideBar = () => {
       {navigation.map((item) => (
         <Link
           key={item.name}
-          href={`/${orgSlug}/${item.href}`}
+          href={`/${orgSlug!}/${item.href}`}
           onClick={toggleSidebar}
           className={classNames(
             isNavActive(item) ? 'bg-gray-100 text-gray-900' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900',
@@ -114,7 +114,7 @@ const SideBar = () => {
           <Popover.Panel className="absolute bottom-20 z-10 mt-3 w-full px-4">
             {({ close }) => (
               <div className="overflow-hidden rounded-lg shadow-xl ring-1 ring-black ring-opacity-5">
-                <div className="flex flex-col bg-white py-2 px-1">
+                <div className="flex flex-col bg-white px-1 py-2">
                   {global.organizations.map((org) => (
                     <button
                       onClick={() => {
@@ -137,7 +137,7 @@ const SideBar = () => {
                     onClick={() => {
                       close();
                     }}
-                    className="border-neutral-40 mt-2 block rounded border-t py-3 px-1 text-center hover:bg-gray-100"
+                    className="border-neutral-40 mt-2 block rounded border-t px-1 py-3 text-center hover:bg-gray-100"
                   >
                     Manage Organizations
                   </button>
@@ -186,7 +186,7 @@ const SideBar = () => {
                   leaveFrom="opacity-100"
                   leaveTo="opacity-0"
                 >
-                  <div className="absolute top-0 right-0 mr-2 pt-2">
+                  <div className="absolute right-0 top-0 mr-2 pt-2">
                     <button
                       ref={completeButtonRef}
                       type="button"
@@ -198,7 +198,7 @@ const SideBar = () => {
                     </button>
                   </div>
                 </Transition.Child>
-                <div className="h-0 flex-1 overflow-y-auto pt-5 pb-4">
+                <div className="h-0 flex-1 overflow-y-auto pb-4 pt-5">
                   {logo}
                   {firstNav}
                 </div>
@@ -214,7 +214,7 @@ const SideBar = () => {
       <div className="hidden md:fixed md:inset-y-0 md:flex md:w-48 md:flex-col lg:w-64">
         {/* Sidebar component, swap this element with another sidebar if you like */}
         <div className="flex min-h-0 flex-1 flex-col border-r border-gray-200 bg-white">
-          <div className="flex flex-1 flex-col overflow-y-auto pt-5 pb-4">
+          <div className="flex flex-1 flex-col overflow-y-auto pb-4 pt-5">
             {logo}
             {firstNav}
           </div>

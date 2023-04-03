@@ -2,7 +2,7 @@ import { AtSymbolIcon, TrashIcon } from '@heroicons/react/24/outline';
 import SwitchControl from 'components/switch';
 
 type Props = {
-  text: String;
+  text: string;
 };
 
 const people = [
@@ -177,7 +177,7 @@ const AlertSettingsComponent = ({ text }: Props) => {
         </p>
       </div>
       <div className="flex flex-col">
-        <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+        <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
             <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
               <table className="min-w-full divide-y divide-gray-200">
@@ -186,10 +186,10 @@ const AlertSettingsComponent = ({ text }: Props) => {
                     <th scope="col" className="py-3.5 pl-4 pr-3 text-left sm:pl-6">
                       Detail
                     </th>
-                    <th scope="col" className="hidden py-3.5 px-3 text-center sm:table-cell">
+                    <th scope="col" className="hidden px-3 py-3.5 text-center sm:table-cell">
                       Channel
                     </th>
-                    <th scope="col" className="py-3.5 px-3 text-center">
+                    <th scope="col" className="px-3 py-3.5 text-center">
                       Subscribed
                     </th>
                     <th scope="col" className="relative hidden py-3.5 pl-3 pr-4 md:table-cell">
@@ -211,10 +211,10 @@ const AlertSettingsComponent = ({ text }: Props) => {
                           <dd className="mt-1 truncate text-gray-700">{person.name}</dd>
                         </dl>
                       </td>
-                      <td className="hidden whitespace-nowrap py-4 px-3 text-center text-sm text-gray-500 sm:table-cell">
+                      <td className="hidden whitespace-nowrap px-3 py-4 text-center text-sm text-gray-500 sm:table-cell">
                         {person.name}
                       </td>
-                      <td className="whitespace-nowrap py-4 px-3 text-center text-sm text-gray-500">
+                      <td className="whitespace-nowrap px-3 py-4 text-center text-sm text-gray-500">
                         <SwitchControl />
                       </td>
                       <td className="p3-4 font-mediumsm:pr-6 relative hidden whitespace-nowrap pl-3 pr-4 text-right text-sm md:table-cell">

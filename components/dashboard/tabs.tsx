@@ -62,11 +62,11 @@ const Tabs = ({ baseURL, className, tabs, children, breakpoint, routeIndex }: Pr
   }, [breakpoint, isNavActive, router, tabs]);
 
   const onTabChange = async (event: ChangeEvent) => {
-    let target = event.currentTarget as HTMLInputElement;
+    const target = event.currentTarget as HTMLInputElement;
     const selectedTab = tabs.find((tab) => tab.name === target.value);
     setSelectedTab(selectedTab!);
 
-    await router.push(`/${orgSlug}/${baseURL}/${selectedTab!.href}`, undefined, { scroll: false });
+    await router.push(`/${orgSlug!}/${baseURL}/${selectedTab!.href}`, undefined, { scroll: false });
   };
 
   return (
@@ -95,7 +95,7 @@ const Tabs = ({ baseURL, className, tabs, children, breakpoint, routeIndex }: Pr
               <Link
                 key={tab.name}
                 scroll={false}
-                href={`/${orgSlug}/${baseURL}/${tab.href}`}
+                href={`/${orgSlug!}/${baseURL}/${tab.href}`}
                 className={classNames(
                   isNavActive(tab)
                     ? 'border-indigo-500 text-indigo-600'

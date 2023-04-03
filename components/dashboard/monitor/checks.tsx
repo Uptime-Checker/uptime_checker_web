@@ -18,21 +18,21 @@ const ChecksComponent = ({ checks, monitorId, className }: ChecksProps) => {
 
   const getLink = (check: Check) => {
     if (monitorId) {
-      return `/${orgSlug}/monitors/${monitorId}/checks/${check.id}`;
+      return `/${orgSlug!}/monitors/${monitorId}/checks/${check.id}`;
     }
-    return `/${orgSlug}/monitors/${check.monitor?.id}/checks/${check.id}`;
+    return `/${orgSlug!}/monitors/${check.monitor?.id}/checks/${check.id}`;
   };
 
   const getMonitor = (check: Check) => {
     return check.monitor ? (
       <div className="mt-1 text-sm font-medium text-indigo-600">
-        <Link href={`/${orgSlug}/monitors/${check.monitor.id}/overview`}>{check.monitor.name}</Link>
+        <Link href={`/${orgSlug!}/monitors/${check.monitor?.id}/overview`}>{check.monitor.name}</Link>
       </div>
     ) : null;
   };
 
   const getResponseTimes = (): Map<ResponseTimeKey, number> => {
-    let responseTimes = new Map<ResponseTimeKey, number>();
+    const responseTimes = new Map<ResponseTimeKey, number>();
     responseTimes.set(ResponseTimeKey.TotalTime, 2562.416041);
     responseTimes.set(ResponseTimeKey.DNSLookupTime, 445.246375);
     responseTimes.set(ResponseTimeKey.TLSHandshakeTime, 825.888208);
@@ -47,7 +47,7 @@ const ChecksComponent = ({ checks, monitorId, className }: ChecksProps) => {
         <li key={event.id}>
           <div className="relative pb-8">
             {eventIdx !== checks.length - 1 ? (
-              <span className="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true" />
+              <span className="absolute left-4 top-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true" />
             ) : null}
             <div className="relative flex items-start space-x-3">
               <div>
