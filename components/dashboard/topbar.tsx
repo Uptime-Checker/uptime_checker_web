@@ -6,9 +6,10 @@ import { useAtom } from 'jotai';
 import { logout } from 'lib/global';
 import { classNames } from 'lib/tailwind/utils';
 import Image from 'next/image';
+import * as Sentry from '@sentry/nextjs';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { Fragment, MouseEvent, ReactNode, useEffect, useState } from 'react';
+import { Fragment, ReactNode, useEffect, useState } from 'react';
 import { globalAtom } from 'store/global';
 
 const userNavigation = [
@@ -30,12 +31,12 @@ const TopBar = ({ className }: Props) => {
   useEffect(() => {
     if (router.isReady) return;
 
-    let splitRouterHref = router.pathname.split('/');
+    const splitRouterHref = router.pathname.split('/');
     setShowSearch(splitRouterHref[2] === 'monitors' && splitRouterHref.length === 3);
   }, [router]);
 
-  const handleLogout = async (_: MouseEvent<HTMLButtonElement>) => {
-    await logout();
+  const handleLogout = () => {
+    logout().catch((e) => Sentry.captureException(e));
   };
 
   const toggleSidebar = () =>
@@ -135,7 +136,7 @@ const TopBar = ({ className }: Props) => {
                             href={item.href}
                             className={classNames(
                               active ? 'bg-gray-100 text-gray-900' : '',
-                              'block py-2 px-4 text-sm text-gray-700'
+                              'block px-4 py-2 text-sm text-gray-700'
                             )}
                           >
                             {item.name}

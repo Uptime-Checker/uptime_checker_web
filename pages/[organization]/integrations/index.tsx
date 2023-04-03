@@ -53,12 +53,12 @@ const Integrations: NextPageWithLayout = () => {
                 <div className="grow">
                   <b className="text-neutral-800">{integration.name}</b>
                   <p className="text-sm text-gray-700">
-                    Post new {AppName} incidents to {integration.name}
+                    Post new {AppName!} incidents to {integration.name}
                   </p>
                 </div>
                 <a
                   type="button"
-                  className="cursor-pointer rounded-md bg-indigo-600 py-2.5 px-3.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  className="cursor-pointer rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
                   Add
                 </a>

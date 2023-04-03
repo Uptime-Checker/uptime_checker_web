@@ -24,7 +24,7 @@ export const GuestLoginEmail = ({ magicLink }: GuestLoginEmailProps) => (
         </Section>
         <Text style={paragraph}>
           Best,
-          <br />- {AppName} Team
+          <br />- {AppName!} Team
         </Text>
         <Hr style={hr} />
         <Img

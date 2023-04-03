@@ -11,7 +11,7 @@ import {
   PLEASE_CONTACT_SUPPORT,
 } from 'constants/ui-text';
 import produce from 'immer';
-import { authRequest, HTTPMethod } from 'lib/axios';
+import { HTTPMethod, authRequest } from 'lib/axios';
 import { getCurrentUser, logout, redirectToDashboard, setCurrentUser } from 'lib/global';
 import { OrganizationResponse, UserResponse } from 'models/user';
 import Head from 'next/head';
@@ -27,9 +27,9 @@ export default function Onboarding() {
   const [alertState, setAlertState] = useState({ on: false, success: true, title: '', detail: '' });
 
   useEffect(() => {
-    let user = getCurrentUser();
+    const user = getCurrentUser();
     if (!user) {
-      logout().then((_) => { });
+      logout().catch((e) => Sentry.captureException(e));
     } else {
       authRequest<UserResponse>({ method: HTTPMethod.GET, url: '/user/me' })
         .then((resp) => {
@@ -146,7 +146,7 @@ export default function Onboarding() {
         detail={alertState.detail}
         onClose={onAlertClose}
       />
-      <div className="w-full py-10 sm:mx-auto sm:max-w-lg sm:py-32 sm:px-6 lg:px-8">
+      <div className="w-full py-10 sm:mx-auto sm:max-w-lg sm:px-6 sm:py-32 lg:px-8">
         <form
           className="flex flex-col items-center justify-center space-y-6 sm:mx-auto sm:w-full sm:max-w-2xl"
           onSubmit={handleFormSubmit}

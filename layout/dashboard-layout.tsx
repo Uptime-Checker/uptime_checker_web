@@ -34,7 +34,7 @@ export default function DashboardLayout({ children }: Props) {
     authRequest<UserResponse>({ method: HTTPMethod.GET, url: '/user/me' })
       .then((fullInfoResp) => {
         let user = fullInfoResp.data.data;
-        setCurrentUser(user).catch(console.error);
+        setCurrentUser(user).catch((e) => Sentry.captureException(e));
         setGlobal((draft) => {
           draft.currentUser = user;
         });

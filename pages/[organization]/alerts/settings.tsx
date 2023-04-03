@@ -6,9 +6,9 @@ import { ReactElement } from 'react';
 
 const GlobalAlertSettings: NextPageWithLayout = () => {
   return (
-    <section className="mx-auto mt-6 mb-10 max-w-7xl px-4 sm:px-6 md:px-8">
+    <section className="mx-auto mb-10 mt-6 max-w-7xl px-4 sm:px-6 md:px-8">
       <AlertSettingsComponent
-        text={`Global alert settings determine when and how often ${AppName} sends you notifications on your configured alert
+        text={`Global alert settings determine when and how often ${AppName!} sends you notifications on your configured alert
   channels. You can override the global settings at monitor level`}
       />
     </section>
