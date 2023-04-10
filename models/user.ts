@@ -76,6 +76,7 @@ export interface User {
   Organization: Organization;
   Role: Role;
   Subscription: Subscription;
+  Token?: string;
 }
 
 export interface UserResponse {

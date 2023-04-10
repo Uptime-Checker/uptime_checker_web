@@ -13,7 +13,7 @@ import { CacheKey, cacheUtil } from 'lib/cache';
 import { getCurrentUser, redirectToDashboard, setAccessToken, setCurrentUser } from 'lib/global';
 import { getSessionUser } from 'lib/session/user';
 import { withSessionSsr } from 'lib/session/withSession';
-import { GuestUserResponse, UserResponse } from 'models/user';
+import { GuestUserResponse, User, UserResponse } from 'models/user';
 import { signIn, useSession } from 'next-auth/react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -21,7 +21,11 @@ import { FormEvent, useCallback, useEffect, useState } from 'react';
 import { ElixirError } from 'types/error';
 import { toUpper } from 'utils/misc';
 
-export default function Auth() {
+interface Props {
+  user: User | null;
+}
+
+export default function Auth({ user }: Props) {
   const router = useRouter();
   const [loading, setLoading] = useState({ on: false, email: false, google: false, github: false });
   const [alertState, setAlertState] = useState({ on: false, success: true, title: '', detail: '' });
@@ -50,33 +54,14 @@ export default function Auth() {
   useEffect(() => {
     if (!router.isReady) return;
 
-    async function getMe() {
-      try {
-        const { data } = await authRequest<UserResponse>({ method: HTTPMethod.GET, url: '/user/me' }, false);
-        await setCurrentUser(data.data);
-        redirectToDashboard(data.data);
-      } catch (error) {
-        Sentry.captureException(error);
-        processLoading(false, false, false, false);
-      }
-    }
-
-    const user = getCurrentUser();
     if (user) {
+      setCurrentUser(user).catch(Sentry.captureException);
+      setAccessToken(user.Token!);
       redirectToDashboard(user);
     } else {
-      if (status === SESSION_STATUS_AUTHENTICATED && session.accessToken) {
-        processProviderLoading(session?.provider, true);
-        setAccessToken(session.accessToken);
-        getMe().catch(console.error);
-      } else {
-        processLoading(false, false, false, false);
-      }
-    }
-    return () => {
       processLoading(false, false, false, false);
-    };
-  }, [processProviderLoading, router, session, status]);
+    }
+  }, [processProviderLoading, router, user]);
 
   const handleProviderClick = async (provider: string) => {
     closeAlert();
@@ -238,9 +223,5 @@ export default function Auth() {
 
 export const getServerSideProps = withSessionSsr(async function getServerSideProps(ctx) {
   const user = await getSessionUser(ctx);
-  if (user) {
-    const nextPath = user.Organization ? `${user.Organization.Slug}/monitors` : 'onboarding';
-    return { redirect: { permanent: false, destination: `/${nextPath}` }, props: {} };
-  }
-  return { props: {} };
+  return { props: { user: user } };
 });

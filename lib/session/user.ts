@@ -26,7 +26,9 @@ export const getSessionUser = async (ctx: GetServerSidePropsContext) => {
       },
     });
 
-    return data.data;
+    const user = data.data;
+    user.Token = accessToken;
+    return user;
   } catch (error) {
     Sentry.captureException(error);
     return null;
