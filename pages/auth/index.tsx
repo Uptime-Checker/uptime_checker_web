@@ -19,6 +19,7 @@ import { useRouter } from 'next/router';
 import { FormEvent, useCallback, useEffect, useState } from 'react';
 import { ElixirError } from 'types/error';
 import { toUpper } from 'utils/misc';
+import { classNames } from 'lib/tailwind/utils';
 
 interface Props {
   user: User | null;
@@ -26,6 +27,7 @@ interface Props {
 
 export default function Auth({ user }: Props) {
   const router = useRouter();
+  const [hidden, setHidden] = useState(true);
   const [loading, setLoading] = useState({ on: false, email: false, google: false, github: false });
   const [alertState, setAlertState] = useState({ on: false, success: true, title: '', detail: '' });
 
@@ -56,6 +58,7 @@ export default function Auth({ user }: Props) {
       setAccessToken(user.Token!);
       redirectToDashboard(user);
     } else {
+      setHidden(false);
       processLoading(false, false, false, false);
     }
   }, [router.isReady, user]);
@@ -105,7 +108,7 @@ export default function Auth({ user }: Props) {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className={classNames('min-h-screen bg-gray-50', hidden ? 'hidden' : '')}>
       <Head>
         <title>Auth</title>
       </Head>

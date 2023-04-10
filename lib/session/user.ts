@@ -2,7 +2,6 @@ import { GetServerSidePropsContext } from 'next';
 import { isEmpty } from 'utils/misc';
 import { authOptions } from 'pages/api/auth/[...nextauth]';
 import { getServerSession } from 'next-auth';
-import * as Sentry from '@sentry/nextjs';
 import { apiClient } from 'lib/axios';
 import { UserResponse } from 'models/user';
 
@@ -30,7 +29,6 @@ export const getSessionUser = async (ctx: GetServerSidePropsContext) => {
     user.Token = accessToken;
     return user;
   } catch (error) {
-    Sentry.captureException(error);
     return null;
   }
 };
