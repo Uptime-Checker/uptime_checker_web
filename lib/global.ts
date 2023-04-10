@@ -61,6 +61,10 @@ export const logout = async () => {
   }
 };
 
+export const redirectToAuth = () => {
+  window.location.replace(`${window.location.origin}/auth`);
+};
+
 export const redirectToDashboard = (user: User) => {
   const nextPath = user.Organization ? `${user.Organization.Slug}/monitors` : 'onboarding';
   window.location.replace(`${window.location.origin}/${nextPath}`);
