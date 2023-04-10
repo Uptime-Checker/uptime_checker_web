@@ -4,11 +4,11 @@ import { AuthSchemeJWT, SessionTokenExpirationInDays } from 'constants/default';
 import { apiClient } from 'lib/axios';
 import { prisma } from 'lib/prisma';
 import { AccessTokenResponse, GetLoginProvider } from 'models/user';
-import NextAuth from 'next-auth';
+import NextAuth, { AuthOptions } from 'next-auth';
 import Github from 'next-auth/providers/github';
 import Google from 'next-auth/providers/google';
 
-export default NextAuth({
+export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
     Github({
@@ -62,4 +62,6 @@ export default NextAuth({
       return token;
     },
   },
-});
+};
+
+export default NextAuth(authOptions);

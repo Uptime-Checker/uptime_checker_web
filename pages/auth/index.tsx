@@ -19,6 +19,8 @@ import { useRouter } from 'next/router';
 import { FormEvent, useCallback, useEffect, useState } from 'react';
 import { ElixirError } from 'types/error';
 import { isEmpty, toUpper } from 'utils/misc';
+import { getServerSession } from 'next-auth';
+import { authOptions } from 'pages/api/auth/[...nextauth]';
 
 export default function Auth() {
   const router = useRouter();
@@ -236,10 +238,16 @@ export default function Auth() {
 }
 
 export const getServerSideProps = withSessionSsr(async function getServerSideProps(ctx) {
-  const accessToken = ctx.req.session.accessToken;
+  // if iron session has the token
+  let accessToken = ctx.req.session.accessToken;
 
   if (isEmpty(accessToken)) {
-    return { props: {} };
+    // if next auth has the token
+    const session = await getServerSession(ctx.req, ctx.res, authOptions);
+    if (!session || isEmpty(session.accessToken)) {
+      return { props: {} };
+    }
+    accessToken = session.accessToken;
   }
 
   try {
