@@ -1,6 +1,6 @@
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import * as Sentry from '@sentry/nextjs';
-import { AuthSchemeJWT } from 'constants/default';
+import { AuthSchemeJWT, SessionTokenExpirationInDays } from 'constants/default';
 import { apiClient } from 'lib/axios';
 import { prisma } from 'lib/prisma';
 import { AccessTokenResponse, GetLoginProvider } from 'models/user';
@@ -22,6 +22,7 @@ export default NextAuth({
   ],
   session: {
     strategy: AuthSchemeJWT,
+    maxAge: SessionTokenExpirationInDays * 24 * 60 * 60, // 6 months
   },
   callbacks: {
     redirect({ url, baseUrl }) {
