@@ -198,12 +198,13 @@ const Monitors: NextPageWithLayout = () => {
           <p className="ml-0.5 truncate text-sm text-slate-500 sm:ml-2">Last 10 Days</p>
         </div>
 
-        <button
+        <Link
           type="button"
+          href={`/${orgSlug!}/monitors/add`}
           className="rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"
         >
           Add Monitor
-        </button>
+        </Link>
       </section>
 
       <div className="-mx-4 mt-8 overflow-auto shadow ring-1 ring-black ring-opacity-5 sm:-mx-6 md:mx-0 md:rounded-lg">

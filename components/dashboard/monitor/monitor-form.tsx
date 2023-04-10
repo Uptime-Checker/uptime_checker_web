@@ -1,12 +1,14 @@
+import Link from 'next/link';
+
 const MonitorFormComponent = () => {
   return (
     <form>
       <div className="space-y-12">
-        <div className="grid grid-cols-1 gap-y-10 gap-x-8 border-b border-gray-900/10 pb-12 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3">
           <div>
-            <h2 className="text-base font-semibold leading-7 text-gray-900">Profile</h2>
+            <h2 className="text-base font-semibold leading-7 text-gray-900">Monitor</h2>
             <p className="mt-1 text-sm leading-6 text-gray-600">
-              This information will be displayed publicly so be careful what you share.
+              This is the basic information we need to start monitoring. For more settings, keep scrolling.
             </p>
           </div>
 
@@ -43,16 +45,62 @@ const MonitorFormComponent = () => {
                 </div>
               </div>
             </div>
+            <div className="sm:col-span-3">
+              <label htmlFor="location" className="block text-sm font-medium leading-6 text-gray-900">
+                Location
+              </label>
+              <select
+                id="location"
+                name="location"
+                className="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                defaultValue="Every 3 Minutes"
+              >
+                <option>Every 1 Minute</option>
+                <option>Every 3 Minutes</option>
+                <option>Every 5 Minutes</option>
+                <option>Every 10 Minutes</option>
+              </select>
+            </div>
+            <div className="relative isolate gap-x-6 overflow-hidden rounded-md bg-gray-50 px-6 py-2.5 sm:col-span-3 sm:px-3.5 sm:before:flex-1">
+              <div
+                className="absolute left-[max(-7rem,calc(50%-52rem))] top-1/2 -z-10 -translate-y-1/2 transform-gpu blur-2xl"
+                aria-hidden="true"
+              >
+                <div
+                  className="aspect-[577/310] w-[36.0625rem] bg-gradient-to-r from-[#ff80b5] to-[#9089fc] opacity-30"
+                  style={{
+                    clipPath:
+                      'polygon(74.8% 41.9%, 97.2% 73.2%, 100% 34.9%, 92.5% 0.4%, 87.5% 0%, 75% 28.6%, 58.5% 54.6%, 50.1% 56.8%, 46.9% 44%, 48.3% 17.4%, 24.7% 53.9%, 0% 27.9%, 11.9% 74.2%, 24.9% 54.1%, 68.6% 100%, 74.8% 41.9%)',
+                  }}
+                />
+              </div>
+              <div
+                className="absolute left-[max(45rem,calc(50%+8rem))] top-1/2 -z-10 -translate-y-1/2 transform-gpu blur-2xl"
+                aria-hidden="true"
+              >
+                <div
+                  className="aspect-[577/310] w-[36.0625rem] bg-gradient-to-r from-[#ff80b5] to-[#9089fc] opacity-30"
+                  style={{
+                    clipPath:
+                      'polygon(74.8% 41.9%, 97.2% 73.2%, 100% 34.9%, 92.5% 0.4%, 87.5% 0%, 75% 28.6%, 58.5% 54.6%, 50.1% 56.8%, 46.9% 44%, 48.3% 17.4%, 24.7% 53.9%, 0% 27.9%, 11.9% 74.2%, 24.9% 54.1%, 68.6% 100%, 74.8% 41.9%)',
+                  }}
+                />
+              </div>
+              <Link href="">
+                <p className="text-center font-semibold">Unlock faster monitoring</p>
+                <p className="text-center font-semibold">Try it in our 14-day free trial</p>
+              </Link>
+            </div>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 gap-y-10 gap-x-8 border-b border-gray-900/10 pb-12 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3">
           <div>
             <h2 className="text-base font-semibold leading-7 text-gray-900">Personal Information</h2>
             <p className="mt-1 text-sm leading-6 text-gray-600">Use a permanent address where you can receive mail.</p>
           </div>
 
-          <div className="grid max-w-2xl grid-cols-1 gap-y-8 gap-x-6 sm:grid-cols-6 md:col-span-2">
+          <div className="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 md:col-span-2">
             <div className="sm:col-span-3">
               <label htmlFor="first-name" className="block text-sm font-medium leading-6 text-gray-900">
                 First name
@@ -178,7 +226,7 @@ const MonitorFormComponent = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 gap-y-10 gap-x-8 border-b border-gray-900/10 pb-12 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3">
           <div>
             <h2 className="text-base font-semibold leading-7 text-gray-900">Notifications</h2>
             <p className="mt-1 text-sm leading-6 text-gray-600">
