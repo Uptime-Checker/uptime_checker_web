@@ -15,3 +15,5 @@ export const ProviderNameGoogle = 'google';
 export const ProviderNameGithub = 'github';
 
 export const AuthSchemeJWT = 'jwt';
+
+export const SessionTokenExpirationInDays = 180;

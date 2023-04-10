@@ -1,7 +1,8 @@
 // this file is a wrapper with defaults to be used in both API routes and `getServerSideProps` functions
-import { NODE_ENV_PROD } from 'constants/default';
+import { NODE_ENV_PROD, SessionTokenExpirationInDays } from 'constants/default';
 import type { IronSessionOptions } from 'iron-session';
 import { AppName } from 'lib/global';
+import { addDays } from 'utils/misc';
 
 export const sessionOptions: IronSessionOptions = {
   password: process.env.NEXTAUTH_SECRET!,
@@ -9,6 +10,7 @@ export const sessionOptions: IronSessionOptions = {
   // secure: true should be used in production (HTTPS) but can't be used in development (HTTP)
   cookieOptions: {
     secure: process.env.NODE_ENV === NODE_ENV_PROD,
+    expires: addDays(new Date(), SessionTokenExpirationInDays),
   },
 };
 

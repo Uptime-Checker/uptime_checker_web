@@ -6,6 +6,11 @@ export const toUpper = (str: string) => {
 };
 
 export const sanitizeString = (str: string) => {
-  let newStr = str.replace(/[^a-z0-9áéíóúñü _-]/gim, '');
+  const newStr = str.replace(/[^a-z0-9áéíóúñü _-]/gim, '');
   return newStr.trim();
+};
+
+export const addDays = (date: Date, days: number) => {
+  date.setDate(date.getDate() + days);
+  return date;
 };
