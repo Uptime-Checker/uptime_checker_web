@@ -6,7 +6,7 @@ import * as Sentry from '@sentry/nextjs';
 import { apiClient } from 'lib/axios';
 import { UserResponse } from 'models/user';
 
-export const getUser = async (ctx: GetServerSidePropsContext) => {
+export const getSessionUser = async (ctx: GetServerSidePropsContext) => {
   // if iron session has the token
   let accessToken = ctx.req.session.accessToken;
 

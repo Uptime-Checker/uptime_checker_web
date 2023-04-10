@@ -8,9 +8,10 @@ import LogoWithoutText from 'components/logo/logo-without-text';
 import { ProviderNameGithub, ProviderNameGoogle, SESSION_STATUS_AUTHENTICATED } from 'constants/default';
 import { AUTH_FAIL_COULD_NOT_SEND_MAGIC_LINK } from 'constants/ui-text';
 import produce from 'immer';
-import { HTTPMethod, authRequest, apiClient } from 'lib/axios';
+import { HTTPMethod, authRequest } from 'lib/axios';
 import { CacheKey, cacheUtil } from 'lib/cache';
 import { getCurrentUser, redirectToDashboard, setAccessToken, setCurrentUser } from 'lib/global';
+import { getSessionUser } from 'lib/session/user';
 import { withSessionSsr } from 'lib/session/withSession';
 import { GuestUserResponse, UserResponse } from 'models/user';
 import { signIn, useSession } from 'next-auth/react';
@@ -18,9 +19,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { FormEvent, useCallback, useEffect, useState } from 'react';
 import { ElixirError } from 'types/error';
-import { isEmpty, toUpper } from 'utils/misc';
-import { getServerSession } from 'next-auth';
-import { authOptions } from 'pages/api/auth/[...nextauth]';
+import { toUpper } from 'utils/misc';
 
 export default function Auth() {
   const router = useRouter();
@@ -238,37 +237,10 @@ export default function Auth() {
 }
 
 export const getServerSideProps = withSessionSsr(async function getServerSideProps(ctx) {
-  // if iron session has the token
-  let accessToken = ctx.req.session.accessToken;
-
-  if (isEmpty(accessToken)) {
-    // if next auth has the token
-    const session = await getServerSession(ctx.req, ctx.res, authOptions);
-    if (!session || isEmpty(session.accessToken)) {
-      return { props: {} };
-    }
-    accessToken = session.accessToken;
-  }
-
-  try {
-    const { data } = await apiClient.get<UserResponse>('/user/me', {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-
-    const user = data.data;
+  const user = await getSessionUser(ctx);
+  if (user) {
     const nextPath = user.Organization ? `${user.Organization.Slug}/monitors` : 'onboarding';
-    return {
-      redirect: {
-        permanent: false,
-        destination: `/${nextPath}`,
-      },
-      props: {},
-    };
-  } catch (error) {
-    Sentry.captureException(error);
+    return { redirect: { permanent: false, destination: `/${nextPath}` }, props: {} };
   }
-
   return { props: {} };
 });
