@@ -8,16 +8,17 @@ import LogoWithoutText from 'components/logo/logo-without-text';
 import { ProviderNameGithub, ProviderNameGoogle, SESSION_STATUS_AUTHENTICATED } from 'constants/default';
 import { AUTH_FAIL_COULD_NOT_SEND_MAGIC_LINK } from 'constants/ui-text';
 import produce from 'immer';
-import { authRequest, HTTPMethod } from 'lib/axios';
+import { HTTPMethod, authRequest, apiClient } from 'lib/axios';
 import { CacheKey, cacheUtil } from 'lib/cache';
 import { getCurrentUser, redirectToDashboard, setAccessToken, setCurrentUser } from 'lib/global';
+import { withSessionSsr } from 'lib/session/withSession';
 import { GuestUserResponse, UserResponse } from 'models/user';
 import { signIn, useSession } from 'next-auth/react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { FormEvent, useCallback, useEffect, useState } from 'react';
 import { ElixirError } from 'types/error';
-import { toUpper } from 'utils/misc';
+import { isEmpty, toUpper } from 'utils/misc';
 
 export default function Auth() {
   const router = useRouter();
@@ -96,7 +97,7 @@ export default function Auth() {
       cacheUtil.set(CacheKey.Email, data.data.Email);
       await router.push('/auth/email-sent');
     } catch (error) {
-      if (error instanceof AxiosError) {
+      if (axios.isAxiosError(error)) {
         const elixirError = (error as AxiosError).response?.data as ElixirError;
         setAlertState({
           on: true,
@@ -145,7 +146,7 @@ export default function Auth() {
         </div>
 
         <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-          <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+          <div className="bg-white px-4 py-8 shadow sm:rounded-lg sm:px-10">
             <form className="space-y-6" onSubmit={handleEmailSubmit}>
               <div>
                 <label htmlFor="email" className="block text-sm font-medium text-gray-700">
@@ -168,7 +169,7 @@ export default function Auth() {
               <div>
                 <button
                   type="submit"
-                  className="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4
+                  className="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2
                     text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none
                     focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:pointer-events-none"
                   disabled={loading.on}
@@ -194,7 +195,7 @@ export default function Auth() {
                   <button
                     type="button"
                     className="flex w-full items-center justify-center rounded-md border border-indigo-600 bg-white
-                      py-2 px-4 font-medium text-indigo-600 shadow-sm hover:bg-indigo-100 focus:outline-none
+                      px-4 py-2 font-medium text-indigo-600 shadow-sm hover:bg-indigo-100 focus:outline-none
                       focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:pointer-events-none"
                     onClick={() => handleProviderClick(ProviderNameGithub)}
                     disabled={loading.on}
@@ -213,7 +214,7 @@ export default function Auth() {
                   <button
                     type="button"
                     className="flex w-full items-center justify-center rounded-md border border-indigo-600 bg-white
-                      py-2 px-4 font-medium text-indigo-600 shadow-sm hover:bg-indigo-100 focus:outline-none
+                      px-4 py-2 font-medium text-indigo-600 shadow-sm hover:bg-indigo-100 focus:outline-none
                       focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:pointer-events-none"
                     onClick={() => handleProviderClick(ProviderNameGoogle)}
                     disabled={loading.on}
@@ -233,3 +234,33 @@ export default function Auth() {
     </div>
   );
 }
+
+export const getServerSideProps = withSessionSsr(async function getServerSideProps(ctx) {
+  const accessToken = ctx.req.session.accessToken;
+
+  if (isEmpty(accessToken)) {
+    return { props: {} };
+  }
+
+  try {
+    const { data } = await apiClient.get<UserResponse>('/user/me', {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    const user = data.data;
+    const nextPath = user.Organization ? `${user.Organization.Slug}/monitors` : 'onboarding';
+    return {
+      redirect: {
+        permanent: false,
+        destination: `/${nextPath}`,
+      },
+      props: {},
+    };
+  } catch (error) {
+    Sentry.captureException(error);
+  }
+
+  return { props: {} };
+});

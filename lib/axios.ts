@@ -1,4 +1,4 @@
-import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, HttpStatusCode } from 'axios';
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, HttpStatusCode } from 'axios';
 import { getAccessToken, logout } from './global';
 
 export enum HTTPMethod {
@@ -40,7 +40,7 @@ export const authRequest = async <T = any, R = AxiosResponse<T>, D = any>(
     return await client.request<T, R, D>(config);
   } catch (error) {
     if (
-      error instanceof AxiosError &&
+      axios.isAxiosError(error) &&
       error.response &&
       error.response.status === HttpStatusCode.Unauthorized &&
       shouldLogout

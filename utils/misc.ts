@@ -14,3 +14,10 @@ export const addDays = (date: Date, days: number) => {
   date.setDate(date.getDate() + days);
   return date;
 };
+
+export const isEmpty = (str: string) => {
+  if (str === undefined || str === null) {
+    return true;
+  }
+  return str === '';
+};

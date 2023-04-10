@@ -13,8 +13,8 @@ interface Props {
   accessToken: string;
 }
 
-export const getServerSideProps = withSessionSsr(function getServerSideProps({ req }) {
-  const accessToken = req.session.accessToken;
+export const getServerSideProps = withSessionSsr(function getServerSideProps(ctx) {
+  const accessToken = ctx.req.session.accessToken;
 
   return {
     props: {

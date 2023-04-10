@@ -50,9 +50,11 @@ export const getAccessToken = () => {
 
 export const logout = async () => {
   try {
+    // iron session
     await axios.post('/api/logout');
     cacheUtil.remove(CacheKey.AccessToken);
     cacheUtil.remove(CacheKey.CurrentUser);
+    // next auth
     await signOut({ callbackUrl: `${window.location.origin}/auth` });
   } catch (error) {
     Sentry.captureException(error);
