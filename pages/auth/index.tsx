@@ -5,16 +5,15 @@ import GithubIcon from 'components/icon/github';
 import GoogleIcon from 'components/icon/google';
 import LoadingIcon from 'components/icon/loading';
 import LogoWithoutText from 'components/logo/logo-without-text';
-import { ProviderNameGithub, ProviderNameGoogle, SESSION_STATUS_AUTHENTICATED } from 'constants/default';
+import { ProviderNameGithub, ProviderNameGoogle } from 'constants/default';
 import { AUTH_FAIL_COULD_NOT_SEND_MAGIC_LINK } from 'constants/ui-text';
 import produce from 'immer';
-import { HTTPMethod, authRequest } from 'lib/axios';
 import { CacheKey, cacheUtil } from 'lib/cache';
-import { getCurrentUser, redirectToDashboard, setAccessToken, setCurrentUser } from 'lib/global';
+import { redirectToDashboard, setAccessToken, setCurrentUser } from 'lib/global';
 import { getSessionUser } from 'lib/session/user';
 import { withSessionSsr } from 'lib/session/withSession';
-import { GuestUserResponse, User, UserResponse } from 'models/user';
-import { signIn, useSession } from 'next-auth/react';
+import { GuestUserResponse, User } from 'models/user';
+import { signIn } from 'next-auth/react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { FormEvent, useCallback, useEffect, useState } from 'react';
@@ -29,8 +28,6 @@ export default function Auth({ user }: Props) {
   const router = useRouter();
   const [loading, setLoading] = useState({ on: false, email: false, google: false, github: false });
   const [alertState, setAlertState] = useState({ on: false, success: true, title: '', detail: '' });
-
-  const { data: session, status } = useSession();
 
   const processLoading = (on: boolean, email: boolean, google: boolean, github: boolean) => {
     setLoading(
@@ -61,7 +58,7 @@ export default function Auth({ user }: Props) {
     } else {
       processLoading(false, false, false, false);
     }
-  }, [processProviderLoading, router, user]);
+  }, [router.isReady, user]);
 
   const handleProviderClick = async (provider: string) => {
     closeAlert();
