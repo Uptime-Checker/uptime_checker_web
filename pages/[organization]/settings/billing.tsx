@@ -1,10 +1,10 @@
-import { CheckIcon } from '@heroicons/react/24/outline';
+import { RadioGroup } from '@headlessui/react';
+import { CheckIcon, KeyIcon } from '@heroicons/react/24/outline';
 import DashboardLayout from 'layout/dashboard-layout';
 import SettingsLayout from 'layout/settings-layout';
 import { classNames } from 'lib/tailwind/utils';
 import { ReactElement, useState } from 'react';
 import { NextPageWithLayout } from '../../_app';
-import { RadioGroup } from '@headlessui/react';
 
 const pricing = {
   frequencies: [
@@ -68,12 +68,18 @@ const Billing: NextPageWithLayout = () => {
   const [frequency, setFrequency] = useState(pricing.frequencies[0]);
 
   return (
-    <div className="mx-auto max-w-7xl bg-white py-10">
-      <div className="sm:align-center sm:flex sm:flex-col">
-        <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-center sm:text-2xl sm:leading-none lg:text-3xl">
-          Pricing plans for teams of all sizes
+    <div className="mx-auto mt-5 max-w-7xl bg-white pb-10 sm:mt-10">
+      <div className="relative sm:flex sm:flex-col">
+        <div className="absolute text-center sm:right-0 lg:mt-2">
+          <a href="" className="flex items-center gap-1 text-sm text-indigo-600">
+            <KeyIcon className="h-5 w-5" />
+            <p>Customer Portal</p>
+          </a>
+        </div>
+        <h2 className="pt-8 text-3xl font-bold tracking-tight text-gray-900 sm:pt-0 sm:text-2xl sm:leading-none lg:text-center lg:text-3xl">
+          Upgrade your subscription
         </h2>
-        <p className="mt-3 text-gray-500 sm:text-center">All plans come with a 30-day money-back guarantee</p>
+        <p className="mt-3 text-gray-500 lg:text-center">All plans come with a 30-day money-back guarantee</p>
 
         {/* Toggle */}
         <div className="relative mt-6 flex justify-center sm:mt-8">
@@ -102,7 +108,7 @@ const Billing: NextPageWithLayout = () => {
       </div>
 
       {/* Tiers */}
-      <div className="mt-12 space-y-4 sm:mt-16 sm:grid sm:grid-cols-2 sm:gap-6 sm:space-y-0 lg:mx-auto lg:max-w-4xl xl:mx-0 xl:max-w-none xl:grid-cols-4">
+      <div className="mt-12 space-y-8 sm:mt-16 sm:grid sm:grid-cols-2 sm:gap-6 sm:space-y-0 lg:mx-auto lg:max-w-4xl xl:mx-0 xl:max-w-none xl:grid-cols-4">
         {pricing.tiers.map((tier) => (
           <div
             key={tier.title}
