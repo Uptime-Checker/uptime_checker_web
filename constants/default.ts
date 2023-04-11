@@ -9,7 +9,7 @@ export const getDefaultFromEmail = () => {
 export const NODE_ENV_DEV = 'development';
 export const NODE_ENV_PROD = 'production';
 
-export const STRIPE_API_VERSION = '2022-08-01';
+export const STRIPE_API_VERSION = '2022-11-15';
 
 export const ProviderNameGoogle = 'google';
 export const ProviderNameGithub = 'github';

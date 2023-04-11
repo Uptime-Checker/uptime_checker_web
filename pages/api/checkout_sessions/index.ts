@@ -1,7 +1,7 @@
-import { STRIPE_API_VERSION } from 'lib/constants';
+import { STRIPE_API_VERSION } from 'constants/default';
+import { HTTPMethod } from 'lib/axios';
 import { NextApiRequest, NextApiResponse } from 'next';
 import Stripe from 'stripe';
-import { HTTPMethod } from 'models/monitor';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: STRIPE_API_VERSION,
@@ -21,8 +21,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             quantity: 1,
           },
         ],
-        success_url: `${req.headers.origin}/dashboard/payment/result?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `${req.headers.origin}/dashboard/payment/canceled?session_id={CHECKOUT_SESSION_ID}`,
+        success_url: `${req.headers.origin!}/dashboard/payment/result?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${req.headers.origin!}/dashboard/payment/canceled?session_id={CHECKOUT_SESSION_ID}`,
       };
       const checkoutSession = await stripe.checkout.sessions.create(params);
 
