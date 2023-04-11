@@ -13,8 +13,8 @@ import { AccessTokenResponse, GuestUserResponse } from 'models/user';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { ElixirError } from 'types/error';
 
-const emailHtml = (email: string, code: string) => {
-  const link = `https://www.${process.env.HOST!}/api/guest?email=${email}&code=${code}`;
+const emailHtml = (origin: string, email: string, code: string) => {
+  const link = `${origin}/api/guest?email=${email}&code=${code}`;
   return render(Email({ magicLink: link }), { pretty: true });
 };
 
@@ -62,7 +62,7 @@ async function handler(
         getDefaultFromEmail(),
         data.data.Email,
         `Sign in to ${AppName!}`,
-        emailHtml(data.data.Email, data.data.Code!)
+        emailHtml(req.headers.origin!, data.data.Email, data.data.Code!)
       );
       res.status(200).json({ data: { ID: data.data.ID, Email: data.data.Email, ExpiresAt: data.data.ExpiresAt } });
     } catch (error) {
