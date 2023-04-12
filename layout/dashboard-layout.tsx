@@ -10,6 +10,7 @@ import { OrganizationUserResponse, User, UserResponse } from 'models/user';
 import { useRouter } from 'next/router';
 import { ReactNode, useCallback, useEffect } from 'react';
 import { globalAtom } from 'store/global';
+import { ProductResponse } from 'models/subscription';
 
 type Props = {
   children: ReactNode;
@@ -32,6 +33,12 @@ export default function DashboardLayout({ children }: Props) {
         setGlobal((draft) => {
           draft.organizations = organizationUserResponse.data.data;
         });
+
+        const productResponse = await authRequest<ProductResponse>({
+          method: HTTPMethod.GET,
+          url: '/product/internal',
+        });
+        console.log(productResponse.data);
 
         if (user.Subscription.Plan.ID !== FREE_PLAN_ID) {
           LiveChat.load();
