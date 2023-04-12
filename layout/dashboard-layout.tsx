@@ -6,9 +6,9 @@ import { useAtom } from 'jotai';
 import { authRequest, HTTPMethod } from 'lib/axios';
 import * as LiveChat from 'lib/crisp';
 import { getCurrentUser, logout, redirectToDashboard, setCurrentUser } from 'lib/global';
-import { OrganizationUserResponse, UserResponse } from 'models/user';
+import { OrganizationUserResponse, User, UserResponse } from 'models/user';
 import { useRouter } from 'next/router';
-import { ReactNode, useEffect } from 'react';
+import { ReactNode, useCallback, useEffect } from 'react';
 import { globalAtom } from 'store/global';
 
 type Props = {
@@ -20,6 +20,29 @@ let gotUserInfo = false;
 export default function DashboardLayout({ children }: Props) {
   const router = useRouter();
   const [, setGlobal] = useAtom(globalAtom);
+
+  const runDeferred = useCallback(
+    async (user: User) => {
+      // Do everything that was deferred
+      try {
+        const organizationUserResponse = await authRequest<OrganizationUserResponse>({
+          method: HTTPMethod.GET,
+          url: '/organization/list',
+        });
+        setGlobal((draft) => {
+          draft.organizations = organizationUserResponse.data.data;
+        });
+
+        if (user.Subscription.Plan.ID !== FREE_PLAN_ID) {
+          LiveChat.load();
+          LiveChat.configureUser(user, user.Subscription);
+        }
+      } catch (e) {
+        Sentry.captureException(e);
+      }
+    },
+    [setGlobal]
+  );
 
   useEffect(() => {
     if (!router.isReady || gotUserInfo) return;
@@ -44,21 +67,7 @@ export default function DashboardLayout({ children }: Props) {
         } else if (user.Organization.Slug !== router.query.organization) {
           logout().catch(console.error);
         } else {
-          // Do everything that was deferred
-          authRequest<OrganizationUserResponse>({ method: HTTPMethod.GET, url: '/organization/list' })
-            .then((organizationUserResponse) => {
-              setGlobal((draft) => {
-                draft.organizations = organizationUserResponse.data.data;
-              });
-            })
-            .catch((error) => {
-              Sentry.captureException(error);
-            });
-
-          if (user.Subscription.Plan.ID !== FREE_PLAN_ID) {
-            LiveChat.load();
-            LiveChat.configureUser(user, user.Subscription);
-          }
+          runDeferred(user).catch(console.error);
         }
       })
       .catch((error) => {
@@ -67,7 +76,7 @@ export default function DashboardLayout({ children }: Props) {
       .finally(() => {
         gotUserInfo = true;
       });
-  }, [router, setGlobal]);
+  }, [router.isReady, router.query.organization, runDeferred, setGlobal]);
 
   return (
     <>
