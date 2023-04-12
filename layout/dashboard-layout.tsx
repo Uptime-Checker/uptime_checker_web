@@ -6,11 +6,11 @@ import { useAtom } from 'jotai';
 import { authRequest, HTTPMethod } from 'lib/axios';
 import * as LiveChat from 'lib/crisp';
 import { getCurrentUser, logout, redirectToDashboard, setCurrentUser } from 'lib/global';
+import { ProductResponse } from 'models/subscription';
 import { OrganizationUserResponse, User, UserResponse } from 'models/user';
 import { useRouter } from 'next/router';
 import { ReactNode, useCallback, useEffect } from 'react';
 import { globalAtom } from 'store/global';
-import { ProductResponse } from 'models/subscription';
 
 type Props = {
   children: ReactNode;
@@ -36,9 +36,11 @@ export default function DashboardLayout({ children }: Props) {
 
         const productResponse = await authRequest<ProductResponse>({
           method: HTTPMethod.GET,
-          url: '/product/internal',
+          url: 'list/product/internal',
         });
-        console.log(productResponse.data);
+        setGlobal((draft) => {
+          draft.products = productResponse.data.data;
+        });
 
         if (user.Subscription.Plan.ID !== FREE_PLAN_ID) {
           LiveChat.load();
