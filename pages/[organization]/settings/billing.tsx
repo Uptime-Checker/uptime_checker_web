@@ -1,71 +1,21 @@
 import { RadioGroup } from '@headlessui/react';
 import { CheckIcon, KeyIcon } from '@heroicons/react/24/outline';
+import { useAtom } from 'jotai';
 import DashboardLayout from 'layout/dashboard-layout';
 import SettingsLayout from 'layout/settings-layout';
 import { classNames } from 'lib/tailwind/utils';
 import { ReactElement, useState } from 'react';
+import { globalAtom } from 'store/global';
 import { NextPageWithLayout } from '../../_app';
 
-const pricing = {
-  frequencies: [
-    { value: 'monthly', label: 'Monthly', priceSuffix: '/month' },
-    { value: 'annually', label: 'Annually', priceSuffix: '/year' },
-  ],
-  tiers: [
-    {
-      title: 'Freelancer',
-      price: 24,
-      frequency: '/month',
-      description: 'The essentials to provide your best work for clients.',
-      features: ['5 products', 'Up to 1,000 subscribers', 'Basic analytics', '48-hour support response time'],
-      cta: 'Monthly billing',
-      mostPopular: false,
-    },
-    {
-      title: 'Developer',
-      price: 28,
-      frequency: '/month',
-      description: 'The essentials to provide your best work for clients.',
-      features: ['15 products', 'Up to 1,500 subscribers', 'Basic analytics', '24-hour support response time'],
-      cta: 'Monthly billing',
-      mostPopular: false,
-    },
-    {
-      title: 'Startup',
-      price: 32,
-      frequency: '/month',
-      description: 'A plan that scales with your rapidly growing business.',
-      features: [
-        '25 products',
-        'Up to 10,000 subscribers',
-        'Advanced analytics',
-        '24-hour support response time',
-        'Marketing automations',
-      ],
-      cta: 'Monthly billing',
-      mostPopular: true,
-    },
-    {
-      title: 'Enterprise',
-      price: 48,
-      frequency: '/month',
-      description: 'Dedicated support and infrastructure for enterprise.',
-      features: [
-        'Unlimited products',
-        'Unlimited subscribers',
-        'Advanced analytics',
-        '1-hour, dedicated support response time',
-        'Marketing automations',
-        'Custom integrations',
-      ],
-      cta: 'Monthly billing',
-      mostPopular: false,
-    },
-  ],
-};
+const frequencies = [
+  { value: 'monthly', label: 'Monthly', priceSuffix: '/month' },
+  { value: 'annually', label: 'Annually', priceSuffix: '/year' },
+];
 
 const Billing: NextPageWithLayout = () => {
-  const [frequency, setFrequency] = useState(pricing.frequencies[0]);
+  const [global, setGlobal] = useAtom(globalAtom);
+  const [frequency, setFrequency] = useState(frequencies[0]);
 
   return (
     <div className="mx-auto mt-5 max-w-7xl bg-white pb-10 sm:mt-10">
@@ -109,13 +59,13 @@ const Billing: NextPageWithLayout = () => {
 
       {/* Tiers */}
       <div className="mt-12 space-y-8 sm:mt-16 sm:grid sm:grid-cols-2 sm:gap-6 sm:space-y-0 lg:mx-auto lg:max-w-4xl xl:mx-0 xl:max-w-none xl:grid-cols-4">
-        {pricing.tiers.map((tier) => (
+        {global.products.map((product) => (
           <div
-            key={tier.title}
+            key={product.Name}
             className="relative flex flex-col divide-y divide-gray-200 rounded-2xl border border-gray-200 bg-white shadow-sm"
           >
             <div className="p-6">
-              <h3 className="text-xl font-semibold text-gray-900">{tier.title}</h3>
+              <h3 className="text-xl font-semibold text-gray-900">{product.Name}</h3>
               {tier.mostPopular ? (
                 <p className="absolute top-0 -translate-y-1/2 transform rounded-full bg-indigo-500 px-4 py-1.5 text-sm font-semibold text-white">
                   Most popular
