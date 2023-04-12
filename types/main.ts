@@ -1,10 +1,10 @@
-import { ReactElement, SVGProps } from 'react';
+import { ReactElement, RefAttributes, SVGProps } from 'react';
 
 export type HeroIcon = (
-  props: SVGProps<SVGSVGElement> & {
+  props: Omit<SVGProps<SVGSVGElement>, 'ref'> & {
     title?: string | undefined;
     titleId?: string | undefined;
-  }
+  } & RefAttributes<SVGSVGElement>
 ) => ReactElement | null;
 
 export type IconProps = {

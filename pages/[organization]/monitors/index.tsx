@@ -244,7 +244,7 @@ const Monitors: NextPageWithLayout = () => {
             {people.map((person) => (
               <tr key={person.url}>
                 <td className="whitespace-nowrap text-sm text-gray-900 hover:cursor-pointer hover:underline">
-                  <Link className="block py-4 pl-4 pr-3 sm:pl-6" href={`/${orgSlug}/monitors/${1}/overview`}>
+                  <Link className="block py-4 pl-4 pr-3 sm:pl-6" href={`/${orgSlug!}/monitors/${1}/overview`}>
                     <div className="font-medium text-indigo-600">{person.name}</div>
                     <div className="pt-1 text-gray-500">{person.url}</div>
                   </Link>
