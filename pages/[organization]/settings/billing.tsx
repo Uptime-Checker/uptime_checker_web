@@ -39,7 +39,7 @@ const Billing: NextPageWithLayout = () => {
             className="grid grid-cols-2 gap-x-1 rounded-full p-1 text-center text-xs font-semibold leading-5 ring-1 ring-inset ring-gray-200"
           >
             <RadioGroup.Label className="sr-only">Payment frequency</RadioGroup.Label>
-            {pricing.frequencies.map((option) => (
+            {frequencies.map((option) => (
               <RadioGroup.Option
                 key={option.value}
                 value={option}
