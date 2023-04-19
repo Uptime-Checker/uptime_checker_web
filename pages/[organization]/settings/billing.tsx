@@ -66,7 +66,7 @@ const Billing: NextPageWithLayout = () => {
           >
             <div className="p-6">
               <h3 className="text-xl font-semibold text-gray-900">{product.Name}</h3>
-              {tier.mostPopular ? (
+              {product.Popular ? (
                 <p className="absolute top-0 -translate-y-1/2 transform rounded-full bg-indigo-500 px-4 py-1.5 text-sm font-semibold text-white">
                   Most popular
                 </p>
@@ -75,12 +75,12 @@ const Billing: NextPageWithLayout = () => {
                 <span className="text-4xl font-bold tracking-tight">${tier.price}</span>
                 <span className="ml-1 text-xl font-semibold">{tier.frequency}</span>
               </p>
-              <p className="mt-6 text-gray-500">{tier.description}</p>
+              <p className="mt-6 text-gray-500">{product.Description}</p>
 
               <a
                 href="#"
                 className={classNames(
-                  tier.mostPopular
+                  product.Popular
                     ? 'bg-indigo-500 text-white hover:bg-indigo-600'
                     : 'bg-indigo-50 text-indigo-700 hover:bg-indigo-100',
                   'mt-8 block w-full rounded-md border border-transparent px-6 py-3 text-center font-medium'
