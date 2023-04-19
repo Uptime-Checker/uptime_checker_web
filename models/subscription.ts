@@ -34,6 +34,7 @@ export interface Product {
   Description: string;
   ExternalID: string;
   Tier: ProductTier;
+  Popular: boolean;
   Plans: Plan[];
 }
 

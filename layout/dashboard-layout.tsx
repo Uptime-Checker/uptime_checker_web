@@ -3,7 +3,7 @@ import SideBar from 'components/dashboard/sidebar';
 import TopBar from 'components/dashboard/topbar';
 import { FREE_PLAN_ID } from 'constants/payment';
 import { useAtom } from 'jotai';
-import { authRequest, HTTPMethod } from 'lib/axios';
+import { authRequest, elixirClient, HTTPMethod } from 'lib/axios';
 import * as LiveChat from 'lib/crisp';
 import { getCurrentUser, logout, redirectToDashboard, setCurrentUser } from 'lib/global';
 import { ProductResponse } from 'models/subscription';
@@ -26,18 +26,18 @@ export default function DashboardLayout({ children }: Props) {
     async (user: User) => {
       // Do everything that was deferred
       try {
-        const organizationUserResponse = await authRequest<OrganizationUserResponse>({
+        const getOrganizationUserResponse = authRequest<OrganizationUserResponse>({
           method: HTTPMethod.GET,
           url: '/organization/list',
         });
+        const getProductResponse = elixirClient.get<ProductResponse>('product/list/internal');
+
+        const organizationUserResponse = await getOrganizationUserResponse;
         setGlobal((draft) => {
           draft.organizations = organizationUserResponse.data.data;
         });
 
-        const productResponse = await authRequest<ProductResponse>({
-          method: HTTPMethod.GET,
-          url: 'list/product/internal',
-        });
+        const productResponse = await getProductResponse;
         setGlobal((draft) => {
           draft.products = productResponse.data.data;
         });
