@@ -14,7 +14,7 @@ const frequencies = [
 ];
 
 const Billing: NextPageWithLayout = () => {
-  const [global, setGlobal] = useAtom(globalAtom);
+  const [global] = useAtom(globalAtom);
   const [frequency, setFrequency] = useState(frequencies[0]);
 
   return (

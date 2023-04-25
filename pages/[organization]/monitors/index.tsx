@@ -121,7 +121,7 @@ const data = [
 
 const Monitors: NextPageWithLayout = () => {
   const router = useRouter();
-  const [global, _] = useAtom(globalAtom);
+  const [global] = useAtom(globalAtom);
   const orgSlug = global.currentUser?.Organization.Slug;
 
   const handleMetricCardClick = async (item: MetricCard) => {

@@ -3,8 +3,8 @@ import { classNames } from 'lib/tailwind/utils';
 import { Check } from 'models/check';
 import Link from 'next/link';
 import { globalAtom } from 'store/global';
-import DurationBar from './duration-bar';
 import { ResponseTimeKey } from '../../../models/monitor';
+import DurationBar from './duration-bar';
 
 interface ChecksProps {
   checks: Check[];
@@ -13,7 +13,7 @@ interface ChecksProps {
 }
 
 const ChecksComponent = ({ checks, monitorId, className }: ChecksProps) => {
-  const [global, _] = useAtom(globalAtom);
+  const [global] = useAtom(globalAtom);
   const orgSlug = global.currentUser?.Organization.Slug;
 
   const getLink = (check: Check) => {

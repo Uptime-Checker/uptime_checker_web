@@ -7,11 +7,12 @@ import LoadingIcon from 'components/icon/loading';
 import LogoWithoutText from 'components/logo/logo-without-text';
 import { ProviderNameGithub, ProviderNameGoogle } from 'constants/default';
 import { AUTH_FAIL_COULD_NOT_SEND_MAGIC_LINK } from 'constants/ui-text';
-import produce from 'immer';
+import { produce } from 'immer';
 import { CacheKey, cacheUtil } from 'lib/cache';
 import { redirectToDashboard, setAccessToken, setCurrentUser } from 'lib/global';
 import { getSessionUser } from 'lib/session/user';
 import { withSessionSsr } from 'lib/session/withSession';
+import { classNames } from 'lib/tailwind/utils';
 import { GuestUserResponse, User } from 'models/user';
 import { signIn } from 'next-auth/react';
 import Head from 'next/head';
@@ -19,7 +20,6 @@ import { useRouter } from 'next/router';
 import { FormEvent, useCallback, useEffect, useState } from 'react';
 import { ElixirError } from 'types/error';
 import { toUpper } from 'utils/misc';
-import { classNames } from 'lib/tailwind/utils';
 
 interface Props {
   user: User | null;

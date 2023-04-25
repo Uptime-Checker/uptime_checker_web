@@ -1,8 +1,8 @@
+import { useAtom } from 'jotai/index';
 import { classNames } from 'lib/tailwind/utils';
 import { Alarm } from 'models/alarm';
-import { useAtom } from 'jotai/index';
-import { globalAtom } from 'store/global';
 import Link from 'next/link';
+import { globalAtom } from 'store/global';
 
 interface AlertProps {
   alarms: Alarm[];
@@ -10,7 +10,7 @@ interface AlertProps {
 }
 
 const AlertsComponent = ({ alarms, topLevel }: AlertProps) => {
-  const [global, _] = useAtom(globalAtom);
+  const [global] = useAtom(globalAtom);
   const orgSlug = global.currentUser?.Organization.Slug;
 
   return (
@@ -97,7 +97,7 @@ const AlertsComponent = ({ alarms, topLevel }: AlertProps) => {
             <td className="hidden px-3 py-4 text-sm text-gray-500 xl:table-cell">{alarm.resolvedAt}</td>
             <td className="hidden px-3 py-4 text-sm text-gray-500 lg:table-cell">{alarm.duration}</td>
             <td className={classNames(topLevel ? 'pr-4 sm:pr-6' : 'pr-0', 'py-4 pl-3 text-right text-sm font-medium')}>
-              <Link href={`/${orgSlug}/alerts/1`} className="text-indigo-600 hover:text-indigo-900">
+              <Link href={`/${orgSlug!}/alerts/1`} className="text-indigo-600 hover:text-indigo-900">
                 View<span className="sr-only">, {alarm.id}</span>
               </Link>
             </td>

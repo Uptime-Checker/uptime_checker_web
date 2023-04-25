@@ -1,5 +1,10 @@
 import { useState } from 'react';
 
+const axisStyle = {
+  fontSize: '12px',
+  fontFamily: 'Inter; Helvetica',
+};
+
 import {
   CartesianGrid,
   Legend,
@@ -54,10 +59,7 @@ const LineChart = ({
             interval="preserveStartEnd"
             tick={{ transform: 'translate(0, 6)' }}
             ticks={startEndOnly ? [data[0][dataKey], data[data.length - 1][dataKey]] : undefined}
-            style={{
-              fontSize: '12px',
-              fontFamily: 'Inter; Helvetica',
-            }}
+            style={axisStyle}
             tickLine={false}
             axisLine={false}
             padding={{ left: 10, right: 10 }}
@@ -71,10 +73,7 @@ const LineChart = ({
             type="number"
             domain={yAxisDomain}
             tick={{ transform: 'translate(-3, 0)' }}
-            style={{
-              fontSize: '12px',
-              fontFamily: 'Inter; Helvetica',
-            }}
+            style={axisStyle}
             tickFormatter={valueFormatter}
           />
           {showTooltip ? (

@@ -1,4 +1,4 @@
-import produce from 'immer';
+import { produce } from 'immer';
 import { useAtom } from 'jotai';
 import { classNames } from 'lib/tailwind/utils';
 import Link from 'next/link';
@@ -24,7 +24,7 @@ type Props = {
 
 const Tabs = ({ baseURL, className, tabs, children, breakpoint, routeIndex }: Props) => {
   const router = useRouter();
-  const [global, _] = useAtom(globalAtom);
+  const [global] = useAtom(globalAtom);
   const orgSlug = global.currentUser?.Organization.Slug;
   const [selectedTab, setSelectedTab] = useState(tabs[0]);
   const [selectedBreakpoint, setSelectedBreakpoint] = useState({ select: 'md:hidden', tab: 'md:block' });

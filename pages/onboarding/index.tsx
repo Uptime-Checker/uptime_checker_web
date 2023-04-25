@@ -10,7 +10,7 @@ import {
   ONBOARDING_YOU_ALREADY_CREATED_ORGANIZATION,
   PLEASE_CONTACT_SUPPORT,
 } from 'constants/ui-text';
-import produce from 'immer';
+import { produce } from 'immer';
 import { HTTPMethod, authRequest } from 'lib/axios';
 import { getCurrentUser, logout, redirectToDashboard, setCurrentUser } from 'lib/global';
 import { OrganizationResponse, UserResponse } from 'models/user';
