@@ -4,18 +4,67 @@ import { useAtom } from 'jotai';
 import DashboardLayout from 'layout/dashboard-layout';
 import SettingsLayout from 'layout/settings-layout';
 import { classNames } from 'lib/tailwind/utils';
+import { PlanType, Product, ProductTier } from 'models/subscription';
 import { ReactElement, useState } from 'react';
 import { globalAtom } from 'store/global';
 import { NextPageWithLayout } from '../../_app';
 
-const frequencies = [
-  { value: 'monthly', label: 'Monthly', priceSuffix: '/month' },
-  { value: 'annually', label: 'Annually', priceSuffix: '/year' },
+const featureMap = [
+  {
+    tier: ProductTier.free,
+    features: ['5 products', 'Up to 1,000 subscribers', 'Basic analytics', '48-hour support response time'],
+  },
+  {
+    tier: ProductTier.developer,
+    features: ['15 products', 'Up to 1,500 subscribers', 'Basic analytics', '24-hour support response time'],
+  },
+  {
+    tier: ProductTier.startup,
+    features: [
+      '25 products',
+      'Up to 10,000 subscribers',
+      'Advanced analytics',
+      '24-hour support response time',
+      'Marketing automations',
+    ],
+  },
+  {
+    tier: ProductTier.enterprise,
+    features: [
+      'Unlimited products',
+      'Unlimited subscribers',
+      'Advanced analytics',
+      '1-hour, dedicated support response time',
+      'Marketing automations',
+      'Custom integrations',
+    ],
+  },
+];
+
+interface Frequency {
+  value: PlanType;
+  label: string;
+  priceSuffix: string;
+}
+
+const frequencies: Frequency[] = [
+  { value: PlanType.Monthly, label: 'Monthly', priceSuffix: '/month' },
+  { value: PlanType.Yearly, label: 'Annually', priceSuffix: '/year' },
 ];
 
 const Billing: NextPageWithLayout = () => {
   const [global] = useAtom(globalAtom);
   const [frequency, setFrequency] = useState(frequencies[0]);
+
+  const getPrice = (product: Product) => {
+    const plan = product.Plans.find((plan) => plan.Type === frequency.value);
+    if (plan) return plan.Price;
+    return 0;
+  };
+
+  const getFeatures = (product: Product) => {
+    return featureMap.find((feature) => feature.tier === product.Tier);
+  };
 
   return (
     <div className="mx-auto mt-5 max-w-7xl bg-white pb-10 sm:mt-10">
@@ -72,8 +121,8 @@ const Billing: NextPageWithLayout = () => {
                 </p>
               ) : null}
               <p className="mt-4 flex items-baseline text-gray-900">
-                <span className="text-4xl font-bold tracking-tight">${tier.price}</span>
-                <span className="ml-1 text-xl font-semibold">{tier.frequency}</span>
+                <span className="text-4xl font-bold tracking-tight">${getPrice(product)}</span>
+                <span className="ml-1 text-xl font-semibold">{frequency.priceSuffix}</span>
               </p>
               <p className="mt-6 text-gray-500">{product.Description}</p>
 
@@ -94,7 +143,7 @@ const Billing: NextPageWithLayout = () => {
             <div className="px-6 pb-8 pt-6">
               <h3 className="text-sm font-medium text-gray-900">What&apos;s included</h3>
               <ul role="list" className="mt-6 space-y-4">
-                {tier.features.map((feature) => (
+                {getFeatures(product)?.features.map((feature) => (
                   <li key={feature} className="flex space-x-3">
                     <CheckIcon className="h-5 w-5 flex-shrink-0 text-green-500" aria-hidden="true" />
                     <span className="text-sm text-gray-500">{feature}</span>
