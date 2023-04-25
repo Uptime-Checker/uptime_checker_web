@@ -1,6 +1,6 @@
 export enum PlanType {
-  Monthly = 'monthly',
-  Yearly = 'yearly',
+  Monthly = 1,
+  Yearly = 2,
 }
 
 export enum SubscriptionStatus {
