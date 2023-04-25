@@ -113,18 +113,17 @@ const Billing: NextPageWithLayout = () => {
             key={product.Name}
             className="relative flex flex-col divide-y divide-gray-200 rounded-2xl border border-gray-200 bg-white shadow-sm"
           >
-            <div className="p-6">
+            <div className="mt-5 p-6">
               <h3 className="text-xl font-semibold text-gray-900">{product.Name}</h3>
               {product.Popular ? (
                 <p className="absolute top-0 -translate-y-1/2 transform rounded-full bg-indigo-500 px-4 py-1.5 text-sm font-semibold text-white">
                   Most popular
                 </p>
               ) : null}
-              <p className="mt-4 flex items-baseline text-gray-900">
+              <p className="mt-6 flex items-baseline text-gray-900">
                 <span className="text-4xl font-bold tracking-tight">${getPrice(product)}</span>
                 <span className="ml-1 text-xl font-semibold">{frequency.priceSuffix}</span>
               </p>
-              <p className="mt-6 text-gray-500">{product.Description}</p>
 
               <a
                 href="#"
