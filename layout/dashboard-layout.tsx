@@ -39,7 +39,7 @@ export default function DashboardLayout({ children }: Props) {
 
         const productResponse = await getProductResponse;
         setGlobal((draft) => {
-          draft.products = productResponse.data.data;
+          draft.products = productResponse.data.data.sort((a, b) => a.Tier - b.Tier);
         });
 
         if (user.Subscription.Plan.ID !== FREE_PLAN_ID) {
