@@ -8,6 +8,8 @@ import { PlanType, Product, ProductTier } from 'models/subscription';
 import { ReactElement, useState } from 'react';
 import { globalAtom } from 'store/global';
 import { NextPageWithLayout } from '../../_app';
+import LoadingIcon from 'components/icon/loading';
+import { ProviderNameGoogle } from 'constants/default';
 
 const featureMap = [
   {
@@ -55,6 +57,7 @@ const frequencies: Frequency[] = [
 const Billing: NextPageWithLayout = () => {
   const [global] = useAtom(globalAtom);
   const [frequency, setFrequency] = useState(frequencies[0]);
+  const [portalLoading, setPortalLoading] = useState(false);
 
   const getPrice = (product: Product) => {
     const plan = product.Plans.find((plan) => plan.Type === frequency.value);
@@ -66,14 +69,23 @@ const Billing: NextPageWithLayout = () => {
     return featureMap.find((feature) => feature.tier === product.Tier);
   };
 
+  const handlePortalClick = () => {
+    setPortalLoading(true);
+  };
+
   return (
     <div className="mx-auto mt-5 max-w-7xl bg-white pb-10 sm:mt-10">
       <div className="relative sm:flex sm:flex-col">
         <div className="absolute text-center sm:right-0 lg:mt-2">
-          <a href="" className="flex items-center gap-1 text-sm text-indigo-600">
+          <button
+            disabled={portalLoading}
+            onClick={() => handlePortalClick()}
+            className="flex items-center gap-1 text-sm text-indigo-600"
+          >
+            {portalLoading ? <LoadingIcon className="mr-2 h-5 w-5 animate-spin text-indigo-700" /> : null}
             <KeyIcon className="h-5 w-5" />
             <p>Customer Portal</p>
-          </a>
+          </button>
         </div>
         <h2 className="pt-8 text-3xl font-bold tracking-tight text-gray-900 sm:pt-0 sm:text-2xl sm:leading-none lg:text-center lg:text-3xl">
           Upgrade your subscription
