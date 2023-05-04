@@ -2,6 +2,7 @@ import { setUserId, setUserProperties } from '@firebase/analytics';
 import * as Sentry from '@sentry/nextjs';
 import axios from 'axios';
 import { analytics } from 'lib/firebase';
+import { ProductTier } from 'models/subscription';
 import { User } from 'models/user';
 import { signOut } from 'next-auth/react';
 import { CacheKey, cacheUtil } from './cache';
@@ -46,6 +47,11 @@ export const getAccessToken = () => {
     AccessToken = token;
   }
   return token;
+};
+
+export const isFreeSubscription = (user: User | null) => {
+  if (!user) return false;
+  return user.Subscription.Product.Tier === ProductTier.free;
 };
 
 export const logout = async () => {

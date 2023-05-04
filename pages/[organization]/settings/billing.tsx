@@ -1,15 +1,15 @@
 import { RadioGroup } from '@headlessui/react';
 import { CheckIcon, KeyIcon } from '@heroicons/react/24/outline';
+import LoadingIcon from 'components/icon/loading';
 import { useAtom } from 'jotai';
 import DashboardLayout from 'layout/dashboard-layout';
 import SettingsLayout from 'layout/settings-layout';
+import { isFreeSubscription } from 'lib/global';
 import { classNames } from 'lib/tailwind/utils';
 import { PlanType, Product, ProductTier } from 'models/subscription';
 import { ReactElement, useState } from 'react';
 import { globalAtom } from 'store/global';
 import { NextPageWithLayout } from '../../_app';
-import LoadingIcon from 'components/icon/loading';
-import { ProviderNameGoogle } from 'constants/default';
 
 const featureMap = [
   {
@@ -80,7 +80,10 @@ const Billing: NextPageWithLayout = () => {
           <button
             disabled={portalLoading}
             onClick={() => handlePortalClick()}
-            className="flex items-center gap-1 text-sm text-indigo-600"
+            className={classNames(
+              isFreeSubscription(global.currentUser) ? 'hidden' : '',
+              'rounded-md px-4 py-2 text-sm font-medium text-indigo-700'
+            )}
           >
             {portalLoading ? <LoadingIcon className="mr-2 h-5 w-5 animate-spin text-indigo-700" /> : null}
             <KeyIcon className="h-5 w-5" />
