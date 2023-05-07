@@ -58,6 +58,7 @@ const Billing: NextPageWithLayout = () => {
   const [global] = useAtom(globalAtom);
   const [frequency, setFrequency] = useState(frequencies[0]);
   const [portalLoading, setPortalLoading] = useState(false);
+  const [productIntentId, setProductIntentId] = useState(0);
 
   const getPrice = (product: Product) => {
     const plan = product.Plans.find((plan) => plan.Type === frequency.value);
@@ -74,7 +75,7 @@ const Billing: NextPageWithLayout = () => {
   };
 
   const handleBuyClick = (product: Product) => {
-    setPortalLoading(true);
+    setProductIntentId(product.ID);
   };
 
   return (
@@ -145,15 +146,25 @@ const Billing: NextPageWithLayout = () => {
               </p>
 
               <button
+                disabled={product.ID === productIntentId}
                 onClick={() => handleBuyClick(product)}
                 className={classNames(
                   product.Popular
                     ? 'bg-indigo-500 text-white hover:bg-indigo-600'
                     : 'bg-indigo-50 text-indigo-700 hover:bg-indigo-100',
-                  'mt-8 block w-full rounded-md border border-transparent px-6 py-3 text-center font-medium'
+                  'mt-8 flex w-full items-center justify-center rounded-md border border-transparent px-6 py-3 text-center font-medium'
                 )}
               >
-                Upgrade
+                {product.ID === productIntentId ? (
+                  <LoadingIcon
+                    className={classNames(
+                      product.Popular ? 'text-white' : 'text-indigo-700',
+                      'mr-2 h-6 w-6 animate-spin'
+                    )}
+                  />
+                ) : (
+                  <p>Upgrade</p>
+                )}
               </button>
             </div>
 
