@@ -13,6 +13,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if (req.method === HTTPMethod.POST) {
     try {
       // Create Checkout Sessions from body params.
+      const url = `${req.headers.origin!}/${req.body.relativePath}?session_id={CHECKOUT_SESSION_ID}`;
       const params: Stripe.Checkout.SessionCreateParams = {
         customer: req.body.customerId,
         mode: STRIPE_CHECKOUT_MODE,
@@ -22,8 +23,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             quantity: 1,
           },
         ],
-        success_url: `${req.headers.origin!}/result?session_id={CHECKOUT_SESSION_ID}&success=true`,
-        cancel_url: `${req.headers.origin!}/result?session_id={CHECKOUT_SESSION_ID}&canceled=true`,
+        success_url: `${url}&success=true`,
+        cancel_url: `${url}}&canceled=true`,
       };
       const checkoutSession = await stripe.checkout.sessions.create(params);
 

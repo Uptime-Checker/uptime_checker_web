@@ -65,6 +65,8 @@ const Billing: NextPageWithLayout = () => {
   const [portalLoading, setPortalLoading] = useState(false);
   const [productIntentId, setProductIntentId] = useState(0);
 
+  const orgSlug = global.currentUser?.Organization.Slug;
+
   const getPrice = (product: Product) => {
     const plan = product.Plans.find((plan) => plan.Type === frequency.value);
     if (plan) return plan.Price;
@@ -92,6 +94,7 @@ const Billing: NextPageWithLayout = () => {
       const { data } = await axios.post<Stripe.Checkout.Session>('/api/checkout_sessions', {
         customerId: paymentCustomerID,
         priceId: plan.ExternalID,
+        relativePath: `${orgSlug!}/settings/billing/result`,
       });
       // Redirect to check out.
       const stripe = await getStripe();
