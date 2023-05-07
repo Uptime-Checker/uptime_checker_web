@@ -82,7 +82,7 @@ const Billing: NextPageWithLayout = () => {
     if (plan) {
       if (global.currentUser?.Subscription.Plan.ID === plan.ID) {
         return 'Current';
-      } else if (plan.Price < global.currentUser?.Subscription.Plan.Price) {
+      } else if (plan.Price < global.currentUser!.Subscription.Plan.Price) {
         return 'Downgrade';
       }
     }

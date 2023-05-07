@@ -12,12 +12,19 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === HTTPMethod.POST) {
     try {
-      const session = await stripe.billingPortal.sessions.create({
-        customer: req.body.customerId as string,
-        return_url: `${req.headers.origin!}/${req.body.relativePath as string}`,
+      const subscription = await stripe.subscriptions.retrieve(req.body.subscriptionId as string);
+      const updatedSubscription = await stripe.subscriptions.update(subscription.id, {
+        cancel_at_period_end: false,
+        proration_behavior: 'create_prorations',
+        items: [
+          {
+            id: subscription.items.data[0].id,
+            price: req.body.priceId,
+          },
+        ],
       });
 
-      res.status(HttpStatusCode.Ok).json(session);
+      res.status(HttpStatusCode.Ok).json(updatedSubscription);
     } catch (err) {
       Sentry.captureException(err);
       res.status(HttpStatusCode.InternalServerError).json(err);
