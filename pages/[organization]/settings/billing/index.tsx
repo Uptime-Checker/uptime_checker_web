@@ -116,24 +116,24 @@ const Billing: NextPageWithLayout = () => {
   return (
     <div className="mx-auto mt-5 max-w-7xl bg-white pb-10 sm:mt-10">
       <div className="relative sm:flex sm:flex-col">
-        <div className="absolute text-center sm:right-0 lg:mt-2">
+        <div className="absolute text-center lg:right-0">
           <button
             disabled={portalLoading}
             onClick={() => handlePortalClick()}
             className={classNames(
               isFreeSubscription(global.currentUser) ? 'hidden' : '',
-              'rounded-md px-4 py-2 text-sm font-medium text-indigo-700'
+              'flex rounded-md pb-2 pr-2 text-sm font-medium text-indigo-700 lg:px-4 lg:py-2'
             )}
           >
             {portalLoading ? <LoadingIcon className="mr-2 h-5 w-5 animate-spin text-indigo-700" /> : null}
-            <KeyIcon className="h-5 w-5" />
+            <KeyIcon className="mr-2 h-5 w-5" />
             <p>Customer Portal</p>
           </button>
         </div>
-        <h2 className="pt-8 text-3xl font-bold tracking-tight text-gray-900 sm:pt-0 sm:text-2xl sm:leading-none lg:text-center lg:text-3xl">
+        <h2 className="pt-8 text-3xl font-bold tracking-tight text-gray-900 lg:pt-0 lg:text-2xl lg:leading-none xl:text-center xl:text-3xl">
           Upgrade your subscription
         </h2>
-        <p className="mt-3 text-gray-500 lg:text-center">All plans come with a 30-day money-back guarantee</p>
+        <p className="mt-3 text-gray-500 xl:text-center">All plans come with a 30-day money-back guarantee</p>
 
         {/* Toggle */}
         <div className="relative mt-6 flex justify-center sm:mt-8">
