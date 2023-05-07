@@ -9,7 +9,7 @@ import { classNames } from 'lib/tailwind/utils';
 import { PlanType, Product, ProductTier } from 'models/subscription';
 import { ReactElement, useState } from 'react';
 import { globalAtom } from 'store/global';
-import { NextPageWithLayout } from '../../_app';
+import { NextPageWithLayout } from 'pages/_app';
 
 const featureMap = [
   {

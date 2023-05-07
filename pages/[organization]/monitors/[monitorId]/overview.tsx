@@ -4,7 +4,7 @@ import DashboardLayout from 'layout/dashboard-layout';
 import MonitorDetailLayout from 'layout/monitor-detail-layout';
 import { classNames } from 'lib/tailwind/utils';
 import { ReactElement, useEffect, useState } from 'react';
-import { NextPageWithLayout } from '../../../_app';
+import { NextPageWithLayout } from 'pages/_app';
 
 const chartData = [
   {
@@ -146,7 +146,7 @@ const Overview: NextPageWithLayout = () => {
         <div className="lg:hidden">
           <div className="rounded-sm bg-white shadow">
             <ul role="list" className="divide-y divide-gray-200">
-              <li className="relative bg-white py-5 px-4 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 hover:bg-gray-50">
+              <li className="relative bg-white px-4 py-5 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 hover:bg-gray-50">
                 <div className="flex justify-between space-x-3">
                   <div className="min-w-0 flex-1">
                     <a href="#" className="block focus:outline-none">
@@ -163,7 +163,7 @@ const Overview: NextPageWithLayout = () => {
                   </time>
                 </div>
               </li>
-              <li className="relative bg-white py-5 px-4 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 hover:bg-gray-50">
+              <li className="relative bg-white px-4 py-5 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 hover:bg-gray-50">
                 <div className="flex justify-between space-x-3">
                   <div className="min-w-0 flex-1">
                     <a href="#" className="block focus:outline-none">
@@ -180,7 +180,7 @@ const Overview: NextPageWithLayout = () => {
                   </time>
                 </div>
               </li>
-              <li className="relative bg-white py-5 px-4 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 hover:bg-gray-50">
+              <li className="relative bg-white px-4 py-5 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 hover:bg-gray-50">
                 <div className="flex justify-between space-x-3">
                   <div className="min-w-0 flex-1">
                     <a href="#" className="block focus:outline-none">
@@ -202,7 +202,7 @@ const Overview: NextPageWithLayout = () => {
         </div>
         <section className="hidden lg:block">
           <div className="flex flex-col">
-            <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
               <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
                 <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
                   <table className="min-w-full divide-y divide-gray-200">
@@ -214,16 +214,16 @@ const Overview: NextPageWithLayout = () => {
                         >
                           Status
                         </th>
-                        <th scope="col" className="py-3.5 px-3 text-center text-sm font-semibold text-gray-900">
+                        <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
                           From
                         </th>
                         <th
                           scope="col"
-                          className="hidden py-3.5 px-3 text-center text-sm font-semibold text-gray-900 md:table-cell"
+                          className="hidden px-3 py-3.5 text-center text-sm font-semibold text-gray-900 md:table-cell"
                         >
                           To
                         </th>
-                        <th scope="col" className="py-3.5 px-3 text-center text-sm font-semibold text-gray-900">
+                        <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
                           Duration
                         </th>
                       </tr>
@@ -236,13 +236,13 @@ const Overview: NextPageWithLayout = () => {
                               Degraded
                             </span>
                           </td>
-                          <td className="whitespace-nowrap py-4 px-3 text-center text-sm text-gray-500">
+                          <td className="whitespace-nowrap px-3 py-4 text-center text-sm text-gray-500">
                             {person.title}
                           </td>
-                          <td className="hidden whitespace-nowrap py-4 px-3 text-center text-sm text-gray-500 md:table-cell">
+                          <td className="hidden whitespace-nowrap px-3 py-4 text-center text-sm text-gray-500 md:table-cell">
                             {person.email}
                           </td>
-                          <td className="whitespace-nowrap py-4 px-3 text-center text-sm text-gray-500">
+                          <td className="whitespace-nowrap px-3 py-4 text-center text-sm text-gray-500">
                             {person.role}
                           </td>
                         </tr>

@@ -22,8 +22,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             quantity: 1,
           },
         ],
-        success_url: `${req.headers.origin!}?session_id={CHECKOUT_SESSION_ID}&success=true`,
-        cancel_url: `${req.headers.origin!}?session_id={CHECKOUT_SESSION_ID}&canceled=true`,
+        success_url: `${req.headers.origin!}/result?session_id={CHECKOUT_SESSION_ID}&success=true`,
+        cancel_url: `${req.headers.origin!}/result?session_id={CHECKOUT_SESSION_ID}&canceled=true`,
       };
       const checkoutSession = await stripe.checkout.sessions.create(params);
 
