@@ -77,8 +77,22 @@ const Billing: NextPageWithLayout = () => {
     return featureMap.find((feature) => feature.tier === product.Tier);
   };
 
-  const handlePortalClick = () => {
+  const handlePortalClick = async () => {
     setPortalLoading(true);
+    const paymentCustomerID = global.currentUser?.PaymentCustomerID;
+    if (!paymentCustomerID) {
+      setPortalLoading(false);
+      return;
+    }
+    try {
+      const { data } = await axios.post<Stripe.BillingPortal.Session>('/api/billing/customer_portal', {
+        customerId: paymentCustomerID,
+        relativePath: `${orgSlug!}/settings/billing`,
+      });
+      window.location.replace(data.url);
+    } catch (e) {
+      setPortalLoading(false);
+    }
   };
 
   const handleBuyClick = async (product: Product) => {
@@ -91,7 +105,7 @@ const Billing: NextPageWithLayout = () => {
         const { data } = await authRequest<UserResponse>({ method: HTTPMethod.GET, url: '/product/billing/customer' });
         paymentCustomerID = data.data.PaymentCustomerID;
       }
-      const { data } = await axios.post<Stripe.Checkout.Session>('/api/checkout_sessions', {
+      const { data } = await axios.post<Stripe.Checkout.Session>('/api/billing/checkout_sessions', {
         customerId: paymentCustomerID,
         priceId: plan.ExternalID,
         relativePath: `${orgSlug!}/settings/billing/result`,
