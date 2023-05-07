@@ -73,6 +73,10 @@ const Billing: NextPageWithLayout = () => {
     setPortalLoading(true);
   };
 
+  const handleBuyClick = (product: Product) => {
+    setPortalLoading(true);
+  };
+
   return (
     <div className="mx-auto mt-5 max-w-7xl bg-white pb-10 sm:mt-10">
       <div className="relative sm:flex sm:flex-col">
@@ -140,8 +144,8 @@ const Billing: NextPageWithLayout = () => {
                 <span className="ml-1 text-xl font-semibold">{frequency.priceSuffix}</span>
               </p>
 
-              <a
-                href="#"
+              <button
+                onClick={() => handleBuyClick(product)}
                 className={classNames(
                   product.Popular
                     ? 'bg-indigo-500 text-white hover:bg-indigo-600'
@@ -150,7 +154,7 @@ const Billing: NextPageWithLayout = () => {
                 )}
               >
                 Upgrade
-              </a>
+              </button>
             </div>
 
             {/* Feature list */}
