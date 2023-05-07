@@ -1,4 +1,6 @@
-import { STRIPE_API_VERSION } from 'constants/default';
+import * as Sentry from '@sentry/nextjs';
+import { HttpStatusCode } from 'axios';
+import { STRIPE_API_VERSION, STRIPE_CHECKOUT_MODE } from 'constants/default';
 import { HTTPMethod } from 'lib/axios';
 import { NextApiRequest, NextApiResponse } from 'next';
 import Stripe from 'stripe';
@@ -9,33 +11,33 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === HTTPMethod.POST) {
-    const priceId = req.body.priceId;
     try {
       // Create Checkout Sessions from body params.
       const params: Stripe.Checkout.SessionCreateParams = {
-        customer: 'cus_MRHkuCXBxTdMby',
-        mode: 'subscription',
+        customer: req.body.customerId,
+        mode: STRIPE_CHECKOUT_MODE,
         line_items: [
           {
-            price: priceId,
+            price: req.body.priceId,
             quantity: 1,
           },
         ],
-        success_url: `${req.headers.origin!}/dashboard/payment/result?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `${req.headers.origin!}/dashboard/payment/canceled?session_id={CHECKOUT_SESSION_ID}`,
+        success_url: `${req.headers.origin!}?session_id={CHECKOUT_SESSION_ID}&success=true`,
+        cancel_url: `${req.headers.origin!}?session_id={CHECKOUT_SESSION_ID}&canceled=true`,
       };
       const checkoutSession = await stripe.checkout.sessions.create(params);
 
-      res.status(200).json(checkoutSession);
+      res.status(HttpStatusCode.Ok).json(checkoutSession);
     } catch (err) {
+      Sentry.captureException(err);
       const errorMessage = err instanceof Error ? err.message : 'Internal server error';
-      res.status(500).json({ statusCode: 500, message: errorMessage });
+      res.status(HttpStatusCode.InternalServerError).json({ message: errorMessage });
     }
-  } else if (req.method === 'GET') {
+  } else if (req.method === HTTPMethod.GET) {
     const { sessionId } = req.query;
     const session = await stripe.checkout.sessions.retrieve(String(sessionId));
     res.send(session);
   } else {
-    res.status(405).end('Method Not Allowed');
+    res.status(HttpStatusCode.MethodNotAllowed).end('Method Not Allowed');
   }
 }
