@@ -1,5 +1,6 @@
 import { RadioGroup } from '@headlessui/react';
 import { CheckIcon, KeyIcon } from '@heroicons/react/24/outline';
+import * as Sentry from '@sentry/nextjs';
 import axios from 'axios';
 import LoadingIcon from 'components/icon/loading';
 import { FREE_PLAN_ID } from 'constants/payment';
@@ -7,7 +8,7 @@ import { useAtom } from 'jotai';
 import DashboardLayout from 'layout/dashboard-layout';
 import SettingsLayout from 'layout/settings-layout';
 import { HTTPMethod, authRequest } from 'lib/axios';
-import { isFreeSubscription } from 'lib/global';
+import { isFreeSubscription, setCurrentUser } from 'lib/global';
 import getStripe from 'lib/stripe';
 import { classNames } from 'lib/tailwind/utils';
 import { PlanType, Product, ProductTier, SubscriptionStatus } from 'models/subscription';
@@ -61,7 +62,7 @@ const frequencies: Frequency[] = [
 ];
 
 const Billing: NextPageWithLayout = () => {
-  const [global] = useAtom(globalAtom);
+  const [global, setGlobal] = useAtom(globalAtom);
   const [frequency, setFrequency] = useState(frequencies[0]);
   const [portalLoading, setPortalLoading] = useState(false);
   const [productIntentId, setProductIntentId] = useState(0);
@@ -131,10 +132,21 @@ const Billing: NextPageWithLayout = () => {
         }
         if (currentSubscription.ExternalID && currentSubscription.Status === SubscriptionStatus.Active) {
           // Upgrade/downgrade
-          const { data } = await axios.post<Stripe.Subscription>('/api/billing/upgrade', {
+          await axios.post<Stripe.Subscription>('/api/billing/upgrade', {
             subscriptionId: currentSubscription.ExternalID,
             priceId: plan.ExternalID,
           });
+          const userResp = await authRequest<UserResponse>({
+            method: HTTPMethod.GET,
+            url: '/user/me',
+            headers: { 'Cache-Control': 'no-store' },
+          });
+          const user = userResp.data.data;
+          setCurrentUser(user).catch((e) => Sentry.captureException(e));
+          setGlobal((draft) => {
+            draft.currentUser = user;
+          });
+          setProductIntentId(0);
         } else {
           const { data } = await axios.post<Stripe.Checkout.Session>('/api/billing/checkout_sessions', {
             customerId: paymentCustomerID,
