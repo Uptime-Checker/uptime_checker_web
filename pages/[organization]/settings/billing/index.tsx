@@ -1,15 +1,18 @@
 import { RadioGroup } from '@headlessui/react';
 import { CheckIcon, KeyIcon } from '@heroicons/react/24/outline';
+import axios from 'axios/index';
 import LoadingIcon from 'components/icon/loading';
 import { useAtom } from 'jotai';
 import DashboardLayout from 'layout/dashboard-layout';
 import SettingsLayout from 'layout/settings-layout';
 import { isFreeSubscription } from 'lib/global';
+import getStripe from 'lib/stripe';
 import { classNames } from 'lib/tailwind/utils';
 import { PlanType, Product, ProductTier } from 'models/subscription';
+import { NextPageWithLayout } from 'pages/_app';
 import { ReactElement, useState } from 'react';
 import { globalAtom } from 'store/global';
-import { NextPageWithLayout } from 'pages/_app';
+import Stripe from 'stripe';
 
 const featureMap = [
   {
@@ -74,8 +77,30 @@ const Billing: NextPageWithLayout = () => {
     setPortalLoading(true);
   };
 
-  const handleBuyClick = (product: Product) => {
+  const handleBuyClick = async (product: Product) => {
+    const plan = product.Plans.find((plan) => plan.Type === frequency.value);
+    if (!plan) return;
     setProductIntentId(product.ID);
+    try {
+      const { data } = await axios.post<Stripe.Checkout.Session>('/api/checkout_sessions', {
+        customerId: global.currentUser?.PaymentCustomerID,
+        priceId: plan.ExternalID,
+      });
+      // Redirect to check out.
+      const stripe = await getStripe();
+      const { error } = await stripe!.redirectToCheckout({
+        // Make the id field from the Checkout Session creation API response
+        // available to this file, so you can provide it as parameter here
+        // instead of the {{CHECKOUT_SESSION_ID}} placeholder.
+        sessionId: data.id,
+      });
+      // If `redirectToCheckout` fails due to a browser or network
+      // error, display the localized error message to your customer
+      // using `error.message`.
+      console.warn(error.message);
+    } catch (e) {
+      setProductIntentId(0);
+    }
   };
 
   return (
@@ -146,7 +171,7 @@ const Billing: NextPageWithLayout = () => {
               </p>
 
               <button
-                disabled={product.ID === productIntentId}
+                disabled={productIntentId !== 0}
                 onClick={() => handleBuyClick(product)}
                 className={classNames(
                   product.Popular
