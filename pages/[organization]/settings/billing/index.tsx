@@ -77,6 +77,18 @@ const Billing: NextPageWithLayout = () => {
     return featureMap.find((feature) => feature.tier === product.Tier);
   };
 
+  const getBuyButtonTitle = (product: Product) => {
+    const plan = product.Plans.find((plan) => plan.Type === frequency.value);
+    if (plan) {
+      if (global.currentUser?.Subscription.Plan.ID === plan.ID) {
+        return 'Current';
+      } else if (plan.Price < global.currentUser?.Subscription.Plan.Price) {
+        return 'Downgrade';
+      }
+    }
+    return 'Upgrade';
+  };
+
   const handlePortalClick = async () => {
     setPortalLoading(true);
     const paymentCustomerID = global.currentUser?.PaymentCustomerID;
@@ -212,7 +224,7 @@ const Billing: NextPageWithLayout = () => {
                     )}
                   />
                 ) : (
-                  <p>Upgrade</p>
+                  <p>{getBuyButtonTitle(product)}</p>
                 )}
               </button>
             </div>
