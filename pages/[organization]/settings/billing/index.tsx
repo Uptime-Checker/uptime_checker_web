@@ -15,6 +15,7 @@ import { NextPageWithLayout } from 'pages/_app';
 import { ReactElement, useState } from 'react';
 import { globalAtom } from 'store/global';
 import Stripe from 'stripe';
+import { FREE_PLAN_ID } from 'constants/payment';
 
 const featureMap = [
   {
@@ -110,32 +111,42 @@ const Billing: NextPageWithLayout = () => {
   const handleBuyClick = async (product: Product) => {
     const plan = product.Plans.find((plan) => plan.Type === frequency.value);
     if (!plan) return;
+    const currentPlan = global.currentUser!.Subscription.Plan;
+    if (currentPlan.ID == plan.ID) return;
+
     setProductIntentId(product.ID);
-    let paymentCustomerID = global.currentUser?.PaymentCustomerID;
-    try {
-      if (!paymentCustomerID) {
-        const { data } = await authRequest<UserResponse>({ method: HTTPMethod.GET, url: '/product/billing/customer' });
-        paymentCustomerID = data.data.PaymentCustomerID;
+    if (plan.ID === FREE_PLAN_ID) {
+      // handle free plan downgrade
+    } else {
+      let paymentCustomerID = global.currentUser?.PaymentCustomerID;
+      try {
+        if (!paymentCustomerID) {
+          const { data } = await authRequest<UserResponse>({
+            method: HTTPMethod.GET,
+            url: '/product/billing/customer',
+          });
+          paymentCustomerID = data.data.PaymentCustomerID;
+        }
+        const { data } = await axios.post<Stripe.Checkout.Session>('/api/billing/checkout_sessions', {
+          customerId: paymentCustomerID,
+          priceId: plan.ExternalID,
+          relativePath: `${orgSlug!}/settings/billing/result`,
+        });
+        // Redirect to check out.
+        const stripe = await getStripe();
+        const { error } = await stripe!.redirectToCheckout({
+          // Make the id field from the Checkout Session creation API response
+          // available to this file, so you can provide it as parameter here
+          // instead of the {{CHECKOUT_SESSION_ID}} placeholder.
+          sessionId: data.id,
+        });
+        // If `redirectToCheckout` fails due to a browser or network
+        // error, display the localized error message to your customer
+        // using `error.message`.
+        console.warn(error.message);
+      } catch (e) {
+        setProductIntentId(0);
       }
-      const { data } = await axios.post<Stripe.Checkout.Session>('/api/billing/checkout_sessions', {
-        customerId: paymentCustomerID,
-        priceId: plan.ExternalID,
-        relativePath: `${orgSlug!}/settings/billing/result`,
-      });
-      // Redirect to check out.
-      const stripe = await getStripe();
-      const { error } = await stripe!.redirectToCheckout({
-        // Make the id field from the Checkout Session creation API response
-        // available to this file, so you can provide it as parameter here
-        // instead of the {{CHECKOUT_SESSION_ID}} placeholder.
-        sessionId: data.id,
-      });
-      // If `redirectToCheckout` fails due to a browser or network
-      // error, display the localized error message to your customer
-      // using `error.message`.
-      console.warn(error.message);
-    } catch (e) {
-      setProductIntentId(0);
     }
   };
 
