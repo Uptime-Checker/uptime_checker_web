@@ -32,7 +32,7 @@ export interface Product {
   ID: number;
   Name: string;
   Description: string;
-  ExternalID: string;
+  ExternalID?: string;
   Tier: ProductTier;
   Popular: boolean;
   Plans: Plan[];
@@ -45,6 +45,7 @@ export interface ProductResponse {
 export interface Subscription {
   ID: string;
   Status: SubscriptionStatus;
+  ExternalID?: string;
   IsTrial: boolean;
   Product: Product;
   Plan: Plan;
