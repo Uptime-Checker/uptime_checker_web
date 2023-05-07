@@ -1,14 +1,16 @@
 import { RadioGroup } from '@headlessui/react';
 import { CheckIcon, KeyIcon } from '@heroicons/react/24/outline';
-import axios from 'axios/index';
+import axios from 'axios';
 import LoadingIcon from 'components/icon/loading';
 import { useAtom } from 'jotai';
 import DashboardLayout from 'layout/dashboard-layout';
 import SettingsLayout from 'layout/settings-layout';
+import { HTTPMethod, authRequest } from 'lib/axios';
 import { isFreeSubscription } from 'lib/global';
 import getStripe from 'lib/stripe';
 import { classNames } from 'lib/tailwind/utils';
 import { PlanType, Product, ProductTier } from 'models/subscription';
+import { UserResponse } from 'models/user';
 import { NextPageWithLayout } from 'pages/_app';
 import { ReactElement, useState } from 'react';
 import { globalAtom } from 'store/global';
@@ -81,9 +83,14 @@ const Billing: NextPageWithLayout = () => {
     const plan = product.Plans.find((plan) => plan.Type === frequency.value);
     if (!plan) return;
     setProductIntentId(product.ID);
+    let paymentCustomerID = global.currentUser?.PaymentCustomerID;
     try {
+      if (!paymentCustomerID) {
+        const { data } = await authRequest<UserResponse>({ method: HTTPMethod.GET, url: '/product/billing/customer' });
+        paymentCustomerID = data.data.PaymentCustomerID;
+      }
       const { data } = await axios.post<Stripe.Checkout.Session>('/api/checkout_sessions', {
-        customerId: global.currentUser?.PaymentCustomerID,
+        customerId: paymentCustomerID,
         priceId: plan.ExternalID,
       });
       // Redirect to check out.
