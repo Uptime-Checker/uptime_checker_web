@@ -8,7 +8,7 @@ type Props = {
   success: boolean;
   title: string;
   detail: string;
-  onClose: () => void;
+  onClose?: () => void;
 };
 
 type IconProps = {

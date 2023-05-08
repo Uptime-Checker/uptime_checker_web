@@ -2,6 +2,7 @@ import { RadioGroup } from '@headlessui/react';
 import { CheckIcon, KeyIcon } from '@heroicons/react/24/outline';
 import * as Sentry from '@sentry/nextjs';
 import axios from 'axios';
+import SimpleAlert from 'components/alert/simple';
 import LoadingIcon from 'components/icon/loading';
 import { FREE_PLAN_ID } from 'constants/payment';
 import { useAtom } from 'jotai';
@@ -17,6 +18,7 @@ import { NextPageWithLayout } from 'pages/_app';
 import { ReactElement, useState } from 'react';
 import { globalAtom } from 'store/global';
 import Stripe from 'stripe';
+import { ONBOARDING_FAIL_TO_CREATE_ORGANIZATION } from 'constants/ui-text';
 
 const featureMap = [
   {
@@ -66,6 +68,7 @@ const Billing: NextPageWithLayout = () => {
   const [frequency, setFrequency] = useState(frequencies[0]);
   const [portalLoading, setPortalLoading] = useState(false);
   const [productIntentId, setProductIntentId] = useState(0);
+  const [alertState, setAlertState] = useState({ on: false, success: true, title: '', detail: '' });
 
   const orgSlug = global.currentUser?.Organization.Slug;
 
@@ -85,7 +88,7 @@ const Billing: NextPageWithLayout = () => {
       if (global.currentUser?.Subscription.Plan.ID === plan.ID) {
         return 'Current';
       } else if (plan.Price < global.currentUser!.Subscription.Plan.Price) {
-        return 'Downgrade';
+        return 'Request Downgrade';
       }
     }
     return 'Upgrade';
@@ -147,6 +150,12 @@ const Billing: NextPageWithLayout = () => {
             draft.currentUser = user;
           });
           setProductIntentId(0);
+          setAlertState({
+            on: true,
+            success: false,
+            title: 'Upgrade Successful',
+            detail: 'We have upgraded your subscription. Please check your email for more information',
+          });
         } else {
           const { data } = await axios.post<Stripe.Checkout.Session>('/api/billing/checkout_sessions', {
             customerId: paymentCustomerID,
@@ -174,6 +183,12 @@ const Billing: NextPageWithLayout = () => {
 
   return (
     <div className="mx-auto mt-5 max-w-7xl bg-white pb-10 sm:mt-10">
+      <SimpleAlert
+        on={alertState.on}
+        success={alertState.success}
+        title={alertState.title}
+        detail={alertState.detail}
+      />
       <div className="relative sm:flex sm:flex-col">
         <div className="absolute text-center lg:right-0">
           <button
