@@ -119,7 +119,7 @@ const Billing: NextPageWithLayout = () => {
 
     const currentSubscription = global.currentUser!.Subscription;
     const currentPlan = currentSubscription.Plan;
-    if (currentPlan.ID == plan.ID) return;
+    if (currentPlan && currentPlan.ID == plan.ID) return;
 
     setProductIntentId(product.ID);
     let paymentCustomerID = global.currentUser?.PaymentCustomerID;
@@ -153,15 +153,16 @@ const Billing: NextPageWithLayout = () => {
             on: true,
             success: false,
             title: 'Upgrade Successful',
-            detail: 'We have upgraded your subscription. Please check your email for more information',
+            detail: 'We have upgraded your subscription. Please check your email for more information.',
           });
         } else {
+          setProductIntentId(0);
           setAlertState({
             on: true,
             success: false,
             title: 'Downgrade Requested',
             detail:
-              'We have received your request to downgrade your subscription. We will notify you when the downgrade is complete',
+              'We have received your request to downgrade your subscription. We will notify you when the downgrade is complete.',
           });
         }
       } else {
