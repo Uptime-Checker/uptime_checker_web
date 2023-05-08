@@ -89,8 +89,10 @@ const Billing: NextPageWithLayout = () => {
       if (currentPlan.ID === plan.ID) {
         return 'Current';
       } else if (plan.Price < global.currentUser!.Subscription.Plan.Price) {
-        return 'Request Downgrade';
+        return 'Downgrade';
       }
+    } else {
+      return 'Downgrade';
     }
     return 'Upgrade';
   };
@@ -115,7 +117,17 @@ const Billing: NextPageWithLayout = () => {
 
   const handleBuyClick = async (product: Product) => {
     const plan = product.Plans.find((plan) => plan.Type === frequency.value);
-    if (!plan) return;
+    if (!plan) {
+      // free -yearly
+      setAlertState({
+        on: true,
+        success: false,
+        title: 'Downgrade Requested',
+        detail:
+          'We have received your request to downgrade your subscription. We will notify you when the downgrade is complete.',
+      });
+      return;
+    }
 
     const currentSubscription = global.currentUser!.Subscription;
     const currentPlan = currentSubscription.Plan;
@@ -151,7 +163,7 @@ const Billing: NextPageWithLayout = () => {
           setProductIntentId(0);
           setAlertState({
             on: true,
-            success: false,
+            success: true,
             title: 'Upgrade Successful',
             detail: 'We have upgraded your subscription. Please check your email for more information.',
           });
