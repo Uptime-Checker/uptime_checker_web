@@ -51,6 +51,8 @@ export const getAccessToken = () => {
 
 export const isFreeSubscription = (user: User | null) => {
   if (!user) return false;
+  if (!user.Subscription) return false;
+  if (!user.Subscription.Product) return false;
   return user.Subscription.Product.Tier === ProductTier.free;
 };
 

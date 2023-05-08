@@ -125,8 +125,6 @@ export default function Onboarding() {
     return sanitizeString(newStr);
   };
 
-  const onAlertClose = () => closeAlert();
-
   const closeAlert = () => {
     setAlertState(
       produce((draft) => {
@@ -146,7 +144,7 @@ export default function Onboarding() {
         success={alertState.success}
         title={alertState.title}
         detail={alertState.detail}
-        onClose={onAlertClose}
+        onClose={closeAlert}
       />
       <div className="w-full py-10 sm:mx-auto sm:max-w-lg sm:px-6 sm:py-32 lg:px-8">
         <form

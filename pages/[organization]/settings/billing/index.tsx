@@ -4,7 +4,7 @@ import * as Sentry from '@sentry/nextjs';
 import axios from 'axios';
 import SimpleAlert from 'components/alert/simple';
 import LoadingIcon from 'components/icon/loading';
-import { FREE_PLAN_ID } from 'constants/payment';
+import { produce } from 'immer';
 import { useAtom } from 'jotai';
 import DashboardLayout from 'layout/dashboard-layout';
 import SettingsLayout from 'layout/settings-layout';
@@ -18,7 +18,6 @@ import { NextPageWithLayout } from 'pages/_app';
 import { ReactElement, useState } from 'react';
 import { globalAtom } from 'store/global';
 import Stripe from 'stripe';
-import { ONBOARDING_FAIL_TO_CREATE_ORGANIZATION } from 'constants/ui-text';
 
 const featureMap = [
   {
@@ -84,8 +83,10 @@ const Billing: NextPageWithLayout = () => {
 
   const getBuyButtonTitle = (product: Product) => {
     const plan = product.Plans.find((plan) => plan.Type === frequency.value);
+    const currentPlan = global.currentUser?.Subscription.Plan;
+    if (!currentPlan) return 'Subscribe';
     if (plan) {
-      if (global.currentUser?.Subscription.Plan.ID === plan.ID) {
+      if (currentPlan.ID === plan.ID) {
         return 'Current';
       } else if (plan.Price < global.currentUser!.Subscription.Plan.Price) {
         return 'Request Downgrade';
@@ -121,20 +122,18 @@ const Billing: NextPageWithLayout = () => {
     if (currentPlan.ID == plan.ID) return;
 
     setProductIntentId(product.ID);
-    if (plan.ID === FREE_PLAN_ID) {
-      // handle free plan downgrade
-    } else {
-      let paymentCustomerID = global.currentUser?.PaymentCustomerID;
-      try {
-        if (!paymentCustomerID) {
-          const { data } = await authRequest<UserResponse>({
-            method: HTTPMethod.GET,
-            url: '/product/billing/customer',
-          });
-          paymentCustomerID = data.data.PaymentCustomerID;
-        }
-        if (currentSubscription.ExternalID && currentSubscription.Status === SubscriptionStatus.Active) {
-          // Upgrade/downgrade
+    let paymentCustomerID = global.currentUser?.PaymentCustomerID;
+    try {
+      if (!paymentCustomerID) {
+        const { data } = await authRequest<UserResponse>({
+          method: HTTPMethod.GET,
+          url: '/product/billing/customer',
+        });
+        paymentCustomerID = data.data.PaymentCustomerID;
+      }
+      if (currentSubscription.ExternalID && currentSubscription.Status === SubscriptionStatus.Active) {
+        // Upgrade
+        if (plan.Price > currentPlan.Price) {
           await axios.post<Stripe.Subscription>('/api/billing/upgrade', {
             subscriptionId: currentSubscription.ExternalID,
             priceId: plan.ExternalID,
@@ -157,28 +156,44 @@ const Billing: NextPageWithLayout = () => {
             detail: 'We have upgraded your subscription. Please check your email for more information',
           });
         } else {
-          const { data } = await axios.post<Stripe.Checkout.Session>('/api/billing/checkout_sessions', {
-            customerId: paymentCustomerID,
-            priceId: plan.ExternalID,
-            relativePath: `${orgSlug!}/settings/billing/result`,
+          setAlertState({
+            on: true,
+            success: false,
+            title: 'Downgrade Requested',
+            detail:
+              'We have received your request to downgrade your subscription. We will notify you when the downgrade is complete',
           });
-          // Redirect to check out.
-          const stripe = await getStripe();
-          const { error } = await stripe!.redirectToCheckout({
-            // Make the id field from the Checkout Session creation API response
-            // available to this file, so you can provide it as parameter here
-            // instead of the {{CHECKOUT_SESSION_ID}} placeholder.
-            sessionId: data.id,
-          });
-          // If `redirectToCheckout` fails due to a browser or network
-          // error, display the localized error message to your customer
-          // using `error.message`.
-          console.warn(error.message);
         }
-      } catch (e) {
-        setProductIntentId(0);
+      } else {
+        const { data } = await axios.post<Stripe.Checkout.Session>('/api/billing/checkout_sessions', {
+          customerId: paymentCustomerID,
+          priceId: plan.ExternalID,
+          relativePath: `${orgSlug!}/settings/billing/result`,
+        });
+        // Redirect to check out.
+        const stripe = await getStripe();
+        const { error } = await stripe!.redirectToCheckout({
+          // Make the id field from the Checkout Session creation API response
+          // available to this file, so you can provide it as parameter here
+          // instead of the {{CHECKOUT_SESSION_ID}} placeholder.
+          sessionId: data.id,
+        });
+        // If `redirectToCheckout` fails due to a browser or network
+        // error, display the localized error message to your customer
+        // using `error.message`.
+        console.warn(error.message);
       }
+    } catch (e) {
+      setProductIntentId(0);
     }
+  };
+
+  const closeAlert = () => {
+    setAlertState(
+      produce((draft) => {
+        draft.on = false;
+      })
+    );
   };
 
   return (
@@ -188,6 +203,7 @@ const Billing: NextPageWithLayout = () => {
         success={alertState.success}
         title={alertState.title}
         detail={alertState.detail}
+        onClose={closeAlert}
       />
       <div className="relative sm:flex sm:flex-col">
         <div className="absolute text-center lg:right-0">
