@@ -1,33 +1,67 @@
+import axios from 'axios';
+import LoadingBubbleIcon from 'components/icon/loading-bubble';
+import SuccessIcon from 'components/icon/success';
+import { produce } from 'immer';
+import { useAtom } from 'jotai';
 import DashboardLayout from 'layout/dashboard-layout';
 import SettingsLayout from 'layout/settings-layout';
-import { NextPageWithLayout } from 'pages/_app';
-import { ReactElement } from 'react';
-import { useAtom } from 'jotai';
-import { globalAtom } from 'store/global';
 import Link from 'next/link';
-import SuccessIcon from 'components/icon/success';
+import { useRouter } from 'next/router';
+import { NextPageWithLayout } from 'pages/_app';
+import { ReactElement, useEffect, useState } from 'react';
+import { globalAtom } from 'store/global';
+import Stripe from 'stripe';
 
 const Result: NextPageWithLayout = () => {
+  const router = useRouter();
+
+  const [uiState, setUIState] = useState({ loading: true, success: false });
   const [global] = useAtom(globalAtom);
   const orgSlug = global.currentUser?.Organization.Slug;
 
+  useEffect(() => {
+    if (!router.isReady) return;
+    const { session_id, success } = router.query;
+
+    axios
+      .get<Stripe.Checkout.Session>(`/api/billing/checkout_sessions/${session_id as string}`)
+      .then((data) => {
+        if (success === 'true' && data.data.payment_status === 'paid') {
+          setUIState(
+            produce((draft) => {
+              draft.loading = false;
+              draft.success = true;
+            })
+          );
+        }
+      })
+      .catch((err) => {});
+  }, [router.isReady, router.query]);
+
+  const getTitle = () => {};
+
   return (
     <div className="p-6 md:mx-auto">
-      <SuccessIcon className="mx-auto my-6 h-16 w-16 text-green-600" />
-      <div className="text-center">
-        <h3 className="text-center text-base font-semibold text-gray-900 md:text-2xl">Payment Done!</h3>
-        <p className="my-2 text-gray-600">Thank you for completing your secure online payment.</p>
-        <p> Have a great day! </p>
-        <div className="py-10 text-center">
-          <Link
-            type="button"
-            href={`/${orgSlug!}/monitors`}
-            className="rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"
-          >
-            Go Back
-          </Link>
-        </div>
-      </div>
+      {uiState.loading ? <LoadingBubbleIcon className="mx-auto mt-4 w-32" /> : null}
+      {uiState.loading ? null : (
+        <section>
+          <SuccessIcon className="mx-auto my-6 h-16 w-16 text-green-600" />
+          <div className="text-center">
+            <h3 className="text-center text-base font-semibold text-gray-900 md:text-2xl">Payment Done!</h3>
+            <p className="my-2 text-gray-600">Thank you for completing your secure online payment.</p>
+            <p> Have a great day! </p>
+            <div className="py-10 text-center">
+              <Link
+                type="button"
+                href={`/${orgSlug!}/monitors`}
+                className="rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"
+              >
+                Go Back
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
     </div>
   );
 };
