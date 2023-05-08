@@ -26,14 +26,13 @@ const Result: NextPageWithLayout = () => {
     axios
       .get<Stripe.Checkout.Session>(`/api/billing/checkout_sessions/${session_id as string}`)
       .then((data) => {
-        if (success === 'true' && data.data.payment_status === 'paid') {
-          setUIState(
-            produce((draft) => {
-              draft.loading = false;
-              draft.success = true;
-            })
-          );
-        }
+        const checkoutSuccess = success === 'true' && data.data.payment_status === 'paid';
+        setUIState(
+          produce((draft) => {
+            draft.loading = false;
+            draft.success = checkoutSuccess;
+          })
+        );
       })
       .catch((err) => {});
   }, [router.isReady, router.query]);
