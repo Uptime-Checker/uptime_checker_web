@@ -24,7 +24,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           },
         ],
         success_url: `${url}&success=true`,
-        cancel_url: `${url}}&canceled=true`,
+        cancel_url: `${url}}&success=false`,
       };
       const checkoutSession = await stripe.checkout.sessions.create(params);
 
