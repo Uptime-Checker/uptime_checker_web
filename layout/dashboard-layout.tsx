@@ -1,10 +1,8 @@
 import * as Sentry from '@sentry/nextjs';
 import SideBar from 'components/dashboard/sidebar';
 import TopBar from 'components/dashboard/topbar';
-import { FREE_PLAN_ID } from 'constants/payment';
 import { useAtom } from 'jotai';
 import { authRequest, elixirClient, HTTPMethod } from 'lib/axios';
-import * as LiveChat from 'lib/crisp';
 import { getCurrentUser, logout, redirectToDashboard, setCurrentUser } from 'lib/global';
 import { ProductResponse } from 'models/subscription';
 import { OrganizationUserResponse, User, UserResponse } from 'models/user';
@@ -42,10 +40,10 @@ export default function DashboardLayout({ children }: Props) {
           draft.products = productResponse.data.data.sort((a, b) => a.Tier - b.Tier);
         });
 
-        if (user.Subscription.Plan.ID !== FREE_PLAN_ID) {
-          LiveChat.load();
-          LiveChat.configureUser(user, user.Subscription);
-        }
+        // if (user.Subscription.Plan.ID !== FREE_PLAN_ID) {
+        //   LiveChat.load();
+        //   LiveChat.configureUser(user, user.Subscription);
+        // }
       } catch (e) {
         Sentry.captureException(e);
       }

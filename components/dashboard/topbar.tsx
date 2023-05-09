@@ -96,7 +96,7 @@ const TopBar = ({ className }: Props) => {
             </HeadwayWidget>
 
             {/* Profile dropdown */}
-            <Menu as="div" className="relative ml-6">
+            <Menu as="div" className="relative z-20 ml-6">
               <Menu.Button className="flex max-w-xs items-center rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                 <span className="sr-only">Open user menu</span>
                 {global.currentUser && global.currentUser.PictureURL && global.currentUser.PictureURL !== '' ? (

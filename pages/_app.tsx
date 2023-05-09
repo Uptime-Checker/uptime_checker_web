@@ -6,6 +6,8 @@ import type { Session } from 'next-auth';
 import { SessionProvider } from 'next-auth/react';
 import type { AppProps } from 'next/app';
 import { ReactElement, ReactNode } from 'react';
+
+import 'react-loading-skeleton/dist/skeleton.css';
 import 'styles/globals.css';
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
