@@ -28,7 +28,7 @@ const TopBar = ({ className }: Props) => {
   const [showSearch, setShowSearch] = useState(false);
 
   useEffect(() => {
-    if (router.isReady) return;
+    if (!router.isReady) return;
 
     const splitRouterHref = router.pathname.split('/');
     setShowSearch(splitRouterHref[2] === 'monitors' && splitRouterHref.length === 3);
