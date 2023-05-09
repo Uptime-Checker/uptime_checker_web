@@ -18,6 +18,7 @@ import { NextPageWithLayout } from 'pages/_app';
 import { ReactElement, useState } from 'react';
 import { globalAtom } from 'store/global';
 import Stripe from 'stripe';
+import { DOWNGRADE_REQUEST, WE_UPGRADED_SUBSCRIPTION } from 'constants/ui-text';
 
 const featureMap = [
   {
@@ -123,8 +124,7 @@ const Billing: NextPageWithLayout = () => {
         on: true,
         success: false,
         title: 'Downgrade Requested',
-        detail:
-          'We have received your request to downgrade your subscription. We will notify you when the downgrade is complete.',
+        detail: DOWNGRADE_REQUEST,
       });
       return;
     }
@@ -165,7 +165,7 @@ const Billing: NextPageWithLayout = () => {
             on: true,
             success: true,
             title: 'Upgrade Successful',
-            detail: 'We have upgraded your subscription. Please check your email for more information.',
+            detail: WE_UPGRADED_SUBSCRIPTION,
           });
         } else {
           setProductIntentId(0);
@@ -173,8 +173,7 @@ const Billing: NextPageWithLayout = () => {
             on: true,
             success: false,
             title: 'Downgrade Requested',
-            detail:
-              'We have received your request to downgrade your subscription. We will notify you when the downgrade is complete.',
+            detail: DOWNGRADE_REQUEST,
           });
         }
       } else {
