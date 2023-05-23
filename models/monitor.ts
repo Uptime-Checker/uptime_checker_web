@@ -29,3 +29,14 @@ export interface Monitor {
 export interface MonitorResponse {
   data: Monitor[];
 }
+
+export interface Region {
+  ID: number;
+  Name: string;
+  Key: string;
+  IPAddress?: string;
+  Default: boolean;
+}
+export interface RegionResponse {
+  data: Region[];
+}
