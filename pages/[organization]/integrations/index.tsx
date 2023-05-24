@@ -2,10 +2,18 @@ import DiscordIcon from 'components/icon/discord';
 import SlackIcon from 'components/icon/slack';
 import TeamsIcon from 'components/icon/teams';
 import WebhookIcon from 'components/icon/webhook';
+import {
+  IntegrationNameDiscord,
+  IntegrationNameSlack,
+  IntegrationNameTeams,
+  IntegrationNameWebhook,
+} from 'constants/default';
+import { useAtom } from 'jotai';
 import DashboardLayout from 'layout/dashboard-layout';
 import { AppName } from 'lib/global';
 import { NextPageWithLayout } from 'pages/_app';
 import { ReactElement } from 'react';
+import { globalAtom } from 'store/global';
 import { LocalIcon } from '../../../types/main';
 
 interface Integration {
@@ -15,24 +23,33 @@ interface Integration {
 
 const integrations: Integration[] = [
   {
-    name: 'Slack',
+    name: IntegrationNameSlack,
     icon: SlackIcon,
   },
   {
-    name: 'Microsoft Teams',
+    name: IntegrationNameTeams,
     icon: TeamsIcon,
   },
   {
-    name: 'Discord',
+    name: IntegrationNameDiscord,
     icon: DiscordIcon,
   },
   {
-    name: 'Webhook',
+    name: IntegrationNameWebhook,
     icon: WebhookIcon,
   },
 ];
 
 const Integrations: NextPageWithLayout = () => {
+  const [global] = useAtom(globalAtom);
+
+  const handleIntegrationClick = (item: Integration) => {
+    if (item.name === IntegrationNameSlack) {
+      const returnURL = `${window.location.origin}/api/integration/slack/${global.currentUser!.Organization.Slug}`;
+      // window.location.replace(`${window.location.origin}/${global.currentUser!.Organization.Slug}`);
+    }
+  };
+
   return (
     <section className="mx-auto mt-6 max-w-7xl px-4 sm:px-6 md:px-8">
       <div className="border-b px-1 pb-6 sm:px-6 md:px-0">
@@ -56,12 +73,12 @@ const Integrations: NextPageWithLayout = () => {
                     Post new {AppName!} incidents to {integration.name}
                   </p>
                 </div>
-                <a
-                  type="button"
+                <button
+                  onClick={() => handleIntegrationClick(integration)}
                   className="cursor-pointer rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
                   Add
-                </a>
+                </button>
               </div>
             </div>
           </article>

@@ -1,6 +1,7 @@
 import * as Sentry from '@sentry/nextjs';
 import { HttpStatusCode } from 'axios';
 import { STRIPE_API_VERSION, STRIPE_CHECKOUT_MODE } from 'constants/default';
+import { InternalServerError, MethodNotAllowed } from 'constants/errors';
 import { HTTPMethod } from 'lib/axios';
 import { NextApiRequest, NextApiResponse } from 'next';
 import Stripe from 'stripe';
@@ -31,7 +32,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.status(HttpStatusCode.Ok).json(checkoutSession);
     } catch (err) {
       Sentry.captureException(err);
-      const errorMessage = err instanceof Error ? err.message : 'Internal server error';
+      const errorMessage = err instanceof Error ? err.message : InternalServerError;
       res.status(HttpStatusCode.InternalServerError).json({ message: errorMessage });
     }
   } else if (req.method === HTTPMethod.GET) {
@@ -39,6 +40,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const session = await stripe.checkout.sessions.retrieve(String(sessionId));
     res.send(session);
   } else {
-    res.status(HttpStatusCode.MethodNotAllowed).end('Method Not Allowed');
+    res.status(HttpStatusCode.MethodNotAllowed).end(MethodNotAllowed);
   }
 }

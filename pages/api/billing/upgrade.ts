@@ -1,6 +1,7 @@
 import * as Sentry from '@sentry/nextjs';
 import { HttpStatusCode } from 'axios';
 import { STRIPE_API_VERSION } from 'constants/default';
+import { MethodNotAllowed } from 'constants/errors';
 import { HTTPMethod } from 'lib/axios';
 import { NextApiRequest, NextApiResponse } from 'next';
 import Stripe from 'stripe';
@@ -30,6 +31,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.status(HttpStatusCode.InternalServerError).json(err);
     }
   } else {
-    res.status(HttpStatusCode.MethodNotAllowed).end('Method Not Allowed');
+    res.status(HttpStatusCode.MethodNotAllowed).end(MethodNotAllowed);
   }
 }

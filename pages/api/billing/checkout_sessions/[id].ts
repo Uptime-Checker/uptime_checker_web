@@ -1,5 +1,6 @@
 import { HttpStatusCode } from 'axios';
 import { STRIPE_API_VERSION } from 'constants/default';
+import { InternalServerError } from 'constants/errors';
 import { NextApiRequest, NextApiResponse } from 'next';
 import Stripe from 'stripe';
 
@@ -20,7 +21,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     res.status(200).json(checkout_session);
   } catch (err) {
-    const errorMessage = err instanceof Error ? err.message : 'Internal server error';
+    const errorMessage = err instanceof Error ? err.message : InternalServerError;
     res.status(HttpStatusCode.InternalServerError).json({ message: errorMessage });
   }
 }
