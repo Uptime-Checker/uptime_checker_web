@@ -18,3 +18,9 @@ export const ProviderNameGithub = 'github';
 export const AuthSchemeJWT = 'jwt';
 
 export const SessionTokenExpirationInDays = 180;
+
+export const IntegrationNameSlack = 'Slack';
+export const IntegrationNameDiscord = 'Discord';
+export const IntegrationNameEmail = 'Email';
+export const IntegrationNameWebhook = 'Webhook';
+export const IntegrationNameTeams = 'Microsoft Teams';
