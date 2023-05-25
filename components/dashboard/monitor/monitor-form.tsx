@@ -107,96 +107,21 @@ const MonitorFormComponent = () => {
               </div>
             </div>
             <div className="sm:col-span-3">
-              <Skeleton />
+              {regions.length === 0 ? <Skeleton /> : null}
               <section className="flex">
-                <div className="flex h-6 items-center gap-2">
-                  <input
-                    id="comments"
-                    name="comments"
-                    type="checkbox"
-                    className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                  />
-                  <label htmlFor="comments" className="text-sm font-medium text-gray-900">
-                    Comments
-                  </label>
-                </div>
-                <div className="flex h-6 items-center gap-2">
-                  <input
-                    id="comments"
-                    name="comments"
-                    type="checkbox"
-                    className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                  />
-                  <label htmlFor="comments" className="text-sm font-medium text-gray-900">
-                    Comments
-                  </label>
-                </div>
-                <div className="flex h-6 items-center gap-2">
-                  <input
-                    id="comments"
-                    name="comments"
-                    type="checkbox"
-                    className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                  />
-                  <label htmlFor="comments" className="text-sm font-medium text-gray-900">
-                    Comments
-                  </label>
-                </div>
-                <div className="flex h-6 items-center gap-2">
-                  <input
-                    id="comments"
-                    name="comments"
-                    type="checkbox"
-                    className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                  />
-                  <label htmlFor="comments" className="text-sm font-medium text-gray-900">
-                    Comments
-                  </label>
-                </div>
-                <div className="flex h-6 items-center gap-2">
-                  <input
-                    id="comments"
-                    name="comments"
-                    type="checkbox"
-                    className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                  />
-                  <label htmlFor="comments" className="text-sm font-medium text-gray-900">
-                    Comments
-                  </label>
-                </div>
-                <div className="flex h-6 items-center gap-2">
-                  <input
-                    id="comments"
-                    name="comments"
-                    type="checkbox"
-                    className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                  />
-                  <label htmlFor="comments" className="text-sm font-medium text-gray-900">
-                    Comments
-                  </label>
-                </div>
-                <div className="flex h-6 items-center gap-2">
-                  <input
-                    id="comments"
-                    name="comments"
-                    type="checkbox"
-                    className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                  />
-                  <label htmlFor="comments" className="text-sm font-medium text-gray-900">
-                    Comments
-                  </label>
-                </div>
-                <div className="flex h-6 items-center gap-2">
-                  <input
-                    id="comments"
-                    name="comments"
-                    type="checkbox"
-                    className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                  />
-                  <label htmlFor="comments" className="text-sm font-medium text-gray-900">
-                    Comments
-                  </label>
-                </div>
+                {regions.map((region) => (
+                  <div key={region.ID} className="flex h-6 min-w-0 items-center gap-2">
+                    <input
+                      id="comments"
+                      name="comments"
+                      type="checkbox"
+                      className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                    />
+                    <label htmlFor="comments" className="text-sm font-medium text-gray-900">
+                      {region.Name}
+                    </label>
+                  </div>
+                ))}
               </section>
             </div>
           </div>
