@@ -107,17 +107,18 @@ const MonitorFormComponent = () => {
               </div>
             </div>
             <div className="sm:col-span-3">
+              <p className="mb-1 text-sm font-medium">Where should we check from?</p>
               {regions.length === 0 ? <Skeleton /> : null}
-              <section className="flex">
+              <section className="flex flex-wrap gap-x-4">
                 {regions.map((region) => (
-                  <div key={region.ID} className="flex h-6 min-w-0 items-center gap-2">
+                  <div key={region.Key} className="flex h-6 min-w-0 items-center gap-2">
                     <input
-                      id="comments"
-                      name="comments"
+                      id={region.Key}
+                      name={region.Key}
                       type="checkbox"
                       className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
                     />
-                    <label htmlFor="comments" className="text-sm font-medium text-gray-900">
+                    <label htmlFor={region.Key} className="text-sm font-normal text-gray-900">
                       {region.Name}
                     </label>
                   </div>
