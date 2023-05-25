@@ -48,7 +48,7 @@ const Integrations: NextPageWithLayout = () => {
       const returnURL = `${window.location.origin}/api/integration/slack/${global.currentUser!.Organization.Slug}`;
       const url = 'https://slack.com/oauth/v2/authorize';
       window.location.href = `${url}?scope=chat:write,incoming-webhook&redirect_uri=${returnURL}&client_id=${process.env
-        .GITHUB_SECRET!}`;
+        .NEXT_PUBLIC_SLACK_CLIENT_ID!}`;
     }
   };
 

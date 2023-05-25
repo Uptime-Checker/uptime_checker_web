@@ -10,15 +10,13 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
 interface Props {
-  accessToken: string;
+  accessToken: string | undefined | null;
 }
 
 export const getServerSideProps = withSessionSsr(function getServerSideProps(ctx) {
-  const accessToken = ctx.req.session.accessToken;
-
   return {
     props: {
-      accessToken: accessToken,
+      accessToken: ctx.req.session.accessToken ?? null,
     },
   };
 });
@@ -33,7 +31,7 @@ export default function EmailResult({ accessToken }: Props) {
 
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
-    if (urlParams.has('error')) {
+    if (urlParams.has('error') || !accessToken) {
       activateError();
       return;
     }
