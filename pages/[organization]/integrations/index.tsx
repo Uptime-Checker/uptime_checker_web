@@ -45,10 +45,10 @@ const Integrations: NextPageWithLayout = () => {
 
   const handleIntegrationClick = (item: Integration) => {
     if (item.name === IntegrationNameSlack) {
-      const returnURL = `${window.location.origin}/api/integration/slack/${global.currentUser!.Organization.Slug}`;
+      const returnURL = `${window.location.origin}/api/integration/slack`;
       const url = 'https://slack.com/oauth/v2/authorize';
       window.location.href = `${url}?scope=chat:write,incoming-webhook&redirect_uri=${returnURL}&client_id=${process.env
-        .NEXT_PUBLIC_SLACK_CLIENT_ID!}`;
+        .NEXT_PUBLIC_SLACK_CLIENT_ID!}&state=${global.currentUser!.Organization.Slug}`;
     }
   };
 
