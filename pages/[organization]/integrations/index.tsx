@@ -14,7 +14,7 @@ import { AppName } from 'lib/global';
 import { NextPageWithLayout } from 'pages/_app';
 import { ReactElement } from 'react';
 import { globalAtom } from 'store/global';
-import { LocalIcon } from '../../../types/main';
+import { LocalIcon } from 'types/main';
 
 interface Integration {
   name: string;
@@ -46,7 +46,10 @@ const Integrations: NextPageWithLayout = () => {
   const handleIntegrationClick = (item: Integration) => {
     if (item.name === IntegrationNameSlack) {
       const returnURL = `${window.location.origin}/api/integration/slack/${global.currentUser!.Organization.Slug}`;
-      // window.location.replace(`${window.location.origin}/${global.currentUser!.Organization.Slug}`);
+      const url = 'https://slack.com/oauth/v2/authorize';
+      window.location.replace(
+        `${url}?scope=chat:write,incoming-webhook&redirect_uri=${returnURL}&client_id=${process.env.GITHUB_SECRET!}`
+      );
     }
   };
 
