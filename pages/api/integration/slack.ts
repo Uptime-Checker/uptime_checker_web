@@ -1,5 +1,6 @@
-import { NextApiRequest, NextApiResponse } from 'next';
 import axios from 'axios';
+import { ContentTypeFormUrlEncoded, SLACK_OAUTH_API_V2 } from 'constants/default';
+import { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const host = req.headers['host']!;
@@ -11,9 +12,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   form.append('client_secret', process.env.SLACK_CLIENT_SECRET!);
   form.append('redirect_uri', `https://${host}${path}`);
 
-  const { data } = await axios.post('https://slack.com/api/oauth.v2.access', form, {
+  const { data } = await axios.post(SLACK_OAUTH_API_V2, form, {
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
+      'Content-Type': ContentTypeFormUrlEncoded,
     },
   });
   console.log(data);
