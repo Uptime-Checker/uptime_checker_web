@@ -19,7 +19,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       expand: ['payment_intent'],
     });
 
-    res.status(200).json(checkout_session);
+    res.status(HttpStatusCode.Ok).json(checkout_session);
   } catch (err) {
     const errorMessage = err instanceof Error ? err.message : InternalServerError;
     res.status(HttpStatusCode.InternalServerError).json({ message: errorMessage });
