@@ -1,6 +1,7 @@
 import { ExclamationCircleIcon } from '@heroicons/react/24/solid';
 import * as Sentry from '@sentry/nextjs';
 import axios from 'axios';
+import BookFallingIcon from 'components/icon/book-falling';
 import SuccessIcon from 'components/icon/success';
 import { produce } from 'immer';
 import { useAtom } from 'jotai';
@@ -12,7 +13,6 @@ import { NextPageWithLayout } from 'pages/_app';
 import { ReactElement, useEffect, useState } from 'react';
 import { globalAtom } from 'store/global';
 import Stripe from 'stripe';
-import BookFallingIcon from 'components/icon/book-falling';
 
 const Result: NextPageWithLayout = () => {
   const router = useRouter();
