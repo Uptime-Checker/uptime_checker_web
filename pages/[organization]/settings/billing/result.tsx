@@ -25,6 +25,11 @@ const Result: NextPageWithLayout = () => {
     if (!router.isReady) return;
     const { session_id, success } = router.query;
 
+    if (!session_id) {
+      router.back();
+      return;
+    }
+
     axios
       .get<Stripe.Checkout.Session>(`/api/billing/checkout_sessions/${session_id as string}`)
       .then((data) => {
