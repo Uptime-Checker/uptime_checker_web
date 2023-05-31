@@ -8,12 +8,10 @@ import {
   IntegrationNameTeams,
   IntegrationNameWebhook,
 } from 'constants/default';
-import { useAtom } from 'jotai';
 import DashboardLayout from 'layout/dashboard-layout';
 import { AppName } from 'lib/global';
 import { NextPageWithLayout } from 'pages/_app';
 import { ReactElement } from 'react';
-import { globalAtom } from 'store/global';
 import { LocalIcon } from 'types/main';
 
 interface Integration {
@@ -41,14 +39,12 @@ const integrations: Integration[] = [
 ];
 
 const Integrations: NextPageWithLayout = () => {
-  const [global] = useAtom(globalAtom);
-
   const handleIntegrationClick = (item: Integration) => {
     if (item.name === IntegrationNameSlack) {
-      const returnURL = `${window.location.origin}/api/integration/slack`;
+      const returnURL = `${window.location.href}/slack/result`;
       const url = 'https://slack.com/oauth/v2/authorize';
       window.location.href = `${url}?scope=chat:write,incoming-webhook&redirect_uri=${returnURL}&client_id=${process.env
-        .NEXT_PUBLIC_SLACK_CLIENT_ID!}&state=${global.currentUser!.Organization.Slug}`;
+        .NEXT_PUBLIC_SLACK_CLIENT_ID!}`;
     }
   };
 
