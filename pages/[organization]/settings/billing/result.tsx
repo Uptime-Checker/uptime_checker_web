@@ -1,7 +1,6 @@
 import { ExclamationCircleIcon } from '@heroicons/react/24/solid';
 import * as Sentry from '@sentry/nextjs';
 import axios from 'axios';
-import LoadingBubbleIcon from 'components/icon/loading-bubble';
 import SuccessIcon from 'components/icon/success';
 import { produce } from 'immer';
 import { useAtom } from 'jotai';
@@ -13,6 +12,7 @@ import { NextPageWithLayout } from 'pages/_app';
 import { ReactElement, useEffect, useState } from 'react';
 import { globalAtom } from 'store/global';
 import Stripe from 'stripe';
+import BookFallingIcon from 'components/icon/book-falling';
 
 const Result: NextPageWithLayout = () => {
   const router = useRouter();
@@ -50,7 +50,7 @@ const Result: NextPageWithLayout = () => {
         );
         Sentry.captureException(err);
       });
-  }, [router.isReady, router.query]);
+  }, [router]);
 
   const getTitle = () => {
     return uiState.success ? 'Payment Successful!' : 'Payment Failed!';
@@ -68,7 +68,7 @@ const Result: NextPageWithLayout = () => {
 
   return (
     <div className="p-6 md:mx-auto">
-      {uiState.loading ? <LoadingBubbleIcon className="mx-auto mt-4 w-32" /> : null}
+      {uiState.loading ? <BookFallingIcon className="mx-auto mt-4 w-20" /> : null}
       {uiState.loading ? null : (
         <section>
           {uiState.success ? (
