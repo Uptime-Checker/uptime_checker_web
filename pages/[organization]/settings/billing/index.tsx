@@ -15,10 +15,11 @@ import { classNames } from 'lib/tailwind/utils';
 import { PlanType, Product, ProductTier, SubscriptionStatus } from 'models/subscription';
 import { UserResponse } from 'models/user';
 import { NextPageWithLayout } from 'pages/_app';
-import { ReactElement, useState } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 import { globalAtom } from 'store/global';
 import Stripe from 'stripe';
 import { DOWNGRADE_REQUEST, WE_UPGRADED_SUBSCRIPTION } from 'constants/ui-text';
+import BookFallingIcon from 'components/icon/book-falling';
 
 const featureMap = [
   {
@@ -65,12 +66,19 @@ const frequencies: Frequency[] = [
 
 const Billing: NextPageWithLayout = () => {
   const [global, setGlobal] = useAtom(globalAtom);
+  const [loading, setLoading] = useState(true);
   const [frequency, setFrequency] = useState(frequencies[0]);
   const [portalLoading, setPortalLoading] = useState(false);
   const [productIntentId, setProductIntentId] = useState(0);
   const [alertState, setAlertState] = useState({ on: false, success: true, title: '', detail: '' });
 
   const orgSlug = global.currentUser?.Organization.Slug;
+
+  useEffect(() => {
+    if (global.products.length > 0) {
+      setLoading(false);
+    }
+  }, [global.products]);
 
   const getPrice = (product: Product) => {
     const plan = product.Plans.find((plan) => plan.Type === frequency.value);
@@ -110,7 +118,7 @@ const Billing: NextPageWithLayout = () => {
         customerId: paymentCustomerID,
         relativePath: `${orgSlug!}/settings/billing`,
       });
-      window.location.replace(data.url);
+      window.location.href = data.url;
     } catch (e) {
       setPortalLoading(false);
     }
@@ -238,88 +246,93 @@ const Billing: NextPageWithLayout = () => {
         <p className="mt-3 text-gray-500 xl:text-center">All plans come with a 30-day money-back guarantee</p>
 
         {/* Toggle */}
-        <div className="relative mt-6 flex justify-center sm:mt-8">
-          <RadioGroup
-            value={frequency}
-            onChange={setFrequency}
-            className="grid grid-cols-2 gap-x-1 rounded-full p-1 text-center text-xs font-semibold leading-5 ring-1 ring-inset ring-gray-200"
-          >
-            <RadioGroup.Label className="sr-only">Payment frequency</RadioGroup.Label>
-            {frequencies.map((option) => (
-              <RadioGroup.Option
-                key={option.value}
-                value={option}
-                className={({ checked }) =>
-                  classNames(
-                    checked ? 'bg-indigo-600 text-white' : 'text-gray-500',
-                    'cursor-pointer rounded-full px-2.5 py-1'
-                  )
-                }
-              >
-                <span>{option.label}</span>
-              </RadioGroup.Option>
-            ))}
-          </RadioGroup>
-        </div>
+        {loading ? null : (
+          <div className="relative mt-6 flex justify-center sm:mt-8">
+            <RadioGroup
+              value={frequency}
+              onChange={setFrequency}
+              className="grid grid-cols-2 gap-x-1 rounded-full p-1 text-center text-xs font-semibold leading-5 ring-1 ring-inset ring-gray-200"
+            >
+              <RadioGroup.Label className="sr-only">Payment frequency</RadioGroup.Label>
+              {frequencies.map((option) => (
+                <RadioGroup.Option
+                  key={option.value}
+                  value={option}
+                  className={({ checked }) =>
+                    classNames(
+                      checked ? 'bg-indigo-600 text-white' : 'text-gray-500',
+                      'cursor-pointer rounded-full px-2.5 py-1'
+                    )
+                  }
+                >
+                  <span>{option.label}</span>
+                </RadioGroup.Option>
+              ))}
+            </RadioGroup>
+          </div>
+        )}
       </div>
 
       {/* Tiers */}
-      <div className="mt-12 space-y-8 sm:mt-16 sm:grid sm:grid-cols-2 sm:gap-6 sm:space-y-0 lg:mx-auto lg:max-w-4xl xl:mx-0 xl:max-w-none xl:grid-cols-4">
-        {global.products.map((product) => (
-          <div
-            key={product.Name}
-            className="relative flex flex-col divide-y divide-gray-200 rounded-2xl border border-gray-200 bg-white shadow-sm"
-          >
-            <div className="mt-5 p-6">
-              <h3 className="text-xl font-semibold text-gray-900">{product.Name}</h3>
-              {product.Popular ? (
-                <p className="absolute top-0 -translate-y-1/2 transform rounded-full bg-indigo-500 px-4 py-1.5 text-sm font-semibold text-white">
-                  Most popular
+      {loading ? <BookFallingIcon className="mx-auto mt-4 w-20" /> : null}
+      {loading ? null : (
+        <div className="mt-12 space-y-8 sm:mt-16 sm:grid sm:grid-cols-2 sm:gap-6 sm:space-y-0 lg:mx-auto lg:max-w-4xl xl:mx-0 xl:max-w-none xl:grid-cols-4">
+          {global.products.map((product) => (
+            <div
+              key={product.Name}
+              className="relative flex flex-col divide-y divide-gray-200 rounded-2xl border border-gray-200 bg-white shadow-sm"
+            >
+              <div className="mt-5 p-6">
+                <h3 className="text-xl font-semibold text-gray-900">{product.Name}</h3>
+                {product.Popular ? (
+                  <p className="absolute top-0 -translate-y-1/2 transform rounded-full bg-indigo-500 px-4 py-1.5 text-sm font-semibold text-white">
+                    Most popular
+                  </p>
+                ) : null}
+                <p className="mt-6 flex items-baseline text-gray-900">
+                  <span className="text-4xl font-bold tracking-tight">${getPrice(product)}</span>
+                  <span className="ml-1 text-xl font-semibold">{frequency.priceSuffix}</span>
                 </p>
-              ) : null}
-              <p className="mt-6 flex items-baseline text-gray-900">
-                <span className="text-4xl font-bold tracking-tight">${getPrice(product)}</span>
-                <span className="ml-1 text-xl font-semibold">{frequency.priceSuffix}</span>
-              </p>
 
-              <button
-                disabled={productIntentId !== 0}
-                onClick={() => handleBuyClick(product)}
-                className={classNames(
-                  product.Popular
-                    ? 'bg-indigo-500 text-white hover:bg-indigo-600'
-                    : 'bg-indigo-50 text-indigo-700 hover:bg-indigo-100',
-                  'mt-8 flex w-full items-center justify-center rounded-md border border-transparent px-6 py-3 text-center font-medium'
-                )}
-              >
-                {product.ID === productIntentId ? (
-                  <LoadingIcon
-                    className={classNames(
-                      product.Popular ? 'text-white' : 'text-indigo-700',
-                      'mr-2 h-6 w-6 animate-spin'
-                    )}
-                  />
-                ) : (
-                  <p>{getBuyButtonTitle(product)}</p>
-                )}
-              </button>
-            </div>
+                <button
+                  disabled={productIntentId !== 0}
+                  onClick={() => handleBuyClick(product)}
+                  className={classNames(
+                    product.Popular
+                      ? 'bg-indigo-500 text-white hover:bg-indigo-600'
+                      : 'bg-indigo-50 text-indigo-700 hover:bg-indigo-100',
+                    'mt-8 flex w-full items-center justify-center rounded-md border border-transparent px-6 py-3 text-center font-medium'
+                  )}
+                >
+                  {product.ID === productIntentId ? (
+                    <LoadingIcon
+                      className={classNames(
+                        product.Popular ? 'text-white' : 'text-indigo-700',
+                        'mr-2 h-6 w-6 animate-spin'
+                      )}
+                    />
+                  ) : (
+                    <p>{getBuyButtonTitle(product)}</p>
+                  )}
+                </button>
+              </div>
 
-            {/* Feature list */}
-            <div className="px-6 pb-8 pt-6">
-              <h3 className="text-sm font-medium text-gray-900">What&apos;s included</h3>
-              <ul role="list" className="mt-6 space-y-4">
-                {getFeatures(product)?.features.map((feature) => (
-                  <li key={feature} className="flex space-x-3">
-                    <CheckIcon className="h-5 w-5 flex-shrink-0 text-green-500" aria-hidden="true" />
-                    <span className="text-sm text-gray-500">{feature}</span>
-                  </li>
-                ))}
-              </ul>
+              {/* Feature list */}
+              <div className="px-6 pb-8 pt-6">
+                <h3 className="text-sm font-medium text-gray-900">What&apos;s included</h3>
+                <ul role="list" className="mt-6 space-y-4">
+                  {getFeatures(product)?.features.map((feature) => (
+                    <li key={feature} className="flex space-x-3">
+                      <CheckIcon className="h-5 w-5 flex-shrink-0 text-green-500" aria-hidden="true" />
+                      <span className="text-sm text-gray-500">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
