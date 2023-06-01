@@ -13,7 +13,7 @@ import {
 } from 'constants/default';
 import { useAtom } from 'jotai';
 import DashboardLayout from 'layout/dashboard-layout';
-import { apiClient } from 'lib/axios';
+import { HTTPMethod, authRequest } from 'lib/axios';
 import { IntegrationType, SingleIntegrationResponse } from 'models/monitor';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -62,11 +62,14 @@ const Result: NextPageWithLayout = () => {
         })
         .then((res) => {
           if (res.data.ok) {
-            apiClient
-              .post<SingleIntegrationResponse>('/integration', {
+            authRequest<SingleIntegrationResponse>({
+              method: HTTPMethod.POST,
+              url: '/integration',
+              data: {
                 type: IntegrationType.Slack,
                 config: res.data,
-              })
+              },
+            })
               .then(() => {
                 setUIState({ loading: false, success: true });
               })
