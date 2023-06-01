@@ -192,7 +192,7 @@ const Monitors: NextPageWithLayout = () => {
           </button>
         ))}
       </dl>
-      <section className="mt-10 flex">
+      <section className="mt-10 flex items-center">
         <div className="flex-auto items-baseline sm:flex">
           <p className="text-3xl font-semibold text-gray-900">Monitors</p>
           <p className="ml-0.5 truncate text-sm text-slate-500 sm:ml-2">Last 10 Days</p>
