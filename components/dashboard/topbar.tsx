@@ -1,7 +1,6 @@
 import { Menu, Transition } from '@headlessui/react';
-import HeadwayWidget, { HeadwayWidgetTrigger } from '@headwayapp/react-widget';
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid';
-import { Bars3Icon, BellIcon } from '@heroicons/react/24/outline';
+import { Bars3Icon } from '@heroicons/react/24/outline';
 import { useAtom } from 'jotai';
 import { logout } from 'lib/global';
 import { classNames } from 'lib/tailwind/utils';
@@ -85,18 +84,9 @@ const TopBar = ({ className }: Props) => {
         </div>
         <div className="flex flex-1 justify-end px-4 md:px-0">
           {searchBar}
-          <section className="ml-4 flex items-center md:ml-6">
-            <HeadwayWidget account={process.env.NEXT_PUBLIC_HEADWAY_WEBSITE_ID!}>
-              <HeadwayWidgetTrigger>
-                <button type="button" className="rounded-md bg-gray-100 p-1 text-gray-500">
-                  <span className="sr-only">View notifications</span>
-                  <BellIcon className="h-6 w-6" aria-hidden="true" />
-                </button>
-              </HeadwayWidgetTrigger>
-            </HeadwayWidget>
-
+          <section className="flex items-center">
             {/* Profile dropdown */}
-            <Menu as="div" className="relative z-20 ml-6">
+            <Menu as="div" className="relative z-20 ml-10">
               <Menu.Button className="flex max-w-xs items-center rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                 <span className="sr-only">Open user menu</span>
                 {global.currentUser && global.currentUser.PictureURL && global.currentUser.PictureURL !== '' ? (

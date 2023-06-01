@@ -11,6 +11,7 @@ import { OrganizationUserResponse, User, UserResponse } from 'models/user';
 import { useRouter } from 'next/router';
 import { ReactNode, useCallback, useEffect } from 'react';
 import { globalAtom } from 'store/global';
+import { booleanify } from 'utils/misc';
 
 type Props = {
   children: ReactNode;
@@ -42,7 +43,7 @@ export default function DashboardLayout({ children }: Props) {
           draft.products = productResponse.data.data.sort((a, b) => a.Tier - b.Tier);
         });
 
-        if (user.Subscription.Plan.ID !== FREE_PLAN_ID) {
+        if (user.Subscription.Plan.ID !== FREE_PLAN_ID && booleanify(process.env.NEXT_PUBLIC_SHOW_CRISP!)) {
           LiveChat.load();
           LiveChat.configureUser(user, user.Subscription);
         }

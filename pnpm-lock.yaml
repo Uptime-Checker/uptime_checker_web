@@ -7,9 +7,6 @@ dependencies:
   '@headlessui/react':
     specifier: ^1.7.14
     version: 1.7.14(react-dom@18.2.0)(react@18.2.0)
-  '@headwayapp/react-widget':
-    specifier: ^0.0.4
-    version: 0.0.4(react-dom@18.2.0)(react@18.2.0)
   '@heroicons/react':
     specifier: ^2.0.17
     version: 2.0.17(react@18.2.0)
@@ -1391,17 +1388,6 @@ packages:
       react-dom: ^16 || ^17 || ^18
     dependencies:
       client-only: 0.0.1
-      react: 18.2.0
-      react-dom: 18.2.0(react@18.2.0)
-    dev: false
-
-  /@headwayapp/react-widget@0.0.4(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-Gw7R85tE0LSYFBu7DcnGZUO1AnF2J0+HoCKxlQVCE0GgsQzZjfpoCkq+q6zAy9374zSOl4GmivDhh/wCjhH3Pw==}
-    peerDependencies:
-      react: ^16.8.0
-      react-dom: ^16.8.0
-    dependencies:
-      prop-types: 15.8.1
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
     dev: false
