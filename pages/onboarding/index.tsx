@@ -224,7 +224,7 @@ export default function Onboarding() {
                     <div className="mt-1 flex rounded-md shadow-sm">
                       <div className="relative flex flex-grow items-stretch focus-within:z-10">
                         <span className="inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-gray-500 sm:text-sm">
-                          https://
+                          {window.location.origin}/
                         </span>
                         <input
                           required
@@ -239,12 +239,9 @@ export default function Onboarding() {
                           placeholder="twitter"
                           aria-invalid="false"
                           aria-describedby="error-organisation-slug-required"
-                          className="block w-full rounded-none border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                          className="block w-full rounded-none rounded-r-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                         />
                       </div>
-                      <span className="inline-flex items-center rounded-r-md border border-l-0 border-gray-300 bg-gray-50 px-3 text-gray-500 sm:text-sm">
-                        .{process.env.NEXT_PUBLIC_HOST!}
-                      </span>
                     </div>
                   </div>
                 </div>
