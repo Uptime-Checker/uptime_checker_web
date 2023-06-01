@@ -46,13 +46,16 @@ const Result: NextPageWithLayout = () => {
   useEffect(() => {
     if (!router.isReady) return;
 
+    const { origin, pathname } = new URL(window.location.href);
+    const urlWithoutQueryOrHash = `${origin}${pathname}`;
+
     const integration = getIntegration(router.asPath);
     if (integration === IntegrationNameSlack) {
       const form = new FormData();
       form.append('code', router.query.code as string);
       form.append('client_id', process.env.NEXT_PUBLIC_SLACK_CLIENT_ID!);
       form.append('client_secret', process.env.NEXT_PUBLIC_SLACK_CLIENT_SECRET!);
-      form.append('redirect_uri', window.location.href);
+      form.append('redirect_uri', urlWithoutQueryOrHash);
 
       axios
         .post(SLACK_OAUTH_API_V2, form, {
@@ -96,7 +99,7 @@ const Result: NextPageWithLayout = () => {
   const getDescription = () => {
     const integration = getIntegration(router.asPath);
     return uiState.success
-      ? `We have Successfully integrated ${integration}. You can now get alerts in ${integration} channels.`
+      ? `We have successfully integrated ${integration}. You can now get alerts in ${integration} channels.`
       : `We failed to integrate ${integration}. Please try again. If you need assistance, please contact support.`;
   };
 
