@@ -3,8 +3,6 @@ import Skeleton from 'react-loading-skeleton';
 import { useEffect, useState } from 'react';
 import { elixirClient } from 'lib/axios';
 import { Region, RegionResponse } from 'models/monitor';
-import { Disclosure, Transition } from '@headlessui/react';
-import { ChevronUpIcon } from '@heroicons/react/20/solid';
 import Accordion from 'components/accordion';
 
 const MonitorFormComponent = () => {
@@ -134,9 +132,9 @@ const MonitorFormComponent = () => {
         <Accordion text={'HTTP Request Settings'}>
           <div className="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3">
             <div>
-              <h2 className="text-base font-semibold leading-7 text-gray-900">Personal Information</h2>
+              <h2 className="text-base font-semibold leading-7 text-gray-900">HTTP request settings</h2>
               <p className="mt-1 text-sm leading-6 text-gray-600">
-                Use a permanent address where you can receive mail.
+                Customise the request, add necessary headers and so on.
               </p>
             </div>
 
