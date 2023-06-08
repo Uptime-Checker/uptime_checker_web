@@ -1,12 +1,28 @@
 import Accordion from 'components/accordion';
 import { elixirClient } from 'lib/axios';
+import { classNames } from 'lib/tailwind/utils';
 import { Region, RegionResponse } from 'models/monitor';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 
+const httpRequestTabs = [
+  { name: 'Body' },
+  { name: 'Request Headers' },
+  { name: 'Query Parameters' },
+  { name: 'Authentication' },
+];
+
 const MonitorFormComponent = () => {
+  const [selectedHTTPRequestTab, setHTTPRequestTab] = useState(httpRequestTabs[0]);
   const [regions, setRegions] = useState<Region[]>([]);
+
+  const getActiveTab = useCallback(
+    (httpRequestTabName: string) => {
+      return httpRequestTabName === selectedHTTPRequestTab.name;
+    },
+    [selectedHTTPRequestTab.name]
+  );
 
   useEffect(() => {
     elixirClient
@@ -161,17 +177,40 @@ const MonitorFormComponent = () => {
               </div>
 
               <div className="col-span-full">
-                <label htmlFor="street-address" className="block text-sm font-medium leading-6 text-gray-900">
-                  Street address
-                </label>
-                <div className="mt-2">
-                  <input
-                    type="text"
-                    name="street-address"
-                    id="street-address"
-                    autoComplete="street-address"
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  />
+                <div className="sm:hidden">
+                  <label htmlFor="tabs" className="sr-only">
+                    Select a tab
+                  </label>
+                  {/* Use an "onChange" listener to redirect the user to the selected tab URL. */}
+                  <select
+                    id="tabs"
+                    name="tabs"
+                    className="block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                    defaultValue={selectedHTTPRequestTab.name}
+                  >
+                    {httpRequestTabs.map((tab) => (
+                      <option key={tab.name}>{tab.name}</option>
+                    ))}
+                  </select>
+                </div>
+                <div className="hidden sm:block">
+                  <div className="border-b border-gray-200">
+                    <nav className="-mb-px flex space-x-8" aria-label="Tabs">
+                      {httpRequestTabs.map((tab) => (
+                        <button
+                          key={tab.name}
+                          className={classNames(
+                            getActiveTab(tab.name)
+                              ? 'border-indigo-500 text-indigo-600'
+                              : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700',
+                            'whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium'
+                          )}
+                        >
+                          {tab.name}
+                        </button>
+                      ))}
+                    </nav>
+                  </div>
                 </div>
               </div>
 
