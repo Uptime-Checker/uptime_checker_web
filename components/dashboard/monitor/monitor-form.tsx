@@ -3,7 +3,7 @@ import { elixirClient } from 'lib/axios';
 import { classNames } from 'lib/tailwind/utils';
 import { Region, RegionResponse } from 'models/monitor';
 import Link from 'next/link';
-import { useCallback, useEffect, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 
 const httpRequestTabs = [
@@ -17,12 +17,18 @@ const MonitorFormComponent = () => {
   const [selectedHTTPRequestTab, setHTTPRequestTab] = useState(httpRequestTabs[0]);
   const [regions, setRegions] = useState<Region[]>([]);
 
-  const getActiveTab = useCallback(
+  const getActiveHTTPRequestTab = useCallback(
     (httpRequestTabName: string) => {
       return httpRequestTabName === selectedHTTPRequestTab.name;
     },
     [selectedHTTPRequestTab.name]
   );
+
+  const onHTTPRequestTabChange = (event: ChangeEvent) => {
+    const target = event.target as HTMLInputElement;
+    const selectedTab = httpRequestTabs.find((tab) => tab.name === target.value);
+    setHTTPRequestTab(selectedTab!);
+  };
 
   useEffect(() => {
     elixirClient
@@ -154,7 +160,7 @@ const MonitorFormComponent = () => {
               </p>
             </div>
 
-            <div className="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 md:col-span-2">
+            <div className="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-5 sm:grid-cols-6 md:col-span-2">
               <div className="sm:col-span-3">
                 <label htmlFor="method" className="block text-sm font-medium leading-6 text-gray-900">
                   HTTP Method
@@ -187,6 +193,7 @@ const MonitorFormComponent = () => {
                     name="tabs"
                     className="block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                     defaultValue={selectedHTTPRequestTab.name}
+                    onChange={onHTTPRequestTabChange}
                   >
                     {httpRequestTabs.map((tab) => (
                       <option key={tab.name}>{tab.name}</option>
@@ -200,7 +207,7 @@ const MonitorFormComponent = () => {
                         <button
                           key={tab.name}
                           className={classNames(
-                            getActiveTab(tab.name)
+                            getActiveHTTPRequestTab(tab.name)
                               ? 'border-indigo-500 text-indigo-600'
                               : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700',
                             'whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium'
