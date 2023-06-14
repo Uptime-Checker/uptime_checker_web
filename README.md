@@ -8,6 +8,12 @@ First, install dependencies:
 pnpm install --shamefully-hoist
 ```
 
+Migrate NextAuth
+
+```bash
+pnpm dlx prisma migrate dev --name init
+```
+
 Second, run the development server:
 
 ```bash
