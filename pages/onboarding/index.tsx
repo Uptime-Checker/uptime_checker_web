@@ -22,6 +22,7 @@ import { sanitizeString } from 'utils/misc';
 let nameUpdated = false;
 
 export default function Onboarding() {
+  const [origin, setOrigin] = useState('');
   const [orgSlug, setOrgSlug] = useState('');
   const [loading, setLoading] = useState(false);
   const [alertState, setAlertState] = useState({ on: false, success: true, title: '', detail: '' });
@@ -44,6 +45,8 @@ export default function Onboarding() {
           Sentry.captureException(error);
         });
     }
+
+    setOrigin(window.location.origin);
 
     return () => {
       setLoading(false);
@@ -224,7 +227,7 @@ export default function Onboarding() {
                     <div className="mt-1 flex rounded-md shadow-sm">
                       <div className="relative flex flex-grow items-stretch focus-within:z-10">
                         <span className="inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-gray-500 sm:text-sm">
-                          {window.location.origin}/
+                          {origin}/
                         </span>
                         <input
                           required
