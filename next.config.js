@@ -10,6 +10,9 @@ const moduleExports = {
   swcMinify: true,
   reactStrictMode: true,
   productionBrowserSourceMaps: true,
+  images: {
+    domains: ['avatars.githubusercontent.com', 'lh3.googleusercontent.com'],
+  },
 
   sentry: {
     // Use `hidden-source-map` rather than `source-map` as the Webpack `devtool`
@@ -19,6 +22,8 @@ const moduleExports = {
     // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/#use-hidden-source-map
     // for more information.
     hideSourceMaps: true,
+    widenClientFileUpload: true,
+    tunnelRoute: '/monitoring-tunnel',
   },
 };
 

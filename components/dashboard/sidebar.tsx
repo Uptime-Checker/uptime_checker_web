@@ -1,5 +1,6 @@
 import { Dialog, Popover, Transition } from '@headlessui/react';
 import {
+  CheckBadgeIcon,
   CheckIcon,
   ChevronUpDownIcon,
   CogIcon,
@@ -12,59 +13,50 @@ import {
 } from '@heroicons/react/24/outline';
 import FullLogo from 'components/logo/full-logo';
 import { useAtom } from 'jotai';
-import { getCurrentUser } from 'lib/global';
+import { classNames } from 'lib/tailwind/utils';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { Fragment, SVGProps, useEffect, useState } from 'react';
+import { Fragment, useRef } from 'react';
 import { globalAtom } from 'store/global';
-import { classNames } from 'utils/misc';
+import { HeroIcon } from 'types/main';
 
 interface NavigationItem {
   name: string;
   href: string;
-  icon: (
-    props: SVGProps<SVGSVGElement> & {
-      title?: string | undefined;
-      titleId?: string | undefined;
-    }
-  ) => JSX.Element;
+  icon: HeroIcon;
 }
 
 const navigation: NavigationItem[] = [
-  { name: 'Monitors', href: '/monitors', icon: HomeIcon },
-  { name: 'Incidents', href: '/incidents', icon: ShieldExclamationIcon },
-  { name: 'Integrations', href: '/integrations', icon: SquaresPlusIcon },
-  { name: 'Team', href: '/team', icon: UsersIcon },
-  { name: 'Settings', href: '/settings/account', icon: CogIcon },
+  { name: 'Monitors', href: 'monitors', icon: HomeIcon },
+  { name: 'Checks', href: 'checks', icon: CheckBadgeIcon },
+  { name: 'Alerts', href: 'alerts', icon: ShieldExclamationIcon },
+  { name: 'Integrations', href: 'integrations', icon: SquaresPlusIcon },
+  { name: 'Team', href: 'team', icon: UsersIcon },
+  { name: 'Settings', href: 'settings/account', icon: CogIcon },
 ];
 
 const SideBar = () => {
   const router = useRouter();
   const [global, setGlobal] = useAtom(globalAtom);
+  const orgSlug = global.currentUser?.Organization.Slug;
+  const orgName = global.currentUser?.Organization.Name;
 
-  useEffect(() => {
-    let user = getCurrentUser();
-    if (user !== null && user.organization !== null) {
-      setOrgName(user.organization.name);
-    } else if (global.currentUser !== null) {
-      setOrgName(global.currentUser.organization.name);
-    }
-  }, [global]);
+  // For initial focus https://headlessui.com/react/dialog#managing-initial-focus
+  const completeButtonRef = useRef(null);
 
   const toggleSidebar = () =>
     setGlobal((draft) => {
       draft.sidebar = !draft.sidebar;
     });
 
-  const [orgName, setOrgName] = useState('');
-
   const isNavActive = (navItem: NavigationItem) => {
-    let splitNavHref = navItem.href.split('/');
-    return router.pathname.includes(splitNavHref[1]);
+    const splitNavHref = navItem.href.split('/');
+    const splitRouterHref = router.pathname.split('/');
+    return splitRouterHref[2] === splitNavHref[0];
   };
 
   const logo = (
-    <Link className="flex flex-shrink-0 items-center px-4" href="/monitors">
+    <Link href={`/${orgSlug!}/monitors`} className="flex flex-shrink-0 items-center px-4">
       <FullLogo className="h-8 w-auto" />
     </Link>
   );
@@ -74,7 +66,7 @@ const SideBar = () => {
       {navigation.map((item) => (
         <Link
           key={item.name}
-          href={item.href}
+          href={`/${orgSlug!}/${item.href}`}
           onClick={toggleSidebar}
           className={classNames(
             isNavActive(item) ? 'bg-gray-100 text-gray-900' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900',
@@ -99,7 +91,7 @@ const SideBar = () => {
       <Popover className="block w-full flex-shrink-0">
         <Popover.Button className="block w-full flex-shrink-0 p-4 focus:outline-none">
           <div className="flex items-center">
-            <div className="flex flex-grow">
+            <div className="flex flex-grow items-center">
               <UserGroupIcon className="inline-block h-9 w-9 rounded-full text-gray-700 group-hover:text-gray-900" />
               <div className="ml-3 text-left font-medium">
                 <p className="text-xs text-gray-500 group-hover:text-gray-700">Organization</p>
@@ -122,19 +114,19 @@ const SideBar = () => {
           <Popover.Panel className="absolute bottom-20 z-10 mt-3 w-full px-4">
             {({ close }) => (
               <div className="overflow-hidden rounded-lg shadow-xl ring-1 ring-black ring-opacity-5">
-                <div className="flex flex-col bg-white py-2 px-1">
+                <div className="flex flex-col bg-white px-1 py-2">
                   {global.organizations.map((org) => (
                     <button
                       onClick={() => {
                         close();
                       }}
-                      key={org.organization.id}
+                      key={org.Organization.ID}
                       className="flex items-center justify-between rounded-lg p-2 transition duration-150 ease-in-out
                   hover:bg-gray-100 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
                     >
                       <div className="flex items-center">
                         <UserGroupIcon className="ml-1 h-7 w-7 rounded-full text-gray-700 group-hover:text-gray-900" />
-                        <p className="ml-2 text-sm font-medium text-gray-900">{org.organization.name}</p>
+                        <p className="ml-2 text-sm font-medium text-gray-900">{org.Organization.Name}</p>
                       </div>
 
                       <CheckIcon className="mr-1 h-5 w-5 text-gray-600" />
@@ -145,7 +137,7 @@ const SideBar = () => {
                     onClick={() => {
                       close();
                     }}
-                    className="border-neutral-40 mt-2 block rounded border-t py-3 px-1 text-center hover:bg-gray-100"
+                    className="border-neutral-40 mt-2 block rounded border-t px-1 py-3 text-center hover:bg-gray-100"
                   >
                     Manage Organizations
                   </button>
@@ -161,7 +153,7 @@ const SideBar = () => {
   return (
     <>
       <Transition.Root show={global.sidebar} as={Fragment}>
-        <Dialog as="div" className="relative z-40 md:hidden" onClose={toggleSidebar}>
+        <Dialog as="div" className="relative z-40 md:hidden" onClose={toggleSidebar} initialFocus={completeButtonRef}>
           <Transition.Child
             as={Fragment}
             enter="transition-opacity ease-linear duration-300"
@@ -194,8 +186,9 @@ const SideBar = () => {
                   leaveFrom="opacity-100"
                   leaveTo="opacity-0"
                 >
-                  <div className="absolute top-0 right-0 mr-2 pt-2">
+                  <div className="absolute right-0 top-0 mr-2 pt-2">
                     <button
+                      ref={completeButtonRef}
                       type="button"
                       className="ml-1 flex h-10 w-10 items-center justify-center rounded-md bg-gray-100"
                       onClick={toggleSidebar}
@@ -205,7 +198,7 @@ const SideBar = () => {
                     </button>
                   </div>
                 </Transition.Child>
-                <div className="h-0 flex-1 overflow-y-auto pt-5 pb-4">
+                <div className="h-0 flex-1 overflow-y-auto pb-4 pt-5">
                   {logo}
                   {firstNav}
                 </div>
@@ -218,10 +211,10 @@ const SideBar = () => {
       </Transition.Root>
 
       {/* Static sidebar for desktop */}
-      <div className="hidden md:fixed md:inset-y-0 md:flex md:w-64 md:flex-col">
+      <div className="hidden md:fixed md:inset-y-0 md:flex md:w-48 md:flex-col lg:w-64">
         {/* Sidebar component, swap this element with another sidebar if you like */}
         <div className="flex min-h-0 flex-1 flex-col border-r border-gray-200 bg-white">
-          <div className="flex flex-1 flex-col overflow-y-auto pt-5 pb-4">
+          <div className="flex flex-1 flex-col overflow-y-auto pb-4 pt-5">
             {logo}
             {firstNav}
           </div>

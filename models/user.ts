@@ -1,18 +1,32 @@
+import { ProviderNameGithub, ProviderNameGoogle } from 'constants/default';
 import { Subscription } from './subscription';
 
+export enum LoginProvider {
+  Email = 1,
+  Google,
+  Github,
+}
+
+export const GetLoginProvider = (provider: string): LoginProvider => {
+  switch (provider) {
+    case ProviderNameGoogle:
+      return LoginProvider.Google;
+    case ProviderNameGithub:
+      return LoginProvider.Github;
+    default:
+      return LoginProvider.Email;
+  }
+};
+
 export interface GuestUser {
-  id: number;
-  email: string;
-  code?: string;
-  expires_at: string;
+  ID: number;
+  Email: string;
+  Code?: string;
+  ExpiresAt: string;
 }
 
 export interface GuestUserResponse {
   data: GuestUser;
-}
-
-export interface AccessToken {
-  access_token: string;
 }
 
 export enum AuthProvider {
@@ -23,59 +37,71 @@ export enum AuthProvider {
 }
 
 export interface Organization {
-  id: number;
-  name: string;
-  slug: string;
+  ID: number;
+  Name: string;
+  Slug: string;
+}
+
+export interface OrganizationResponse {
+  data: Organization;
 }
 
 export enum RoleType {
-  superadmin = 'superadmin',
-  admin = 'admin',
-  editor = 'editor',
-  member = 'member',
+  superadmin = 1,
+  admin,
+  editor,
+  member,
 }
 
 export interface Claim {
-  id: number;
-  name: string;
+  ID: number;
+  Name: string;
 }
 
 export interface Role {
-  id: number;
-  name: string;
-  type: RoleType;
-  claims: [Claim];
+  ID: number;
+  Name: string;
+  Type: RoleType;
+  Claims: Claim[];
 }
 
 export interface User {
-  id: number;
-  name: string;
-  email: string;
-  organization_id: string;
-  payment_customer_id?: string;
-  organization: Organization;
-  role: Role;
+  ID: number;
+  Name: string;
+  Email: string;
+  PictureURL: string;
+  Provider: LoginProvider;
+  OrganizationID: string;
+  PaymentCustomerID?: string;
+  Organization: Organization;
+  Role: Role;
+  Subscription: Subscription;
+  Token?: string;
 }
 
 export interface UserResponse {
   data: User;
 }
 
+interface AccessToken extends User {
+  Token: string;
+}
+
+export interface AccessTokenResponse {
+  data: AccessToken;
+}
+
+export enum OrganizationUserStatus {
+  active = 1,
+  deactivated,
+}
+
 export interface OrganizationUser {
-  organization: Organization;
-  role: Role;
+  Status: OrganizationUserStatus;
+  Organization: Organization;
+  Role: Role;
 }
 
 export interface OrganizationUserResponse {
-  data: [OrganizationUser];
-}
-
-export interface FullInfo {
-  user: User;
-  subscription: Subscription;
-  organization_users: [OrganizationUser];
-}
-
-export interface FullInfoResponse {
-  data: FullInfo;
+  data: OrganizationUser[];
 }

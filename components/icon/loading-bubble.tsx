@@ -1,8 +1,6 @@
-type Props = {
-  className?: string;
-};
+import { IconProps } from 'types/main';
 
-const LoadingBubbleIcon = ({ className }: Props) => {
+const LoadingBubbleIcon = ({ className }: IconProps) => {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 24" className={className}>
       <circle transform="translate(8 0)" cx="0" cy="12" r="0">

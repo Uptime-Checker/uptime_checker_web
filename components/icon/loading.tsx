@@ -1,8 +1,6 @@
-type Props = {
-  className?: string;
-};
+import { IconProps } from 'types/main';
 
-const LoadingIcon = ({ className }: Props) => {
+const LoadingIcon = ({ className }: IconProps) => {
   return (
     <svg className={className} viewBox="0 0 24 24">
       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"></circle>

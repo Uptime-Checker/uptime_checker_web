@@ -1,4 +1,5 @@
-import { Inter } from '@next/font/google';
+import { Inter } from "next/font/google";
+import { classNames } from 'lib/tailwind/utils';
 import Head from 'next/head';
 import { ReactNode } from 'react';
 
@@ -14,7 +15,7 @@ export default function RootLayout({ children }: Props) {
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
-      <div className={inter.className}>{children}</div>
+      <div className={classNames(inter.className, 'min-h-screen')}>{children}</div>
     </>
   );
 }

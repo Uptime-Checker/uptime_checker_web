@@ -25,7 +25,10 @@ export const cacheUtil: CacheUtil = {
   },
   get: (key) => {
     const val = localStorage.getItem(key);
-    return val === null ? null : JSON.parse(val);
+    if (val !== undefined && val !== null && val !== 'undefined') {
+      return JSON.parse(val);
+    }
+    return null;
   },
   remove: (key) => localStorage.removeItem(key),
   removeAll: () => localStorage.clear(),

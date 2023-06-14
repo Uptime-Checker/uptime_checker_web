@@ -1,104 +1,99 @@
 import * as Sentry from '@sentry/nextjs';
-import { AxiosError } from 'axios';
+import axios, { AxiosError } from 'axios';
 import SimpleAlert from 'components/alert/simple';
 import GithubIcon from 'components/icon/github';
 import GoogleIcon from 'components/icon/google';
 import LoadingIcon from 'components/icon/loading';
 import LogoWithoutText from 'components/logo/logo-without-text';
+import { ProviderNameGithub, ProviderNameGoogle } from 'constants/default';
 import { AUTH_FAIL_COULD_NOT_SEND_MAGIC_LINK } from 'constants/ui-text';
-import { sendSignInLinkToEmail } from 'firebase/auth';
-import produce from 'immer';
-import { authRequest, elixirClient, HTTPMethod } from 'lib/axios';
+import { produce } from 'immer';
 import { CacheKey, cacheUtil } from 'lib/cache';
-import { ProviderNameGithub, ProviderNameGoogle } from 'lib/constants';
-import { auth } from 'lib/firebase';
-import { getCurrentUser, redirectToDashboard, setAccessToken, setCurrentUser } from 'lib/global';
-import { GuestUserResponse, UserResponse } from 'models/user';
-import { signIn, useSession } from 'next-auth/react';
+import { redirectToDashboard, setAccessToken, setCurrentUser } from 'lib/global';
+import { getSessionUser } from 'lib/session/user';
+import { withSessionSsr } from 'lib/session/withSession';
+import { classNames } from 'lib/tailwind/utils';
+import { GuestUserResponse, User } from 'models/user';
+import { signIn } from 'next-auth/react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useCallback, useEffect, useState } from 'react';
 import { ElixirError } from 'types/error';
 import { toUpper } from 'utils/misc';
 
-export default function Auth() {
+interface Props {
+  user: User | null;
+}
+
+export default function Auth({ user }: Props) {
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
+  const [hidden, setHidden] = useState(true);
+  const [loading, setLoading] = useState({ on: false, email: false, google: false, github: false });
   const [alertState, setAlertState] = useState({ on: false, success: true, title: '', detail: '' });
 
-  const { data: session, status } = useSession();
+  const processLoading = (on: boolean, email: boolean, google: boolean, github: boolean) => {
+    setLoading(
+      produce((draft) => {
+        draft.on = on;
+        draft.email = email;
+        draft.google = google;
+        draft.github = github;
+      })
+    );
+  };
 
-  async function getMe() {
-    try {
-      const { data } = await authRequest<UserResponse>({ method: HTTPMethod.GET, url: '/me' });
-
-      setLoading(false);
-      await setCurrentUser(data.data);
-      redirectToDashboard(data.data);
-    } catch (error) {
-      Sentry.captureException(error);
+  const processProviderLoading = useCallback((provider: string, on: boolean) => {
+    if (provider === ProviderNameGoogle) {
+      processLoading(on, false, on, false);
+    } else if (provider === ProviderNameGithub) {
+      processLoading(on, false, false, on);
     }
-  }
+  }, []);
 
   useEffect(() => {
-    const user = getCurrentUser();
-    if (user !== null) {
+    if (!router.isReady) return;
+
+    if (user) {
+      setCurrentUser(user).catch(Sentry.captureException);
+      setAccessToken(user.Token!);
       redirectToDashboard(user);
-    } else if (router.isReady) {
-      if (router.query.provider_redirect) {
-        setLoading(true);
-      }
-      if (status === 'authenticated' && session.accessToken) {
-        setAccessToken(session.accessToken);
-        getMe().then(() => {});
-      } else {
-        setLoading(false);
-      }
+    } else {
+      setHidden(false);
+      processLoading(false, false, false, false);
     }
-  }, [router, session, status]);
+  }, [router.isReady, user]);
 
   const handleProviderClick = async (provider: string) => {
     closeAlert();
-    setLoading(true);
+    processProviderLoading(provider, true);
     await signIn(provider);
   };
 
   const handleEmailSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const emailRef = event.currentTarget.elements[0] as HTMLInputElement;
+    const email = emailRef.value;
 
     closeAlert();
-    setLoading(true);
+    processLoading(true, true, false, false);
 
     try {
-      const { data } = await elixirClient.post<GuestUserResponse>('/guest_user', {
-        email: emailRef.value,
-      });
+      const { data } = await axios.post<GuestUserResponse>('/api/guest', { email: email });
 
-      try {
-        await sendSignInLinkToEmail(auth, emailRef.value, {
-          url: `${window.location.origin}/auth/email-result?code=${data.data.code!}&email=${emailRef.value}`,
-          handleCodeInApp: true,
-        });
-        cacheUtil.set(CacheKey.Email, emailRef.value);
-        await router.push('/auth/email-sent');
-      } catch (error) {
-        Sentry.captureException(error);
-      } finally {
-        setLoading(false);
-      }
+      cacheUtil.set(CacheKey.Email, data.data.Email);
+      await router.push('/auth/email-sent');
     } catch (error) {
-      if (error instanceof AxiosError) {
+      if (axios.isAxiosError(error)) {
         const elixirError = (error as AxiosError).response?.data as ElixirError;
         setAlertState({
           on: true,
           success: false,
           title: AUTH_FAIL_COULD_NOT_SEND_MAGIC_LINK,
-          detail: toUpper(elixirError.message),
+          detail: toUpper(elixirError.message ?? elixirError.error),
         });
       }
     } finally {
-      setLoading(false);
+      processLoading(false, false, false, false);
     }
   };
 
@@ -113,7 +108,7 @@ export default function Auth() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className={classNames('min-h-screen bg-gray-50', hidden ? 'hidden' : '')}>
       <Head>
         <title>Auth</title>
       </Head>
@@ -137,7 +132,7 @@ export default function Auth() {
         </div>
 
         <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-          <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+          <div className="bg-white px-4 py-8 shadow sm:rounded-lg sm:px-10">
             <form className="space-y-6" onSubmit={handleEmailSubmit}>
               <div>
                 <label htmlFor="email" className="block text-sm font-medium text-gray-700">
@@ -150,7 +145,7 @@ export default function Auth() {
                     type="email"
                     placeholder="you@example.com"
                     autoComplete="email"
-                    disabled={loading}
+                    disabled={loading.on}
                     required
                     className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                   />
@@ -160,13 +155,13 @@ export default function Auth() {
               <div>
                 <button
                   type="submit"
-                  className="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4
-                    text-sm font-medium text-white shadow-sm hover:bg-indigo-700
-                    focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                  disabled={loading}
+                  className="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2
+                    text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none
+                    focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:pointer-events-none"
+                  disabled={loading.on}
                 >
-                  {loading ? <LoadingIcon className="-ml-1 mr-3 h-5 w-5 animate-spin text-white" /> : null}
-                  {loading ? 'Loading' : 'Sign in'}
+                  {loading.email ? <LoadingIcon className="-ml-1 mr-3 h-5 w-5 animate-spin text-white" /> : null}
+                  {loading.email ? 'Loading' : 'Sign in'}
                 </button>
               </div>
             </form>
@@ -185,10 +180,15 @@ export default function Auth() {
                 <div>
                   <button
                     type="button"
-                    className="flex w-full items-center justify-center rounded-md border border-indigo-600 bg-white py-2 px-4 font-medium text-indigo-600 shadow-sm hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    className="flex w-full items-center justify-center rounded-md border border-indigo-600 bg-white
+                      px-4 py-2 font-medium text-indigo-600 shadow-sm hover:bg-indigo-100 focus:outline-none
+                      focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:pointer-events-none"
                     onClick={() => handleProviderClick(ProviderNameGithub)}
-                    disabled={loading}
+                    disabled={loading.on}
                   >
+                    {loading.github ? (
+                      <LoadingIcon className="-ml-1 mr-3 h-5 w-5 animate-spin text-indigo-600" />
+                    ) : null}
                     <GithubIcon />
                     Continue with Github
                   </button>
@@ -199,10 +199,15 @@ export default function Auth() {
                 <div>
                   <button
                     type="button"
-                    className="flex w-full items-center justify-center rounded-md border border-indigo-600 bg-white py-2 px-4 font-medium text-indigo-600 shadow-sm hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    className="flex w-full items-center justify-center rounded-md border border-indigo-600 bg-white
+                      px-4 py-2 font-medium text-indigo-600 shadow-sm hover:bg-indigo-100 focus:outline-none
+                      focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:pointer-events-none"
                     onClick={() => handleProviderClick(ProviderNameGoogle)}
-                    disabled={loading}
+                    disabled={loading.on}
                   >
+                    {loading.google ? (
+                      <LoadingIcon className="-ml-1 mr-3 h-5 w-5 animate-spin text-indigo-600" />
+                    ) : null}
                     <GoogleIcon />
                     Continue with Google
                   </button>
@@ -215,3 +220,8 @@ export default function Auth() {
     </div>
   );
 }
+
+export const getServerSideProps = withSessionSsr(async function getServerSideProps(ctx) {
+  const user = await getSessionUser(ctx);
+  return { props: { user: user } };
+});

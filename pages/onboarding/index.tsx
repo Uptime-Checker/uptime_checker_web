@@ -2,6 +2,7 @@ import * as Sentry from '@sentry/nextjs';
 import { AxiosError } from 'axios';
 import SimpleAlert from 'components/alert/simple';
 import LoadingIcon from 'components/icon/loading';
+import { Duplicate_Slug_Index, Duplicate_SuperAdmin_Index } from 'constants/errors';
 import { FREE_PLAN_ID } from 'constants/payment';
 import {
   ONBOARDING_FAIL_TO_CREATE_ORGANIZATION,
@@ -9,13 +10,13 @@ import {
   ONBOARDING_YOU_ALREADY_CREATED_ORGANIZATION,
   PLEASE_CONTACT_SUPPORT,
 } from 'constants/ui-text';
-import produce from 'immer';
-import { authRequest, HTTPMethod } from 'lib/axios';
+import { produce } from 'immer';
+import { HTTPMethod, authRequest } from 'lib/axios';
 import { getCurrentUser, logout, redirectToDashboard, setCurrentUser } from 'lib/global';
-import { UserResponse } from 'models/user';
+import { OrganizationResponse, UserResponse } from 'models/user';
 import Head from 'next/head';
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
-import { BackendError } from 'types/error';
+import { ElixirError } from 'types/error';
 import { sanitizeString } from 'utils/misc';
 
 let nameUpdated = false;
@@ -26,16 +27,16 @@ export default function Onboarding() {
   const [alertState, setAlertState] = useState({ on: false, success: true, title: '', detail: '' });
 
   useEffect(() => {
-    let user = getCurrentUser();
-    if (user === null) {
-      logout().then((_) => {});
+    const user = getCurrentUser();
+    if (!user) {
+      logout().catch(console.error);
     } else {
-      authRequest<UserResponse>({ method: HTTPMethod.GET, url: '/me' })
+      authRequest<UserResponse>({ method: HTTPMethod.GET, url: '/user/me' })
         .then((resp) => {
-          let currentUser = resp.data.data;
-          setCurrentUser(currentUser).then(() => {});
+          const currentUser = resp.data.data;
+          setCurrentUser(currentUser).catch(console.error);
 
-          if (currentUser.organization !== null) {
+          if (currentUser.Organization) {
             redirectToDashboard(currentUser);
           }
         })
@@ -43,6 +44,10 @@ export default function Onboarding() {
           Sentry.captureException(error);
         });
     }
+
+    return () => {
+      setLoading(false);
+    };
   }, []);
 
   const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -59,30 +64,29 @@ export default function Onboarding() {
       nameUpdated = true;
     }
     try {
-      let { data } = await authRequest<UserResponse>({
+      const { data } = await authRequest<OrganizationResponse>({
         method: HTTPMethod.POST,
-        url: '/organizations',
-        data: { name: orgRef.value, slug: slugRef.value, plan_id: FREE_PLAN_ID },
+        url: '/organization',
+        data: { name: orgRef.value, slug: slugRef.value, planID: FREE_PLAN_ID },
       });
-      redirectToDashboard(data.data);
+      const user = getCurrentUser()!;
+      user.Organization = data.data;
+      setCurrentUser(user)
+        .then(() => {
+          redirectToDashboard(user);
+        })
+        .catch(console.error);
     } catch (error) {
-      const backendError = (error as AxiosError).response?.data as BackendError;
-      const errorKey = Object.keys(backendError.errors)[0];
+      const elixirError = (error as AxiosError).response?.data as ElixirError;
+      const errorKey = elixirError.error;
 
       let errorDescription = PLEASE_CONTACT_SUPPORT;
-      switch (errorKey) {
-        case 'organization:slug': {
-          errorDescription = ONBOARDING_PLEASE_USE_DIFFERENT_SLUG;
-          break;
-        }
-        case 'organization_user:role_id': {
-          errorDescription = ONBOARDING_YOU_ALREADY_CREATED_ORGANIZATION;
-          break;
-        }
-        default: {
-          Sentry.captureException(error);
-          break;
-        }
+      if (errorKey.includes(Duplicate_Slug_Index)) {
+        errorDescription = ONBOARDING_PLEASE_USE_DIFFERENT_SLUG;
+      } else if (errorKey.includes(Duplicate_SuperAdmin_Index)) {
+        errorDescription = ONBOARDING_YOU_ALREADY_CREATED_ORGANIZATION;
+      } else {
+        Sentry.captureException(error);
       }
 
       setAlertState({
@@ -91,37 +95,35 @@ export default function Onboarding() {
         title: ONBOARDING_FAIL_TO_CREATE_ORGANIZATION,
         detail: errorDescription,
       });
-    } finally {
       setLoading(false);
     }
   };
 
   const updateName = async (name: string) => {
     try {
-      await authRequest<UserResponse>({ method: HTTPMethod.PATCH, url: '/users', data: { name: name } });
+      await authRequest<UserResponse>({ method: HTTPMethod.PATCH, url: '/user', data: { name: name } });
     } catch (error) {
       Sentry.captureException(error);
+      setLoading(false);
     }
   };
 
   const handleOrganizationChange = (event: ChangeEvent) => {
-    let target = event.currentTarget as HTMLInputElement;
-    let slug = makeKey(target.value);
+    const target = event.currentTarget as HTMLInputElement;
+    const slug = makeKey(target.value);
     setOrgSlug(slug);
   };
 
   const handleOrganizationSlugChange = (event: ChangeEvent) => {
-    let target = event.currentTarget as HTMLInputElement;
-    let slug = makeKey(target.value);
+    const target = event.currentTarget as HTMLInputElement;
+    const slug = makeKey(target.value);
     setOrgSlug(slug);
   };
 
   const makeKey = (title: string) => {
-    let newStr = title.replaceAll(' ', '-').toLowerCase();
+    const newStr = title.replaceAll(' ', '-').toLowerCase();
     return sanitizeString(newStr);
   };
-
-  const onAlertClose = () => closeAlert();
 
   const closeAlert = () => {
     setAlertState(
@@ -142,9 +144,9 @@ export default function Onboarding() {
         success={alertState.success}
         title={alertState.title}
         detail={alertState.detail}
-        onClose={onAlertClose}
+        onClose={closeAlert}
       />
-      <div className="w-full py-10 sm:mx-auto sm:max-w-lg sm:py-32 sm:px-6 lg:px-8">
+      <div className="w-full py-10 sm:mx-auto sm:max-w-lg sm:px-6 sm:py-32 lg:px-8">
         <form
           className="flex flex-col items-center justify-center space-y-6 sm:mx-auto sm:w-full sm:max-w-2xl"
           onSubmit={handleFormSubmit}
@@ -222,7 +224,7 @@ export default function Onboarding() {
                     <div className="mt-1 flex rounded-md shadow-sm">
                       <div className="relative flex flex-grow items-stretch focus-within:z-10">
                         <span className="inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-gray-500 sm:text-sm">
-                          https://
+                          {window.location.origin}/
                         </span>
                         <input
                           required
@@ -234,15 +236,12 @@ export default function Onboarding() {
                           name="organisation-slug"
                           id="organisation-slug"
                           autoComplete="organization-slug"
-                          placeholder="twtr"
+                          placeholder="twitter"
                           aria-invalid="false"
                           aria-describedby="error-organisation-slug-required"
-                          className="block w-full rounded-none border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                          className="block w-full rounded-none rounded-r-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                         />
                       </div>
-                      <span className="inline-flex items-center rounded-r-md border border-l-0 border-gray-300 bg-gray-50 px-3 text-gray-500 sm:text-sm">
-                        .uptimecheckr.com
-                      </span>
                     </div>
                   </div>
                 </div>

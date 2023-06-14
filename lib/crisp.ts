@@ -7,10 +7,10 @@ export const load = () => {
 };
 
 export const configureUser = (user: User, subscription: Subscription) => {
-  Crisp.user.setEmail(user.email);
-  Crisp.user.setNickname(user.name);
+  Crisp.user.setEmail(user.Email);
+  Crisp.user.setNickname(user.Name);
 
   Crisp.session.setData({
-    plan: subscription.product.name,
+    plan: subscription.Product.Name,
   });
 };

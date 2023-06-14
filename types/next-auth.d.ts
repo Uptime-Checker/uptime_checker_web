@@ -6,6 +6,12 @@ declare module 'next-auth' {
    */
   interface Session {
     /** The user's access token. */
+    provider: string;
     accessToken: string;
+  }
+
+  interface Profile {
+    picture?: string;
+    avatar_url?: string;
   }
 }

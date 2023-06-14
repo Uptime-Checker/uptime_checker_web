@@ -1,8 +1,6 @@
-type Props = {
-  className?: string;
-};
+import { IconProps } from 'types/main';
 
-const TwoFactorAuthIcon = ({ className }: Props) => {
+const TwoFactorAuthIcon = ({ className }: IconProps) => {
   return (
     <svg
       className={className}

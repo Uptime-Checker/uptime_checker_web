@@ -1,41 +1,45 @@
 import * as Sentry from '@sentry/nextjs';
-import LoadingBubbleIcon from 'components/icon/loading-bubble';
 import TwoFactorAuthIcon from 'components/icon/two-factor-auth';
-import { isSignInWithEmailLink, signInWithEmailLink } from 'firebase/auth';
-import { authRequest, elixirClient, HTTPMethod } from 'lib/axios';
-import { auth } from 'lib/firebase';
+import { authRequest, HTTPMethod } from 'lib/axios';
 import { redirectToDashboard, setAccessToken, setCurrentUser } from 'lib/global';
-import { AccessToken, AuthProvider, UserResponse } from 'models/user';
+import { withSessionSsr } from 'lib/session/withSession';
+import { UserResponse } from 'models/user';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import BookFallingIcon from 'components/icon/book-falling';
 
-let signInAttempted = false;
+interface Props {
+  accessToken: string | undefined | null;
+}
 
-export default function EmailResult() {
+export const getServerSideProps = withSessionSsr(function getServerSideProps(ctx) {
+  return {
+    props: {
+      accessToken: ctx.req.session.accessToken ?? null,
+    },
+  };
+});
+
+export default function EmailResult({ accessToken }: Props) {
   const router = useRouter();
-  const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
+    if (!router.isReady) return;
+
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
-    if (!urlParams.has('email') || !urlParams.has('code')) {
+    if (urlParams.has('error') || !accessToken) {
       activateError();
       return;
     }
-    const email = urlParams.get('email')!;
-    const code = urlParams.get('code')!;
-    setEmail(email);
-
-    if (!isSignInWithEmailLink(auth, window.location.href) || !router.isReady) {
-      return;
-    }
+    setAccessToken(accessToken);
 
     async function getMe() {
       try {
-        const { data } = await authRequest<UserResponse>({ method: HTTPMethod.GET, url: '/me' });
+        const { data } = await authRequest<UserResponse>({ method: HTTPMethod.GET, url: '/user/me' });
         await setCurrentUser(data.data);
         redirectToDashboard(data.data);
       } catch (error) {
@@ -43,34 +47,8 @@ export default function EmailResult() {
       }
     }
 
-    if (signInAttempted) {
-      return;
-    }
-    signInAttempted = true;
-    signInWithEmailLink(auth, email, window.location.href)
-      .then((result) => {
-        elixirClient
-          .post<AccessToken>('/email_link_login', {
-            name: email.substring(0, email.lastIndexOf('@')),
-            code: code,
-            email: result.user.email,
-            provider: AuthProvider.email,
-            provider_uid: result.user.uid,
-          })
-          .then((tokenResponse) => {
-            setAccessToken(tokenResponse.data.access_token);
-            getMe().then((_) => {});
-          })
-          .catch((error) => {
-            console.error(error);
-            activateError();
-          });
-      })
-      .catch((error) => {
-        Sentry.captureException(error);
-        activateError();
-      });
-  }, [router]);
+    getMe().catch(console.error);
+  }, [accessToken, router]);
 
   const activateError = () => {
     setHasError(true);
@@ -89,19 +67,13 @@ export default function EmailResult() {
             {hasError ? 'Verification failed' : 'Confirming your account'}
           </h2>
         </div>
-        <div className="mt-8 mb-8 sm:mx-auto sm:w-full sm:max-w-md">
-          <div className="flex flex-col items-center bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-            <TwoFactorAuthIcon className="h-32" />
+        <div className="mb-8 mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+          <div className="flex flex-col items-center bg-white px-4 py-8 shadow sm:rounded-lg sm:px-10">
+            <TwoFactorAuthIcon className="-ml-6 h-32 w-48" />
             <div className="mt-8 space-y-6">
               <div className="flex flex-col items-center text-center">
-                <p>
-                  {hasError
-                    ? 'Failed to log you in, contact support'
-                    : email === ''
-                    ? 'Checking your email'
-                    : `Confirming your email ${email}`}
-                </p>
-                {loading ? <LoadingBubbleIcon className="mt-4 w-32" /> : null}
+                <p>{hasError ? 'Failed to log you in, contact support' : 'Logging you in'}</p>
+                {loading ? <BookFallingIcon className="mt-4 w-20" /> : null}
               </div>
             </div>
           </div>

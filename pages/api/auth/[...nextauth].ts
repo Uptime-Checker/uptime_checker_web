@@ -1,13 +1,14 @@
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import * as Sentry from '@sentry/nextjs';
+import { AuthSchemeJWT, SessionTokenExpirationInDays } from 'constants/default';
 import { apiClient } from 'lib/axios';
 import { prisma } from 'lib/prisma';
-import { AccessToken } from 'models/user';
-import NextAuth from 'next-auth';
+import { AccessTokenResponse, GetLoginProvider } from 'models/user';
+import NextAuth, { AuthOptions } from 'next-auth';
 import Github from 'next-auth/providers/github';
 import Google from 'next-auth/providers/google';
 
-export default NextAuth({
+export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
     Github({
@@ -20,38 +21,40 @@ export default NextAuth({
     }),
   ],
   session: {
-    strategy: 'jwt',
+    strategy: AuthSchemeJWT,
+    maxAge: SessionTokenExpirationInDays * 24 * 60 * 60, // 6 months
   },
   callbacks: {
-    async redirect({ url, baseUrl }) {
-      let returnUrl = baseUrl;
-      if (url.startsWith('/')) {
-        returnUrl = `${baseUrl}${url}`;
-      } else if (new URL(url).origin === baseUrl) {
-        returnUrl = url;
-      }
-      let finalUrl = new URL(returnUrl);
-      finalUrl.searchParams.set('provider_redirect', 'true');
-      return finalUrl.toString();
+    redirect({ url, baseUrl }) {
+      // Allows relative callback URLs
+      if (url.startsWith('/')) return `${baseUrl}${url}`;
+      // Allows callback URLs on the same origin
+      else if (new URL(url).origin === baseUrl) return url;
+      return baseUrl;
     },
-    async session({ session, token }) {
+    session({ session, token }) {
+      session.provider = token.provider as string;
       session.accessToken = token.accessToken as string;
       return session;
     },
-    async jwt({ token, account }) {
-      if (account) {
+    async jwt({ token, account, profile }) {
+      if (account && profile) {
         // After sign in
-
         try {
-          const { data } = await apiClient.post<AccessToken>('/provider_login', {
-            name: token.name,
-            email: token.email,
-            provider: account.provider,
-            picture_url: token.picture,
-            provider_uid: account.providerAccountId,
+          const { data } = await apiClient.post<AccessTokenResponse>('/user/provider/login', {
+            name: profile.name,
+            email: profile.email,
+            provider: GetLoginProvider(account.provider),
+            picture: profile.picture ?? profile.avatar_url,
+            providerUID: account.providerAccountId,
           });
 
-          token.accessToken = data.access_token;
+          token.name = profile.name;
+          token.email = profile.email;
+          token.picture = profile.picture;
+          token.sub = profile.sub;
+          token.provider = account.provider;
+          token.accessToken = data.data.Token;
         } catch (error) {
           Sentry.captureException(error);
         }
@@ -59,4 +62,6 @@ export default NextAuth({
       return token;
     },
   },
-});
+};
+
+export default NextAuth(authOptions);
