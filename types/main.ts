@@ -1,11 +1,11 @@
-import { ReactElement, RefAttributes, SVGProps } from 'react';
+import { ForwardRefExoticComponent, RefAttributes, SVGProps } from 'react';
 
-export type HeroIcon = (
-  props: Omit<SVGProps<SVGSVGElement>, 'ref'> & {
+export type HeroIcon = ForwardRefExoticComponent<
+  Omit<SVGProps<SVGSVGElement>, 'ref'> & {
     title?: string | undefined;
     titleId?: string | undefined;
   } & RefAttributes<SVGSVGElement>
-) => ReactElement | null;
+>;
 
 export type IconProps = {
   className?: string;

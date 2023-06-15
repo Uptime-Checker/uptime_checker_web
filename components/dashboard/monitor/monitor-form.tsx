@@ -204,6 +204,7 @@ const MonitorFormComponent = () => {
                     <nav className="-mb-px flex space-x-8" aria-label="Tabs">
                       {httpRequestTabs.map((tab) => (
                         <button
+                          type="button"
                           key={tab.name}
                           className={classNames(
                             getActiveHTTPRequestTab(tab.name)
@@ -211,6 +212,9 @@ const MonitorFormComponent = () => {
                               : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700',
                             'whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium'
                           )}
+                          onClick={() => {
+                            setHTTPRequestTab(tab);
+                          }}
                         >
                           {tab.name}
                         </button>
