@@ -64,15 +64,15 @@ const MonitorFormComponent = () => {
 
           <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-3 md:col-span-2">
             <div className="sm:col-span-3">
-              <label htmlFor="website" className="block text-sm font-medium leading-6 text-gray-900">
+              <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">
                 Name
               </label>
               <div className="mt-2">
                 <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
                   <input
                     type="text"
-                    name="website"
-                    id="website"
+                    name="name"
+                    id="name"
                     className="block flex-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                     placeholder="Twitter Website"
                   />
@@ -237,11 +237,26 @@ const MonitorFormComponent = () => {
               </div>
 
               {selectedHTTPRequestTab.name === httpRequestTab.RequestHeaders ? (
-                <KV className="col-span-full" keyPlaceholder="key" valuePlaceholder="value" button="Request Header" />
+                <div className="col-span-full">
+                  <p className="mb-2 block text-sm leading-6 text-gray-900">
+                    Create header key/value pairs to set Cookie values, Bearer tokens or any other HTTP header
+                  </p>
+                  <KV keyPlaceholder="key" valuePlaceholder="value" button="Request Header" />
+                </div>
               ) : null}
 
               {selectedHTTPRequestTab.name === httpRequestTab.QueryParameters ? (
-                <KV className="col-span-full" keyPlaceholder="name" valuePlaceholder="value" button="Query Parameter" />
+                <div className="col-span-full">
+                  <p className="mb-2 block text-sm leading-6 text-gray-900">
+                    Set query parameter key/value pairs, or make them part of the URL if you want
+                  </p>
+                  <KV
+                    className="col-span-full"
+                    keyPlaceholder="name"
+                    valuePlaceholder="value"
+                    button="Query Parameter"
+                  />
+                </div>
               ) : null}
 
               {selectedHTTPRequestTab.name === httpRequestTab.Authentication ? (
