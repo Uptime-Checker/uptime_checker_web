@@ -7,12 +7,20 @@ import Link from 'next/link';
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { globalAtom } from 'store/global';
+import KV from './kv';
+
+export enum httpRequestTab {
+  Body = 'Body',
+  RequestHeaders = 'Request Headers',
+  QueryParameters = 'Query Parameters',
+  Authentication = 'Authentication',
+}
 
 const httpRequestTabs = [
-  { name: 'Body' },
-  { name: 'Request Headers' },
-  { name: 'Query Parameters' },
-  { name: 'Authentication' },
+  { name: httpRequestTab.Body },
+  { name: httpRequestTab.RequestHeaders },
+  { name: httpRequestTab.QueryParameters },
+  { name: httpRequestTab.Authentication },
 ];
 
 const MonitorFormComponent = () => {
@@ -228,7 +236,15 @@ const MonitorFormComponent = () => {
                 </div>
               </div>
 
-              {selectedHTTPRequestTab.name === 'Authentication' ? (
+              {selectedHTTPRequestTab.name === httpRequestTab.RequestHeaders ? (
+                <KV className="col-span-full" keyPlaceholder="key" valuePlaceholder="value" button="Request Header" />
+              ) : null}
+
+              {selectedHTTPRequestTab.name === httpRequestTab.QueryParameters ? (
+                <KV className="col-span-full" keyPlaceholder="name" valuePlaceholder="value" button="Query Parameter" />
+              ) : null}
+
+              {selectedHTTPRequestTab.name === httpRequestTab.Authentication ? (
                 <>
                   <div className="sm:col-span-3 sm:col-start-1">
                     <label htmlFor="city" className="block text-sm font-medium leading-6 text-gray-900">
