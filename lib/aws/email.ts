@@ -37,7 +37,7 @@ const createSendEmailCommand = (fromAddress: string, toAddress: string, subject:
   });
 };
 
-export const sendEmail = async (fromAddress: string, toAddress: string, subject: string, emailHtml: string) => {
+export const sendAWSEmail = async (fromAddress: string, toAddress: string, subject: string, emailHtml: string) => {
   const sendEmailCommand = createSendEmailCommand(fromAddress, toAddress, subject, emailHtml);
   return await client.send(sendEmailCommand);
 };
