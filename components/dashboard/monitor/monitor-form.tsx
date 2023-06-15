@@ -183,7 +183,7 @@ const MonitorFormComponent = () => {
               </div>
 
               <div className="col-span-full">
-                <div className="sm:hidden">
+                <div className="lg:hidden">
                   <label htmlFor="tabs" className="sr-only">
                     Select a tab
                   </label>
@@ -199,7 +199,7 @@ const MonitorFormComponent = () => {
                     ))}
                   </select>
                 </div>
-                <div className="hidden sm:block">
+                <div className="hidden lg:block">
                   <div className="border-b border-gray-200">
                     <nav className="-mb-px flex space-x-8" aria-label="Tabs">
                       {httpRequestTabs.map((tab) => (
@@ -224,50 +224,40 @@ const MonitorFormComponent = () => {
                 </div>
               </div>
 
-              <div className="sm:col-span-2 sm:col-start-1">
-                <label htmlFor="city" className="block text-sm font-medium leading-6 text-gray-900">
-                  City
-                </label>
-                <div className="mt-2">
-                  <input
-                    type="text"
-                    name="city"
-                    id="city"
-                    autoComplete="address-level2"
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  />
-                </div>
-              </div>
-
-              <div className="sm:col-span-2">
-                <label htmlFor="region" className="block text-sm font-medium leading-6 text-gray-900">
-                  State / Province
-                </label>
-                <div className="mt-2">
-                  <input
-                    type="text"
-                    name="region"
-                    id="region"
-                    autoComplete="address-level1"
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  />
-                </div>
-              </div>
-
-              <div className="sm:col-span-2">
-                <label htmlFor="postal-code" className="block text-sm font-medium leading-6 text-gray-900">
-                  ZIP / Postal code
-                </label>
-                <div className="mt-2">
-                  <input
-                    type="text"
-                    name="postal-code"
-                    id="postal-code"
-                    autoComplete="postal-code"
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  />
-                </div>
-              </div>
+              {selectedHTTPRequestTab.name === 'Authentication' ? (
+                <>
+                  <div className="sm:col-span-3 sm:col-start-1">
+                    <label htmlFor="city" className="block text-sm font-medium leading-6 text-gray-900">
+                      HTTP Authorization Username
+                    </label>
+                    <div className="mt-2">
+                      <input
+                        type="text"
+                        name="username"
+                        id="username"
+                        autoComplete="username"
+                        placeholder="http username"
+                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      />
+                    </div>
+                  </div>
+                  <div className="sm:col-span-3">
+                    <label htmlFor="region" className="block text-sm font-medium leading-6 text-gray-900">
+                      HTTP Authorization Password
+                    </label>
+                    <div className="mt-2">
+                      <input
+                        type="password"
+                        name="password"
+                        id="password"
+                        autoComplete="password"
+                        placeholder="http password"
+                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      />
+                    </div>
+                  </div>
+                </>
+              ) : null}
             </div>
           </div>
         </Accordion>
