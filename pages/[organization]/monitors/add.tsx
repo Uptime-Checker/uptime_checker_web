@@ -1,4 +1,4 @@
-import MonitorForm from 'components/dashboard/monitor/monitor-form';
+import MonitorForm from 'components/dashboard/monitor/monitor-form/monitor-form';
 import DashboardLayout from 'layout/dashboard-layout';
 import { ReactElement } from 'react';
 import { NextPageWithLayout } from '../../_app';

@@ -1,10 +1,12 @@
 import Accordion from 'components/accordion';
+import { useAtom } from 'jotai';
 import { elixirClient } from 'lib/axios';
 import { classNames } from 'lib/tailwind/utils';
 import { Region, RegionResponse } from 'models/monitor';
 import Link from 'next/link';
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
+import { globalAtom } from 'store/global';
 
 const httpRequestTabs = [
   { name: 'Body' },
@@ -16,6 +18,8 @@ const httpRequestTabs = [
 const MonitorFormComponent = () => {
   const [selectedHTTPRequestTab, setHTTPRequestTab] = useState(httpRequestTabs[0]);
   const [regions, setRegions] = useState<Region[]>([]);
+  const [global] = useAtom(globalAtom);
+  const orgSlug = global.currentUser?.Organization.Slug;
 
   const getActiveHTTPRequestTab = useCallback(
     (httpRequestTabName: string) => {
@@ -123,7 +127,7 @@ const MonitorFormComponent = () => {
                     }}
                   />
                 </div>
-                <Link href="">
+                <Link href={`/${orgSlug!}/settings/billing`}>
                   <p className="text-center font-semibold">Unlock faster monitoring</p>
                   <p className="text-center font-semibold">Try it in our 14-day free trial</p>
                 </Link>
