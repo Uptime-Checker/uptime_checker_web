@@ -236,6 +236,22 @@ const MonitorFormComponent = () => {
                 </div>
               </div>
 
+              {selectedHTTPRequestTab.name === httpRequestTab.Body ? (
+                <div className="col-span-full">
+                  <p className="mb-2 block text-sm leading-6 text-gray-900">
+                    Don&apos;t forgot to add the correct Content-Type request header
+                  </p>
+                  <textarea
+                    rows={4}
+                    inputMode="text"
+                    name="body"
+                    id="body"
+                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                    spellCheck="false"
+                  ></textarea>
+                </div>
+              ) : null}
+
               {selectedHTTPRequestTab.name === httpRequestTab.RequestHeaders ? (
                 <div className="col-span-full">
                   <p className="mb-2 block text-sm leading-6 text-gray-900">
