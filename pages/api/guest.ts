@@ -4,9 +4,9 @@ import { AxiosError, HttpStatusCode } from 'axios';
 import Email from 'components/email/guest-login';
 import { getDefaultFromEmail } from 'constants/default';
 import { ERROR_FAILED_TO_LOGIN_GUEST, ERROR_FAILED_TO_SEND_EMAIL } from 'constants/errors';
-import { sendAWSEmail } from 'lib/aws/email';
 import { HTTPMethod, apiClient } from 'lib/axios';
 import { AppName } from 'lib/global';
+import { resendEmail } from 'lib/resend/email';
 import { withSessionRoute } from 'lib/session/withSession';
 import { ErrorResponse } from 'models/error';
 import { AccessTokenResponse, GuestUserResponse } from 'models/user';
@@ -58,7 +58,7 @@ async function handler(
   try {
     const { data } = await apiClient.post<GuestUserResponse>('/user/guest', { email: req.body.email });
     try {
-      await sendAWSEmail(
+      await resendEmail(
         `${AppName!} <${getDefaultFromEmail()}>`,
         data.data.Email,
         `Sign in to ${AppName!}`,
