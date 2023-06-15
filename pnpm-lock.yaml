@@ -80,6 +80,9 @@ dependencies:
   recharts:
     specifier: ^2.6.2
     version: 2.6.2(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0)
+  resend:
+    specifier: ^0.15.2
+    version: 0.15.2
   stripe:
     specifier: ^12.9.0
     version: 12.9.0
@@ -5369,6 +5372,15 @@ packages:
   /require-directory@2.1.1:
     resolution: {integrity: sha512-fGxEI7+wsG9xrvdjsrlmL22OMTTiHRwAMroiEeMgq8gzoLC/PQr7RsRDSTLUg/bZAZtF+TVIkHc6/4RIKrui+Q==}
     engines: {node: '>=0.10.0'}
+    dev: false
+
+  /resend@0.15.2:
+    resolution: {integrity: sha512-xGPudwZ+YtXm+UyXAyi4N7WSKI2p8M3x/amtXjEcOkXA25Af4XSo4SqVWEJ/P1MJQQu8UNjGTTWIK916dMlLWg==}
+    dependencies:
+      '@react-email/render': 0.0.7
+      axios: 1.4.0
+    transitivePeerDependencies:
+      - debug
     dev: false
 
   /resolve-from@4.0.0:
