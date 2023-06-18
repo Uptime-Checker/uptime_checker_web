@@ -2,28 +2,27 @@ import * as Sentry from '@sentry/nextjs';
 import MonitorForm from 'components/dashboard/monitor/monitor-form/monitor-form';
 import DashboardLayout from 'layout/dashboard-layout';
 import { HTTPMethod, authRequest } from 'lib/axios';
-import { MonitorResponse } from 'models/monitor';
+import { Monitor, SingleMonitorResponse } from 'models/monitor';
 import { useRouter } from 'next/router';
 import { NextPageWithLayout } from 'pages/_app';
-import { ReactElement, useEffect } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 
 const MonitorAdd: NextPageWithLayout = () => {
   const router = useRouter();
-  // const [monitor, setMonitor] = useState<Monitor>(null);
+  const [monitor, setMonitor] = useState<Monitor | null>(null);
 
   useEffect(() => {
-    if (router.isReady) {
-      authRequest<MonitorResponse>({
-        method: HTTPMethod.GET,
-        url: `/monitor/${router.query.monitorId as string}`,
+    if (!router.isReady) return;
+    authRequest<SingleMonitorResponse>({
+      method: HTTPMethod.GET,
+      url: `/monitor/${router.query.monitorId as string}`,
+    })
+      .then((resp) => {
+        setMonitor(resp.data.data);
       })
-        .then((resp) => {
-          console.log(resp.data.data);
-        })
-        .catch((e) => {
-          Sentry.captureException(e);
-        });
-    }
+      .catch((e) => {
+        Sentry.captureException(e);
+      });
   }, [router]);
 
   return (

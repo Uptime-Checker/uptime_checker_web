@@ -26,6 +26,10 @@ export interface Monitor {
   body: string;
 }
 
+export interface SingleMonitorResponse {
+  data: Monitor;
+}
+
 export interface MonitorResponse {
   data: Monitor[];
 }
