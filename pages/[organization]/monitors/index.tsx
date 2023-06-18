@@ -9,10 +9,10 @@ import { classNames } from 'lib/tailwind/utils';
 import { MonitorStatus } from 'models/monitor';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { NextPageWithLayout } from 'pages/_app';
 import { ReactElement } from 'react';
 import { globalAtom } from 'store/global';
 import { HeroIcon, RowOption } from 'types/main';
-import { NextPageWithLayout } from '../../_app';
 
 interface MetricCard {
   title: string;

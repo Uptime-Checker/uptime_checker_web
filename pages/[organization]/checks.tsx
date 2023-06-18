@@ -4,8 +4,8 @@ import DashboardLayout from 'layout/dashboard-layout';
 import { HTTPMethod } from 'lib/axios';
 import { Check } from 'models/check';
 import { Monitor, MonitorStatus } from 'models/monitor';
+import { NextPageWithLayout } from 'pages/_app';
 import { ReactElement } from 'react';
-import { NextPageWithLayout } from '../_app';
 
 const monitor: Monitor = {
   id: 1,

@@ -1,7 +1,7 @@
 import MonitorForm from 'components/dashboard/monitor/monitor-form/monitor-form';
 import DashboardLayout from 'layout/dashboard-layout';
+import { NextPageWithLayout } from 'pages/_app';
 import { ReactElement } from 'react';
-import { NextPageWithLayout } from '../../_app';
 
 const MonitorAdd: NextPageWithLayout = () => {
   return (

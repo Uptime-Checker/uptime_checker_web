@@ -1,14 +1,14 @@
 import { useAtom } from 'jotai';
 import DashboardLayout from 'layout/dashboard-layout';
 import SettingsLayout from 'layout/settings-layout';
+import { NextPageWithLayout } from 'pages/_app';
 import { FormEvent, ReactElement } from 'react';
 import { globalAtom } from 'store/global';
-import { NextPageWithLayout } from '../../_app';
 
 const Account: NextPageWithLayout = () => {
   const [global] = useAtom(globalAtom);
 
-  const handleProfileSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  const handleProfileSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
   };
 

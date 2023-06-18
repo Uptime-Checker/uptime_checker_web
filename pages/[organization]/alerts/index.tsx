@@ -2,9 +2,9 @@ import AlertsComponent from 'components/dashboard/monitor/alerts';
 import { useAtom } from 'jotai';
 import DashboardLayout from 'layout/dashboard-layout';
 import Link from 'next/link';
+import { NextPageWithLayout } from 'pages/_app';
 import { ReactElement } from 'react';
 import { globalAtom } from 'store/global';
-import { NextPageWithLayout } from '../../_app';
 
 const alerts = [
   {
@@ -35,7 +35,7 @@ const Alerts: NextPageWithLayout = () => {
           <p className="mt-2 text-sm text-gray-700">A list of all the alerts that fired when running checks</p>
         </div>
         <Link
-          href={`/${orgSlug}/alerts/settings`}
+          href={`/${orgSlug!}/alerts/settings`}
           type="button"
           className="inline-flex cursor-pointer items-center justify-center rounded-md border border-transparent
           bg-indigo-600 px-4 py-2 text-center text-sm font-medium text-white shadow-sm hover:bg-indigo-700
