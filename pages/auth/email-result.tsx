@@ -1,4 +1,5 @@
 import * as Sentry from '@sentry/nextjs';
+import LoadingBubbleIcon from 'components/icon/loading-bubble';
 import TwoFactorAuthIcon from 'components/icon/two-factor-auth';
 import { authRequest, HTTPMethod } from 'lib/axios';
 import { redirectToDashboard, setAccessToken, setCurrentUser } from 'lib/global';
@@ -7,7 +8,6 @@ import { UserResponse } from 'models/user';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import BookFallingIcon from 'components/icon/book-falling';
 
 interface Props {
   accessToken: string | undefined | null;
@@ -69,11 +69,11 @@ export default function EmailResult({ accessToken }: Props) {
         </div>
         <div className="mb-8 mt-8 sm:mx-auto sm:w-full sm:max-w-md">
           <div className="flex flex-col items-center bg-white px-4 py-8 shadow sm:rounded-lg sm:px-10">
-            <TwoFactorAuthIcon className="-ml-6 h-32 w-48" />
-            <div className="mt-8 space-y-6">
+            <TwoFactorAuthIcon className="-ml-3 h-32 w-48" />
+            <div className="ml-3 mt-8 space-y-6">
               <div className="flex flex-col items-center text-center">
                 <p>{hasError ? 'Failed to log you in, contact support' : 'Logging you in'}</p>
-                {loading ? <BookFallingIcon className="mt-4 w-20" /> : null}
+                {loading ? <LoadingBubbleIcon className="mt-4 w-20" /> : null}
               </div>
             </div>
           </div>
