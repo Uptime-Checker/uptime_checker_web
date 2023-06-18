@@ -1,7 +1,7 @@
 import { ExclamationCircleIcon } from '@heroicons/react/24/solid';
 import * as Sentry from '@sentry/nextjs';
 import axios from 'axios';
-import BookFallingIcon from 'components/icon/book-falling';
+import Spinner from 'components/icon/spinner';
 import SuccessIcon from 'components/icon/success';
 import {
   ContentTypeFormUrlEncoded,
@@ -108,7 +108,7 @@ const Result: NextPageWithLayout = () => {
       <div className="border-b px-1 pb-6 sm:px-6 md:px-0">
         <h1 className="text-2xl font-semibold text-gray-900">Integrations</h1>
       </div>
-      <div className="p-6 md:mx-auto">{uiState.loading ? <BookFallingIcon className="mx-auto mt-4 w-20" /> : null}</div>
+      <div className="p-6 md:mx-auto">{uiState.loading ? <Spinner className="mx-auto mt-20" size={50} /> : null}</div>
       {uiState.loading ? null : (
         <section>
           {uiState.success ? (

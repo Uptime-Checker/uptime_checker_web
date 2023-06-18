@@ -4,6 +4,8 @@ import * as Sentry from '@sentry/nextjs';
 import axios from 'axios';
 import SimpleAlert from 'components/alert/simple';
 import LoadingIcon from 'components/icon/loading';
+import Spinner from 'components/icon/spinner';
+import { DOWNGRADE_REQUEST, WE_UPGRADED_SUBSCRIPTION } from 'constants/ui-text';
 import { produce } from 'immer';
 import { useAtom } from 'jotai';
 import DashboardLayout from 'layout/dashboard-layout';
@@ -18,8 +20,6 @@ import { NextPageWithLayout } from 'pages/_app';
 import { ReactElement, useEffect, useState } from 'react';
 import { globalAtom } from 'store/global';
 import Stripe from 'stripe';
-import { DOWNGRADE_REQUEST, WE_UPGRADED_SUBSCRIPTION } from 'constants/ui-text';
-import BookFallingIcon from 'components/icon/book-falling';
 
 const featureMap = [
   {
@@ -274,7 +274,7 @@ const Billing: NextPageWithLayout = () => {
       </div>
 
       {/* Tiers */}
-      {loading ? <BookFallingIcon className="mx-auto mt-4 w-20" /> : null}
+      {loading ? <Spinner className="mx-auto mt-20" size={50} /> : null}
       {loading ? null : (
         <div className="mt-12 space-y-8 sm:mt-16 sm:grid sm:grid-cols-2 sm:gap-6 sm:space-y-0 lg:mx-auto lg:max-w-4xl xl:mx-0 xl:max-w-none xl:grid-cols-4">
           {global.products.map((product) => (
