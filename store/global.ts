@@ -1,4 +1,5 @@
 import { atomWithImmer } from 'jotai-immer';
+import { Monitor } from 'models/monitor';
 import { Product } from 'models/subscription';
 import { OrganizationUser, User } from 'models/user';
 
@@ -18,3 +19,4 @@ const globalAtomInit: GlobalAtom = {
 };
 
 export const globalAtom = atomWithImmer(globalAtomInit);
+export const monitorAtom = atomWithImmer<Monitor | null>(null);

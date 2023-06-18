@@ -1,17 +1,19 @@
 import * as Sentry from '@sentry/nextjs';
 import MonitorForm from 'components/dashboard/monitor/monitor-form/monitor-form';
 import Spinner from 'components/icon/spinner';
+import { useAtom } from 'jotai';
 import DashboardLayout from 'layout/dashboard-layout';
 import { HTTPMethod, authRequest } from 'lib/axios';
-import { Monitor, SingleMonitorResponse } from 'models/monitor';
+import { SingleMonitorResponse } from 'models/monitor';
 import { useRouter } from 'next/router';
 import { NextPageWithLayout } from 'pages/_app';
 import { ReactElement, useEffect, useState } from 'react';
+import { monitorAtom } from 'store/global';
 
 const MonitorAdd: NextPageWithLayout = () => {
   const router = useRouter();
+  const [monitor, setMonitor] = useAtom(monitorAtom);
   const [loading, setLoading] = useState(true);
-  const [monitor, setMonitor] = useState<Monitor | null>(null);
 
   useEffect(() => {
     if (!router.isReady) return;
@@ -26,7 +28,10 @@ const MonitorAdd: NextPageWithLayout = () => {
       .catch((e) => {
         Sentry.captureException(e);
       });
-  }, [router]);
+    return () => {
+      setMonitor(null);
+    };
+  }, [router.isReady, router.query.monitorId, setMonitor]);
 
   return (
     <section className="mx-auto max-w-7xl">
@@ -35,7 +40,7 @@ const MonitorAdd: NextPageWithLayout = () => {
       ) : (
         <>
           <div className="sticky top-0 z-10 flex items-center justify-between border-b bg-white bg-opacity-75 px-4 py-6 backdrop-blur backdrop-filter sm:px-6 md:px-8">
-            <h1 className="text-2xl font-semibold text-gray-900">Update [{monitor!.Name}]</h1>
+            <h1 className="text-2xl font-semibold text-gray-900">Update [{monitor?.Name}]</h1>
             <div className="flex gap-2">
               <button
                 type="button"
