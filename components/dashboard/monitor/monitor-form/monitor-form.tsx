@@ -4,7 +4,7 @@ import { elixirClient } from 'lib/axios';
 import { classNames } from 'lib/tailwind/utils';
 import { Region, RegionResponse } from 'models/monitor';
 import Link from 'next/link';
-import { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import { ChangeEvent, FormEvent, useCallback, useEffect, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { globalAtom } from 'store/global';
 import KV from './kv';
@@ -51,8 +51,13 @@ const MonitorFormComponent = () => {
       .catch(console.error);
   }, []);
 
+  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    console.log(event);
+  };
+
   return (
-    <form>
+    <form id="monitorForm" onSubmit={onSubmit}>
       <div className="space-y-6">
         <div className="grid grid-cols-1 gap-x-8 gap-y-10 md:grid-cols-3">
           <div>
