@@ -19,11 +19,12 @@ export enum MonitorStatus {
 export interface Monitor {
   ID?: number;
   Name: string;
-  Url: string;
+  URL: string;
   Method: HTTPMethod;
   Status: MonitorStatus;
   Interval: number;
   Body: string;
+  Headers: { [key: string]: string };
 }
 
 export interface SingleMonitorResponse {

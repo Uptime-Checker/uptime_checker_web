@@ -6,7 +6,7 @@ import { Region, RegionResponse } from 'models/monitor';
 import Link from 'next/link';
 import { ChangeEvent, FormEvent, useCallback, useEffect, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
-import { globalAtom } from 'store/global';
+import { globalAtom, monitorFormAtom } from 'store/global';
 import KV from './kv';
 
 export enum httpRequestTab {
@@ -24,9 +24,11 @@ const httpRequestTabs = [
 ];
 
 const MonitorFormComponent = () => {
-  const [selectedHTTPRequestTab, setHTTPRequestTab] = useState(httpRequestTabs[0]);
-  const [regions, setRegions] = useState<Region[]>([]);
   const [global] = useAtom(globalAtom);
+  const [regions, setRegions] = useState<Region[]>([]);
+  const [monitorForm, setMonitorForm] = useAtom(monitorFormAtom);
+  const [selectedHTTPRequestTab, setHTTPRequestTab] = useState(httpRequestTabs[0]);
+
   const orgSlug = global.currentUser?.Organization.Slug;
 
   const getActiveHTTPRequestTab = useCallback(
@@ -78,6 +80,7 @@ const MonitorFormComponent = () => {
                     type="text"
                     name="name"
                     id="name"
+                    defaultValue={monitorForm.monitor?.Name}
                     className="block flex-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                     placeholder="Twitter Website"
                   />
@@ -94,6 +97,7 @@ const MonitorFormComponent = () => {
                     type="text"
                     name="website"
                     id="website"
+                    defaultValue={monitorForm.monitor?.URL}
                     className="block flex-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                     placeholder="https://www.example.com"
                   />

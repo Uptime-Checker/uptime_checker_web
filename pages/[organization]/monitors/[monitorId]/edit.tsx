@@ -8,11 +8,11 @@ import { SingleMonitorResponse } from 'models/monitor';
 import { useRouter } from 'next/router';
 import { NextPageWithLayout } from 'pages/_app';
 import { ReactElement, useEffect, useState } from 'react';
-import { monitorAtom } from 'store/global';
+import { monitorFormAtom } from 'store/global';
 
 const MonitorAdd: NextPageWithLayout = () => {
   const router = useRouter();
-  const [monitor, setMonitor] = useAtom(monitorAtom);
+  const [monitorForm, setMonitorForm] = useAtom(monitorFormAtom);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -22,16 +22,21 @@ const MonitorAdd: NextPageWithLayout = () => {
       url: `/monitor/${router.query.monitorId as string}`,
     })
       .then((resp) => {
-        setMonitor(resp.data.data);
+        setMonitorForm((draft) => {
+          draft.monitor = resp.data.data;
+        });
         setLoading(false);
       })
       .catch((e) => {
         Sentry.captureException(e);
       });
     return () => {
-      setMonitor(null);
+      setMonitorForm((draft) => {
+        draft.isSubmitting = false;
+        draft.monitor = null;
+      });
     };
-  }, [router.isReady, router.query.monitorId, setMonitor]);
+  }, [router.isReady, router.query.monitorId, setMonitorForm]);
 
   return (
     <section className="mx-auto max-w-7xl">
@@ -40,7 +45,7 @@ const MonitorAdd: NextPageWithLayout = () => {
       ) : (
         <>
           <div className="sticky top-0 z-10 flex items-center justify-between border-b bg-white bg-opacity-75 px-4 py-6 backdrop-blur backdrop-filter sm:px-6 md:px-8">
-            <h1 className="text-2xl font-semibold text-gray-900">Update [{monitor?.Name}]</h1>
+            <h1 className="text-2xl font-semibold text-gray-900">Update [{monitorForm.monitor?.Name}]</h1>
             <div className="flex gap-2">
               <button
                 type="button"
