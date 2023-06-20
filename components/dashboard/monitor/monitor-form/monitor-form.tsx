@@ -2,9 +2,10 @@ import Accordion from 'components/accordion';
 import { useAtom } from 'jotai';
 import { elixirClient } from 'lib/axios';
 import { classNames } from 'lib/tailwind/utils';
-import { Region, RegionResponse } from 'models/monitor';
+import { Monitor, Region, RegionResponse } from 'models/monitor';
 import Link from 'next/link';
-import { ChangeEvent, FormEvent, useCallback, useEffect, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import Skeleton from 'react-loading-skeleton';
 import { globalAtom, monitorFormAtom } from 'store/global';
 import KV from './kv';
@@ -53,13 +54,19 @@ const MonitorFormComponent = () => {
       .catch(console.error);
   }, []);
 
-  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    console.log(event);
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<Monitor>();
+
+  const onSubmit: SubmitHandler<Monitor> = (data) => {
+    console.log(data);
   };
 
   return (
-    <form id="monitorForm" onSubmit={onSubmit}>
+    <form id="monitorForm" onSubmit={handleSubmit(onSubmit)}>
       <div className="space-y-6">
         <div className="grid grid-cols-1 gap-x-8 gap-y-10 md:grid-cols-3">
           <div>
@@ -78,7 +85,7 @@ const MonitorFormComponent = () => {
                 <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
                   <input
                     type="text"
-                    name="name"
+                    {...register('Name')}
                     id="name"
                     required
                     minLength={3}
@@ -91,15 +98,15 @@ const MonitorFormComponent = () => {
               </div>
             </div>
             <div className="sm:col-span-3">
-              <label htmlFor="website" className="block text-sm font-medium leading-6 text-gray-900">
+              <label htmlFor="url" className="block text-sm font-medium leading-6 text-gray-900">
                 Website
               </label>
               <div className="mt-2">
                 <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
                   <input
                     type="url"
-                    name="website"
-                    id="website"
+                    {...register('URL')}
+                    id="url"
                     required
                     disabled={monitorForm.isSubmitting}
                     defaultValue={monitorForm.monitor?.URL}
