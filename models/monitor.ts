@@ -25,6 +25,8 @@ export interface Monitor {
   Interval: number;
   Body: string;
   Headers: string;
+  Username?: string;
+  Password?: string;
 }
 
 export interface SingleMonitorResponse {
