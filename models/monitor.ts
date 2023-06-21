@@ -23,6 +23,7 @@ export interface Monitor {
   Method: HTTPMethod;
   Status: MonitorStatus;
   Interval: number;
+  Timeout: number;
   Body: string;
   Headers: string;
   Username?: string;

@@ -25,6 +25,29 @@ export const getNameValuePairFromURLQuery = (url: string) => {
   return query;
 };
 
+export const getMonitorTimeoutSelectionOptions = (interval: number): SelectOption[] => {
+  const allOptions = [
+    {
+      label: '5 seconds',
+      value: 5,
+    },
+    {
+      label: '10 seconds',
+      value: 10,
+    },
+    {
+      label: '30 seconds',
+      value: 30,
+    },
+    {
+      label: '60 seconds',
+      value: 60,
+    },
+  ];
+
+  return allOptions.filter((option) => option.value <= interval / 2);
+};
+
 export const getMonitorIntervalSelectionOptions = (user: User): SelectOption[] => {
   return [
     {
