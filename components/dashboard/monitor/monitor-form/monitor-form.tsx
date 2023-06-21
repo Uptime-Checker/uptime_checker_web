@@ -9,6 +9,7 @@ import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import Skeleton from 'react-loading-skeleton';
 import {
   getMonitorIntervalSelectionOptions,
+  getMonitorMethodSelectionOptions,
   getMonitorTimeoutSelectionOptions,
   getNameValuePair,
   getNameValuePairFromURLQuery,
@@ -35,6 +36,7 @@ export interface MonitorFormInput {
   URL: string;
   Interval: number;
   Timeout: number;
+  Method: number;
   Query: { name: string; value: string }[];
   Headers: { name: string; value: string }[];
   Username?: string;
@@ -57,6 +59,7 @@ const MonitorFormComponent = () => {
       URL: monitorForm.monitor.URL,
       Interval: monitorForm.monitor.Interval,
       Timeout: monitorForm.monitor.Timeout,
+      Method: monitorForm.monitor.Method,
       Headers: getNameValuePair(monitorForm.monitor.Headers),
       Query: getNameValuePairFromURLQuery(monitorForm.monitor.URL),
       Username: monitorForm.monitor.Username,
@@ -227,15 +230,14 @@ const MonitorFormComponent = () => {
                   </label>
                   <div className="mt-2">
                     <select
-                      name="method"
+                      {...formMethods.register('Method')}
                       className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                     >
-                      <option>GET</option>
-                      <option>POST</option>
-                      <option>PUT</option>
-                      <option>HEAD</option>
-                      <option>PATCH</option>
-                      <option>DELETE</option>
+                      {getMonitorMethodSelectionOptions().map((option) => (
+                        <option key={option.value} value={option.value} disabled={option.disabled}>
+                          {option.label}
+                        </option>
+                      ))}
                     </select>
                   </div>
                 </div>

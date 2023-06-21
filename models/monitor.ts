@@ -1,5 +1,3 @@
-import { HTTPMethod } from 'lib/axios';
-
 export enum ResponseTimeKey {
   TotalTime = 'TotalTime',
   DNSLookupTime = 'DNSLookupTime',
@@ -20,7 +18,7 @@ export interface Monitor {
   ID?: number;
   Name: string;
   URL: string;
-  Method: HTTPMethod;
+  Method: number;
   Status: MonitorStatus;
   Interval: number;
   Timeout: number;

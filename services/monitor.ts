@@ -25,6 +25,31 @@ export const getNameValuePairFromURLQuery = (url: string) => {
   return query;
 };
 
+export const getMonitorMethodSelectionOptions = (): SelectOption[] => {
+  return [
+    {
+      label: 'GET',
+      value: 1,
+    },
+    {
+      label: 'POST',
+      value: 2,
+    },
+    {
+      label: 'PUT',
+      value: 3,
+    },
+    {
+      label: 'PATCH',
+      value: 4,
+    },
+    {
+      label: 'DELETE',
+      value: 5,
+    },
+  ];
+};
+
 export const getMonitorTimeoutSelectionOptions = (interval: number): SelectOption[] => {
   const allOptions = [
     {
