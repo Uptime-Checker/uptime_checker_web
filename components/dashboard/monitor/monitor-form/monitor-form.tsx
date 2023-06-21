@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import Skeleton from 'react-loading-skeleton';
-import { getNameValuePair, getNameValuePairFromURLQuery } from 'services/monitor';
+import { getMonitorIntervalSelectionOptions, getNameValuePair, getNameValuePairFromURLQuery } from 'services/monitor';
 import { globalAtom, monitorFormAtom } from 'store/global';
 import KV from './kv';
 
@@ -142,12 +142,12 @@ const MonitorFormComponent = () => {
                   id="frequency"
                   name="frequency"
                   className="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  defaultValue="Every 3 Minutes"
                 >
-                  <option>Every 1 Minute</option>
-                  <option>Every 3 Minutes</option>
-                  <option>Every 5 Minutes</option>
-                  <option>Every 10 Minutes</option>
+                  {getMonitorIntervalSelectionOptions(global.currentUser!).map((option) => (
+                    <option key={option.value} value={option.value} disabled={option.disabled}>
+                      {option.label}
+                    </option>
+                  ))}
                 </select>
                 <div className="relative isolate mt-2 gap-x-6 overflow-hidden rounded-md bg-gray-50 px-6 py-2.5 sm:col-span-3 sm:px-3.5 sm:before:flex-1">
                   <div
