@@ -207,7 +207,7 @@ const MonitorFormComponent = () => {
                 </p>
               </div>
 
-              <div className="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-5 sm:grid-cols-6 md:col-span-2">
+              <div className="grid grid-cols-1 gap-x-6 gap-y-5 sm:grid-cols-6 md:col-span-2">
                 <div className="sm:col-span-3">
                   <label htmlFor="method" className="block text-sm font-medium leading-6 text-gray-900">
                     HTTP Method
