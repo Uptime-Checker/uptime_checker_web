@@ -7,8 +7,8 @@ import Link from 'next/link';
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import Skeleton from 'react-loading-skeleton';
+import { getNameValuePair, getNameValuePairFromURLQuery } from 'services/monitor';
 import { globalAtom, monitorFormAtom } from 'store/global';
-import { isEmpty } from 'utils/misc';
 import KV from './kv';
 
 export enum httpRequestTab {
@@ -33,28 +33,6 @@ export interface MonitorFormInput {
   Username?: string;
   Password?: string;
 }
-
-const getNameValuePair = (nameValuePairInString: string) => {
-  const pair: { name: string; value: string }[] = [];
-  if (isEmpty(nameValuePairInString)) return pair;
-
-  const parsedPair: { [key: string]: string } = JSON.parse(nameValuePairInString);
-  for (const [key, value] of Object.entries(parsedPair)) {
-    pair.push({ name: key, value });
-  }
-  return pair;
-};
-
-const getNameValuePairFromURLQuery = (url: string) => {
-  const query: { name: string; value: string }[] = [];
-  if (isEmpty(url)) return query;
-
-  const urlParams = new URLSearchParams(url.split('?')[1]); // Extract query parameters from URL
-  urlParams.forEach((value, name) => {
-    query.push({ name, value });
-  });
-  return query;
-};
 
 const MonitorFormComponent = () => {
   const [global] = useAtom(globalAtom);
