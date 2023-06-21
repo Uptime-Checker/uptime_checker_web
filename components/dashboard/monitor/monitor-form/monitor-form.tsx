@@ -8,6 +8,7 @@ import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import Skeleton from 'react-loading-skeleton';
 import { globalAtom, monitorFormAtom } from 'store/global';
+import { isEmpty } from 'utils/misc';
 import KV from './kv';
 
 export enum httpRequestTab {
@@ -31,14 +32,49 @@ export interface MonitorFormInput {
   Headers: { name: string; value: string }[];
 }
 
+const getNameValuePair = (nameValuePairInString: string) => {
+  const pair: { name: string; value: string }[] = [];
+  if (isEmpty(nameValuePairInString)) return pair;
+
+  const parsedPair: { [key: string]: string } = JSON.parse(nameValuePairInString);
+  for (const [key, value] of Object.entries(parsedPair)) {
+    pair.push({ name: key, value });
+  }
+  return pair;
+};
+
+const getNameValuePairFromURLQuery = (url: string) => {
+  const query: { name: string; value: string }[] = [];
+  if (isEmpty(url)) return query;
+
+  const urlParams = new URLSearchParams(url.split('?')[1]); // Extract query parameters from URL
+  urlParams.forEach((value, name) => {
+    query.push({ name, value });
+  });
+  return query;
+};
+
 const MonitorFormComponent = () => {
   const [global] = useAtom(globalAtom);
-  const formMethods = useForm<MonitorFormInput>();
   const [regions, setRegions] = useState<Region[]>([]);
   const [monitorForm, setMonitorForm] = useAtom(monitorFormAtom);
   const [selectedHTTPRequestTab, setHTTPRequestTab] = useState(httpRequestTabs[0]);
 
   const orgSlug = global.currentUser?.Organization.Slug;
+
+  const getDefaultValues = (): MonitorFormInput | undefined => {
+    if (!monitorForm.monitor) return undefined;
+    const monitorFormInput: MonitorFormInput = {
+      Name: monitorForm.monitor.Name,
+      URL: monitorForm.monitor.URL,
+      Headers: getNameValuePair(monitorForm.monitor.Headers),
+      Query: getNameValuePairFromURLQuery(monitorForm.monitor.URL),
+    };
+
+    return monitorFormInput;
+  };
+
+  const formMethods = useForm<MonitorFormInput>({ defaultValues: getDefaultValues() });
 
   const getActiveHTTPRequestTab = useCallback(
     (httpRequestTabName: string) => {
@@ -92,7 +128,6 @@ const MonitorFormComponent = () => {
                       required
                       minLength={3}
                       disabled={monitorForm.isSubmitting}
-                      defaultValue={monitorForm.monitor?.Name}
                       className="block flex-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                       placeholder="Twitter Website"
                     />
@@ -111,7 +146,6 @@ const MonitorFormComponent = () => {
                       id="url"
                       required
                       disabled={monitorForm.isSubmitting}
-                      defaultValue={monitorForm.monitor?.URL}
                       className="block flex-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                       placeholder="https://www.example.com"
                     />
