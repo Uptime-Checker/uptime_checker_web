@@ -24,7 +24,7 @@ export interface Monitor {
   Status: MonitorStatus;
   Interval: number;
   Body: string;
-  Headers: { [key: string]: string };
+  Headers: string;
 }
 
 export interface SingleMonitorResponse {
