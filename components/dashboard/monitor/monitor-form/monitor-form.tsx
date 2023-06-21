@@ -303,7 +303,7 @@ const MonitorFormComponent = () => {
                 {selectedHTTPRequestTab.name === httpRequestTab.Body ? (
                   <div className="col-span-full">
                     <p className="mb-2 block text-sm leading-6 text-gray-900">
-                      Don&apos;t forgot to add the correct Content-Type request header
+                      Don&apos;t forgot to add the correct <b>Content-Type</b> request header
                     </p>
                     <textarea
                       rows={4}
