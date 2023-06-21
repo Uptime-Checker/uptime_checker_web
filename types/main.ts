@@ -24,3 +24,9 @@ export interface TabNavigationItem {
   href: string;
   count?: number;
 }
+
+export interface SelectOption {
+  disabled?: boolean;
+  label: string;
+  value: number;
+}
