@@ -28,6 +28,7 @@ const httpRequestTabs = [
 export interface MonitorFormInput {
   Name: string;
   URL: string;
+  Interval: number;
   Query: { name: string; value: string }[];
   Headers: { name: string; value: string }[];
   Username?: string;
@@ -47,6 +48,7 @@ const MonitorFormComponent = () => {
     const monitorFormInput: MonitorFormInput = {
       Name: monitorForm.monitor.Name,
       URL: monitorForm.monitor.URL,
+      Interval: monitorForm.monitor.Interval,
       Headers: getNameValuePair(monitorForm.monitor.Headers),
       Query: getNameValuePairFromURLQuery(monitorForm.monitor.URL),
       Username: monitorForm.monitor.Username,
@@ -101,46 +103,40 @@ const MonitorFormComponent = () => {
                 <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">
                   Name
                 </label>
-                <div className="mt-2">
-                  <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
-                    <input
-                      type="text"
-                      {...formMethods.register('Name')}
-                      id="name"
-                      required
-                      minLength={3}
-                      disabled={monitorForm.isSubmitting}
-                      className="block flex-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                      placeholder="Twitter Website"
-                    />
-                  </div>
+                <div className="mt-2 flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
+                  <input
+                    type="text"
+                    {...formMethods.register('Name')}
+                    required
+                    minLength={3}
+                    disabled={monitorForm.isSubmitting}
+                    className="block flex-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                    placeholder="Twitter Website"
+                  />
                 </div>
               </div>
               <div className="sm:col-span-3">
                 <label htmlFor="url" className="block text-sm font-medium leading-6 text-gray-900">
                   Website
                 </label>
-                <div className="mt-2">
-                  <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
-                    <input
-                      type="url"
-                      {...formMethods.register('URL')}
-                      id="url"
-                      required
-                      disabled={monitorForm.isSubmitting}
-                      className="block flex-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                      placeholder="https://www.example.com"
-                    />
-                  </div>
+                <div className="mt-2 flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
+                  <input
+                    type="url"
+                    {...formMethods.register('URL')}
+                    required
+                    disabled={monitorForm.isSubmitting}
+                    className="block flex-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                    placeholder="https://www.example.com"
+                  />
                 </div>
               </div>
               <div className="sm:col-span-3">
-                <label htmlFor="frequency" className="block text-sm font-medium leading-6 text-gray-900">
+                <label htmlFor="Interval" className="block text-sm font-medium leading-6 text-gray-900">
                   Frequency
                 </label>
                 <select
-                  id="frequency"
-                  name="frequency"
+                  {...formMethods.register('Interval')}
+                  required
                   className="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 >
                   {getMonitorIntervalSelectionOptions(global.currentUser!).map((option) => (
