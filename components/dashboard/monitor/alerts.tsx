@@ -69,7 +69,7 @@ const AlertsComponent = ({ alarms, topLevel }: AlertProps) => {
               <span
                 className={classNames(
                   topLevel ? 'hidden lg:inline-flex' : 'inline-flex',
-                  ' rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800'
+                  'rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800'
                 )}
               >
                 Resolved

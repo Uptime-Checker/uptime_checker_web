@@ -17,9 +17,9 @@ const KV = (props: Props) => {
 
   return (
     <div className={props.className}>
-      <section className="flex flex-col gap-2">
+      <section className="flex flex-col gap-3">
         {fields.map((field, index) => (
-          <div className="flex items-center gap-2" key={field.id}>
+          <div className="flex items-center gap-3" key={field.id}>
             <input
               type="text"
               {...register(`${props.name}.${index}.name` as const, { required: true })}
@@ -45,7 +45,7 @@ const KV = (props: Props) => {
       <button
         type="button"
         onClick={() => append({ name: '', value: '' })}
-        className="mt-2 inline-flex items-center gap-1 rounded border border-gray-300 bg-white px-2.5 py-1.5 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none"
+        className="mt-3 inline-flex items-center gap-1 rounded border border-gray-300 bg-white px-2.5 py-1.5 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none"
       >
         <PlusIcon className="h-4 w-4" />
         <span>Add {props.button}</span>

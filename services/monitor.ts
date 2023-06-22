@@ -1,4 +1,5 @@
 import { isEnterPriseSubscription, isFreeSubscription, isStartupSubscription } from 'lib/global';
+import { AssertionSource } from 'models/assertion';
 import { MonitorMethod } from 'models/monitor';
 import { User } from 'models/user';
 import { SelectOption } from 'types/main';
@@ -24,6 +25,27 @@ export const getNameValuePairFromURLQuery = (url: string) => {
     query.push({ name, value });
   });
   return query;
+};
+
+export const getAssertionSourceSelectionOptions = (): SelectOption[] => {
+  return [
+    {
+      label: 'Status Code',
+      value: AssertionSource.StatusCode,
+    },
+    {
+      label: 'Headers',
+      value: AssertionSource.Headers,
+    },
+    {
+      label: 'Text Body',
+      value: AssertionSource.TextBody,
+    },
+    {
+      label: 'Response Time',
+      value: AssertionSource.ResponseTime,
+    },
+  ];
 };
 
 export const getMonitorMethodSelectionOptions = (): SelectOption[] => {
