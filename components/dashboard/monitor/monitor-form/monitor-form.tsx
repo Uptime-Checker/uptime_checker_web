@@ -8,6 +8,7 @@ import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import Skeleton from 'react-loading-skeleton';
 import {
+  getMonitorIntervalDefault,
   getMonitorIntervalSelectionOptions,
   getMonitorMethodSelectionOptions,
   getMonitorTimeoutSelectionOptions,
@@ -145,53 +146,56 @@ const MonitorFormComponent = () => {
                   />
                 </div>
               </div>
-              <div className="sm:col-span-3">
-                <label htmlFor="Interval" className="block text-sm font-medium leading-6 text-gray-900">
-                  Frequency
-                </label>
-                <select
-                  {...formMethods.register('Interval')}
-                  required
-                  onChange={intervalChanged}
-                  className="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                >
-                  {getMonitorIntervalSelectionOptions(global.currentUser!).map((option) => (
-                    <option key={option.value} value={option.value} disabled={option.disabled}>
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
-                <div className="relative isolate mt-2 gap-x-6 overflow-hidden rounded-md bg-gray-50 px-6 py-2.5 sm:col-span-3 sm:px-3.5 sm:before:flex-1">
-                  <div
-                    className="absolute left-[max(-7rem,calc(50%-52rem))] top-1/2 -z-10 -translate-y-1/2 transform-gpu blur-2xl"
-                    aria-hidden="true"
+              {global.currentUser && (
+                <div className="sm:col-span-3">
+                  <label htmlFor="Interval" className="block text-sm font-medium leading-6 text-gray-900">
+                    Frequency
+                  </label>
+                  <select
+                    {...formMethods.register('Interval')}
+                    required
+                    defaultValue={getMonitorIntervalDefault(global.currentUser)}
+                    onChange={intervalChanged}
+                    className="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   >
+                    {getMonitorIntervalSelectionOptions(global.currentUser).map((option) => (
+                      <option key={option.value} value={option.value} disabled={option.disabled}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                  <div className="relative isolate mt-2 gap-x-6 overflow-hidden rounded-md bg-gray-50 px-6 py-2.5 sm:col-span-3 sm:px-3.5 sm:before:flex-1">
                     <div
-                      className="aspect-[577/310] w-[36.0625rem] bg-gradient-to-r from-[#ff80b5] to-[#9089fc] opacity-30"
-                      style={{
-                        clipPath:
-                          'polygon(74.8% 41.9%, 97.2% 73.2%, 100% 34.9%, 92.5% 0.4%, 87.5% 0%, 75% 28.6%, 58.5% 54.6%, 50.1% 56.8%, 46.9% 44%, 48.3% 17.4%, 24.7% 53.9%, 0% 27.9%, 11.9% 74.2%, 24.9% 54.1%, 68.6% 100%, 74.8% 41.9%)',
-                      }}
-                    />
-                  </div>
-                  <div
-                    className="absolute left-[max(45rem,calc(50%+8rem))] top-1/2 -z-10 -translate-y-1/2 transform-gpu blur-2xl"
-                    aria-hidden="true"
-                  >
+                      className="absolute left-[max(-7rem,calc(50%-52rem))] top-1/2 -z-10 -translate-y-1/2 transform-gpu blur-2xl"
+                      aria-hidden="true"
+                    >
+                      <div
+                        className="aspect-[577/310] w-[36.0625rem] bg-gradient-to-r from-[#ff80b5] to-[#9089fc] opacity-30"
+                        style={{
+                          clipPath:
+                            'polygon(74.8% 41.9%, 97.2% 73.2%, 100% 34.9%, 92.5% 0.4%, 87.5% 0%, 75% 28.6%, 58.5% 54.6%, 50.1% 56.8%, 46.9% 44%, 48.3% 17.4%, 24.7% 53.9%, 0% 27.9%, 11.9% 74.2%, 24.9% 54.1%, 68.6% 100%, 74.8% 41.9%)',
+                        }}
+                      />
+                    </div>
                     <div
-                      className="aspect-[577/310] w-[36.0625rem] bg-gradient-to-r from-[#ff80b5] to-[#9089fc] opacity-30"
-                      style={{
-                        clipPath:
-                          'polygon(74.8% 41.9%, 97.2% 73.2%, 100% 34.9%, 92.5% 0.4%, 87.5% 0%, 75% 28.6%, 58.5% 54.6%, 50.1% 56.8%, 46.9% 44%, 48.3% 17.4%, 24.7% 53.9%, 0% 27.9%, 11.9% 74.2%, 24.9% 54.1%, 68.6% 100%, 74.8% 41.9%)',
-                      }}
-                    />
+                      className="absolute left-[max(45rem,calc(50%+8rem))] top-1/2 -z-10 -translate-y-1/2 transform-gpu blur-2xl"
+                      aria-hidden="true"
+                    >
+                      <div
+                        className="aspect-[577/310] w-[36.0625rem] bg-gradient-to-r from-[#ff80b5] to-[#9089fc] opacity-30"
+                        style={{
+                          clipPath:
+                            'polygon(74.8% 41.9%, 97.2% 73.2%, 100% 34.9%, 92.5% 0.4%, 87.5% 0%, 75% 28.6%, 58.5% 54.6%, 50.1% 56.8%, 46.9% 44%, 48.3% 17.4%, 24.7% 53.9%, 0% 27.9%, 11.9% 74.2%, 24.9% 54.1%, 68.6% 100%, 74.8% 41.9%)',
+                        }}
+                      />
+                    </div>
+                    <Link href={`/${orgSlug!}/settings/billing`}>
+                      <p className="text-center font-semibold">Unlock faster monitoring</p>
+                      <p className="text-center font-semibold">Try it in our 14-day free trial</p>
+                    </Link>
                   </div>
-                  <Link href={`/${orgSlug!}/settings/billing`}>
-                    <p className="text-center font-semibold">Unlock faster monitoring</p>
-                    <p className="text-center font-semibold">Try it in our 14-day free trial</p>
-                  </Link>
                 </div>
-              </div>
+              )}
               <div className="sm:col-span-3">
                 <p className="mb-1 text-sm font-medium">Where should we check from?</p>
                 {regions.length === 0 ? <Skeleton /> : null}
@@ -200,6 +204,7 @@ const MonitorFormComponent = () => {
                     <div key={region.Key} className="flex h-6 min-w-0 items-center gap-2">
                       <input
                         id={region.Key}
+                        checked={region.Default}
                         value={region.Key}
                         {...formMethods.register('Regions')}
                         type="checkbox"
@@ -375,6 +380,10 @@ const MonitorFormComponent = () => {
                     </div>
                   </>
                 ) : null}
+
+                <div className="sm:col-span-3"></div>
+
+                <div className="sm:col-span-3"></div>
               </div>
             </div>
           </Accordion>

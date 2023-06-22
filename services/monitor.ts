@@ -1,8 +1,8 @@
-import { isFreeSubscription } from 'lib/global';
+import { isEnterPriseSubscription, isFreeSubscription, isStartupSubscription } from 'lib/global';
+import { MonitorMethod } from 'models/monitor';
 import { User } from 'models/user';
 import { SelectOption } from 'types/main';
 import { isEmpty } from 'utils/misc';
-import { MonitorMethod } from 'models/monitor';
 
 export const getNameValuePair = (nameValuePairInString: string) => {
   const pair: { name: string; value: string }[] = [];
@@ -74,17 +74,21 @@ export const getMonitorTimeoutSelectionOptions = (interval: number): SelectOptio
   return allOptions.filter((option) => option.value <= interval / 2);
 };
 
+export const getMonitorIntervalDefault = (user: User): number => {
+  return isFreeSubscription(user) ? 300 : 60;
+};
+
 export const getMonitorIntervalSelectionOptions = (user: User): SelectOption[] => {
   return [
     {
       label: 'Every 10 seconds',
       value: 10,
-      disabled: isFreeSubscription(user),
+      disabled: !isEnterPriseSubscription(user),
     },
     {
       label: 'Every 30 seconds',
       value: 30,
-      disabled: isFreeSubscription(user),
+      disabled: !isStartupSubscription(user) && !isEnterPriseSubscription(user),
     },
     {
       label: 'Every minute',

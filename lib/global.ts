@@ -56,6 +56,20 @@ export const isFreeSubscription = (user: User | null) => {
   return user.Subscription.Product.Tier === ProductTier.free;
 };
 
+export const isStartupSubscription = (user: User | null) => {
+  if (!user) return false;
+  if (!user.Subscription) return false;
+  if (!user.Subscription.Product) return false;
+  return user.Subscription.Product.Tier === ProductTier.startup;
+};
+
+export const isEnterPriseSubscription = (user: User | null) => {
+  if (!user) return false;
+  if (!user.Subscription) return false;
+  if (!user.Subscription.Product) return false;
+  return user.Subscription.Product.Tier === ProductTier.enterprise;
+};
+
 export const logout = async () => {
   try {
     // iron session
