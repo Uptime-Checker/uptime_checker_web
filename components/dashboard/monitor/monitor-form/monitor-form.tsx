@@ -37,6 +37,7 @@ export interface MonitorFormInput {
   Interval: number;
   Timeout: number;
   Method: MonitorMethod;
+  Regions: string[];
   Query: { name: string; value: string }[];
   Headers: { name: string; value: string }[];
   Username?: string;
@@ -60,6 +61,7 @@ const MonitorFormComponent = () => {
       Interval: monitorForm.monitor.Interval,
       Timeout: monitorForm.monitor.Timeout,
       Method: monitorForm.monitor.Method,
+      Regions: monitorForm.monitor.Regions.map((region) => region.Key),
       Headers: getNameValuePair(monitorForm.monitor.Headers),
       Query: getNameValuePairFromURLQuery(monitorForm.monitor.URL),
       Username: monitorForm.monitor.Username,
@@ -200,7 +202,8 @@ const MonitorFormComponent = () => {
                     <div key={region.Key} className="flex h-6 min-w-0 items-center gap-2">
                       <input
                         id={region.Key}
-                        name={region.Key}
+                        value={region.Key}
+                        {...formMethods.register('Regions')}
                         type="checkbox"
                         className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
                       />

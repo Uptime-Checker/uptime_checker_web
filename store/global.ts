@@ -1,5 +1,5 @@
 import { atomWithImmer } from 'jotai-immer';
-import { Monitor } from 'models/monitor';
+import { MonitorAll } from 'models/monitor';
 import { Product } from 'models/subscription';
 import { OrganizationUser, User } from 'models/user';
 
@@ -20,7 +20,7 @@ const globalAtomInit: GlobalAtom = {
 
 type MonitorFormAtom = {
   isSubmitting: boolean;
-  monitor: Monitor | null;
+  monitor: MonitorAll | null;
 };
 
 const monitorFormAtomInit: MonitorFormAtom = {
