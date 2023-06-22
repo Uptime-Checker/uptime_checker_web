@@ -55,7 +55,7 @@ const MonitorFormComponent = () => {
 
   const getDefaultValues = (): MonitorFormInput | undefined => {
     if (!monitorForm.monitor) return undefined;
-    const monitorFormInput: MonitorFormInput = {
+    return {
       Name: monitorForm.monitor.Name,
       URL: monitorForm.monitor.URL,
       Interval: monitorForm.monitor.Interval,
@@ -67,8 +67,6 @@ const MonitorFormComponent = () => {
       Username: monitorForm.monitor.Username,
       Password: monitorForm.monitor.Password,
     };
-
-    return monitorFormInput;
   };
 
   const formMethods = useForm<MonitorFormInput>({ defaultValues: getDefaultValues() });

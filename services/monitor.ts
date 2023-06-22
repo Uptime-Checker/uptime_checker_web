@@ -2,6 +2,7 @@ import { isFreeSubscription } from 'lib/global';
 import { User } from 'models/user';
 import { SelectOption } from 'types/main';
 import { isEmpty } from 'utils/misc';
+import { MonitorMethod } from 'models/monitor';
 
 export const getNameValuePair = (nameValuePairInString: string) => {
   const pair: { name: string; value: string }[] = [];
@@ -29,23 +30,23 @@ export const getMonitorMethodSelectionOptions = (): SelectOption[] => {
   return [
     {
       label: 'GET',
-      value: 1,
+      value: MonitorMethod.Get,
     },
     {
       label: 'POST',
-      value: 2,
+      value: MonitorMethod.Post,
     },
     {
       label: 'PUT',
-      value: 3,
+      value: MonitorMethod.Put,
     },
     {
       label: 'PATCH',
-      value: 4,
+      value: MonitorMethod.Patch,
     },
     {
       label: 'DELETE',
-      value: 5,
+      value: MonitorMethod.Delete,
     },
   ];
 };

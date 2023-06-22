@@ -9,6 +9,7 @@ import { useRouter } from 'next/router';
 import { NextPageWithLayout } from 'pages/_app';
 import { ReactElement, useEffect, useState } from 'react';
 import { monitorFormAtom } from 'store/global';
+import { AxiosError, HttpStatusCode } from 'axios';
 
 const MonitorAdd: NextPageWithLayout = () => {
   const router = useRouter();
@@ -28,7 +29,12 @@ const MonitorAdd: NextPageWithLayout = () => {
         setLoading(false);
       })
       .catch((e) => {
-        Sentry.captureException(e);
+        const errorResponse = (e as AxiosError).response;
+        if (errorResponse && errorResponse.status === HttpStatusCode.NotFound) {
+          router.back();
+        } else {
+          Sentry.captureException(e);
+        }
       });
     return () => {
       setMonitorForm((draft) => {
