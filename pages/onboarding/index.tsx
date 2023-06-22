@@ -72,13 +72,7 @@ export default function Onboarding() {
         url: '/organization',
         data: { name: orgRef.value, slug: slugRef.value, planID: FREE_PLAN_ID },
       });
-      const user = getCurrentUser()!;
-      user.Organization = data.data;
-      setCurrentUser(user)
-        .then(() => {
-          redirectToDashboard(user);
-        })
-        .catch(console.error);
+      window.location.replace(`${window.location.origin}/${data.data.Slug}/monitors`);
     } catch (error) {
       const elixirError = (error as AxiosError).response?.data as ElixirError;
       const errorKey = elixirError.error;
