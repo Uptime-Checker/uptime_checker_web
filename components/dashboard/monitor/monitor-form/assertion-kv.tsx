@@ -13,13 +13,15 @@ const AssertionKV = ({ className, name }: Props) => {
 
   return (
     <div className={className}>
-      <section className="mt-5 grid w-full grid-cols-11 gap-3">
-        <div className="col-span-2 block w-full text-sm font-medium text-gray-500">Source</div>
-        <div className="col-span-3 block w-full text-sm font-medium text-gray-500">Property</div>
-        <div className="col-span-2 block w-full text-sm font-medium text-gray-500">Comparison</div>
-        <div className="col-span-3 block w-full text-sm font-medium text-gray-500">Expected value</div>
-        <div className="col-span-1 block w-full"></div>
-      </section>
+      {fields.length > 0 && (
+        <section className="mt-5 grid w-full grid-cols-11 gap-3">
+          <div className="col-span-2 block w-full text-sm font-medium text-gray-500">Source</div>
+          <div className="col-span-3 block w-full text-sm font-medium text-gray-500">Property</div>
+          <div className="col-span-2 block w-full text-sm font-medium text-gray-500">Comparison</div>
+          <div className="col-span-3 block w-full text-sm font-medium text-gray-500">Expected value</div>
+          <div className="col-span-1 block w-full"></div>
+        </section>
+      )}
       <section className="mt-3 flex flex-col gap-3">
         {fields.map((field, index) => (
           <AssertionKVRow key={field.id} name={name} index={index} remove={remove} />

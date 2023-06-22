@@ -2,12 +2,14 @@ import Accordion from 'components/accordion';
 import { useAtom } from 'jotai';
 import { elixirClient } from 'lib/axios';
 import { classNames } from 'lib/tailwind/utils';
+import { AssertionComparison, AssertionSource } from 'models/assertion';
 import { MonitorMethod, Region, RegionResponse } from 'models/monitor';
 import Link from 'next/link';
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import Skeleton from 'react-loading-skeleton';
 import {
+  getAssertions,
   getMonitorIntervalDefault,
   getMonitorIntervalSelectionOptions,
   getMonitorMethodSelectionOptions,
@@ -46,6 +48,12 @@ export interface MonitorFormInput {
   Headers: { name: string; value: string }[];
   Username?: string;
   Password?: string;
+  Assertions: {
+    source: AssertionSource;
+    property: string | undefined;
+    comparison: AssertionComparison;
+    value: string | undefined;
+  }[];
 }
 
 const MonitorFormComponent = () => {
@@ -72,6 +80,7 @@ const MonitorFormComponent = () => {
       Query: getNameValuePairFromURLQuery(monitorForm.monitor.URL),
       Username: monitorForm.monitor.Username,
       Password: monitorForm.monitor.Password,
+      Assertions: getAssertions(monitorForm.monitor.Assertions),
     };
   };
 

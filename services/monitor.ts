@@ -1,5 +1,5 @@
 import { isEnterPriseSubscription, isFreeSubscription, isStartupSubscription } from 'lib/global';
-import { AssertionComparison, AssertionSource } from 'models/assertion';
+import { Assertion, AssertionComparison, AssertionSource } from 'models/assertion';
 import { MonitorMethod } from 'models/monitor';
 import { User } from 'models/user';
 import { SelectOption } from 'types/main';
@@ -27,10 +27,21 @@ export const getNameValuePairFromURLQuery = (url: string) => {
   return query;
 };
 
+export const getAssertions = (assertions: Assertion[]) => {
+  return assertions.map((assertion) => {
+    return {
+      source: assertion.Source,
+      property: assertion.Property,
+      comparison: assertion.Comparison,
+      value: assertion.Value,
+    };
+  });
+};
+
 export const getAssertionSourceSelectionOptions = (): SelectOption[] => {
   return [
     {
-      label: 'Status Code',
+      label: 'Status code',
       value: AssertionSource.StatusCode,
     },
     {
@@ -38,11 +49,11 @@ export const getAssertionSourceSelectionOptions = (): SelectOption[] => {
       value: AssertionSource.Headers,
     },
     {
-      label: 'Text Body',
+      label: 'Text body',
       value: AssertionSource.TextBody,
     },
     {
-      label: 'Response Time',
+      label: 'Response time',
       value: AssertionSource.ResponseTime,
     },
   ];
