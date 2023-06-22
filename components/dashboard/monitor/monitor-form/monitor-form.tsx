@@ -16,6 +16,7 @@ import {
   getNameValuePairFromURLQuery,
 } from 'services/monitor';
 import { globalAtom, monitorFormAtom } from 'store/global';
+import AssertionKV from './assertion-kv';
 import KV from './kv';
 
 export enum httpRequestTab {
@@ -225,7 +226,7 @@ const MonitorFormComponent = () => {
           </div>
 
           <Accordion text={'HTTP Request Settings'}>
-            <div className="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3">
+            <div className="grid grid-cols-1 gap-x-8 gap-y-10 md:grid-cols-3">
               <div>
                 <h2 className="text-base font-semibold leading-7 text-gray-900">HTTP request settings</h2>
                 <p className="mt-1 text-sm leading-6 text-gray-600">
@@ -423,6 +424,15 @@ const MonitorFormComponent = () => {
                 </div>
               </div>
             </div>
+          </Accordion>
+
+          <Accordion text={'Assertions'}>
+            <p className="text-sm leading-6 text-gray-600">
+              Use assertions to validate the status code, body, headers and response time of your API request. When one
+              (or more) assertions fails, an alert is triggered.
+            </p>
+
+            <AssertionKV name="Assertions" />
           </Accordion>
 
           <div className="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3">
