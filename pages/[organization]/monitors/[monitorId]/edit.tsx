@@ -19,7 +19,7 @@ const MonitorAdd: NextPageWithLayout = () => {
     if (!router.isReady) return;
     authRequest<SingleMonitorResponse>({
       method: HTTPMethod.GET,
-      url: `/monitor/${router.query.monitorId as string}`,
+      url: `/monitor/${router.query.monitorId as string}/all`,
     })
       .then((resp) => {
         setMonitorForm((draft) => {

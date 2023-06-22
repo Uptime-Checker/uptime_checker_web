@@ -2,7 +2,7 @@ import Accordion from 'components/accordion';
 import { useAtom } from 'jotai';
 import { elixirClient } from 'lib/axios';
 import { classNames } from 'lib/tailwind/utils';
-import { Region, RegionResponse } from 'models/monitor';
+import { MonitorMethod, Region, RegionResponse } from 'models/monitor';
 import Link from 'next/link';
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
@@ -36,7 +36,7 @@ export interface MonitorFormInput {
   URL: string;
   Interval: number;
   Timeout: number;
-  Method: number;
+  Method: MonitorMethod;
   Query: { name: string; value: string }[];
   Headers: { name: string; value: string }[];
   Username?: string;
