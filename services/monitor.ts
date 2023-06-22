@@ -52,6 +52,24 @@ export const getAssertionComparisonSelectionOptions = (source: AssertionSource):
   const allComparisons = Object.values(AssertionComparison)
     .filter((v) => !isNaN(Number(v)))
     .map((x) => Number(x));
+
+  if (source === AssertionSource.StatusCode || source === AssertionSource.ResponseTime) {
+    return [
+      AssertionComparison.Equal,
+      AssertionComparison.NotEqual,
+      AssertionComparison.Greater,
+      AssertionComparison.Lesser,
+    ];
+  } else if (source === AssertionSource.Headers || source === AssertionSource.TextBody) {
+    return [
+      AssertionComparison.Equal,
+      AssertionComparison.NotEqual,
+      AssertionComparison.Contain,
+      AssertionComparison.NotContain,
+      AssertionComparison.Empty,
+      AssertionComparison.NotEmpty,
+    ];
+  }
   return allComparisons;
 };
 
