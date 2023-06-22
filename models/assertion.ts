@@ -23,6 +23,39 @@ export enum AssertionComparison {
   NotHasValue = 5,
 }
 
+export const getAssertionComparisonString = (assertionComparison: AssertionComparison) => {
+  switch (assertionComparison) {
+    case AssertionComparison.Equal:
+      return 'Equal';
+    case AssertionComparison.NotEqual:
+      return 'Not equal';
+    case AssertionComparison.Greater:
+      return 'Greater';
+    case AssertionComparison.Lesser:
+      return 'Lesser';
+    case AssertionComparison.Empty:
+      return 'Empty';
+    case AssertionComparison.NotEmpty:
+      return 'Not empty';
+    case AssertionComparison.Contain:
+      return 'Contain';
+    case AssertionComparison.NotContain:
+      return 'Not contain';
+    case AssertionComparison.Null:
+      return 'Null';
+    case AssertionComparison.NotNull:
+      return 'Not null';
+    case AssertionComparison.HasKey:
+      return 'Has key';
+    case AssertionComparison.NotHasKey:
+      return 'Not has key';
+    case AssertionComparison.HasValue:
+      return 'Has value';
+    case AssertionComparison.NotHasValue:
+      return 'Not has value';
+  }
+};
+
 export interface Assertion {
   ID?: number;
   Property?: string;
