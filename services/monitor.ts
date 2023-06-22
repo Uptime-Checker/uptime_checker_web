@@ -1,5 +1,5 @@
 import { isEnterPriseSubscription, isFreeSubscription, isStartupSubscription } from 'lib/global';
-import { AssertionSource } from 'models/assertion';
+import { AssertionComparison, AssertionSource } from 'models/assertion';
 import { MonitorMethod } from 'models/monitor';
 import { User } from 'models/user';
 import { SelectOption } from 'types/main';
@@ -46,6 +46,13 @@ export const getAssertionSourceSelectionOptions = (): SelectOption[] => {
       value: AssertionSource.ResponseTime,
     },
   ];
+};
+
+export const getAssertionComparisonSelectionOptions = (source: AssertionSource): AssertionComparison[] => {
+  const allComparisons = Object.values(AssertionComparison)
+    .filter((v) => !isNaN(Number(v)))
+    .map((x) => Number(x));
+  return allComparisons;
 };
 
 export const getMonitorMethodSelectionOptions = (): SelectOption[] => {
