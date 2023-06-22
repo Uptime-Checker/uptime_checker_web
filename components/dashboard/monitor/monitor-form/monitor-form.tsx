@@ -64,8 +64,8 @@ const MonitorFormComponent = () => {
       URL: monitorForm.monitor.URL,
       Interval: monitorForm.monitor.Interval,
       Timeout: monitorForm.monitor.Timeout,
-      SSL: false,
-      Redirect: false,
+      SSL: monitorForm.monitor.CheclSsl,
+      Redirect: monitorForm.monitor.FollowRedirects,
       Method: monitorForm.monitor.Method,
       Regions: monitorForm.monitor.Regions.map((region) => region.Key),
       Headers: getNameValuePair(monitorForm.monitor.Headers),
@@ -419,7 +419,7 @@ const MonitorFormComponent = () => {
                     </label>
                   </section>
                   <p className="mt-2 text-sm font-light text-gray-500">
-                    When ticked, we will follow a maximum of 5 redirects before we consider the check a failure.
+                    When ticked, we will follow a maximum of 3 redirects before we consider the check a failure.
                   </p>
                 </div>
               </div>
