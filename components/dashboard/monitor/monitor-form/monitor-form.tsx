@@ -37,6 +37,8 @@ export interface MonitorFormInput {
   URL: string;
   Interval: number;
   Timeout: number;
+  SSL: boolean;
+  Redirect: boolean;
   Method: MonitorMethod;
   Regions: string[];
   Query: { name: string; value: string }[];
@@ -61,6 +63,8 @@ const MonitorFormComponent = () => {
       URL: monitorForm.monitor.URL,
       Interval: monitorForm.monitor.Interval,
       Timeout: monitorForm.monitor.Timeout,
+      SSL: false,
+      Redirect: false,
       Method: monitorForm.monitor.Method,
       Regions: monitorForm.monitor.Regions.map((region) => region.Key),
       Headers: getNameValuePair(monitorForm.monitor.Headers),
@@ -382,9 +386,41 @@ const MonitorFormComponent = () => {
                   </>
                 ) : null}
 
-                <div className="sm:col-span-3"></div>
+                <div className="sm:col-span-3">
+                  <section className="flex h-6 min-w-0 items-center gap-2">
+                    <input
+                      id="ssl"
+                      defaultChecked={true}
+                      {...formMethods.register('SSL')}
+                      type="checkbox"
+                      className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                    />
+                    <label htmlFor="ssl" className="text-sm font-normal text-gray-900">
+                      Verify SSL certificate
+                    </label>
+                  </section>
+                  <p className="mt-2 text-sm font-light text-gray-500">
+                    When ticked, we will consider this monitor <b>down</b> and send alerts when your SSL certificate is
+                    invalid.
+                  </p>
+                </div>
 
-                <div className="sm:col-span-3"></div>
+                <div className="sm:col-span-3">
+                  <section className="flex h-6 min-w-0 items-center gap-2">
+                    <input
+                      id="redirect"
+                      {...formMethods.register('Redirect')}
+                      type="checkbox"
+                      className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                    />
+                    <label htmlFor="redirect" className="text-sm font-normal text-gray-900">
+                      Follow redirects
+                    </label>
+                  </section>
+                  <p className="mt-2 text-sm font-light text-gray-500">
+                    When ticked, we will follow a maximum of 5 redirects before we consider the check a failure.
+                  </p>
+                </div>
               </div>
             </div>
           </Accordion>
