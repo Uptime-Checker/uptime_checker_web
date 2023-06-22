@@ -26,21 +26,21 @@ export enum AssertionComparison {
 export const getAssertionComparisonString = (assertionComparison: AssertionComparison) => {
   switch (assertionComparison) {
     case AssertionComparison.Equal:
-      return 'Equal';
+      return 'Equals';
     case AssertionComparison.NotEqual:
-      return 'Not equal';
+      return 'Not equals';
     case AssertionComparison.Greater:
-      return 'Greater';
+      return 'Greater than';
     case AssertionComparison.Lesser:
-      return 'Lesser';
+      return 'Lesser than';
     case AssertionComparison.Empty:
       return 'Empty';
     case AssertionComparison.NotEmpty:
       return 'Not empty';
     case AssertionComparison.Contain:
-      return 'Contain';
+      return 'Contains';
     case AssertionComparison.NotContain:
-      return 'Not contain';
+      return 'Not contains';
     case AssertionComparison.Null:
       return 'Null';
     case AssertionComparison.NotNull:
