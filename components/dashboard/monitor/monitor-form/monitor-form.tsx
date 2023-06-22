@@ -300,7 +300,7 @@ const MonitorFormComponent = () => {
                   </div>
                   <div className="hidden lg:block">
                     <div className="border-b border-gray-200">
-                      <nav className="-mb-px flex space-x-8" aria-label="Tabs">
+                      <nav className="-mb-px flex space-x-8 overflow-auto" aria-label="Tabs">
                         {httpRequestTabs.map((tab) => (
                           <button
                             type="button"
