@@ -1,4 +1,5 @@
 import { PlusIcon } from '@heroicons/react/24/solid';
+import { AssertionComparison, AssertionSource } from 'models/assertion';
 import { useFieldArray } from 'react-hook-form';
 import AssertionKVRow from './assertion-kv-row';
 
@@ -26,7 +27,14 @@ const AssertionKV = ({ className, name }: Props) => {
       </section>
       <button
         type="button"
-        onClick={() => append({ name: '', value: '' })}
+        onClick={() =>
+          append({
+            source: AssertionSource.StatusCode,
+            property: undefined,
+            comparison: AssertionComparison.Equal,
+            value: undefined,
+          })
+        }
         className="mt-3 inline-flex items-center gap-1 rounded border border-gray-300 bg-white px-2.5 py-1.5 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none"
       >
         <PlusIcon className="h-4 w-4" />

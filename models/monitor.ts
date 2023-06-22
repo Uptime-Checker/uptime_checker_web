@@ -44,7 +44,7 @@ export interface Monitor {
   Status: MonitorStatus;
   Interval: number;
   Timeout: number;
-  CheclSsl: boolean;
+  CheckSsl: boolean;
   FollowRedirects: boolean;
   Body: string;
   Headers: string;

@@ -21,14 +21,16 @@ const KV = (props: Props) => {
         {fields.map((field, index) => (
           <div className="flex items-center gap-3" key={field.id}>
             <input
+              required
               type="text"
-              {...register(`${props.name}.${index}.name` as const, { required: true })}
+              {...register(`${props.name}.${index}.name` as const)}
               placeholder={props.keyPlaceholder}
               className="block w-full max-w-xs rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
             <input
+              required
               type="text"
-              {...register(`${props.name}.${index}.value` as const, { required: true })}
+              {...register(`${props.name}.${index}.value` as const)}
               placeholder={props.valuePlaceholder}
               className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />

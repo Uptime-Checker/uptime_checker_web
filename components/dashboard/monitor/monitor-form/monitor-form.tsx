@@ -64,7 +64,7 @@ const MonitorFormComponent = () => {
       URL: monitorForm.monitor.URL,
       Interval: monitorForm.monitor.Interval,
       Timeout: monitorForm.monitor.Timeout,
-      SSL: monitorForm.monitor.CheclSsl,
+      SSL: monitorForm.monitor.CheckSsl,
       Redirect: monitorForm.monitor.FollowRedirects,
       Method: monitorForm.monitor.Method,
       Regions: monitorForm.monitor.Regions.map((region) => region.Key),
