@@ -1,54 +1,37 @@
 import Accordion from 'components/accordion';
 import { useAtom } from 'jotai';
 import { elixirClient } from 'lib/axios';
-import { classNames } from 'lib/tailwind/utils';
 import { AssertionComparison, AssertionSource } from 'models/assertion';
 import { MonitorMethod, Region, RegionResponse } from 'models/monitor';
 import Link from 'next/link';
-import { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import Skeleton from 'react-loading-skeleton';
 import {
   getAssertions,
   getMonitorIntervalDefault,
   getMonitorIntervalSelectionOptions,
-  getMonitorMethodSelectionOptions,
-  getMonitorTimeoutSelectionOptions,
   getNameValuePair,
   getNameValuePairFromURLQuery,
 } from 'services/monitor';
 import { globalAtom, monitorFormAtom } from 'store/global';
 import AssertionKV from './assertion-kv';
-import KV from './kv';
-
-export enum httpRequestTab {
-  Body = 'Body',
-  RequestHeaders = 'Request Headers',
-  QueryParameters = 'Query Parameters',
-  Authentication = 'Authentication',
-}
-
-const httpRequestTabs = [
-  { name: httpRequestTab.Body },
-  { name: httpRequestTab.RequestHeaders },
-  { name: httpRequestTab.QueryParameters },
-  { name: httpRequestTab.Authentication },
-];
+import RequestSettings from './request-settings';
 
 export interface MonitorFormInput {
-  Name: string;
-  URL: string;
-  Interval: number;
-  Timeout: number;
-  SSL: boolean;
-  Redirect: boolean;
-  Method: MonitorMethod;
-  Regions: string[];
-  Query: { name: string; value: string }[];
-  Headers: { name: string; value: string }[];
-  Username?: string;
-  Password?: string;
-  Assertions: {
+  name: string;
+  url: string;
+  interval: number;
+  timeout: number;
+  ssl: boolean;
+  redirect: boolean;
+  method: MonitorMethod;
+  regions: string[];
+  query: { name: string; value: string }[];
+  headers: { name: string; value: string }[];
+  username?: string;
+  password?: string;
+  assertions: {
     source: AssertionSource;
     property: string | undefined;
     comparison: AssertionComparison;
@@ -61,43 +44,29 @@ const MonitorFormComponent = () => {
   const [interval, setInterval] = useState(300); // default 5 minutes interval
   const [regions, setRegions] = useState<Region[]>([]);
   const [monitorForm, setMonitorForm] = useAtom(monitorFormAtom);
-  const [selectedHTTPRequestTab, setHTTPRequestTab] = useState(httpRequestTabs[0]);
 
   const orgSlug = global.currentUser?.Organization.Slug;
 
   const getDefaultValues = (): MonitorFormInput | undefined => {
     if (!monitorForm.monitor) return undefined;
     return {
-      Name: monitorForm.monitor.Name,
-      URL: monitorForm.monitor.URL,
-      Interval: monitorForm.monitor.Interval,
-      Timeout: monitorForm.monitor.Timeout,
-      SSL: monitorForm.monitor.CheckSsl,
-      Redirect: monitorForm.monitor.FollowRedirects,
-      Method: monitorForm.monitor.Method,
-      Regions: monitorForm.monitor.Regions.map((region) => region.Key),
-      Headers: getNameValuePair(monitorForm.monitor.Headers),
-      Query: getNameValuePairFromURLQuery(monitorForm.monitor.URL),
-      Username: monitorForm.monitor.Username,
-      Password: monitorForm.monitor.Password,
-      Assertions: getAssertions(monitorForm.monitor.Assertions),
+      name: monitorForm.monitor.Name,
+      url: monitorForm.monitor.URL,
+      interval: monitorForm.monitor.Interval,
+      timeout: monitorForm.monitor.Timeout,
+      ssl: monitorForm.monitor.CheckSsl,
+      redirect: monitorForm.monitor.FollowRedirects,
+      method: monitorForm.monitor.Method,
+      regions: monitorForm.monitor.Regions.map((region) => region.Key),
+      headers: getNameValuePair(monitorForm.monitor.Headers),
+      query: getNameValuePairFromURLQuery(monitorForm.monitor.URL),
+      username: monitorForm.monitor.Username,
+      password: monitorForm.monitor.Password,
+      assertions: getAssertions(monitorForm.monitor.Assertions),
     };
   };
 
   const formMethods = useForm<MonitorFormInput>({ defaultValues: getDefaultValues() });
-
-  const getActiveHTTPRequestTab = useCallback(
-    (httpRequestTabName: string) => {
-      return httpRequestTabName === selectedHTTPRequestTab.name;
-    },
-    [selectedHTTPRequestTab.name]
-  );
-
-  const onHTTPRequestTabChange = (event: ChangeEvent) => {
-    const target = event.target as HTMLInputElement;
-    const selectedTab = httpRequestTabs.find((tab) => tab.name === target.value);
-    setHTTPRequestTab(selectedTab!);
-  };
 
   useEffect(() => {
     elixirClient
@@ -136,9 +105,11 @@ const MonitorFormComponent = () => {
                 <div className="mt-2 flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
                   <input
                     type="text"
-                    {...formMethods.register('Name')}
+                    id="name"
+                    {...formMethods.register('name')}
                     required
                     minLength={3}
+                    autoComplete="name"
                     disabled={monitorForm.isSubmitting}
                     className="block flex-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                     placeholder="Twitter Website"
@@ -151,9 +122,11 @@ const MonitorFormComponent = () => {
                 </label>
                 <div className="mt-2 flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
                   <input
+                    id="url"
                     type="url"
-                    {...formMethods.register('URL')}
+                    {...formMethods.register('url')}
                     required
+                    autoComplete="url"
                     disabled={monitorForm.isSubmitting}
                     className="block flex-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                     placeholder="https://www.example.com"
@@ -162,11 +135,12 @@ const MonitorFormComponent = () => {
               </div>
               {global.currentUser && (
                 <div className="sm:col-span-3">
-                  <label htmlFor="Interval" className="block text-sm font-medium leading-6 text-gray-900">
+                  <label htmlFor="interval" className="block text-sm font-medium leading-6 text-gray-900">
                     Frequency
                   </label>
                   <select
-                    {...formMethods.register('Interval')}
+                    id="interval"
+                    {...formMethods.register('interval')}
                     required
                     defaultValue={getMonitorIntervalDefault(global.currentUser)}
                     onChange={intervalChanged}
@@ -220,7 +194,7 @@ const MonitorFormComponent = () => {
                         id={region.Key}
                         checked={region.Default}
                         value={region.Key}
-                        {...formMethods.register('Regions')}
+                        {...formMethods.register('regions')}
                         type="checkbox"
                         className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
                       />
@@ -235,204 +209,7 @@ const MonitorFormComponent = () => {
           </div>
 
           <Accordion text={'HTTP Request Settings'}>
-            <div className="grid grid-cols-1 gap-x-8 gap-y-10 md:grid-cols-3">
-              <div>
-                <h2 className="text-base font-semibold leading-7 text-gray-900">HTTP request settings</h2>
-                <p className="mt-1 text-sm leading-6 text-gray-600">
-                  Customise the request, add necessary headers and so on.
-                </p>
-              </div>
-
-              <div className="grid grid-cols-1 gap-x-6 gap-y-5 sm:grid-cols-6 md:col-span-2">
-                <div className="sm:col-span-3">
-                  <label htmlFor="method" className="block text-sm font-medium leading-6 text-gray-900">
-                    HTTP Method
-                  </label>
-                  <div className="mt-2">
-                    <select
-                      {...formMethods.register('Method')}
-                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                    >
-                      {getMonitorMethodSelectionOptions().map((option) => (
-                        <option key={option.value} value={option.value} disabled={option.disabled}>
-                          {option.label}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-
-                <div className="sm:col-span-3">
-                  <label htmlFor="Timeout" className="block text-sm font-medium leading-6 text-gray-900">
-                    Request Timeout
-                  </label>
-                  <div className="mt-2">
-                    <select
-                      {...formMethods.register('Timeout')}
-                      defaultValue={30}
-                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                    >
-                      {getMonitorTimeoutSelectionOptions(interval).map((option) => (
-                        <option key={option.value} value={option.value} disabled={option.disabled}>
-                          {option.label}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-
-                <div className="col-span-full">
-                  <div className="lg:hidden">
-                    <label htmlFor="tabs" className="sr-only">
-                      Select a tab
-                    </label>
-                    <select
-                      id="tabs"
-                      name="tabs"
-                      className="block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                      defaultValue={selectedHTTPRequestTab.name}
-                      onChange={onHTTPRequestTabChange}
-                    >
-                      {httpRequestTabs.map((tab) => (
-                        <option key={tab.name}>{tab.name}</option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="hidden lg:block">
-                    <div className="border-b border-gray-200">
-                      <nav className="-mb-px flex space-x-8 overflow-auto" aria-label="Tabs">
-                        {httpRequestTabs.map((tab) => (
-                          <button
-                            type="button"
-                            key={tab.name}
-                            className={classNames(
-                              getActiveHTTPRequestTab(tab.name)
-                                ? 'border-indigo-500 text-indigo-600'
-                                : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700',
-                              'whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium'
-                            )}
-                            onClick={() => {
-                              setHTTPRequestTab(tab);
-                            }}
-                          >
-                            {tab.name}
-                          </button>
-                        ))}
-                      </nav>
-                    </div>
-                  </div>
-                </div>
-
-                {selectedHTTPRequestTab.name === httpRequestTab.Body ? (
-                  <div className="col-span-full">
-                    <p className="mb-2 block text-sm leading-6 text-gray-900">
-                      Don&apos;t forgot to add the correct <b>Content-Type</b> request header
-                    </p>
-                    <textarea
-                      rows={4}
-                      inputMode="text"
-                      name="body"
-                      id="body"
-                      className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                      spellCheck="false"
-                    ></textarea>
-                  </div>
-                ) : null}
-
-                {selectedHTTPRequestTab.name === httpRequestTab.RequestHeaders ? (
-                  <div className="col-span-full">
-                    <p className="mb-2 block text-sm leading-6 text-gray-900">
-                      Create header key/value pairs to set Cookie values, Bearer tokens or any other HTTP header
-                    </p>
-                    <KV keyPlaceholder="key" valuePlaceholder="value" button="Request Header" name="Headers" />
-                  </div>
-                ) : null}
-
-                {selectedHTTPRequestTab.name === httpRequestTab.QueryParameters ? (
-                  <div className="col-span-full">
-                    <p className="mb-2 block text-sm leading-6 text-gray-900">
-                      Set query parameter key/value pairs, or make them part of the URL if you want
-                    </p>
-                    <KV
-                      className="col-span-full"
-                      keyPlaceholder="name"
-                      valuePlaceholder="value"
-                      button="Query Parameter"
-                      name="Query"
-                    />
-                  </div>
-                ) : null}
-
-                {selectedHTTPRequestTab.name === httpRequestTab.Authentication ? (
-                  <>
-                    <div className="sm:col-span-3 sm:col-start-1">
-                      <label htmlFor="city" className="block text-sm font-medium leading-6 text-gray-900">
-                        HTTP Authorization Username
-                      </label>
-                      <div className="mt-2">
-                        <input
-                          type="text"
-                          {...formMethods.register('Username')}
-                          autoComplete="username"
-                          placeholder="http username"
-                          className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                        />
-                      </div>
-                    </div>
-                    <div className="sm:col-span-3">
-                      <label htmlFor="region" className="block text-sm font-medium leading-6 text-gray-900">
-                        HTTP Authorization Password
-                      </label>
-                      <div className="mt-2">
-                        <input
-                          type="password"
-                          {...formMethods.register('Password')}
-                          autoComplete="password"
-                          placeholder="http password"
-                          className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                        />
-                      </div>
-                    </div>
-                  </>
-                ) : null}
-
-                <div className="sm:col-span-3">
-                  <section className="flex h-6 min-w-0 items-center gap-2">
-                    <input
-                      id="ssl"
-                      defaultChecked={true}
-                      {...formMethods.register('SSL')}
-                      type="checkbox"
-                      className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                    />
-                    <label htmlFor="ssl" className="text-sm font-normal text-gray-900">
-                      Verify SSL certificate
-                    </label>
-                  </section>
-                  <p className="mt-2 text-sm font-light text-gray-500">
-                    When ticked, we will consider this monitor <b>down</b> and send alerts when your SSL certificate is
-                    invalid.
-                  </p>
-                </div>
-
-                <div className="sm:col-span-3">
-                  <section className="flex h-6 min-w-0 items-center gap-2">
-                    <input
-                      id="redirect"
-                      {...formMethods.register('Redirect')}
-                      type="checkbox"
-                      className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                    />
-                    <label htmlFor="redirect" className="text-sm font-normal text-gray-900">
-                      Follow redirects
-                    </label>
-                  </section>
-                  <p className="mt-2 text-sm font-light text-gray-500">
-                    When ticked, we will follow a maximum of 3 redirects before we consider the check a failure.
-                  </p>
-                </div>
-              </div>
-            </div>
+            <RequestSettings interval={interval} />
           </Accordion>
 
           <Accordion text={'Assertions'}>
