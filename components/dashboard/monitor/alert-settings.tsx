@@ -1,6 +1,10 @@
 import { AtSymbolIcon, TrashIcon } from '@heroicons/react/24/outline';
 import SwitchControl from 'components/switch';
 
+type Props = {
+  resource: string;
+};
+
 const people = [
   {
     name: 'Lindsay Walton',
@@ -23,7 +27,7 @@ const people = [
   // More people...
 ];
 
-const AlertSettingsComponent = () => {
+const AlertSettingsComponent = ({ resource }: Props) => {
   return (
     <>
       <div className="my-10">
@@ -33,7 +37,7 @@ const AlertSettingsComponent = () => {
             <section className="mt-5 w-full lg:mt-0">
               <label className="flex text-sm text-gray-700">
                 <span>Send an alert notification</span>
-                <span className="block sm:hidden">, When a Monitor</span>
+                <span className="block sm:hidden">, When a {resource}</span>
               </label>
               <fieldset className="mt-3 lg:mt-6">
                 <legend className="sr-only">Notification method</legend>
@@ -48,7 +52,7 @@ const AlertSettingsComponent = () => {
                     />
                     <label htmlFor="checkFail" className="ml-1 block text-sm text-gray-700 sm:ml-3">
                       <div className="flex items-center space-x-2">
-                        <span className="hidden sm:block">When a Monitor</span>
+                        <span className="hidden sm:block">When a {resource}</span>
                         <span>has failed</span>
                         <select
                           id="location"
@@ -60,7 +64,7 @@ const AlertSettingsComponent = () => {
                           <option>2</option>
                           <option>3</option>
                         </select>
-                        <span>time(s)</span>
+                        <span>time(s).</span>
                       </div>
                     </label>
                   </div>
@@ -73,7 +77,7 @@ const AlertSettingsComponent = () => {
                     />
                     <label htmlFor="checkTime" className="ml-1 block text-sm text-gray-700 sm:ml-3">
                       <div className="flex items-center space-x-2">
-                        <span className="hidden sm:block">When a Monitor</span>
+                        <span className="hidden sm:block">When a {resource}</span>
                         <span>is failing for more than</span>
                         <select
                           id="location"
@@ -85,7 +89,7 @@ const AlertSettingsComponent = () => {
                           <option>10</option>
                           <option>30</option>
                         </select>
-                        <span>minutes</span>
+                        <span>minutes.</span>
                       </div>
                     </label>
                   </div>
@@ -98,7 +102,7 @@ const AlertSettingsComponent = () => {
                     />
                     <label htmlFor="regionFail" className="ml-1 block text-sm text-gray-700 sm:ml-3">
                       <div className="flex items-center space-x-2">
-                        <span className="hidden sm:block">When a Monitor</span>
+                        <span className="hidden sm:block">When a {resource}</span>
                         <span>has failed in</span>
                         <select
                           id="location"
@@ -110,7 +114,7 @@ const AlertSettingsComponent = () => {
                           <option>2</option>
                           <option>3</option>
                         </select>
-                        <span>region(s)</span>
+                        <span>region(s).</span>
                       </div>
                     </label>
                   </div>
@@ -153,7 +157,7 @@ const AlertSettingsComponent = () => {
                       <option>10</option>
                       <option>15</option>
                     </select>
-                    <span>minutes interval</span>
+                    <span>minutes interval.</span>
                   </div>
                 </div>
               </label>

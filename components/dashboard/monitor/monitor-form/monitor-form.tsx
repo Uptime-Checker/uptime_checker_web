@@ -71,7 +71,7 @@ const MonitorFormComponent = () => {
       username: monitorForm.monitor.Username,
       password: monitorForm.monitor.Password,
       assertions: getAssertions(monitorForm.monitor.Assertions),
-      alertSettings: monitorForm.monitor.GlobalAlarmSettings ? AlertSettingsType.global: AlertSettingsType.local,
+      alertSettings: monitorForm.monitor.GlobalAlarmSettings ? AlertSettingsType.global : AlertSettingsType.local,
     };
   };
 
@@ -249,7 +249,7 @@ const MonitorFormComponent = () => {
                 />
                 <label htmlFor={AlertSettingsType.global} className="block text-sm leading-6 text-gray-900">
                   Use the{' '}
-                  <Link className="text-indigo-600" href="">
+                  <Link className="text-indigo-600" href={`/${orgSlug!}/alerts/settings`}>
                     global alert settings
                   </Link>
                   .
@@ -265,13 +265,11 @@ const MonitorFormComponent = () => {
                   className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
                 />
                 <label htmlFor={AlertSettingsType.local} className="block text-sm leading-6 text-gray-900">
-                  Use specific alert settings.
+                  Use specific alert settings only for this monitor.
                 </label>
               </div>
             </fieldset>
-            {alertSettings === AlertSettingsType.local ? (
-              <AlertSettingsComponent />
-            ): null}
+            {alertSettings === AlertSettingsType.local ? <AlertSettingsComponent resource="check" /> : null}
           </Accordion>
         </div>
       </form>

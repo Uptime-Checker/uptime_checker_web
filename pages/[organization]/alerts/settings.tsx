@@ -12,7 +12,7 @@ const GlobalAlertSettings: NextPageWithLayout = () => {
         <p className="mt-2 text-sm text-gray-700">{`Global alert settings determine when and how often ${AppName!} sends you notifications on your configured alert
   channels. You can override the global settings at monitor level`}</p>
       </div>
-      <AlertSettingsComponent />
+      <AlertSettingsComponent resource="Monitor" />
     </section>
   );
 };
