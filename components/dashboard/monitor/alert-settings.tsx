@@ -1,10 +1,6 @@
 import { AtSymbolIcon, TrashIcon } from '@heroicons/react/24/outline';
 import SwitchControl from 'components/switch';
 
-type Props = {
-  text: string;
-};
-
 const people = [
   {
     name: 'Lindsay Walton',
@@ -27,13 +23,9 @@ const people = [
   // More people...
 ];
 
-const AlertSettingsComponent = ({ text }: Props) => {
+const AlertSettingsComponent = () => {
   return (
     <>
-      <div className="px-1 sm:px-6 md:px-0">
-        <h1 className="text-2xl font-semibold text-gray-900">Alert Settings</h1>
-        <p className="mt-2 text-sm text-gray-700">{text}</p>
-      </div>
       <div className="my-10">
         <section className="px-1 text-sm text-gray-700 sm:px-6 md:px-0">
           <div className="mb-5 border-b pb-5 lg:flex">

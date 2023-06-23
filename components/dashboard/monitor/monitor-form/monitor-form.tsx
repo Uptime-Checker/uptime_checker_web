@@ -15,6 +15,7 @@ import {
   getNameValuePairFromURLQuery,
 } from 'services/monitor';
 import { globalAtom, monitorFormAtom } from 'store/global';
+import AlertSettingsComponent from '../alert-settings';
 import AssertionKV from './assertion-kv';
 import RequestSettings from './request-settings';
 
@@ -227,6 +228,7 @@ const MonitorFormComponent = () => {
               The alert settings determine when and how often we will alert you on your alert channels. You can choose
               to use the global account level settings or override them with check specific settings.
             </p>
+            <AlertSettingsComponent />
           </Accordion>
         </div>
       </form>
