@@ -189,12 +189,12 @@ const MonitorFormComponent = () => {
               <div className="sm:col-span-3">
                 <p className="mb-1 text-sm font-medium">Where should we check from?</p>
                 {regions.length === 0 ? <Skeleton /> : null}
-                <section className="flex flex-wrap gap-x-4">
+                <fieldset className="flex flex-wrap gap-x-4">
                   {regions.map((region) => (
                     <div key={region.Key} className="flex h-6 min-w-0 items-center gap-2">
                       <input
                         id={region.Key}
-                        checked={region.Default}
+                        defaultChecked={region.Default && !monitorForm.monitor}
                         value={region.Key}
                         {...formMethods.register('regions')}
                         type="checkbox"
@@ -205,7 +205,7 @@ const MonitorFormComponent = () => {
                       </label>
                     </div>
                   ))}
-                </section>
+                </fieldset>
               </div>
             </div>
           </div>
