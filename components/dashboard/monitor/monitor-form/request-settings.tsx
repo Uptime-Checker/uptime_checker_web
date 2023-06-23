@@ -41,10 +41,9 @@ const RequestSettings = ({ interval }: Props) => {
 
   return (
     <div className="grid grid-cols-1 gap-x-8 gap-y-10 md:grid-cols-3">
-      <div>
-        <h2 className="text-base font-semibold leading-7 text-gray-900">HTTP request settings</h2>
-        <p className="mt-1 text-sm leading-6 text-gray-600">Customise the request, add necessary headers and so on.</p>
-      </div>
+      <p className="mt-1 text-sm leading-6 text-gray-600">
+        Customise the request, add necessary headers or turn on verifying the SSL certificates.
+      </p>
 
       <div className="grid grid-cols-1 gap-x-6 gap-y-5 sm:grid-cols-6 md:col-span-2">
         <div className="sm:col-span-3">
