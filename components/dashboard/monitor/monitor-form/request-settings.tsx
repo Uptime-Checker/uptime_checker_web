@@ -146,7 +146,7 @@ const RequestSettings = ({ interval }: Props) => {
             <p className="mb-2 block text-sm leading-6 text-gray-900">
               Create header key/value pairs to set Cookie values, Bearer tokens or any other HTTP header
             </p>
-            <KV keyPlaceholder="key" valuePlaceholder="value" button="Request Header" name="Headers" />
+            <KV keyPlaceholder="key" valuePlaceholder="value" button="Request Header" name="headers" />
           </div>
         ) : null}
 
@@ -160,7 +160,7 @@ const RequestSettings = ({ interval }: Props) => {
               keyPlaceholder="name"
               valuePlaceholder="value"
               button="Query Parameter"
-              name="Query"
+              name="query"
             />
           </div>
         ) : null}

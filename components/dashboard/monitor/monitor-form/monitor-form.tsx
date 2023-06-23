@@ -230,7 +230,7 @@ const MonitorFormComponent = () => {
               (or more) assertions fails, an alert is triggered.
             </p>
 
-            <AssertionKV name="Assertions" />
+            <AssertionKV name="assertions" />
           </Accordion>
 
           <Accordion text={'Alert Settings'} defaultOpen={true}>
