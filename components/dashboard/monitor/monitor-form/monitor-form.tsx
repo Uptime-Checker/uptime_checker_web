@@ -50,6 +50,7 @@ const MonitorFormComponent = () => {
   const [global] = useAtom(globalAtom);
   const [interval, setInterval] = useState(300); // default 5 minutes interval
   const [regions, setRegions] = useState<Region[]>([]);
+  const [alertSettings, setAlertSettings] = useState<AlertSettingsType>(AlertSettingsType.global);
   const [monitorForm, setMonitorForm] = useAtom(monitorFormAtom);
 
   const orgSlug = global.currentUser?.Organization.Slug;
@@ -242,6 +243,7 @@ const MonitorFormComponent = () => {
                   {...formMethods.register('alertSettings')}
                   value={AlertSettingsType.global}
                   defaultChecked={!monitorForm.monitor}
+                  onChange={() => setAlertSettings(AlertSettingsType.global)}
                   type="radio"
                   className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
                 />
@@ -257,6 +259,7 @@ const MonitorFormComponent = () => {
                 <input
                   id={AlertSettingsType.local}
                   {...formMethods.register('alertSettings')}
+                  onChange={() => setAlertSettings(AlertSettingsType.local)}
                   type="radio"
                   value={AlertSettingsType.local}
                   className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
@@ -266,7 +269,9 @@ const MonitorFormComponent = () => {
                 </label>
               </div>
             </fieldset>
-            <AlertSettingsComponent />
+            {alertSettings === AlertSettingsType.local ? (
+              <AlertSettingsComponent />
+            ): null}
           </Accordion>
         </div>
       </form>
