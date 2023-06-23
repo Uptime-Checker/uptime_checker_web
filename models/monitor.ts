@@ -50,6 +50,7 @@ export interface Monitor {
   Headers: string;
   Username?: string;
   Password?: string;
+  GlobalAlarmSettings: boolean;
 }
 
 export interface MonitorAll extends Monitor {

@@ -19,6 +19,11 @@ import AlertSettingsComponent from '../alert-settings';
 import AssertionKV from './assertion-kv';
 import RequestSettings from './request-settings';
 
+export enum AlertSettingsType {
+  local = 'local',
+  global = 'global',
+}
+
 export interface MonitorFormInput {
   name: string;
   url: string;
@@ -38,6 +43,7 @@ export interface MonitorFormInput {
     comparison: AssertionComparison;
     value: string | undefined;
   }[];
+  alertSettings: string;
 }
 
 const MonitorFormComponent = () => {
@@ -64,6 +70,7 @@ const MonitorFormComponent = () => {
       username: monitorForm.monitor.Username,
       password: monitorForm.monitor.Password,
       assertions: getAssertions(monitorForm.monitor.Assertions),
+      alertSettings: monitorForm.monitor.GlobalAlarmSettings ? AlertSettingsType.global: AlertSettingsType.local,
     };
   };
 
@@ -228,6 +235,37 @@ const MonitorFormComponent = () => {
               The alert settings determine when and how often we will alert you on your alert channels. You can choose
               to use the global account level settings or override them with check specific settings.
             </p>
+            <fieldset className="mt-6 space-y-3">
+              <div className="flex items-center gap-x-3">
+                <input
+                  id={AlertSettingsType.global}
+                  {...formMethods.register('alertSettings')}
+                  value={AlertSettingsType.global}
+                  defaultChecked={!monitorForm.monitor}
+                  type="radio"
+                  className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                />
+                <label htmlFor={AlertSettingsType.global} className="block text-sm leading-6 text-gray-900">
+                  Use the{' '}
+                  <Link className="text-indigo-600" href="">
+                    global alert settings
+                  </Link>
+                  .
+                </label>
+              </div>
+              <div className="flex items-center gap-x-3">
+                <input
+                  id={AlertSettingsType.local}
+                  {...formMethods.register('alertSettings')}
+                  type="radio"
+                  value={AlertSettingsType.local}
+                  className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                />
+                <label htmlFor={AlertSettingsType.local} className="block text-sm leading-6 text-gray-900">
+                  Use specific alert settings.
+                </label>
+              </div>
+            </fieldset>
             <AlertSettingsComponent />
           </Accordion>
         </div>
