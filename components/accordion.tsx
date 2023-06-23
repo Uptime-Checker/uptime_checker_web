@@ -6,11 +6,12 @@ type Props = {
   text: string;
   panelClassName?: string;
   children: ReactNode;
+  defaultOpen: boolean;
 };
 
 export default function Accordion(props: Props) {
   return (
-    <Disclosure>
+    <Disclosure defaultOpen={props.defaultOpen}>
       {({ open }) => (
         <>
           <Disclosure.Button as="div">

@@ -220,11 +220,11 @@ const MonitorFormComponent = () => {
             </div>
           </div>
 
-          <Accordion text={'HTTP Request Settings'}>
+          <Accordion text={'HTTP Request Settings'} defaultOpen={false}>
             <RequestSettings interval={interval} />
           </Accordion>
 
-          <Accordion text={'Assertions'}>
+          <Accordion text={'Assertions'} defaultOpen={false}>
             <p className="text-sm leading-6 text-gray-600">
               Use assertions to validate the status code, body, headers and response time of your API request. When one
               (or more) assertions fails, an alert is triggered.
@@ -233,7 +233,7 @@ const MonitorFormComponent = () => {
             <AssertionKV name="Assertions" />
           </Accordion>
 
-          <Accordion text={'Alert Settings'}>
+          <Accordion text={'Alert Settings'} defaultOpen={true}>
             <p className="text-sm leading-6 text-gray-600">
               The alert settings determine when and how often we will alert you on your alert channels. You can choose
               to use the global account level settings or override them with check specific settings.
@@ -251,7 +251,7 @@ const MonitorFormComponent = () => {
                 />
                 <label htmlFor={AlertSettingsType.global} className="block text-sm leading-6 text-gray-900">
                   Use the{' '}
-                  <Link className="text-indigo-600" href={`/${orgSlug!}/alerts/settings`}>
+                  <Link className="text-indigo-600 hover:underline" href={`/${orgSlug!}/alerts/settings`}>
                     global alert settings
                   </Link>
                   .
