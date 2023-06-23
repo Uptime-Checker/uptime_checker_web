@@ -130,9 +130,10 @@ const AlertSettingsComponent = ({ text }: Props) => {
             <section className="mr-32 font-semibold lg:font-normal">Reminders</section>
             <section className="mt-5 w-full lg:mt-0">
               <label className="text-sm text-gray-700">
-                <div className="items-center xl:flex xl:space-x-2">
+                <div className="items-center sm:flex sm:space-x-2">
                   <div className="flex items-center space-x-2">
-                    <span>Send out a maximum of</span>
+                    <span>Send</span>
+                    <span className="block sm:hidden xl:block">out a maximum of</span>
                     <select
                       id="location"
                       name="location"
