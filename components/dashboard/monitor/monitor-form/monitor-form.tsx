@@ -4,7 +4,7 @@ import { elixirClient } from 'lib/axios';
 import { AssertionComparison, AssertionSource } from 'models/assertion';
 import { MonitorMethod, Region, RegionResponse } from 'models/monitor';
 import Link from 'next/link';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import Skeleton from 'react-loading-skeleton';
 import {
@@ -54,6 +54,8 @@ const MonitorFormComponent = () => {
   const [monitorForm, setMonitorForm] = useAtom(monitorFormAtom);
 
   const orgSlug = global.currentUser?.Organization.Slug;
+
+  const bottomRef = useRef<HTMLDivElement>(null);
 
   const getDefaultValues = (): MonitorFormInput | undefined => {
     if (!monitorForm.monitor) return undefined;
@@ -259,7 +261,12 @@ const MonitorFormComponent = () => {
                 <input
                   id={AlertSettingsType.local}
                   {...formMethods.register('alertSettings')}
-                  onChange={() => setAlertSettings(AlertSettingsType.local)}
+                  onChange={() => {
+                    setAlertSettings(AlertSettingsType.local);
+                    setTimeout(() => {
+                      bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+                    }, 300);
+                  }}
                   type="radio"
                   value={AlertSettingsType.local}
                   className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
@@ -271,6 +278,7 @@ const MonitorFormComponent = () => {
             </fieldset>
             {alertSettings === AlertSettingsType.local ? <AlertSettingsComponent resource="check" /> : null}
           </Accordion>
+          {alertSettings === AlertSettingsType.local ? <div ref={bottomRef}></div> : null}
         </div>
       </form>
     </FormProvider>
