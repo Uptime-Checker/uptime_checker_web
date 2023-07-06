@@ -70,39 +70,39 @@ const categories: MetricCard[] = [
 
 const people: Person[] = [
   {
-    name: 'Textr API',
-    url: 'https://api.textrapp.me/v1/status',
+    name: 'Instacart API',
+    url: 'https://api.instacart.com/v1/status',
     email: 'lindsay.walton@example.com',
-    lastChecked: '2 hours ago',
+    lastChecked: '5 minutes ago',
+    downtime: 'Zero downtime 🎉',
+  },
+  {
+    name: 'Instacart Admin API',
+    url: 'https://api.textrapp.me/v1/admin',
+    email: 'lindsay.walton@example.com',
+    lastChecked: '2 minutes ago',
     downtime: '3 hours 29 minutes',
   },
   {
-    name: 'Textr API',
-    url: 'https://api.textrapp.me/v1/statuss',
+    name: 'Instacart Logistics API',
+    url: 'https://api.textrapp.me/v1/logistics',
     email: 'lindsay.walton@example.com',
-    lastChecked: '2 hours ago',
-    downtime: '3 hours 29 minutes',
+    lastChecked: '30 seconds ago',
+    downtime: '9 minutes',
   },
   {
-    name: 'Textr API',
-    url: 'https://api.textrapp.me/v1/statusss',
+    name: 'Instacart Invoicing API',
+    url: 'https://api.textrapp.me/v1/invoice',
     email: 'lindsay.walton@example.com',
-    lastChecked: '2 hours ago',
-    downtime: '3 hours 29 minutes',
+    lastChecked: '10 minutes ago',
+    downtime: '2 minutes 30 seconds',
   },
   {
-    name: 'Textr API',
-    url: 'https://api.textrapp.me/v1/statusssss',
+    name: 'Instacart Analytics API',
+    url: 'https://api.textrapp.me/v1/analytics',
     email: 'lindsay.walton@example.com',
     lastChecked: '2 hours ago',
-    downtime: '3 hours 29 minutes',
-  },
-  {
-    name: 'Textr API',
-    url: 'https://api.textrapp.me/v1/stat',
-    email: 'lindsay.walton@example.com',
-    lastChecked: '2 hours ago',
-    downtime: '3 hours 29 minutes',
+    downtime: '1 minute 14 seconds',
   },
 ];
 
@@ -251,7 +251,7 @@ const Monitors: NextPageWithLayout = () => {
                 </td>
                 <td className="whitespace-nowrap px-3 py-4 text-center text-sm text-gray-600">
                   <span className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
-                    Degraded
+                    Passing
                   </span>
                 </td>
                 <td className="hidden whitespace-nowrap px-3 py-4 text-center text-gray-500 lg:table-cell">
