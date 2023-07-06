@@ -83,7 +83,7 @@ const TopBar = ({ className }: Props) => {
           </button>
         </div>
         <div className="flex flex-1 justify-end px-4 md:px-0">
-          {searchBar}
+          {/* {searchBar} */}
           <section className="flex items-center">
             {/* Profile dropdown */}
             <Menu as="div" className="relative z-20 ml-10">

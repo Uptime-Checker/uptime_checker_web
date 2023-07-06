@@ -5,7 +5,6 @@ import { Tracking, TrackingBlock } from 'components/dashboard/tracker';
 import { useAtom } from 'jotai';
 import DashboardLayout from 'layout/dashboard-layout';
 import { BaseColor, Color } from 'lib/tailwind/color';
-import { classNames } from 'lib/tailwind/utils';
 import { MonitorStatus } from 'models/monitor';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -168,7 +167,7 @@ const Monitors: NextPageWithLayout = () => {
 
   return (
     <div className="mx-auto max-w-7xl px-4 pb-10 sm:px-6 md:px-8">
-      <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {/* <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {categories.map((item) => (
           <button
             onClick={() => handleMetricCardClick(item)}
@@ -191,8 +190,9 @@ const Monitors: NextPageWithLayout = () => {
             </dd>
           </button>
         ))}
-      </dl>
-      <section className="mt-10 flex items-center">
+      </dl> */}
+      {/* TODO: Change to mt-10 when dl added back */}
+      <section className="mt-5 flex items-center">
         <div className="flex-auto items-baseline sm:flex">
           <p className="text-3xl font-semibold text-gray-900">Monitors</p>
           <p className="ml-0.5 truncate text-sm text-slate-500 sm:ml-2">Last 10 Days</p>

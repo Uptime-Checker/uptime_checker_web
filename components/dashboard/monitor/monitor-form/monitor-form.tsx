@@ -1,4 +1,3 @@
-import Accordion from 'components/accordion';
 import { useAtom } from 'jotai';
 import { elixirClient } from 'lib/axios';
 import { AssertionComparison, AssertionSource } from 'models/assertion';
@@ -15,9 +14,6 @@ import {
   getNameValuePairFromURLQuery,
 } from 'services/monitor';
 import { globalAtom, monitorFormAtom } from 'store/global';
-import AlertSettingsComponent from '../alert-settings';
-import AssertionKV from './assertion-kv';
-import RequestSettings from './request-settings';
 
 export enum AlertSettingsType {
   local = 'local',
@@ -220,7 +216,7 @@ const MonitorFormComponent = () => {
             </div>
           </div>
 
-          <Accordion text={'HTTP Request Settings'} defaultOpen={false}>
+          {/* <Accordion text={'HTTP Request Settings'} defaultOpen={false}>
             <RequestSettings interval={interval} />
           </Accordion>
 
@@ -277,7 +273,7 @@ const MonitorFormComponent = () => {
               </div>
             </fieldset>
             {alertSettings === AlertSettingsType.local ? <AlertSettingsComponent resource="check" /> : null}
-          </Accordion>
+          </Accordion> */}
           {alertSettings === AlertSettingsType.local ? <div ref={bottomRef}></div> : null}
         </div>
       </form>

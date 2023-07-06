@@ -47,7 +47,7 @@ const Account: NextPageWithLayout = () => {
           />
         </div>
 
-        <div className="sm:col-span-3">
+        {/* <div className="sm:col-span-3">
           <label htmlFor="photo" className="text-blue-gray-900 block text-sm font-medium">
             Photo
           </label>
@@ -81,7 +81,7 @@ const Account: NextPageWithLayout = () => {
               </button>
             </div>
           </div>
-        </div>
+        </div> */}
 
         <div className="sm:col-span-3">
           <div className="flex min-h-full items-end justify-end">

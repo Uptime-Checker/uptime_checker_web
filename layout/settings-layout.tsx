@@ -8,10 +8,10 @@ type Props = {
 
 const tabs: TabNavigationItem[] = [
   { name: 'Account', href: 'account' },
-  { name: 'Organization', href: 'organization' },
-  { name: 'Notifications', href: 'notifications' },
+  // { name: 'Organization', href: 'organization' },
+  // { name: 'Notifications', href: 'notifications' },
   { name: 'Billing', href: 'billing' },
-  { name: 'Invitations', href: 'invitations', count: 5 },
+  // { name: 'Invitations', href: 'invitations', count: 5 },
 ];
 
 export default function SettingsLayout({ children }: Props) {

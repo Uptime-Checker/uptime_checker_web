@@ -28,10 +28,10 @@ interface NavigationItem {
 
 const navigation: NavigationItem[] = [
   { name: 'Monitors', href: 'monitors', icon: HomeIcon },
-  { name: 'Checks', href: 'checks', icon: CheckBadgeIcon },
-  { name: 'Alerts', href: 'alerts', icon: ShieldExclamationIcon },
-  { name: 'Integrations', href: 'integrations', icon: SquaresPlusIcon },
-  { name: 'Team', href: 'team', icon: UsersIcon },
+  // { name: 'Checks', href: 'checks', icon: CheckBadgeIcon },
+  // { name: 'Alerts', href: 'alerts', icon: ShieldExclamationIcon },
+  // { name: 'Integrations', href: 'integrations', icon: SquaresPlusIcon },
+  // { name: 'Team', href: 'team', icon: UsersIcon },
   { name: 'Settings', href: 'settings/account', icon: CogIcon },
 ];
 
@@ -133,14 +133,14 @@ const SideBar = () => {
                     </button>
                   ))}
 
-                  <button
+                  {/* <button
                     onClick={() => {
                       close();
                     }}
                     className="border-neutral-40 mt-2 block rounded border-t px-1 py-3 text-center hover:bg-gray-100"
                   >
                     Manage Organizations
-                  </button>
+                  </button> */}
                 </div>
               </div>
             )}
