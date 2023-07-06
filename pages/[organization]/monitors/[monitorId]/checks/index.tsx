@@ -51,7 +51,7 @@ const timeline: Check[] = [
 
 const Feed: NextPageWithLayout = () => {
   return (
-    <div className="mt-5 flow-root">
+    <div className="mt-6 flow-root">
       <ChecksComponent checks={timeline} monitorId={1} />
     </div>
   );
