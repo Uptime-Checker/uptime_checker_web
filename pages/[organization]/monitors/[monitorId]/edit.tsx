@@ -42,7 +42,7 @@ const MonitorAdd: NextPageWithLayout = () => {
         draft.monitor = null;
       });
     };
-  }, [router.isReady, router.query.monitorId, setMonitorForm]);
+  }, [router, setMonitorForm]);
 
   return (
     <section className="mx-auto max-w-7xl">
