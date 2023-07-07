@@ -1,16 +1,5 @@
 import { Dialog, Popover, Transition } from '@headlessui/react';
-import {
-  CheckBadgeIcon,
-  CheckIcon,
-  ChevronUpDownIcon,
-  CogIcon,
-  HomeIcon,
-  ShieldExclamationIcon,
-  SquaresPlusIcon,
-  UserGroupIcon,
-  UsersIcon,
-  XMarkIcon,
-} from '@heroicons/react/24/outline';
+import { CheckIcon, ChevronUpDownIcon, CogIcon, HomeIcon, UserGroupIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import FullLogo from 'components/logo/full-logo';
 import { useAtom } from 'jotai';
 import { classNames } from 'lib/tailwind/utils';

@@ -94,7 +94,7 @@ export default function Example() {
           </div>
           <div className="mt-12">
             <h2 className="text-base font-semibold text-gray-500">Popular pages</h2>
-            <ul role="list" className="mt-4 divide-y divide-gray-200 border-t border-b border-gray-200">
+            <ul role="list" className="mt-4 divide-y divide-gray-200 border-b border-t border-gray-200">
               {links.map((link, linkIdx) => (
                 <li key={linkIdx} className="relative flex items-start space-x-4 py-6">
                   <div className="flex-shrink-0">

@@ -31,7 +31,7 @@ const TableRowOption = ({ options, optionTapped }: Props) => {
                 <button
                   className={classNames(
                     active ? 'bg-gray-100 text-gray-900' : '',
-                    'flex w-full py-2 px-4 text-sm text-gray-700',
+                    'flex w-full px-4 py-2 text-sm text-gray-700',
                     item.name === 'Delete' ? 'text-red-600' : ''
                   )}
                   onClick={() => {

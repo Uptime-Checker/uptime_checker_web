@@ -8,7 +8,7 @@ type Props = {
 export default function AlertDetailLayout({ children }: Props) {
   const info = (
     <>
-      <h1 className="mt-10 mb-10 text-center text-4xl font-semibold lg:mb-0">Incident is Resolved</h1>
+      <h1 className="mb-10 mt-10 text-center text-4xl font-semibold lg:mb-0">Incident is Resolved</h1>
       <div className="mt-5 overflow-x-auto">
         <table className="min-w-full text-sm">
           <tbody>
@@ -46,7 +46,7 @@ export default function AlertDetailLayout({ children }: Props) {
       <div className="justify-between lg:flex">
         <div className="hidden lg:block">{info}</div>
         <Player
-          className="!-mt-10 lg:!mt-0 lg:!mr-12 xl:!mr-48"
+          className="!-mt-10 lg:!mr-12 lg:!mt-0 xl:!mr-48"
           autoplay
           loop
           src="https://uptime-admin.s3.us-west-1.amazonaws.com/lottiefiles/alarm-resolved.json"
