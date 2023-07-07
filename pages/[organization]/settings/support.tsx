@@ -9,8 +9,8 @@ const Support: NextPageWithLayout = () => {
       <h1 className="font-semibold text-3xl">Help &amp; Support</h1>
       <p className="text-gray-600">Get in touch anytime via email for help, or to give feedback.</p>
       <p className="text-gray-600">You can reach us at&nbsp;
-        <a className="underline text-indigo-600" href="mailto:jarvis@support.uptimecheckr.com">
-          jarvis@support.uptimecheckr.com
+        <a className="underline text-indigo-600" href="mailto:support@uptimecheckr.com">
+          support@uptimecheckr.com
         </a>.
         We&apos;ll get back to you as soon as we can, typically within a few hours.
       </p>
