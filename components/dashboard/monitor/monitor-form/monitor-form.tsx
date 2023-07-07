@@ -108,7 +108,10 @@ const MonitorFormComponent = () => {
   };
 
   const onSubmit: SubmitHandler<MonitorFormInput> = (data) => {
-    console.log(data);
+    if (data.regions.length === 0) {
+      setRegionSelectionError(RegionSelectionRequired);
+      return;
+    }
   };
 
   return (
