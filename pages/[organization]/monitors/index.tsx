@@ -1,7 +1,6 @@
 import { PauseCircleIcon, PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { ShieldCheckIcon, ShieldExclamationIcon } from '@heroicons/react/24/solid';
 import TableRowOption from 'components/dashboard/monitor/table-row-option';
-import { Tracking, TrackingBlock } from 'components/dashboard/tracker';
 import { useAtom } from 'jotai';
 import DashboardLayout from 'layout/dashboard-layout';
 import { BaseColor, Color } from 'lib/tailwind/color';
@@ -217,7 +216,7 @@ const Monitors: NextPageWithLayout = () => {
               <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
                 STATUS
               </th>
-              <th
+              {/* <th
                 scope="col"
                 className="hidden px-3 py-3.5 text-center text-sm font-semibold text-gray-900 lg:table-cell"
               >
@@ -237,7 +236,7 @@ const Monitors: NextPageWithLayout = () => {
               </th>
               <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6">
                 <span className="sr-only">Edit</span>
-              </th>
+              </th> */}
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200 bg-white">
@@ -254,7 +253,7 @@ const Monitors: NextPageWithLayout = () => {
                     Passing
                   </span>
                 </td>
-                <td className="hidden whitespace-nowrap px-3 py-4 text-center text-gray-500 lg:table-cell">
+                {/* <td className="hidden whitespace-nowrap px-3 py-4 text-center text-gray-500 lg:table-cell">
                   <Tracking>
                     {data.map((item) => (
                       <TrackingBlock key={item.id} status={item.status} text={item.message} />
@@ -266,7 +265,7 @@ const Monitors: NextPageWithLayout = () => {
                 </td>
                 <td className="hidden whitespace-nowrap px-3 py-4 text-sm text-gray-500 xl:table-cell">
                   {person.downtime}
-                </td>
+                </td> */}
                 <td className="w-7 whitespace-nowrap">{getMonitorRowOption(person)}</td>
               </tr>
             ))}
