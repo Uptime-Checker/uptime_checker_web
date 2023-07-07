@@ -6,6 +6,7 @@ export interface Region {
   Key: string;
   IPAddress?: string;
   Default: boolean;
+  Checked: boolean;
 }
 
 export interface RegionResponse {

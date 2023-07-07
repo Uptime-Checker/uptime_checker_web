@@ -1,3 +1,5 @@
+import UpgradeBanner from 'components/dashboard/monitor/monitor-form/upgrade-banner';
+import { RegionSelectionRequired } from 'constants/errors';
 import { useAtom } from 'jotai';
 import { elixirClient } from 'lib/axios';
 import { AssertionComparison, AssertionSource } from 'models/assertion';
@@ -13,7 +15,6 @@ import {
   getNameValuePairFromURLQuery,
 } from 'services/monitor';
 import { globalAtom, monitorFormAtom } from 'store/global';
-import UpgradeBanner from 'components/dashboard/monitor/monitor-form/upgrade-banner';
 
 export enum AlertSettingsType {
   local = 'local',
@@ -46,6 +47,7 @@ const MonitorFormComponent = () => {
   const [global] = useAtom(globalAtom);
   const [interval, setInterval] = useState(300); // default 5 minutes interval
   const [regions, setRegions] = useState<Region[]>([]);
+  const [regionSelectionError, setRegionSelectionError] = useState<string | null>(null);
   const [alertSettings, setAlertSettings] = useState<AlertSettingsType>(AlertSettingsType.global);
   const [monitorForm, setMonitorForm] = useAtom(monitorFormAtom);
 
@@ -77,13 +79,32 @@ const MonitorFormComponent = () => {
     elixirClient
       .get<RegionResponse>('regions')
       .then((res) => {
-        setRegions(res.data.data);
+        setRegions(
+          res.data.data
+            .sort((a, b) => a.ID - b.ID)
+            .map((region) => {
+              region.Checked = region.Default;
+              return region;
+            })
+        );
       })
       .catch(console.error);
   }, []);
 
   const intervalChanged = (event: ChangeEvent<HTMLSelectElement>) => {
     setInterval(parseInt(event.target.value));
+  };
+
+  const regionSelectionChanged = (event: ChangeEvent<HTMLInputElement>) => {
+    const updatedRegions = regions.map((region) => {
+      if (region.Key === event.target.value) {
+        region.Checked = event.target.checked;
+      }
+      return region;
+    });
+    setRegions(updatedRegions);
+    const checkedRegions = updatedRegions.filter((region) => region.Checked);
+    checkedRegions.length > 0 ? setRegionSelectionError(null) : setRegionSelectionError(RegionSelectionRequired);
   };
 
   const onSubmit: SubmitHandler<MonitorFormInput> = (data) => {
@@ -172,6 +193,7 @@ const MonitorFormComponent = () => {
                         defaultChecked={region.Default && !monitorForm.monitor}
                         value={region.Key}
                         {...formMethods.register('regions')}
+                        onChange={regionSelectionChanged}
                         type="checkbox"
                         className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
                       />
@@ -180,6 +202,7 @@ const MonitorFormComponent = () => {
                       </label>
                     </div>
                   ))}
+                  {regionSelectionError && <p className="mt-2 text-sm text-red-600">{regionSelectionError}</p>}
                 </fieldset>
               </div>
             </div>
