@@ -11,9 +11,9 @@ import { Fragment, ReactNode, useEffect, useState } from 'react';
 import { globalAtom } from 'store/global';
 
 const userNavigation = [
-  { name: 'Your Profile', href: '/settings/account' },
-  { name: 'Plan & Billing', href: '/settings/billing' },
-  { name: 'Support', href: '#' },
+  { name: 'Your Profile', href: 'settings/account' },
+  { name: 'Plan & Billing', href: 'settings/billing' },
+  { name: 'Support', href: 'settings/support' },
 ];
 
 type Props = {
@@ -25,6 +25,8 @@ const TopBar = ({ className }: Props) => {
   const router = useRouter();
   const [global, setGlobal] = useAtom(globalAtom);
   const [showSearch, setShowSearch] = useState(false);
+
+  const orgSlug = global.currentUser?.Organization.Slug;
 
   useEffect(() => {
     if (!router.isReady) return;
@@ -122,7 +124,7 @@ const TopBar = ({ className }: Props) => {
                       <Menu.Item key={item.name}>
                         {({ active }) => (
                           <Link
-                            href={item.href}
+                            href={`/${orgSlug!}/${item.href}`}
                             className={classNames(
                               active ? 'bg-gray-100 text-gray-900' : '',
                               'block px-4 py-2 text-sm text-gray-700'
