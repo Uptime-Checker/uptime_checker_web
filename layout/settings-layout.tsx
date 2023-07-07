@@ -12,6 +12,7 @@ const tabs: TabNavigationItem[] = [
   // { name: 'Notifications', href: 'notifications' },
   { name: 'Billing', href: 'billing' },
   // { name: 'Invitations', href: 'invitations', count: 5 },
+  { name: 'Support', href: 'support' },
 ];
 
 export default function SettingsLayout({ children }: Props) {
