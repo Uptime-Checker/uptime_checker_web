@@ -24,7 +24,7 @@ const baseColorValues = [
   'rose',
 ] as const;
 
-export type Color = typeof baseColorValues[number];
+export type Color = (typeof baseColorValues)[number];
 
 export enum BaseColor {
   White = 'white',

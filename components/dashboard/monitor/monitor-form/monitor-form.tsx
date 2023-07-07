@@ -2,7 +2,6 @@ import { useAtom } from 'jotai';
 import { elixirClient } from 'lib/axios';
 import { AssertionComparison, AssertionSource } from 'models/assertion';
 import { MonitorMethod, Region, RegionResponse } from 'models/monitor';
-import Link from 'next/link';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import Skeleton from 'react-loading-skeleton';
@@ -14,6 +13,7 @@ import {
   getNameValuePairFromURLQuery,
 } from 'services/monitor';
 import { globalAtom, monitorFormAtom } from 'store/global';
+import UpgradeBanner from 'components/dashboard/monitor/monitor-form/upgrade-banner';
 
 export enum AlertSettingsType {
   local = 'local',
@@ -48,8 +48,6 @@ const MonitorFormComponent = () => {
   const [regions, setRegions] = useState<Region[]>([]);
   const [alertSettings, setAlertSettings] = useState<AlertSettingsType>(AlertSettingsType.global);
   const [monitorForm, setMonitorForm] = useAtom(monitorFormAtom);
-
-  const orgSlug = global.currentUser?.Organization.Slug;
 
   const bottomRef = useRef<HTMLDivElement>(null);
 
@@ -160,36 +158,7 @@ const MonitorFormComponent = () => {
                       </option>
                     ))}
                   </select>
-                  <div className="relative isolate mt-2 gap-x-6 overflow-hidden rounded-md bg-gray-50 px-6 py-2.5 sm:col-span-3 sm:px-3.5 sm:before:flex-1">
-                    <div
-                      className="absolute left-[max(-7rem,calc(50%-52rem))] top-1/2 -z-10 -translate-y-1/2 transform-gpu blur-2xl"
-                      aria-hidden="true"
-                    >
-                      <div
-                        className="aspect-[577/310] w-[36.0625rem] bg-gradient-to-r from-[#ff80b5] to-[#9089fc] opacity-30"
-                        style={{
-                          clipPath:
-                            'polygon(74.8% 41.9%, 97.2% 73.2%, 100% 34.9%, 92.5% 0.4%, 87.5% 0%, 75% 28.6%, 58.5% 54.6%, 50.1% 56.8%, 46.9% 44%, 48.3% 17.4%, 24.7% 53.9%, 0% 27.9%, 11.9% 74.2%, 24.9% 54.1%, 68.6% 100%, 74.8% 41.9%)',
-                        }}
-                      />
-                    </div>
-                    <div
-                      className="absolute left-[max(45rem,calc(50%+8rem))] top-1/2 -z-10 -translate-y-1/2 transform-gpu blur-2xl"
-                      aria-hidden="true"
-                    >
-                      <div
-                        className="aspect-[577/310] w-[36.0625rem] bg-gradient-to-r from-[#ff80b5] to-[#9089fc] opacity-30"
-                        style={{
-                          clipPath:
-                            'polygon(74.8% 41.9%, 97.2% 73.2%, 100% 34.9%, 92.5% 0.4%, 87.5% 0%, 75% 28.6%, 58.5% 54.6%, 50.1% 56.8%, 46.9% 44%, 48.3% 17.4%, 24.7% 53.9%, 0% 27.9%, 11.9% 74.2%, 24.9% 54.1%, 68.6% 100%, 74.8% 41.9%)',
-                        }}
-                      />
-                    </div>
-                    <Link href={`/${orgSlug!}/settings/billing`}>
-                      <p className="text-center font-semibold">Unlock faster monitoring</p>
-                      <p className="text-center font-semibold">Try it in our 14-day free trial</p>
-                    </Link>
-                  </div>
+                  <UpgradeBanner />
                 </div>
               )}
               <div className="sm:col-span-3">
