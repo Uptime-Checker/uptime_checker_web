@@ -112,6 +112,7 @@ const MonitorFormComponent = () => {
       setRegionSelectionError(RegionSelectionRequired);
       return;
     }
+    console.log(data);
   };
 
   return (
@@ -205,8 +206,8 @@ const MonitorFormComponent = () => {
                       </label>
                     </div>
                   ))}
-                  {regionSelectionError && <p className="mt-2 text-sm text-red-600">{regionSelectionError}</p>}
                 </fieldset>
+                {regionSelectionError && <p className="mt-2 text-sm text-red-600">{regionSelectionError}</p>}
               </div>
             </div>
           </div>
