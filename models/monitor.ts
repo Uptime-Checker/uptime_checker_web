@@ -42,13 +42,13 @@ export interface Monitor {
   Name: string;
   URL: string;
   Method: MonitorMethod;
-  Status: MonitorStatus;
+  Status?: MonitorStatus;
   Interval: number;
   Timeout: number;
-  CheckSsl: boolean;
+  CheckSSL: boolean;
   FollowRedirects: boolean;
-  Body: string;
-  Headers: string;
+  Body?: string;
+  Headers?: string;
   Username?: string;
   Password?: string;
   GlobalAlarmSettings: boolean;

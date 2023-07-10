@@ -1,9 +1,10 @@
 import UpgradeBanner from 'components/dashboard/monitor/monitor-form/upgrade-banner';
+import { AllGoodStatusCode } from 'constants/api';
 import { RegionSelectionRequired } from 'constants/errors';
 import { useAtom } from 'jotai';
 import { elixirClient } from 'lib/axios';
-import { AssertionComparison, AssertionSource } from 'models/assertion';
-import { MonitorMethod, Region, RegionResponse } from 'models/monitor';
+import { Assertion, AssertionComparison, AssertionSource } from 'models/assertion';
+import { Monitor, MonitorMethod, Region, RegionResponse } from 'models/monitor';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import Skeleton from 'react-loading-skeleton';
@@ -43,7 +44,11 @@ export interface MonitorFormInput {
   alertSettings: string;
 }
 
-const MonitorFormComponent = () => {
+type Props = {
+  handleSubmit: (monitor: Monitor, assertions: Assertion[]) => void;
+};
+
+const MonitorFormComponent = (props: Props) => {
   const [global] = useAtom(globalAtom);
   const [interval, setInterval] = useState(300); // default 5 minutes interval
   const [regions, setRegions] = useState<Region[]>([]);
@@ -60,7 +65,7 @@ const MonitorFormComponent = () => {
       url: monitorForm.monitor.URL,
       interval: monitorForm.monitor.Interval,
       timeout: monitorForm.monitor.Timeout,
-      ssl: monitorForm.monitor.CheckSsl,
+      ssl: monitorForm.monitor.CheckSSL,
       redirect: monitorForm.monitor.FollowRedirects,
       method: monitorForm.monitor.Method,
       regions: monitorForm.monitor.Regions.map((region) => region.Key),
@@ -112,7 +117,26 @@ const MonitorFormComponent = () => {
       setRegionSelectionError(RegionSelectionRequired);
       return;
     }
-    console.log(data);
+
+    const monitor: Monitor = {
+      Name: data.name,
+      URL: data.url,
+      Method: MonitorMethod.Get, // hard-coded
+      Interval: parseInt(String(data.interval)),
+      Timeout: parseInt(String(data.timeout)),
+      CheckSSL: false, // hard-coded
+      FollowRedirects: false, // hard-coded
+      GlobalAlarmSettings: true, // hard-coded
+    };
+
+    const statusCodeAssertion: Assertion = {
+      // hard-coded
+      Source: AssertionSource.StatusCode,
+      Comparison: AssertionComparison.Equal,
+      Value: AllGoodStatusCode,
+    };
+
+    props.handleSubmit(monitor, [statusCodeAssertion]);
   };
 
   return (

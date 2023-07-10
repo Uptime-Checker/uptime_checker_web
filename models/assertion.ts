@@ -62,5 +62,5 @@ export interface Assertion {
   Value: string;
   Source: AssertionSource;
   Comparison: AssertionComparison;
-  MonitorID: number;
+  MonitorID?: number;
 }

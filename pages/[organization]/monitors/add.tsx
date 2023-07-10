@@ -45,7 +45,7 @@ const MonitorAdd: NextPageWithLayout = () => {
         </div>
       </div>
       <div className="mt-6 px-4 sm:px-6 md:px-8">
-        <MonitorForm />
+        <MonitorForm handleSubmit={handleSubmit} />
       </div>
     </section>
   );
