@@ -1,6 +1,6 @@
 import { useAtom } from 'jotai';
 import { classNames } from 'lib/tailwind/utils';
-import { Check, ResponseTimeKey } from 'models/check';
+import { Check, ResponseTraceKey } from 'models/check';
 import Link from 'next/link';
 import { globalAtom } from 'store/global';
 import DurationBar from './duration-bar';
@@ -30,13 +30,13 @@ const ChecksComponent = ({ checks, monitorId, className }: ChecksProps) => {
     ) : null;
   };
 
-  const getResponseTimes = (): Map<ResponseTimeKey, number> => {
-    const responseTimes = new Map<ResponseTimeKey, number>();
-    responseTimes.set(ResponseTimeKey.TotalTime, 2562.416041);
-    responseTimes.set(ResponseTimeKey.DNSLookupTime, 445.246375);
-    responseTimes.set(ResponseTimeKey.TLSHandshakeTime, 825.888208);
-    responseTimes.set(ResponseTimeKey.ServerProcessingTime, 1289.082208);
-    responseTimes.set(ResponseTimeKey.TransferTime, 1.712375);
+  const getResponseTimes = (): Map<ResponseTraceKey, number> => {
+    const responseTimes = new Map<ResponseTraceKey, number>();
+    responseTimes.set(ResponseTraceKey.TotalTime, 2562.416041);
+    responseTimes.set(ResponseTraceKey.DNSLookupTime, 445.246375);
+    responseTimes.set(ResponseTraceKey.TLSHandshakeTime, 825.888208);
+    responseTimes.set(ResponseTraceKey.ServerProcessingTime, 1289.082208);
+    responseTimes.set(ResponseTraceKey.TransferTime, 1.712375);
     return responseTimes;
   };
 

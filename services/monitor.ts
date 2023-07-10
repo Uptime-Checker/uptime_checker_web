@@ -8,16 +8,12 @@ import { SelectOption } from 'types/main';
 import { isEmpty } from 'utils/misc';
 
 export const dryRunRequest = async (monitorRequestBody: MonitorRequestBody) => {
-  try {
-    const { data } = await authRequest<SingleHitResponse>({
-      method: HTTPMethod.POST,
-      url: '/monitor/dry',
-      data: monitorRequestBody,
-    });
-    console.log(data);
-  } catch (e) {
-    console.error(e);
-  }
+  const { data } = await authRequest<SingleHitResponse>({
+    method: HTTPMethod.POST,
+    url: '/monitor/dry',
+    data: monitorRequestBody,
+  });
+  return data;
 };
 
 export const getNameValuePair = (nameValuePairInString: string | undefined) => {

@@ -1,9 +1,9 @@
 import MonitorForm from 'components/dashboard/monitor/monitor-form/monitor-form';
 import DashboardLayout from 'layout/dashboard-layout';
-import { Assertion } from 'models/assertion';
-import { Monitor } from 'models/monitor';
+import { MonitorRequestBody } from 'models/monitor';
 import { NextPageWithLayout } from 'pages/_app';
 import { ReactElement, useEffect, useState } from 'react';
+import { dryRunRequest } from 'services/monitor';
 
 const MonitorAdd: NextPageWithLayout = () => {
   const [dryRun, setDryRun] = useState(false);
@@ -14,11 +14,17 @@ const MonitorAdd: NextPageWithLayout = () => {
     };
   }, []);
 
-  const handleSubmit = (monitor: Monitor, assertions: Assertion[]) => {
-    console.log(monitor);
-    console.log(assertions);
-
+  const handleSubmit = (monitorRequestBody: MonitorRequestBody) => {
     // handle dry run or submit
+    if (dryRun) {
+      dryRunRequest(monitorRequestBody)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 
   return (
