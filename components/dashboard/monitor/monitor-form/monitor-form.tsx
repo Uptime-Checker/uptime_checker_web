@@ -127,8 +127,8 @@ const MonitorFormComponent = (props: Props) => {
     };
 
     const interval = parseInt(String(data.interval));
-    let timeout = parseInt(String(data.timeout));
-    if (timeout > interval / 2) {
+    let timeout = parseInt(String(data.timeout)) || interval / 2;
+    if (timeout > 30) {
       timeout = 30; // max timeout
     }
     const monitorRequestBody: MonitorRequestBody = {

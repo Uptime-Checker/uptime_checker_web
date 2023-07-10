@@ -1,24 +1,33 @@
 import MonitorForm from 'components/dashboard/monitor/monitor-form/monitor-form';
 import DashboardLayout from 'layout/dashboard-layout';
-import { MonitorRequestBody } from 'models/monitor';
+import { MonitorRequestBody, SingleMonitorResponse } from 'models/monitor';
 import { NextPageWithLayout } from 'pages/_app';
 import { ReactElement, useState } from 'react';
 import { dryRunRequest } from 'services/monitor';
+import SimpleDialog from 'components/dialog/simple';
+import { SingleHitResponse } from 'models/check';
 
 const MonitorAdd: NextPageWithLayout = () => {
   const [dryRun, setDryRun] = useState(false);
+  const [dryRunResponse, setDryRunResponse] = useState<SingleHitResponse | null>(null);
+  const [showDryRunDialog, setShowDryRunDialog] = useState(false);
 
   const handleSubmit = (monitorRequestBody: MonitorRequestBody) => {
     // handle dry run or submit
     if (dryRun) {
       dryRunRequest(monitorRequestBody)
         .then((res) => {
-          console.log(res);
+          setDryRunResponse(res);
+          setShowDryRunDialog(true);
         })
         .catch((err) => {
           console.log(err);
         });
     }
+  };
+
+  const dryRunDialogOnClose = (value: boolean) => {
+    setShowDryRunDialog(value);
   };
 
   return (
@@ -47,6 +56,9 @@ const MonitorAdd: NextPageWithLayout = () => {
       <div className="mt-6 px-4 sm:px-6 md:px-8">
         <MonitorForm handleSubmit={handleSubmit} />
       </div>
+      <SimpleDialog on={showDryRunDialog} onClose={dryRunDialogOnClose}>
+        <p>{JSON.stringify(dryRunResponse)}</p>
+      </SimpleDialog>
     </section>
   );
 };
