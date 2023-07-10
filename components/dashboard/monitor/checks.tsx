@@ -1,9 +1,8 @@
 import { useAtom } from 'jotai';
 import { classNames } from 'lib/tailwind/utils';
-import { Check } from 'models/check';
+import { Check, ResponseTimeKey } from 'models/check';
 import Link from 'next/link';
 import { globalAtom } from 'store/global';
-import { ResponseTimeKey } from '../../../models/monitor';
 import DurationBar from './duration-bar';
 
 interface ChecksProps {

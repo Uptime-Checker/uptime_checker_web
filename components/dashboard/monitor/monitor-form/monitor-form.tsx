@@ -3,8 +3,8 @@ import { AllGoodStatusCode } from 'constants/api';
 import { RegionSelectionRequired } from 'constants/errors';
 import { useAtom } from 'jotai';
 import { elixirClient } from 'lib/axios';
-import { Assertion, AssertionComparison, AssertionSource } from 'models/assertion';
-import { Monitor, MonitorMethod, Region, RegionResponse } from 'models/monitor';
+import { AssertionComparison, AssertionRequestBody, AssertionSource } from 'models/assertion';
+import { MonitorMethod, MonitorRequestBody, Region, RegionResponse } from 'models/monitor';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import Skeleton from 'react-loading-skeleton';
@@ -12,6 +12,7 @@ import {
   getAssertions,
   getMonitorIntervalDefault,
   getMonitorIntervalSelectionOptions,
+  getMonitorMethodString,
   getNameValuePair,
   getNameValuePairFromURLQuery,
 } from 'services/monitor';
@@ -45,7 +46,7 @@ export interface MonitorFormInput {
 }
 
 type Props = {
-  handleSubmit: (monitor: Monitor, assertions: Assertion[]) => void;
+  handleSubmit: (monitorRequestBody: MonitorRequestBody) => void;
 };
 
 const MonitorFormComponent = (props: Props) => {
@@ -66,7 +67,7 @@ const MonitorFormComponent = (props: Props) => {
       interval: monitorForm.monitor.Interval,
       timeout: monitorForm.monitor.Timeout,
       ssl: monitorForm.monitor.CheckSSL,
-      redirect: monitorForm.monitor.FollowRedirects,
+      redirect: monitorForm.monitor.FollowRedirect,
       method: monitorForm.monitor.Method,
       regions: monitorForm.monitor.Regions.map((region) => region.Key),
       headers: getNameValuePair(monitorForm.monitor.Headers),
@@ -118,25 +119,31 @@ const MonitorFormComponent = (props: Props) => {
       return;
     }
 
-    const monitor: Monitor = {
-      Name: data.name,
-      URL: data.url,
-      Method: MonitorMethod.Get, // hard-coded
-      Interval: parseInt(String(data.interval)),
-      Timeout: parseInt(String(data.timeout)),
-      CheckSSL: false, // hard-coded
-      FollowRedirects: false, // hard-coded
-      GlobalAlarmSettings: true, // hard-coded
-    };
-
-    const statusCodeAssertion: Assertion = {
+    const statusCodeAssertion: AssertionRequestBody = {
       // hard-coded
-      Source: AssertionSource.StatusCode,
-      Comparison: AssertionComparison.Equal,
-      Value: AllGoodStatusCode,
+      source: AssertionSource.StatusCode,
+      comparison: AssertionComparison.Equal,
+      value: AllGoodStatusCode,
     };
 
-    props.handleSubmit(monitor, [statusCodeAssertion]);
+    const interval = parseInt(String(data.interval));
+    let timeout = parseInt(String(data.timeout));
+    if (timeout > interval / 2) {
+      timeout = 30; // max timeout
+    }
+    const monitorRequestBody: MonitorRequestBody = {
+      name: data.name,
+      url: data.url,
+      method: getMonitorMethodString(MonitorMethod.Get), // hard-coded
+      interval: interval,
+      timeout: timeout,
+      checkSSL: false, // hard-coded
+      followRedirect: false, // hard-coded
+      globalAlarmSettings: true, // hard-coded
+      assertions: [statusCodeAssertion],
+    };
+
+    props.handleSubmit(monitorRequestBody);
   };
 
   return (

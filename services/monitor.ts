@@ -1,13 +1,28 @@
+import { HTTPMethod, authRequest } from 'lib/axios';
 import { isEnterPriseSubscription, isFreeSubscription, isStartupSubscription } from 'lib/global';
 import { Assertion, AssertionComparison, AssertionSource } from 'models/assertion';
-import { MonitorMethod } from 'models/monitor';
+import { SingleHitResponse } from 'models/check';
+import { MonitorMethod, MonitorRequestBody } from 'models/monitor';
 import { User } from 'models/user';
 import { SelectOption } from 'types/main';
 import { isEmpty } from 'utils/misc';
 
-export const getNameValuePair = (nameValuePairInString: string) => {
+export const dryRunRequest = async (monitorRequestBody: MonitorRequestBody) => {
+  try {
+    const { data } = await authRequest<SingleHitResponse>({
+      method: HTTPMethod.POST,
+      url: '/monitor/dry',
+      data: monitorRequestBody,
+    });
+    console.log(data);
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+export const getNameValuePair = (nameValuePairInString: string | undefined) => {
   const pair: { name: string; value: string }[] = [];
-  if (isEmpty(nameValuePairInString)) return pair;
+  if (!nameValuePairInString || isEmpty(nameValuePairInString)) return pair;
 
   const parsedPair: { [key: string]: string } = JSON.parse(nameValuePairInString);
   for (const [key, value] of Object.entries(parsedPair)) {
@@ -86,6 +101,21 @@ export const getAssertionComparisonSelectionOptions = (source: AssertionSource):
   return allComparisons;
 };
 
+export const getMonitorMethodString = (method: MonitorMethod) => {
+  switch (method) {
+    case MonitorMethod.Get:
+      return 'GET';
+    case MonitorMethod.Post:
+      return 'POST';
+    case MonitorMethod.Put:
+      return 'PUT';
+    case MonitorMethod.Patch:
+      return 'PATCH';
+    case MonitorMethod.Delete:
+      return 'DELETE';
+  }
+};
+
 export const getMonitorMethodSelectionOptions = (): SelectOption[] => {
   return [
     {
@@ -122,12 +152,12 @@ export const getMonitorTimeoutSelectionOptions = (interval: number): SelectOptio
       value: 10,
     },
     {
-      label: '30 seconds',
-      value: 30,
+      label: '20 seconds',
+      value: 10,
     },
     {
-      label: '60 seconds',
-      value: 60,
+      label: '30 seconds',
+      value: 30,
     },
   ];
 

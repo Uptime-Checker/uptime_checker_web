@@ -1,6 +1,6 @@
 import { SimpleTooltip } from 'components/tooltip';
 import { classNames } from 'lib/tailwind/utils';
-import { ResponseTimeKey } from 'models/monitor';
+import { ResponseTimeKey } from 'models/check';
 import { useEffect, useState } from 'react';
 
 type Props = {

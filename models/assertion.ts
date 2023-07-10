@@ -64,3 +64,10 @@ export interface Assertion {
   Comparison: AssertionComparison;
   MonitorID?: number;
 }
+
+export interface AssertionRequestBody {
+  property?: string;
+  value: string;
+  source: AssertionSource;
+  comparison: AssertionComparison;
+}
