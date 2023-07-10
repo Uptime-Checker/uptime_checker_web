@@ -8,12 +8,6 @@ import { dryRunRequest } from 'services/monitor';
 const MonitorAdd: NextPageWithLayout = () => {
   const [dryRun, setDryRun] = useState(false);
 
-  useEffect(() => {
-    return () => {
-      setDryRun(false);
-    };
-  }, []);
-
   const handleSubmit = (monitorRequestBody: MonitorRequestBody) => {
     // handle dry run or submit
     if (dryRun) {
