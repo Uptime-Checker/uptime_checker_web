@@ -2,7 +2,7 @@ import MonitorForm from 'components/dashboard/monitor/monitor-form/monitor-form'
 import DashboardLayout from 'layout/dashboard-layout';
 import { MonitorRequestBody } from 'models/monitor';
 import { NextPageWithLayout } from 'pages/_app';
-import { ReactElement, useEffect, useState } from 'react';
+import { ReactElement, useState } from 'react';
 import { dryRunRequest } from 'services/monitor';
 
 const MonitorAdd: NextPageWithLayout = () => {
