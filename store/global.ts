@@ -18,15 +18,5 @@ const globalAtomInit: GlobalAtom = {
   products: [],
 };
 
-type MonitorFormAtom = {
-  isSubmitting: boolean;
-  monitor: MonitorAll | null;
-};
-
-const monitorFormAtomInit: MonitorFormAtom = {
-  isSubmitting: false,
-  monitor: null,
-};
-
 export const globalAtom = atomWithImmer(globalAtomInit);
-export const monitorFormAtom = atomWithImmer(monitorFormAtomInit);
+export const monitorFormAtom = atomWithImmer<MonitorAll | null>(null);

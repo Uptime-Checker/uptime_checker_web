@@ -1,4 +1,4 @@
-import { Assertion } from './assertion';
+import { Assertion, AssertionRequestBody } from './assertion';
 
 export interface Region {
   ID: number;
@@ -11,15 +11,6 @@ export interface Region {
 
 export interface RegionResponse {
   data: Region[];
-}
-
-export enum ResponseTimeKey {
-  TotalTime = 'TotalTime',
-  DNSLookupTime = 'DNSLookupTime',
-  TCPConnectTime = 'TCPConnectTime',
-  TLSHandshakeTime = 'TLSHandshakeTime',
-  ServerProcessingTime = 'ServerProcessingTime',
-  TransferTime = 'TransferTime',
 }
 
 export enum MonitorStatus {
@@ -42,13 +33,13 @@ export interface Monitor {
   Name: string;
   URL: string;
   Method: MonitorMethod;
-  Status: MonitorStatus;
+  Status?: MonitorStatus;
   Interval: number;
   Timeout: number;
-  CheckSsl: boolean;
-  FollowRedirects: boolean;
-  Body: string;
-  Headers: string;
+  CheckSSL: boolean;
+  FollowRedirect: boolean;
+  Body?: string;
+  Headers?: string;
   Username?: string;
   Password?: string;
   GlobalAlarmSettings: boolean;
@@ -67,6 +58,18 @@ export interface MonitorResponse {
   data: Monitor[];
 }
 
+export interface MonitorRequestBody {
+  name: string;
+  url: string;
+  method: string;
+  interval: number;
+  timeout: number;
+  checkSSL: boolean;
+  followRedirect: boolean;
+  globalAlarmSettings: boolean;
+  assertions: AssertionRequestBody[];
+}
+
 export enum IntegrationType {
   Email = 1,
   Webhook = 2,
@@ -78,7 +81,7 @@ export enum IntegrationType {
 export interface Integration {
   ID: number;
   Type: IntegrationType;
-  ExternalID: string | null;
+  ExternalID?: string;
   OrganizationID: number;
   Config: string;
 }

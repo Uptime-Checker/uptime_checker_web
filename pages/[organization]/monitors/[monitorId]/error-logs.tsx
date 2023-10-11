@@ -1,8 +1,8 @@
 import ErrorLogsComponent from 'components/dashboard/monitor/error-log';
 import DashboardLayout from 'layout/dashboard-layout';
 import MonitorDetailLayout from 'layout/monitor-detail-layout';
-import { ReactElement } from 'react';
 import { NextPageWithLayout } from 'pages/_app';
+import { ReactElement } from 'react';
 
 const ErrorLogs: NextPageWithLayout = () => {
   return <ErrorLogsComponent />;

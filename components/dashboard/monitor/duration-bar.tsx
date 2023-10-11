@@ -1,14 +1,14 @@
 import { SimpleTooltip } from 'components/tooltip';
 import { classNames } from 'lib/tailwind/utils';
-import { ResponseTimeKey } from 'models/monitor';
+import { ResponseTraceKey } from 'models/check';
 import { useEffect, useState } from 'react';
 
 type Props = {
-  responseTimes: Map<ResponseTimeKey, number>;
+  responseTimes: Map<ResponseTraceKey, number>;
 };
 
 type ResponsePercentage = {
-  responseKey: ResponseTimeKey;
+  responseKey: ResponseTraceKey;
   percentage: number;
   time: string;
 };
@@ -34,7 +34,7 @@ const DurationBarComponent = ({ responseTimes }: Props) => {
 
     for (const [key, value] of responseTimes) {
       i = i + 1;
-      if (key === ResponseTimeKey.TotalTime) {
+      if (key === ResponseTraceKey.TotalTime) {
         totalTime = value;
       } else {
         let percentage = Math.round((value * 100) / totalTime);
@@ -68,19 +68,19 @@ const DurationBarComponent = ({ responseTimes }: Props) => {
 
     let bg = BackgroundColors.Main;
     switch (responsePercentage.responseKey) {
-      case ResponseTimeKey.DNSLookupTime:
+      case ResponseTraceKey.DNSLookupTime:
         bg = BackgroundColors.DNS;
         break;
-      case ResponseTimeKey.TCPConnectTime:
+      case ResponseTraceKey.TCPConnectTime:
         bg = BackgroundColors.TCP;
         break;
-      case ResponseTimeKey.TLSHandshakeTime:
+      case ResponseTraceKey.TLSHandshakeTime:
         bg = BackgroundColors.TLS;
         break;
-      case ResponseTimeKey.ServerProcessingTime:
+      case ResponseTraceKey.ServerProcessingTime:
         bg = BackgroundColors.Server;
         break;
-      case ResponseTimeKey.TransferTime:
+      case ResponseTraceKey.TransferTime:
         bg = BackgroundColors.Transfer;
         break;
     }
